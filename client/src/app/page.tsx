@@ -1,7 +1,12 @@
+'use client'
 import React from "react";
 import Header from "@components/landing/navigation/Header";
 import Background from "@components/layout/Background";
 import clsx from "clsx";
+
+import Landing from "./components/landing"
+import Login from "./pages/auth/login/page"
+import Dashboard from "./pages/dashboard/dashboard"
 
 import styles from "./Home.module.scss";
 
@@ -72,3 +77,4 @@ const Home = () => {
 };
 
 export default Home;
+
