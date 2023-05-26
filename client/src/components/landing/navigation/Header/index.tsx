@@ -7,6 +7,7 @@ import styles from "./Header.module.scss";
 import clsx from "clsx";
 
 import LoginIcon from "@icons/user.svg";
+import { signIn } from "next-auth/react";
 
 const Header = () => {
   const pathname = usePathname();
@@ -52,7 +53,7 @@ const Header = () => {
             Pricing
           </Link>
 
-          <Link
+          <div
             className={clsx(
               "flex justify-center",
               "w-14 h-14 rounded-full",
@@ -60,10 +61,11 @@ const Header = () => {
               "hover:bg-accent-600",
               "transition"
             )}
-            href={"/login"}
+            // href={"/login"}
+            onClick={() => signIn()}
           >
             <LoginIcon className={"w-2/3"} />
-          </Link>
+          </div>
         </nav>
       </header>
     </div>

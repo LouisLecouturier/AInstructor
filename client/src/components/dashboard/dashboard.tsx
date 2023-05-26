@@ -1,5 +1,5 @@
 import DashboardMenu from "../../components/menu/dashboardmenu"
-import Homeworks from "./student/homeworks"
+import Homeworks from "./sections/homeworks"
 
 export default function Dashboard() {
     return (
