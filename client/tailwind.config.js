@@ -64,6 +64,7 @@ module.exports = {
       },
 
       dark: {
+        10: "#f7f8fa",
         50: "#e6e8eb",
         100: "#cdd1d8",
         200: "#87909f",
@@ -84,6 +85,12 @@ module.exports = {
         md: "0.75rem",
         lg: "1rem",
         full: "9999px",
+      },
+
+      boxShadow: {
+        'sm': '0 0 10px 0px rgba(0, 0, 0, 0.05)',
+        'md': '0 0 20px 5px rgba(0, 0, 0, 0.05)',
+        '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
       },
 
       strokeWidth: {
