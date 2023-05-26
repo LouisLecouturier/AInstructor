@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function RootLayout({children, session}: {children: React.ReactNode, session: any}) {
   return (
-    <html lang="en" className="h-full scroll-smooth antialiased">
+    <html lang="fr" className="h-full scroll-smooth antialiased">
       <body className='flex h-full flex-col'>
         <SessionProvider session={session}>
           <div className='grow'>{children}</div>
