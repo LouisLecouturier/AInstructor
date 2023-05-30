@@ -3,6 +3,8 @@ import Header from "@components/landing/navigation/Header";
 import Background from "@components/layout/Background";
 import clsx from "clsx";
 
+import styles from "./Home.module.scss";
+
 const Home = () => {
   return (
     <Background className={"h-screen"}>
