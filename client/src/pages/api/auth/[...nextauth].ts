@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions = {
 
         async authorize(credentials, req) {
             const {username, password} = credentials as any;
-            const res = await fetch("http://localhost:8000/auth/login", {
+            const res = await fetch("http://localhost:8000/api/login", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json"
@@ -29,6 +29,7 @@ export const authOptions: NextAuthOptions = {
             });
 
             const user = await res.json();
+            console.log(res.ok)
 
             return res.ok && user ? user : null;
 

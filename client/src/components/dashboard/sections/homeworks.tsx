@@ -1,3 +1,5 @@
+"use client"
+
 import SortbyButton from "@/components/button/sortbybutton"
 import React from "react";
 import { useState } from "react";
@@ -63,8 +65,6 @@ function Homework({name, creationDate, deliveryDate, team, status}: {name: strin
 }
 
 function HomeworksList({homeworks}: {homeworks: {name: string, creationDate: string, deliveryDate: string, team: string, status:string}[]}) {
-     
-    
     let prevTeam = "";
 
     const homeworksList = homeworks.sort((a, b) => (a.team > b.team) ? 1 : -1).map((homework, i) => {

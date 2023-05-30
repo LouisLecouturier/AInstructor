@@ -88,7 +88,7 @@ module.exports = {
       },
 
       padding: {
-        'lg': '35px'
+        'lg': '36px'
       },
 
       boxShadow: {
