@@ -6,6 +6,7 @@ type ButtonProps = {
   className?: string;
   variant?: "accent" | "primary" | "secondary" | "tertiary";
   size?: "sm" | "md" | "lg";
+  type?: "button" | "submit" | "reset";
   fluid?: boolean;
   responsive?: boolean;
   disabled?: boolean;
@@ -14,7 +15,7 @@ type ButtonProps = {
 
 const sizeClasses = {
   sm: "px-4 py-2 text-sm min-w-[120px]",
-  md: "px-6 py-3 text-base min-w-[120px]",
+  md: "px-6 py-3 text-lg min-h-[3rem] min-w-[120px]",
   lg: "px-8 py-4 text-lg",
 };
 
@@ -30,6 +31,7 @@ const variantClasses = {
 export const Button: FC<ButtonProps> = (props) => {
   return (
     <button
+      type={props.type || "button"}
       onClick={props.onClick}
       className={clsx(
         "flex items-center justify-center gap-4",
