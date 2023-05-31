@@ -28,7 +28,7 @@ class UserMael(models.Model):
     user = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) # unique=True
     first_name = models.CharField(max_length=30, validators= [AlphanumericValidator], blank = True)
     last_name = models.CharField(max_length=30,validators= [AlphanumericValidator])
-    profil_picture = models.ImageField( max_length = 254,null = True, blank = True, validators = [validate_image_file_extension]) #add uplad to
+    profil_picture = models.ImyageField( max_length = 254,null = True, blank = True, validators = [validate_image_file_extension]) #add uplad to
     mail = models.EmailField(max_length=254)
     password = models.CharField(max_length = 254)           #Password validation settings
     is_teacher = models.BooleanField(default = 'False', help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.')

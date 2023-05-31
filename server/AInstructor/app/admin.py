@@ -33,4 +33,3 @@ for model in models:
         print("Erreur pas de rendu pour le model model:", model)
         print(Exception)
         pass
-
