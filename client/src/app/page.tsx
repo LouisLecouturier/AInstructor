@@ -7,6 +7,7 @@ import styles from "./Home.module.scss";
 
 const Home = () => {
   return (
+
     <Background className={"h-screen"}>
       <Header />
       <section

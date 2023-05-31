@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import styles from "./Header.module.scss";
 import clsx from "clsx";
 
-import LoginIcon from "@icons/user.svg";
+import LoginIcon from "@icons/User.svg";
 import { signIn } from "next-auth/react";
 
 const Header = () => {
