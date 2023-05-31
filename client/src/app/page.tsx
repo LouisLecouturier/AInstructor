@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "@components/landing/navigation/Header";
+import Header from "@components/Pages/landing/navigation/Header";
 import Background from "@components/layout/Background";
 import clsx from "clsx";
 
@@ -17,7 +17,11 @@ const Home = () => {
           "pt-[136px] pb-8"
         )}
       >
-        <div className={"flex flex-col w-full flex-1 gap-16 justify-self-center sm:min-w-[32rem]"}>
+        <div
+          className={
+            "flex flex-col w-full flex-1 gap-16 justify-self-center sm:min-w-[32rem]"
+          }
+        >
           <h1
             className={
               "w-full md:w-4/5 text-4xl sm:text-5xl md:text-6xl font-black leading-[3rem] sm:leading-[4rem] lg:leading-[5rem]"
