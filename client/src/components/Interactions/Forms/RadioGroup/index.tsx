@@ -5,9 +5,9 @@ import clsx from "clsx";
 import Radio from "@components/Interactions/Forms/RadioGroup/Radio";
 
 type Option = {
-    value: string;
-    label: string;
-}
+  value: string;
+  label: string;
+};
 
 type RadioGroupProps = {
   defaultValue: string;
@@ -15,6 +15,8 @@ type RadioGroupProps = {
   name: string;
   onChange?: (value?: Option) => void;
   variant?: "accent" | "primary" | "secondary";
+  direction?: "row" | "column";
+
   size?: "sm" | "md" | "lg";
   label: string;
   className?: string;
@@ -26,7 +28,7 @@ export default function MyRadioGroup(props: RadioGroupProps) {
   const onChange = (value: Option) => {
     setCurrentValue(value);
     props.onChange && props.onChange(value);
-  }
+  };
 
   return (
     <RadioGroup
@@ -35,9 +37,17 @@ export default function MyRadioGroup(props: RadioGroupProps) {
       name={props.name}
       className={clsx("flex flex-col gap-2", props.className)}
     >
-      <RadioGroup.Label className={"font-semibold"}>{props.label}</RadioGroup.Label>
+      <RadioGroup.Label className={"font-semibold"}>
+        {props.label}
+      </RadioGroup.Label>
 
-      <div className={clsx("flex gap-4 text-dark-300")}>
+      <div
+        className={clsx(
+          "flex gap-4",
+          props.direction === "column" && "flex-col",
+          "text-dark-300"
+        )}
+      >
         {props.options.map((option) => (
           <RadioGroup.Option key={option.value} value={option}>
             {({ checked }) => (

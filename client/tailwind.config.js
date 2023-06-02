@@ -51,6 +51,8 @@ module.exports = {
       },
 
       tertiary: {
+        10: "#FAFCFF",
+        20: "#F5F9FF",
         50: "#ebf4ff",
         100: "#c5ddff",
         200: "#9ec5ff",
@@ -84,11 +86,8 @@ module.exports = {
         sm: "0.5rem",
         md: "0.75rem",
         lg: "1rem",
+        xl: "1.5rem",
         full: "9999px",
-      },
-
-      padding: {
-        'lg': '35px'
       },
 
       boxShadow: {
