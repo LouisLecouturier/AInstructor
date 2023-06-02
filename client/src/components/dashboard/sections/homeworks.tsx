@@ -43,6 +43,7 @@ const homeworks = [
     },
 ]
 
+
 function Homework({name, creationDate, deliveryDate, team, status}: {name: string, creationDate: string, deliveryDate: string, team: string, status: string}) {
     return (
         <div className="flex w-full py-6 bg-white shadow-md items-center justify-between px-10 gap-2 rounded-full ">
@@ -63,6 +64,8 @@ function Homework({name, creationDate, deliveryDate, team, status}: {name: strin
         </div>
     )
 }
+
+
 
 function HomeworksList({homeworks}: {homeworks: {name: string, creationDate: string, deliveryDate: string, team: string, status:string}[]}) {
     let prevTeam = "";

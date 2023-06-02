@@ -10,7 +10,7 @@ type BackgroundProps = {
 const Background: FC<BackgroundProps> = (props) => {
   return (
     <div
-      className={clsx(
+      id="background "className={clsx(
         "w-full overflow-hidden bg-white",
         props.rounded && "rounded-lg",
         props.className
@@ -19,7 +19,7 @@ const Background: FC<BackgroundProps> = (props) => {
       <div
         className={clsx(
           "relative min-h-full h-full min-w-full",
-          "bg-gradient-to-br from-secondary-500/10 via-primary-500/10 to-secondary-500/10"
+          "bg-gradient-to-br flex from-secondary-500/10 via-primary-500/10 to-secondary-500/10"
         )}
       >
         {props.children}

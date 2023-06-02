@@ -6,7 +6,7 @@ import DashboardMenu from "@components/menu/dashboardmenu"
 import Homeworks from "@/components/dashboard/sections/homeworks"
 import Settings from "@/components/dashboard/sections/settings"
 import Teams from "@/components/dashboard/sections/teams"
-import Import from "@/components/dashboard/sections/import"
+import Import from "@/components/dashboard/sections/importt"
 import Stats from "@/components/dashboard/sections/stats"
 import Questionnaires from "@/components/dashboard/sections/questionnaires"
 
@@ -40,7 +40,6 @@ function DashBoardSectionRendering(){
 
 
 export default function Dashboard() {
-    const section = SectionSelectStore((state) => state.sectionName);
     return (
         <>
             <Purple className="fixed -z-10 -right-1/4 -bottom-1/4 w-2/3 h-2/3"/>

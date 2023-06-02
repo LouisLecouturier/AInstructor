@@ -14,16 +14,6 @@ interface UserStore {
     setTypeUser: (newTypeUser: "Student" | "Teacher") => void;
 }
 
-interface UserTeamsStore {
-    teams: {
-        id: number;
-        name: string;
-        members: string[];
-        color: string;
-        Homeworks: any[];
-    }[];
-}
-
 
 
 
@@ -32,8 +22,8 @@ export const UserStore = create<UserStore>((set) => ({
     firstname: "Johana",
     lastname: "Doetek",
     setTypeUser: (newTypeUser) => {
-        set(() => ({typeUser: newTypeUser}));
-        SectionSelectStore.getState().setSection(0, "");
+        set(() => ({typeUser: newTypeUser})); // Set type user from argument of method
+        SectionSelectStore.getState().setSection(0, ""); // Reset section when toggling user type
     }
   }));
 
@@ -41,54 +31,7 @@ export const SectionSelectStore = create<SectionSelectStore>((set) => ({
     sectionID: 0,
     sectionName: "",
     setSection: (newSectionID, newSectionName) => {
-        set(() => ({sectionID: newSectionID, sectionName: newSectionName}));
+        set(() => ({sectionID: newSectionID, sectionName: newSectionName})); // Set section id & name from argument of method
     }
 }));
 
-
-export const UserTeamsStore = create((set) => ({
-    teams: [
-        {
-            "id": 1, 
-            "name": "English - 4B",
-            "members": [],
-            "color": "#FF0000",
-        },
-        {
-            "id": 2, 
-            "name": "Mathematics",
-            "members": [],
-            "color": "#00FF00",
-        },
-    ],
-}));
-
-export const UserHomeworksStore = create((set) => ({
-    homeworks: [
-        {
-            "id": 1,
-            "name": "Homework 1",
-            "deliveryDate": "2021-05-01",
-            "creationDate": "2021-04-01",
-            "status": "Not delivered",
-            "teamID": 1,
-        },
-        {
-            "id": 2,
-            "name": "Homework 2",
-            "deliveryDate": "2021-05-01",
-            "creationDate": "2021-04-01",
-            "status": "Not delivered",
-            "teamID": 1,
-        },
-        {
-            "id": 3,
-            "name": "Homework 3",
-            "deliveryDate": "2021-05-01",
-            "creationDate": "2021-04-01",
-            "status": "Not delivered",
-            "teamID": 2,
-        },
-    ]
-}));
-            

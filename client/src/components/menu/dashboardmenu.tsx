@@ -44,6 +44,7 @@ function DashboardSections({User} : {User: Students | Teachers}){
 
     const setSection = SectionSelectStore((state) => state.setSection);
     const section = SectionSelectStore((state) => state.sectionID);
+    
     const sections = Object.keys(User).map((keyName: string, i: number) => (
 
         <div key={i} 
@@ -67,11 +68,11 @@ function DashboardSections({User} : {User: Students | Teachers}){
 
 
 export default function DashboardMenu() {
-    const typeUser = UserStore((state) => state.typeUser);
-    const lastname = UserStore((state) => state.lastname);
-    const firstname = UserStore((state) => state.firstname);
+    const typeUser = UserStore((state) => state.typeUser); //acces to the state of typeUser in UserStore (store.tsx)
+    const lastname = UserStore((state) => state.lastname); // same
+    const firstname = UserStore((state) => state.firstname); // same
 
-    const setTypeUser = UserStore((state) => state.setTypeUser);
+    const setTypeUser = UserStore((state) => state.setTypeUser); // acces to the function setTypeUser in UserStore (store.tsx)
     
     return (
         <div className="w-[325px] h-full relative shadow-lg bg-dark-10 flex flex-col justify-center items-center rounded-r-[5%]">

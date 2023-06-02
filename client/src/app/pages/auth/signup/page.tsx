@@ -18,12 +18,12 @@ export default function SignUp() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "username" : username.current,
+            "firstname" : firstname.current,
+            "lastname" : lastname.current,
             "password" : password.current,
             "email" : email.current,
-            "name" : "Antoine Maes",
-            "phone" : "+330606060606",
-            "type": "Student"
+            "phone" : phone.current,
+            "type": role.current
 
         })
     })
@@ -38,9 +38,12 @@ export default function SignUp() {
     }); 
   }
 
-  const username = useRef(null)
+  const firstname = useRef(null)
+  const lastname = useRef(null)
   const password = useRef(null)
   const email = useRef(null)
+  const phone = useRef(null)
+  const role = useRef(null)
 
     return (
       <>
@@ -61,9 +64,13 @@ export default function SignUp() {
 
             <div className="w-full h-full flex flex-col justify-center items-start gap-5">
 
-              <AuthForm placeholder="Username" content={username}/>
+              <AuthForm placeholder="Firstname" content={firstname}/>
+              <AuthForm placeholder="Lastname" content={lastname} />
               <AuthForm placeholder="Password" content={password} />
               <AuthForm placeholder="Email" content={email} />
+              <AuthForm placeholder="Phone" content={phone} />
+              <AuthForm placeholder="Role" content={role} />
+
 
 
               
