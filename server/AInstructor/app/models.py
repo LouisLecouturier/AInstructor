@@ -17,12 +17,13 @@ class CustomUser(AbstractUser):
     profil_picture = models.ImageField( max_length = 254,null = True, blank = True, validators = [validate_image_file_extension]) #add uplad to
     is_teacher = models.BooleanField(default = 'False')
     last_connexion = models.DateField(auto_now=True, auto_now_add=False, null = True)
-
+    jwt = models.CharField(max_length=500, null = True, default=0)
 
     def __str__(self):
         return self.username
 
-
+class JWT(models.Model):
+    token = models.CharField(max_length=500)
 
 class UserMael(models.Model):
     user = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) # unique=True
@@ -73,6 +74,7 @@ class Text(models.Model):
     course =models.ForeignKey(Course, on_delete=models.RESTRICT, related_name='text')
     text =  models.TextField(null =True,  blank = True)
     text_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    jwt = models.CharField(max_length=256, null = True, default=0)
 
 class Quesionnaire(models.Model):
     questionnaire_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
