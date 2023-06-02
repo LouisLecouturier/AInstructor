@@ -5,6 +5,7 @@ type ButtonProps = {
   children: ReactNode;
   className?: string;
   variant?: "accent" | "primary" | "secondary" | "tertiary";
+  rounded?: "sm" | "md" | "lg" | "full";
   size?: "sm" | "md" | "lg";
   type?: "button" | "submit" | "reset";
   fluid?: boolean;
@@ -17,6 +18,13 @@ const sizeClasses = {
   sm: "px-4 py-2 text-sm min-w-[120px]",
   md: "px-6 py-3 text-lg min-h-[3rem] min-w-[120px]",
   lg: "px-8 py-4 text-lg",
+};
+
+const roundedClasses = {
+  sm: "rounded-md",
+  md: "rounded-lg",
+  lg: "rounded-xl",
+  full: "rounded-full",
 };
 
 const variantClasses = {
@@ -36,7 +44,8 @@ export const Button: FC<ButtonProps> = (props) => {
       className={clsx(
         "flex items-center justify-center gap-4",
         "w-fit transition duration-200",
-        "font-bold rounded-lg",
+        "font-bold",
+        roundedClasses[props.rounded || "md"],
         sizeClasses[props.size || "md"],
         props.fluid && "w-full",
         props.responsive && "w-full md:w-fit",
