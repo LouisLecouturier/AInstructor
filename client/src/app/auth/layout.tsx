@@ -11,7 +11,7 @@ const Aside = (props: { isSigningIn?: boolean }) => {
     <aside
       className={clsx(
         "flex flex-col justify-center items-center gap-8 order-2 md:order-first",
-        "w-full md:w-2/5 md:p-8 font-medium"
+        "w-full md:w-2/5 max-w-md md:p-8 font-medium"
       )}
     >
       <span className={"hidden md:flex text-5xl font-black"}>AInstructor</span>
@@ -51,11 +51,19 @@ export default function Layout(props: LayoutProps) {
         AInstructor
       </span>
       <Aside isSigningIn={isSigningIn} />
-      <Background rounded>
+      <Background rounded className={"flex flex-1 items-center"}>
         <div className="flex flex-col justify-center gap-12 h-full p-8 sm:p-12 lg:p-24">
           <header className={"flex flex-col gap-2"}>
-            <h1 className="text-5xl font-black">
-              {isSigningIn ? "Welcome back !" : "Nice to meet you !"}
+            <h1 className="text-4xl md:text-5xl font-black">
+              {isSigningIn ? (
+                <span>
+                  Welcome <span className={"whitespace-nowrap"}>back !</span>
+                </span>
+              ) : (
+                <span>
+                  Nice to meet <span className="whitespace-nowrap">you !</span>
+                </span>
+              )}
             </h1>
             <span className={"font-semibold opacity-50"}>
               {isSigningIn ? "Sign in to your account" : "Create your account"}
@@ -63,7 +71,6 @@ export default function Layout(props: LayoutProps) {
           </header>
           {props.children}
         </div>
-
       </Background>
     </div>
   );

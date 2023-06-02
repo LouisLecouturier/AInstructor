@@ -1,5 +1,7 @@
+"use client"
+
 import SortbyButton from "@/components/button/sortbybutton"
-import { UserStore } from "@/store/store"
+import { UserStore } from "@/store/userStore"
 
 const teams = [
     {
@@ -49,8 +51,8 @@ const teams = [
 
 
 
-function TeamsList({teams} : { teams : {id: number, name: string, members: any[], color: string}[] }){
-    const typeUser = UserStore(state => state.typeUser)
+export default function TeamsList({teams} : { teams : {id: number, name: string, members: any[], color: string}[] }){
+    const typeUser = UserStore(state => state.userType)
     return (
         <div className="flex flex-1 overflow-hidden w-full flex-col">
 
@@ -68,13 +70,10 @@ function TeamsList({teams} : { teams : {id: number, name: string, members: any[]
                     </div>
 
                 ))}
-                {typeUser == "Teacher" ? 
                     <div className="flex-[0_0_16rem] h-64 bg-white shadow-lg rounded-xl flex justify-evenly items-center flex-col gap-5">
                         <span className="text-xl font-bold text-dark-500">Add team</span>
                     </div>
-                    : null
-                }
-
+                    
 
             </div>
 
@@ -85,13 +84,3 @@ function TeamsList({teams} : { teams : {id: number, name: string, members: any[]
 
 
 
-
-export default function Teams() {
-    return (
-        <div className="flex-1 h-full flex flex-col gap-6 pt-16">
-            <h1 className="text-6xl px-20 font-black">Teams</h1>
-            <SortbyButton className="px-20"/>
-            <TeamsList teams={teams}/>
-        </div>
-    )
-}

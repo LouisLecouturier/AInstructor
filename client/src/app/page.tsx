@@ -4,6 +4,7 @@ import Background from "@components/layout/Background";
 import clsx from "clsx";
 
 import styles from "./Home.module.scss";
+import {Button} from "@components/Interactions/Button";
 
 const Home = () => {
   return (
@@ -37,14 +38,7 @@ const Home = () => {
             </span>
             level.
           </h1>
-          <button
-            className={clsx(
-              "w-fit py-4 px-8 self-start bg-accent-500",
-              "text-lg font-bold text-white rounded-full"
-            )}
-          >
-            See plans
-          </button>
+          <Button size={"lg"} rounded={"full"}>See plans</Button>
         </div>
         <div
           className={clsx(
@@ -65,14 +59,8 @@ const Home = () => {
             </strong>
             .
           </p>
-          <button
-            className={clsx(
-              "w-fit py-3 px-6 self-start bg-accent-500",
-              "font-bold text-white rounded-full"
-            )}
-          >
-            Tell me more
-          </button>
+          <Button rounded={"full"} >Learn more</Button>
+
         </div>
       </section>
     </Background>
