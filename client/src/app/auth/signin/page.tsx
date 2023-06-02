@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { signIn } from "next-auth/react";
 import Index from "@components/Interactions/Forms/Input";
@@ -6,6 +6,7 @@ import { FormEvent } from "react";
 import { Button } from "@components/Interactions/Button";
 
 import LoginIcon from "@icons/Login.svg";
+import Link from "next/link";
 
 function Login() {
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -25,9 +26,12 @@ function Login() {
       </div>
       <div className={"flex flex-col gap-2 items-end"}>
         <Index placeholder="Password" name="password" />
-        <a href="#" className="text-accent-500 text-sm font-bold">
+        <Link
+          href="auth/forgot-password"
+          className="text-accent-500 text-sm font-bold"
+        >
           Forgot your password ?
-        </a>
+        </Link>
       </div>
 
       <Button responsive className={"mt-4"} type={"submit"}>

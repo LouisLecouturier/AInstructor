@@ -45,7 +45,7 @@ const Background: FC<BackgroundProps> = (props) => {
         props.className
       )}
     >
-      <Shapes />
+      {/* <Shapes /> */}
       <div
         className={clsx(
           "relative min-h-full h-full min-w-full",
