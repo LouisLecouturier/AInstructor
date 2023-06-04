@@ -1,12 +1,21 @@
 from ninja import NinjaAPI, Schema, Form
 from ninja.security import django_auth, HttpBearer
 from django.contrib.auth import authenticate
-import uuid
-import jwt
+import jwt, datetime,uuid
 from django.shortcuts import render
 from app import models
+from django.conf import settings
 
-myuuid = uuid.uuid4()
+key = getattr(settings, "SECRET_KEY", None)
+a_uuid = uuid.uuid4()
+api = NinjaAPI()
+
+class InvalidToken(Exception):
+    pass
+
+@api.exception_handler(InvalidToken)
+def on_invalid_token(request, exc):
+    return api.create_response(request, {"detail": "Invalid token supplied", "user message" :"your session has expired"}, status=401)
 
 def get_this_user(username):
 	this_user= models.CustomUser.objects.get(username = username)
@@ -16,56 +25,64 @@ def get_this_token(token):
     return this_token
 
 class GlobalAuth(HttpBearer):
-    def authenticate(self, request, token):
-        # try:
-        #     decoded_token = jwt.decode(token, str(myuuid), algorithms=['HS256'])
-        #     user_id = decoded_token.get('user_id')
-        #     user = get_this_user(user_id)
-        #     print(user)
-        #     if user is not None:
-        #         return token, user
-        # except jwt.ExpiredSignatureError:
-        #     pass  # Handle token expiration error
-        # except jwt.InvalidTokenError:
-        #     pass  # Handle invalid token error
-
+    #gestion d'authentification générale basé sur bearer tokens
+    def authenticate(self, request, token):        
         user = get_this_token(token)
-        if token == user.jwt:
+        require_new_token = GlobalAuth().require_new_token(user.jwt)
+        if require_new_token == False:
+            if user is not None:
+                return token, user.username
+            else:    
+                raise InvalidToken()
+        else :
+            user.jwt = GlobalAuth().refresh_token(user.jwt)
+            user.save()
             return token, user.username
-        elif jwt.ExpiredSignatureError:
-            return "Handle token expiration error"
-        elif jwt.InvalidTokenError:
-            return "Handle invalid token error"
-
-    def create_token(self, user_id: str) -> str:
-        payload = {'user_id': user_id}
-        #jwt.encode(payload,secret key,algorithm)
-        return jwt.encode(payload, str(myuuid), algorithm='HS256')
-
-
+        
+    def create_tokens(self, user_id: str) -> dict:
+        access_token = jwt.encode({
+            'token' : str(user_id), 
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=7) 
+        }, str(key).encode('utf-8'), algorithm='HS256')
+        
+        return access_token
+    
+    def refresh_token(self, token: str) -> dict:
+        access_token = { 'token':str(a_uuid), 
+                        'exp': datetime.datetime.utcnow() + datetime.timedelta(days=7) 
+                        }
+        return jwt.encode(access_token, str(key), algorithm='HS256')
+    
+    def require_new_token(self, token):
+        if token is None or token == "" or token == "null" or token == 0:
+            return True
+        token = jwt.decode(token, str(key).encode('utf-8'), algorithms=['HS256'])
+        expiration_timestamp = token.get('exp')
+        if expiration_timestamp is None or datetime.datetime.fromtimestamp(expiration_timestamp)  < datetime.datetime.utcnow() - datetime.timedelta(days=2):
+        
+            return False
+        else:
+            return True
+        
+    
 
 api = NinjaAPI(auth=GlobalAuth())
 
+"""debut des definition de requêtes : """
 
 
-class AuthBearer(HttpBearer):
-    def authenticate(self, request, token):
-        if token == "supersecret":
-            return token
 
 
-@api.get("/bearer", auth=AuthBearer())
-def bearer(request):
-    return {"token": request.auth}
 
 
 
 @api .get("/hello")
 def hello(request, username = "world"):
-    return "Hello {username}"
+    return "Hello " + str(username)
 
 
 
+#example d'une requete avec authentification avec un schema d'erreur)
 class UserSchema(Schema):
     username: str
     email: str
@@ -81,33 +98,26 @@ def me(request):
         return 403, {"message": "Please sign in first"}
     return request.user
 
-""" à checker pour update la "session"
-def update_token(user, token):
-    employee = get_object_or_404(Employee, id=employee_id)
-    for attr, value in payload.dict().items():
-        setattr(employee, attr, value)
-    employee.save()
-    return {"success": True}
-"""
 
 
 
 
-@api.post("/token", auth=None) 
+
+
+
+@api.post("/login", auth=None) 
 def get_token(request, username: str = Form(...), password: str = Form(...)):
     user = get_this_user(username)
     auth_perm = authenticate(request, username=username, password=password)
-    #user = authenticate(request, username=username, password=password)
-    print(auth_perm)
+    print(auth_perm) 
     if auth_perm is not None:
-        bearer_token = GlobalAuth().create_token(user.id)
-        #bearer_token = user.id
-        user.jwt = bearer_token
-
-        user.save()
-        return {"token": bearer_token}
-    else :
-        return {"message" : "pas les bons creditials"}
-   
-
-
+        if user.jwt is None or user.jwt == 0: 
+            user.jwt = GlobalAuth().create_tokens(user.id)
+            user.save()
+        return 200,{"message": "Authentification successfull", 
+                    "token": user.jwt,
+                    "user": user.username,
+                    "user_id": user.id
+                    }
+    else:
+        return {"message": "Invalid credentials"}
