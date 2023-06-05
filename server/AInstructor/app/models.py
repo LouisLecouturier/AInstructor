@@ -23,20 +23,6 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
-
-# class CustomUser(models.Model):
-#     #user = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) # unique=True
-#     #first_name = models.CharField(max_length=30, validators= [AlphanumericValidator], blank = True)
-#     #last_name = models.CharField(max_length=30,validators= [AlphanumericValidator])
-#     #profil_picture = models.ImageField( max_length = 254,null = True, blank = True, validators = [validate_image_file_extension]) #add uplad to
-#     #mail = models.EmailField(max_length=254)
-#     #password = models.CharField(max_length = 254)           #Password validation settings
-#     #is_teacher = models.BooleanField(default = 'False', help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.')
-#     date_creation = models.DateField(auto_now=False, auto_now_add=True, null = True)
-#     last_connexion = models.DateField(auto_now=True, auto_now_add=False, null = True)
-
-#     def __str__(self):
-#         # return self.mail
     
 class Groupe(models.Model):
     group_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
