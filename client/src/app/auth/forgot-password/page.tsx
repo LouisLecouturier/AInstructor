@@ -6,8 +6,6 @@ import { Button } from "@components/Interactions/Button";
 
 import KeyIcon from "@icons/Key.svg";
 
-import Purple from "@blob/purple.svg";
-import Yellow from "@blob/yellow.svg";
 import Input from "@/components/Interactions/Forms/Input";
 
 export default function ForgotPass() {
@@ -23,9 +21,6 @@ export default function ForgotPass() {
 
   return (
     <>
-      <Purple className="fixed -left-1/4 -top-1/4 w-2/3 h-2/3" />
-      <Yellow className="fixed -right-1/4 -bottom-1/4 w-2/3 h-2/3" />
-
       <div className="w-96 flex flex-col justify-center gap-5">
         <Input placeholder="Email" name={"email"} />
         <Button responsive className={"mt-4"} type={"submit"}>
