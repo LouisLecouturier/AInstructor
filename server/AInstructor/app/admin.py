@@ -30,6 +30,8 @@ for model in models:
     try:
         admin.site.register(model, AdminFields)
     except Exception:
+        """ debug
         print("Erreur pas de rendu pour le model model:", model)
         print(Exception)
+        """
         pass
