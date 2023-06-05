@@ -39,4 +39,3 @@ for model in models:
         print(Exception)
         """
         pass
-
