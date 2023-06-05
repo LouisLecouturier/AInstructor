@@ -1,58 +1,66 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import SortbyButton from "@/components/button/sortbybutton"
 import TeamsList from "@/components/dashboard/sections/teams"
-
-const teams = [
-  {
-      "id": 1, 
-      "name": "English - 4B",
-      "members": [],
-      "color": "#8338EC",
-  },
-  {
-      "id": 2, 
-      "name": "Mathematics",
-      "members": [],
-      "color": "#FFBE0B",
-  },
-  {
-      "id": 3, 
-      "name": "French - 5G",
-      "members": [],
-      "color": "#3A86FF",
-  },
-  {
-      "id": 4, 
-      "name": "History",
-      "members": [],
-      "color": "#8338EC",
-  },
-  {
-      "id": 4, 
-      "name": "Humanities",
-      "members": [],
-      "color": "#FF006E",
-  },
-  {
-      "id": 4, 
-      "name": "Physics and Chemistry",
-      "members": [],
-      "color": "#FFBE0B",
-  },
-  {
-      "id": 4, 
-      "name": "Life on campus",
-      "members": [],
-      "color": "#FF006E",
-  },
-]
+import styles from "./Teams.module.scss";
+import clsx from "clsx";
+import { UserStore } from "@/store/userStore";
+import { json } from "stream/consumers";
 
 
 const Teams = () => {
+    const userType = UserStore(state => state.userType)
+    const firstname = UserStore(state => state.firstname)
+    const lastname = UserStore(state => state.lastname)
+
+    const [teams, setTeams] = React.useState([
+        {
+            "group_id": "",
+            "name": "",
+            "color": "",
+        }
+    ]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+              const response = await fetch("http://localhost:8000/api/teams", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    firstname: firstname,
+                    lastname: lastname,
+                    is_teacher: userType == "teacher" ? true : false,
+                }),
+              });
+              
+              const responseData = await response.json();
+              console.log(responseData);
+              setTeams(responseData.teams);
+                
+              
+            //   const membersArray = JSON.parse(responseData);
+              // Mettre à jour l'état avec le tableau JavaScript
+              
+            } 
+      
+            catch (error) {
+              console.error(error);
+            }
+          };
+          fetchData();
+
+    }, []);
+
   return (
-    <div className="flex-1 h-full flex flex-col gap-6 pt-16">
-        <h1 className="text-6xl px-20 font-black">Teams</h1>
-        <SortbyButton className="px-20"/>
+    <div className={clsx(
+        "flex-1 h-full flex overflow-auto pt-12 flex-col gap-6",
+        styles.teams
+    )}>
+        <h1 className="text-6xl font-black">Teams</h1>
+        <SortbyButton/>
         <TeamsList teams={teams}/>
     </div>
 )

@@ -28,6 +28,7 @@
     "zustand": "^4.3.8"
   },
   "devDependencies": {
-    "@svgr/webpack": "^8.0.1"
+    "@svgr/webpack": "^8.0.1",
+    "prettier": "2.8.8"
   }
 }
