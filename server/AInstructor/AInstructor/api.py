@@ -5,6 +5,8 @@ import jwt, datetime,uuid
 from django.shortcuts import render
 from app import models
 from django.conf import settings
+from .utils.chatbot import chat_bot_on_course
+import openai
 
 key = getattr(settings, "SECRET_KEY", None)
 a_uuid = uuid.uuid4()
@@ -99,6 +101,9 @@ def me(request):
     return request.user
 
 
+@api.get("/chatbot", auth=None)
+def ask_chat_bot(request, course, question) : 
+    return chat_bot_on_course(course, question)
 
 
 
