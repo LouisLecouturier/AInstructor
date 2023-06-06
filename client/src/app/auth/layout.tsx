@@ -63,6 +63,13 @@ headingContent =<span>Nice to meet <span className="whitespace-nowrap">you !</sp
   }
 
 
+
+  let title = ""
+
+  if (pathname?.includes("signin")) {
+    title = "Sign in"
+  }
+
   return (
 
     <div
