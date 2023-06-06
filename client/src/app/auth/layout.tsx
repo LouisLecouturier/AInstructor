@@ -41,6 +41,13 @@ export default function Layout(props: LayoutProps) {
   const pathname = usePathname();
   const isSigningIn = pathname?.includes("signin") || false;
 
+
+  let title = ""
+
+  if (pathname?.includes("signin")) {
+    title = "Sign in"
+  }
+
   return (
     <div
       className={

@@ -1,10 +1,9 @@
 import React from "react";
+import Header from "@components/dashboard/Layout/Header";
 
 const Stats = () => {
   return (
-    <div>
-      <h1 className={"flex items-center h-16 text-4xl font-black"}>Stats</h1>
-    </div>
+      <Header>My stats</Header>
   );
 };
 
