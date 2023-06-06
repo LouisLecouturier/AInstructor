@@ -10,19 +10,18 @@ interface user {
 }
 
 
-const fetchData = async (user : user, teamUUID : string) => {
+const fetchData = async (modelFieldLine : Record<string, string|boolean>, modelPrimaryKey : string, urlDeleteLine : string) => {
         try {
-          const response = await fetch("http://127.0.0.1:8000/api/teams/removeUser", {
+          const response = await fetch(urlDeleteLine, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                teamUUID: teamUUID,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                email: user.email,
-                is_teacher: user.is_teacher,
+                modelPrimaryKey,
+                modelFieldLine,
+
+                
             }),
           });
           
@@ -41,26 +40,43 @@ const fetchData = async (user : user, teamUUID : string) => {
 
       
 
-export default function MemberCard({user, teamUUID} : {user : user, teamUUID : string}) {
+export default function Line(
+        {
+                modelFieldLine,
+                modelPrimaryKey,
+                urlDeleteLine,
+        } : {
+                modelFieldLine : Record<string, string|boolean>,
+                modelPrimaryKey : string,
+                urlDeleteLine : string,
+        }
+        ) {
+
         const [Display, setDisplay] = React.useState("");
 
+
         async function handleClick() {
-                const error = await fetchData(user, teamUUID);
+                const error = await fetchData(modelFieldLine, modelPrimaryKey, urlDeleteLine);
                 error ? setDisplay("") : setDisplay("hidden")
         }
 
         return (
                 <div 
                 className={clsx(
-                        'flex flex-row justify-between items-center',
+                        'flex flex-row justify-between items-center gap-8',
                         'w-full h-12 px-8 py-4',
                         'hover:bg-accent-50',
                         Display,
                 )}>
-                        <span className='flex-1'>{user.first_name} {user.last_name}</span>
-                        <span className='flex-1'>{user.is_teacher ? 'Teacher' : 'Student'}</span>
-                        <span className='flex-1 text-xs'>{user.email}</span>
-                        <div onClick={handleClick} className='flex-1 flex justify-end'>
+
+                        <div className='flex flex-1 gap-4 '>       
+                                {Object.entries(modelFieldLine).map(([key, value]) => (
+                                        <span key={key} className="font-normal flex-1 text-sm">{String(value)}</span>
+                                ))}
+                        </div>
+
+
+                        <div onClick={handleClick} className='flex justify-end'>
                                 <Delete className='w-6 hover:text-accent-500'/>
                         </div>
                 </div>

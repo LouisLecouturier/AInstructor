@@ -6,8 +6,13 @@ import clsx from 'clsx';
 import MemberCard from '@/components/dashboard/Cards/MemberCard';
 import Input from '@/components/Interactions/Forms/Input';
 import { Button } from '@/components/Interactions/Button';
-import ListUserMapping from '@/components/dashboard/ListMapping/ListUserMapping';
+import ListFieldMapping from '@/components/dashboard/ListMapping/ListUserMapping';
 import { addUserMenu } from '@/store/displayMenu';
+
+
+function Delete(){
+
+}
 
 export default function TeamOverview({searchParams} : {searchParams : any}) {
   const userType = UserStore(state => state.userType)
@@ -70,10 +75,22 @@ export default function TeamOverview({searchParams} : {searchParams : any}) {
 
 
   return (
+
     <div className='pt-12 flex flex-col gap-8'>
+
       <h1 className='text-6xl font-black'>{data.name}</h1>
       <h2 className='text-3xl font-bold'>Overview</h2>
-      <ListUserMapping teamUUID={searchParams.id} users={data.users}/>
+
+      <ListFieldMapping 
+      users={data.users} 
+      nameField="Members" 
+      modelPrimaryKey={searchParams.id} 
+      modelFieldList={data.users} 
+      urlDeleteLine="http://127.0.0.1:8000/api/teams/removeUser"
+      urlAddLine="http://127.0.0.1:8000/api/teams/addUser"
+      placeholderPrimaryKeyElementAdd="Email"
+      />
+
     </div>
   )
 }

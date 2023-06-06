@@ -2,10 +2,10 @@ import { Button } from '@/components/Interactions/Button'
 import Input from '@/components/Interactions/Forms/Input'
 import clsx from 'clsx'
 import React, { useState } from 'react'
-import MemberCard from '../../Cards/MemberCard'
-import HeaderListUserMapping from './header'
+import Line from '../../Cards/MemberCard'
+import HeaderListFieldMapping from './header'
 import { addUserMenu } from '@/store/displayMenu'
-import AddUserMenu from '@/components/Interactions/Forms/AddUserMenu'
+import AddObjectModelMenu from '@/components/Interactions/Forms/AddUserMenu'
 
 
 interface user {
@@ -15,24 +15,48 @@ interface user {
     is_teacher: boolean,
 }
 
-export default function ListUserMapping({users, teamUUID} : {users : user[], teamUUID : string}) {
+
+export default function ListFieldMapping(
+  {
+    users,
+    modelPrimaryKey,
+    modelFieldList,
+    nameField,
+    urlDeleteLine,
+    urlAddLine,
+    placeholderPrimaryKeyElementAdd,
+  } : {
+    users : user[], 
+    modelPrimaryKey : string, 
+    modelFieldList : Record<string, string|boolean>[],
+    nameField : string,
+    urlDeleteLine : string,
+    urlAddLine : string,
+    placeholderPrimaryKeyElementAdd : string,
+  }
+) {
   const isAddUserMenuDisplayed = addUserMenu(state => state.isDisplay)
   
   return (
     <div className='h-96 w-full max-w-[800px] rounded-xl bg-white shadow-sm'>
-
       { isAddUserMenuDisplayed ? 
-        <AddUserMenu teamUUID={teamUUID}/>
+
+        <AddObjectModelMenu modelPrimaryKey={modelPrimaryKey} nameField={nameField} urlAddLine={urlAddLine} placeholder={placeholderPrimaryKeyElementAdd}/>
       :
         <div className='flex flex flex-col'>
-              <HeaderListUserMapping />
-              <div className='flex h-full w-full rounded-b-xl overflow-auto flex-col'>
-                  {users.map(
-                    (user : user, i : number) => (
-                      <MemberCard key={i} teamUUID={teamUUID} user={user}/>
-                    )
-                  )}
-              </div>
+          <HeaderListFieldMapping nameField={nameField} />
+          <div className='flex h-full w-full rounded-b-xl overflow-auto flex-col'>
+              {modelFieldList.map(
+                  (modelFieldLine : Record<string, string|boolean>, i : number) => (
+                    <Line 
+                      key={i} 
+                      modelPrimaryKey={modelPrimaryKey} 
+                      modelFieldLine={modelFieldLine}
+                      urlDeleteLine={urlDeleteLine}
+                    />
+                  )
+              )}
+          </div>
         </div>
 
       }

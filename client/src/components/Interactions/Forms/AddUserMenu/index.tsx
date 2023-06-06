@@ -4,16 +4,16 @@ import { Button } from '../../Button'
 import { addUserMenu } from '@/store/displayMenu'
 
 
-const fetchData = async (email : string, teamUUID : string) => {
+const AddLine = async (PrimaryKeyElementAdd : string, modelPrimaryKey : string, urlAddLine: string) => {
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/teams/addUser", {
+    const response = await fetch(urlAddLine, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        teamUUID: teamUUID,
-        email: email,
+        modelPrimaryKey,
+        PrimaryKeyElementAdd
       }),
     });
     
@@ -28,7 +28,25 @@ const fetchData = async (email : string, teamUUID : string) => {
   }
 };
 
-export default function AddUserMenu({teamUUID} : {teamUUID : string}) {
+export default function AddObjectModelMenu(
+
+  {
+
+    modelPrimaryKey,
+    urlAddLine,
+    placeholder,
+    nameField,
+
+  } : {
+
+    modelPrimaryKey : string,
+    urlAddLine : string,
+    placeholder : string,
+    nameField : string,
+  }
+
+  ) {
+
   const [isError, setIsError] = React.useState(false);
 
   const setDisplay = addUserMenu(state => state.setDisplay)
@@ -37,9 +55,9 @@ export default function AddUserMenu({teamUUID} : {teamUUID : string}) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const email = formData.get('Email') as string;
+    const PrimaryKeyElementAdd = formData.get("PrimaryKeyElementAdd") as string;
 
-    const error = await fetchData(email, teamUUID);
+    const error = await AddLine(PrimaryKeyElementAdd, modelPrimaryKey, urlAddLine);
 
     if (error == false) { setDisplay(false) }
     setIsError(error);
@@ -50,12 +68,12 @@ export default function AddUserMenu({teamUUID} : {teamUUID : string}) {
     <form className='h-full w-full justify-between flex flex-col p-12' onSubmit={handleSubmit}>
 
           <div className='w-full'>
-              <h2 className='text-2xl font-bold'>Add new member</h2>
+              <h2 className='text-2xl font-bold'>Add new {nameField}</h2>
           </div>
           
           <div className='flex flex-col w-full gap-2'>
-              <span className='text-lg font-bold'>Enter email address</span>
-              <Input placeholder={'Email'} type="email" name={'Email'} border={true} />
+              <span className='text-lg font-bold'>Enter {placeholder}</span>
+              <Input placeholder={placeholder} name={"PrimaryKeyElementAdd"} border={true} />
               {isError && <span className='text-red-500'>Error</span>}
           </div>
 

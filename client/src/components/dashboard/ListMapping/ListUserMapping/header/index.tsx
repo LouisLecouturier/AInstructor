@@ -5,7 +5,7 @@ import React from 'react'
 import { addUserMenu } from '@/store/displayMenu'
 
 
-export default function HeaderListUserMapping() {
+export default function HeaderListFieldMapping({nameField} : {nameField : string}) {
     const setDisplay = addUserMenu(state => state.setDisplay)
         
   return (
@@ -13,7 +13,7 @@ export default function HeaderListUserMapping() {
         'flex flex-row justify-between items-center w-full h-24 px-8',
         'border-b-2 border-accent-500 border-opacity-20 border-solid',
     )}>
-        <span className='text-2xl font-bold'>Members</span>
+        <span className='text-2xl font-bold'>{nameField}</span>
 
         <div className='w-1/2 flex gap-8 max-w-[500px] h-1/2'>
             <Input placeholder={'Search'} name={'Search'} border={true} height='h-full' />
