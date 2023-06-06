@@ -18,12 +18,13 @@ class CustomUser(AbstractUser):
     profil_picture = models.ImageField( max_length = 254,null = True, blank = True, validators = [validate_image_file_extension]) #add uplad to
     is_teacher = models.BooleanField(default = 'False')
     last_connexion = models.DateField(auto_now=True, auto_now_add=False, null = True)
-    jwt = models.CharField(max_length=500, null = True, default=0, help_text="dictionnaire de la forme suivante : 'token' : "", 'exp'   :"" ")
+    jwt_access = models.CharField(max_length=500, null = True, default=0)
+    jwt_refresh =  models.CharField(max_length=500, null = True, default=0)
 
     def __str__(self):
         return self.username
 
-    
+   
 class Groupe(models.Model):
     group_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=30, validators= [AlphanumericValidator])
