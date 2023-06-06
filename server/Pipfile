@@ -7,6 +7,10 @@ name = "pypi"
 django-ninja = "*"
 django = "*"
 pillow = "*"
+pyjwt = "*"
+jwt = "*"
+pdfplumber = "*"
+fastapi = "*"
 
 [dev-packages]
 
