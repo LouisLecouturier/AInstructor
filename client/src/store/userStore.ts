@@ -8,7 +8,7 @@ type UserStore = {
 };
 
 export const UserStore = create<UserStore>((set) => ({
-  userType: "teacher",
+  userType: "student",
   firstname: "Johana",
   lastname: "Doetek",
   setUserType: (newTypeUser) => {

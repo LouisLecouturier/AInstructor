@@ -3,6 +3,7 @@
 import { Button } from "@/components/Interactions/Button";
 import QuestionEdit from "@/components/dashboard/Questions/QuestionEditor";
 
+
 const questions = [
   {
     id: 1,
@@ -32,7 +33,6 @@ const onEdit = (questionNumber: number) => {
 
 export default function Dashboard({}) {
   return (
-    <>
       <div className="flex flex-col gap-10">
         <header>
           <h1 className={"flex items-center h-16 text-5xl font-black"}>
@@ -59,6 +59,5 @@ export default function Dashboard({}) {
           Confirm
         </Button>
       </div>
-    </>
   );
 }
