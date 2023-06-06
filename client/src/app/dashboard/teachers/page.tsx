@@ -51,7 +51,11 @@ export default function Dashboard({}) {
             ))}
           </div>
         </header>
-        <Button className="w-96 bg-green-700" size="md" rounded="sm">
+        <Button
+          className="w-96 bg-green-700 hover:bg-green-800 "
+          size="md"
+          rounded="sm"
+        >
           Confirm
         </Button>
       </div>

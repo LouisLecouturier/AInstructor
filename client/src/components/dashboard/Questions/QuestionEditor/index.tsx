@@ -23,7 +23,7 @@ export default function QuestionEdit(props: Question) {
           rounded="sm"
           fluid
           onClick={props.onAccept}
-          className="bg-green-500"
+          className="bg-green-500 hover:bg-green-600" 
         >
           Accept
         </Button>
