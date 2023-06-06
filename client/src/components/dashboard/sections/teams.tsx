@@ -5,7 +5,7 @@ import { UserStore } from "@/store/userStore"
 import TeamCard from "../Cards/TeamCard"
 
 
-export default function TeamsList({teams} : { teams : {group_id: string, name: string, color: string}[] }){
+export default function TeamsList({teams} : { teams : {teamUUID: string, name: string, color: string}[] }){
 
     const typeUser = UserStore(state => state.userType)
 
@@ -21,7 +21,7 @@ export default function TeamsList({teams} : { teams : {group_id: string, name: s
                 ))}
 
                 { typeUser === "teacher" ? 
-                    <TeamCard className={"justify-center gap-0"} ClickHandler={addTeam} team={{group_id: "", name: "", color: ""}} i={0} isAddingTeam={true}/> : null
+                    <TeamCard className={"justify-center gap-0"} ClickHandler={addTeam} team={{teamUUID: "", name: "", color: ""}} i={0} isAddingTeam={true}/> : null
                 }
                     
 

@@ -14,42 +14,45 @@ export default function TeamOverview({searchParams} : {searchParams : any}) {
   const firstname = UserStore(state => state.firstname)
   const lastname = UserStore(state => state.lastname)
   const isDisplay = addUserMenu(state => state.isDisplay)
+  const id = UserStore(state => state.id)
 
   const [data, setData] = useState({
     name: "",
-    members: [
+    users: [
       {
         first_name: "",
         last_name: "",
-        mail: "",
+        email: "",
         is_teacher: false,
       }
     ],
   });
 
-  useEffect(() => {
+  useEffect(
+    () => {
+
     console.log("fetching data")
+
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/team", {
+        const response = await fetch("http://127.0.0.1:8000/api/teams/overview", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id: searchParams.id,
-            userType: userType,
-            firstName: firstname,
-            lastName: lastname,
+            teamUUID : searchParams.id,
+            userID : id,
+            
           }),
         });
         
         const responseData = await response.json();
-        const membersArray = JSON.parse(responseData.members);
-        // Mettre à jour l'état avec le tableau JavaScript
+
+
         setData({
           name: responseData.name,
-          members: membersArray,
+          users: responseData.users,
         });
       } 
 
@@ -70,7 +73,7 @@ export default function TeamOverview({searchParams} : {searchParams : any}) {
     <div className='pt-12 flex flex-col gap-8'>
       <h1 className='text-6xl font-black'>{data.name}</h1>
       <h2 className='text-3xl font-bold'>Overview</h2>
-      <ListUserMapping TeamUUID={searchParams.id}members={data.members}/>
+      <ListUserMapping teamUUID={searchParams.id} users={data.users}/>
     </div>
   )
 }

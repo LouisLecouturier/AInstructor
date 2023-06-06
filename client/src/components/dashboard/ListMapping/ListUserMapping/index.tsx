@@ -8,28 +8,28 @@ import { addUserMenu } from '@/store/displayMenu'
 import AddUserMenu from '@/components/Interactions/Forms/AddUserMenu'
 
 
-interface member {
+interface user {
     first_name: string,
     last_name: string,
-    mail: string,
+    email: string,
     is_teacher: boolean,
 }
 
-export default function ListUserMapping({members, TeamUUID} : {members : member[], TeamUUID : string}) {
+export default function ListUserMapping({users, teamUUID} : {users : user[], teamUUID : string}) {
   const isAddUserMenuDisplayed = addUserMenu(state => state.isDisplay)
   
   return (
     <div className='h-96 w-full max-w-[800px] rounded-xl bg-white shadow-sm'>
 
       { isAddUserMenuDisplayed ? 
-        <AddUserMenu TeamUUID={TeamUUID}/>
+        <AddUserMenu teamUUID={teamUUID}/>
       :
         <div className='flex flex flex-col'>
               <HeaderListUserMapping />
               <div className='flex h-full w-full rounded-b-xl overflow-auto flex-col'>
-                  {members.map(
-                    (member : member, i : number) => (
-                      <MemberCard key={i} TeamUUID={TeamUUID} member={member}/>
+                  {users.map(
+                    (user : user, i : number) => (
+                      <MemberCard key={i} teamUUID={teamUUID} user={user}/>
                     )
                   )}
               </div>

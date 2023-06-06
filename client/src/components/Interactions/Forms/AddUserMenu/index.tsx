@@ -4,16 +4,16 @@ import { Button } from '../../Button'
 import { addUserMenu } from '@/store/displayMenu'
 
 
-const fetchData = async (mail : string, id : string) => {
+const fetchData = async (email : string, teamUUID : string) => {
   try {
-    const response = await fetch("http://localhost:8000/api/addUser", {
+    const response = await fetch("http://127.0.0.1:8000/api/teams/addUser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: id,
-        mail: mail,
+        teamUUID: teamUUID,
+        email: email,
       }),
     });
     
@@ -28,7 +28,7 @@ const fetchData = async (mail : string, id : string) => {
   }
 };
 
-export default function AddUserMenu({TeamUUID} : {TeamUUID : string}) {
+export default function AddUserMenu({teamUUID} : {teamUUID : string}) {
   const [isError, setIsError] = React.useState(false);
 
   const setDisplay = addUserMenu(state => state.setDisplay)
@@ -37,9 +37,9 @@ export default function AddUserMenu({TeamUUID} : {TeamUUID : string}) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const emailToInviteValue = formData.get('Email') as string;
+    const email = formData.get('Email') as string;
 
-    const error = await fetchData(emailToInviteValue, TeamUUID);
+    const error = await fetchData(email, teamUUID);
 
     if (error == false) { setDisplay(false) }
     setIsError(error);

@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { UserStore } from '@/store/userStore'
 
-export default function TeamCard({className, ClickHandler, team, i, isAddingTeam} : {className? : string, ClickHandler : any, team : {group_id: string, name: string, color: string}, i: number, isAddingTeam: boolean}) {
+export default function TeamCard({className, ClickHandler, team, i, isAddingTeam} : {className? : string, ClickHandler : any, team : {teamUUID: string, name: string, color: string}, i: number, isAddingTeam: boolean}) {
     const typeUser = UserStore(state => state.userType)
 
     const href = isAddingTeam && typeUser == "teacher" ? '/dashboard/teams/addTeam' : '/dashboard/teams/overview'
@@ -20,7 +20,7 @@ export default function TeamCard({className, ClickHandler, team, i, isAddingTeam
             )}    
             href={{
                 pathname: href,
-                query: { id: team.group_id },
+                query: { id: team.teamUUID },
               }}              
         >
             {
