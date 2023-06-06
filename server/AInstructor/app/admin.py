@@ -13,9 +13,9 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ["username", "email", "is_teacher"]
+    list_display = ["username", "email"]
     fieldsets = UserAdmin.fieldsets + (
-        ("Custom Fields" , {"fields" : ("is_teacher", "profil_picture")}),
+        ("Custom Fields" , {"fields" : ("is_teacher", "profil_picture", "jwt_access","jwt_refresh")}),
     )
 
 
