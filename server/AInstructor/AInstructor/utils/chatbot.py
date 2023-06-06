@@ -12,6 +12,9 @@ course = "Pantheism is the philosophical religious belief that reality,[1] the u
 question = "who invented the pantheime"
 
 def chat_bot_on_course(course, question) :
+    if 1 == 1 :
+        return "You are a helpfull assistant that simplify for student"
+
     mode = {"swear" : "You are a swearring, vulgare and snarky assistant that swear at each phrase,helping a fucking student", 
             "simplification": "You are a helpfull assistant that simplify for student",
             "expert":"You are a helpfull assistantfor expert"}
@@ -35,4 +38,4 @@ def chat_bot_on_course(course, question) :
 
 
 
-chat_bot_on_course(course, question)
+# chat_bot_on_course(course, question)

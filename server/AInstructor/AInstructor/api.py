@@ -8,6 +8,13 @@ from app import models
 from django.conf import settings
 from .utils.chatbot import chat_bot_on_course
 import openai
+import json
+from app.models import CustomUser
+
+from Teams.api import router as teams_router
+from authentification.api import router as auth_router
+from Cours.api import router as cours_router
+
 
 
 key = getattr(settings, "SECRET_KEY", None)
@@ -62,106 +69,60 @@ class GlobalAuth(HttpBearer):
         }, key, algorithm='HS256')
 
         return {"access token" :access_token, "refresh token" :refresh_token}
-    
-    
 
+        
+    
 
 api = NinjaAPI(auth=GlobalAuth())
+api.add_router("/teams/", teams_router)
+api.add_router("/auth/", auth_router)
+api.add_router("/cours/", cours_router)
+
+
+
+
 
 """debut des definition de requêtes : """
 
 
 
-
-
-
-
-@api .get("/hello")
-def hello(request, username = "world"):
-    return "Hello " + str(username)
-
-
-
-#example d'une requete avec authentification avec un schema d'erreur)
-class UserSchema(Schema):
-    username: str
-    email: str
-    first_name: str
-    last_name: str
-
-class Error(Schema):
-    message: str
-
-@api.get("/me",response={200: UserSchema, 403: Error})
-def me(request):
-    if not request.user.is_authenticated:
-        return 403, {"message": "Please sign in first"}
-    return request.user
-
-
 @api.post("/chatbot", auth=None)
 def ask_chat_bot(request, course, question) : 
     return chat_bot_on_course(course, question)
-    return True
-
-@api.post("/upload", auth=None)
-def upload_file(request, theme, file: UploadedFile = File(...)):
-    file_data = file.read()
-    name = file.name
-    course = models.Course.objects.create(name=name, theme=theme)
-    course.uploaded_file = file
-    course.save()
-    return {"message": "File uploaded successfully"}
 
 
 
-@api.get("/getcourse", auth=None)
-def get_course(request, course_id) : 
-    cour = models.Course.objects.get(course_id = course_id)
-    raw_text = cour.uploaded_file.read()
-    return {"message": raw_text}
+
 
 
 @api.post("/login", auth=None) 
-def get_token(request, username: str = Form(...), password: str = Form(...)):
-    user = get_this_user(username)
-    #token = GlobalAuth().get_token(username)
-    auth_perm = authenticate(request, username=username, password=password)
+def get_token(request):
+    request = json.loads(request.body.decode('utf-8'))
+
+    user = CustomUser.objects.get(email = request['email'])
+
+    auth_perm = authenticate(request, username=user.username, password=request['password']) #authenticate the user
+
     print(auth_perm) 
-    if auth_perm is not None:   
-        tokens = GlobalAuth().create_tokens(user.id)
+
+    if auth_perm is not None:   # if the user is authenticated
+        tokens = GlobalAuth().create_tokens(user.id) # create the tokens
+
         user.jwt_access = tokens["access token"]
-        user.jwt_refresh = tokens["refresh token"]
+        user.jwt_refresh = tokens["refresh token"] 
         user.save()
-        return 200,{"message": "Authentification successfull","acces token": user.jwt_access, "refresh token" : user.jwt_refresh,"user": user.username,"user_id": user.id}
 
-        """
-        if user.jwt is None or user.jwt == 0 or user.jwt == "" or user.jwt == "null" or user.jwt == "None" or token == 0 or token == "" or token == "null" or token == "None": 
-            user.jwt = GlobalAuth().create_tokens(user.id)
-            user.save()
-            return 200,{"message": "Authentification successfull", 
-                        "token": user.jwt,
-                        "user": user.username,
-                        "user_id": user.id
-                        }
-    
-        else :
-            if GlobalAuth().require_new_token(token) == False:
-                return 200,{"message": "Authentification successfull", 
-                        "token": user.jwt,
-                        "user": user.username,
-                        "user_id": user.id
-                        }
-            elif GlobalAuth().require_new_token(token) == True:
-                print(token)
-                user.jwt = GlobalAuth().refresh_token(user.jwt)
+        return 200, {
+            "message": "Authentification successfull",
+            "acces token": user.jwt_access, 
+            "refresh token" : user.jwt_refresh,
+            "user": user.username,
+            "user_id": user.id,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "is_teacher": user.is_teacher,
+        }
 
-                user.save()
-                return 200,{"message": "Authentification successfull", 
-                        "token": user.jwt,
-                        "user": user.username,
-                        "user_id": user.id
-                        } 
-            """
     else:
         return {"message": "Invalid credentials"}

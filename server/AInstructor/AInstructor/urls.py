@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .api import api
+# from Teams import urls
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", api.urls),
 #    path("app/", include("app.urls")),
+    # path("teams/", include("Teams.urls")),
 ]

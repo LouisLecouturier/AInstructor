@@ -7,6 +7,9 @@ name = "pypi"
 django-ninja = "*"
 django = "*"
 pillow = "*"
+pyjwt = "*"
+django-cors-headers = "*"
+openai = "*"
 
 [dev-packages]
 
