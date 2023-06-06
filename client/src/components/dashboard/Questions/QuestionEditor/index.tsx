@@ -14,16 +14,15 @@ export default function QuestionEdit(props: Question) {
 
   return (
     <article className="flex flex-col gap-1 p-4 py-3 w-96 bg-white rounded-xl">
-      <h3>Question {props.index}</h3>
+      <h3 className="font-semibold">Question {props.index}</h3>
       <p>{question}</p>
-
       <div className="flex gap-2">
         <Button
           size="sm"
           rounded="sm"
           fluid
           onClick={props.onAccept}
-          className="bg-green-500 hover:bg-green-600" 
+          className="bg-green-500 hover:bg-green-600"
         >
           Accept
         </Button>
