@@ -40,8 +40,31 @@ type LayoutProps = {
 export default function Layout(props: LayoutProps) {
   const pathname = usePathname();
   const isSigningIn = pathname?.includes("signin") || false;
+  const isForgotPassword = pathname?.includes("forgot-password") || false;
+
+ let description = "";
+ let headingContent;
+
+
+  if (isForgotPassword) {
+    description = "Enter the email associated with your account and we'll send an email with instructions to reset your password."
+    headingContent = <span>Forgot your <span className={"whitespace-nowrap"}>password ?</span>
+  </span>
+  }
+
+  else if (!isForgotPassword && isSigningIn) {
+    description = "Signin to your account"
+    headingContent = <span>Welcome <span className={"whitespace-nowrap"}>back !</span>
+  </span>
+  } else {
+    description = "Create your account"
+headingContent =<span>Nice to meet <span className="whitespace-nowrap">you !</span>
+</span>;
+  }
+
 
   return (
+
     <div
       className={
         "flex flex-col md:flex-row p-6 gap-6 w-screen min-h-screen bg-white"
@@ -55,18 +78,10 @@ export default function Layout(props: LayoutProps) {
         <div className="flex flex-col justify-center gap-12 h-full p-8 sm:p-12 lg:p-24">
           <header className={"flex flex-col gap-2"}>
             <h1 className="text-4xl md:text-5xl font-black">
-              {isSigningIn ? (
-                <span>
-                  Welcome <span className={"whitespace-nowrap"}>back !</span>
-                </span>
-              ) : (
-                <span>
-                  Nice to meet <span className="whitespace-nowrap">you !</span>
-                </span>
-              )}
+              {headingContent}
             </h1>
             <span className={"font-semibold opacity-50"}>
-              {isSigningIn ? "Sign in to your account" : "Create your account"}
+              {description}
             </span>
           </header>
           {props.children}
