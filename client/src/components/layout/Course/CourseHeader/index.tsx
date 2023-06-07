@@ -10,8 +10,8 @@ type CourseHeaderProps = {
 const CourseHeader: FC<CourseHeaderProps> = (props) => {
   return (
     <header className={clsx("flex flex-col gap-2 mb-16", props.className)}>
-      <h1 className={"text-4xl font-black text-secondary-500"}>{props.title}</h1>
-      <span>De : {props.teacher}</span>
+      <h1 className={"text-4xl font-black"}>{props.title}</h1>
+      <span className={"text-lg font-semibold text-dark-300"}>From : {props.teacher}</span>
     </header>
   );
 };

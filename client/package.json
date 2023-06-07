@@ -25,6 +25,7 @@
     "react-chartjs": "^1.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
+    "react-markdown": "^8.0.7",
     "sass": "^1.62.1",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4",

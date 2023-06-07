@@ -8,6 +8,7 @@ type InputProps = {
   defaultValue?: string;
   isTextArea?: boolean;
   size?: "sm" | "md" | "lg";
+  className?: string;
 };
 
 const sizesClassNames = {
@@ -25,7 +26,8 @@ export const Input: FC<InputProps> = (props) => {
           "bg-white font-semibold text-dark-300",
           props.borders && "border-2 border-dark-50 focus:border-accent-200",
           sizesClassNames[props.size || "md"],
-          "focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-opacity-20"
+          "focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-opacity-20",
+          props.className
         )}
         placeholder={props.placeholder}
         name={props.name}
@@ -41,7 +43,8 @@ export const Input: FC<InputProps> = (props) => {
         "bg-white font-semibold rounded-lg text-dark-300",
         props.borders && "border-2 border-dark-50 focus:border-accent-200",
         sizesClassNames[props.size || "md"],
-        "focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-opacity-20"
+        "focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-opacity-20",
+        props.className
       )}
       placeholder={props.placeholder}
       name={props.name}

@@ -1,5 +1,7 @@
+
 import { FC, ReactNode } from "react";
 import clsx from "clsx";
+import styles from "./Button.module.scss";
 
 type ButtonProps = {
   children: ReactNode;
@@ -9,15 +11,16 @@ type ButtonProps = {
   size?: "sm" | "md" | "lg";
   type?: "button" | "submit" | "reset";
   fluid?: boolean;
+  isMagic?: boolean;
   responsive?: boolean;
   disabled?: boolean;
   onClick?: () => void;
 };
 
 const sizeClasses = {
-  sm: "px-4 py-2 text-sm min-w-[96px]",
-  md: "px-6 py-3 text-lg min-h-[3rem] min-w-[96px]",
-  lg: "px-8 py-4 text-lg",
+  sm: "px-4 py-2 text-sm min-w-[96px] gap-2",
+  md: "px-6 py-3 text-lg min-h-[3rem] min-w-[96px] gap-4",
+  lg: "px-8 py-4 text-lg gap-4",
 };
 
 const roundedClasses = {
@@ -37,6 +40,29 @@ const variantClasses = {
 };
 
 export const Button: FC<ButtonProps> = (props) => {
+  if (props.isMagic) {
+    return (
+      <div
+        onClick={props.onClick}
+        className={clsx(
+          "flex items-center justify-center",
+          "w-fit transition duration-200",
+          "font-bold cursor-pointer",
+          roundedClasses[props.rounded || "md"],
+          sizeClasses[props.size || "md"],
+          props.fluid && "w-full",
+          props.responsive && "w-full md:w-fit",
+          variantClasses[props.variant || "accent"],
+          props.disabled && "opacity-50 cursor-not-allowed",
+          styles["magic-button"],
+          props.className
+        )}
+      >
+        {props.children}
+      </div>
+    );
+  }
+
   return (
     <button
       type={props.type || "button"}
@@ -44,7 +70,7 @@ export const Button: FC<ButtonProps> = (props) => {
       className={clsx(
         "flex items-center justify-center gap-4",
         "w-fit transition duration-200",
-        "font-bold",
+        "font-bold cursor-pointer",
         roundedClasses[props.rounded || "md"],
         sizeClasses[props.size || "md"],
         props.fluid && "w-full",

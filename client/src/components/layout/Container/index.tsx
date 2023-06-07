@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 type ContainerProps = {
   title?: string;
+  description?: string;
   children: React.ReactNode;
   className?: string;
 };
@@ -18,9 +19,12 @@ const Container: FC<ContainerProps> = (props) => {
       )}
     >
       {props.title && (
-        <h2 className={"flex items-center text-xl font-black"}>
-          {props.title}
-        </h2>
+        <header>
+          <h2 className={"flex items-center text-xl font-black"}>
+            {props.title}
+          </h2>
+          {props.description && <span className={"text-sm text-dark-200 font-semibold"}>{props.description}</span>}
+        </header>
       )}
       {props.children}
     </div>
