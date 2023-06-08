@@ -2,13 +2,17 @@
 
 import { UserStore } from "@/store/userStore";
 
+
 import Avatar from "@icons/Avatar.svg";
 import Logout from "@icons/Logout.svg";
 import { signOut, useSession } from "next-auth/react";
+
 import clsx from "clsx";
 import TeacherNavigation from "@components/dashboard/Navigation/TeacherNavigation";
 import NavigationElement from "@components/dashboard/Navigation/NavigationElement";
 import StudentNavigation from "@components/dashboard/Navigation/StudentNavigation";
+import UserInfo from "../../layout/User/Userinfo";
+
 
 interface Students {
   Homeworks: string;

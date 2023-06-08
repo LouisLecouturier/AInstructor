@@ -23,8 +23,10 @@ const NavigationElement: FC<NavigationElementProps> = (props) => {
         className={clsx(
           "flex gap-4 items-center",
           "p-2 text-lg",
-          "rounded-xl",
-          "hover:bg-accent-100/40",
+
+          "rounded-lg",
+          "hover:bg-accent-100/40 hover:text-accent-600",
+
           active && "bg-accent-100/50 text-accent-500",
           styles["container"],
           "transition cursor-pointer"
@@ -42,8 +44,9 @@ const NavigationElement: FC<NavigationElementProps> = (props) => {
       className={clsx(
         "flex gap-4 items-center",
         "p-2 text-lg",
-        "rounded-xl",
-        "hover:bg-accent-100/30",
+
+        "rounded-lg",
+        "hover:bg-accent-100/30 hover:text-accent-600",
         active && "bg-accent-100/50 text-accent-500",
         styles["container"],
         "transition"

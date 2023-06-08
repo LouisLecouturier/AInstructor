@@ -1,10 +1,12 @@
-"use client"
+"use client";
 
 import { signIn } from "next-auth/react";
 import { useState, FormEvent } from "react";
 import { Button } from "@components/Interactions/Button";
 import LoginIcon from "@icons/Login.svg";
-import Input from "@/components/Interactions/Forms/Input";
+
+import Link from "next/link";
+
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -45,16 +47,15 @@ function Login() {
         />
       </div>
       <div className={"flex flex-col gap-2 items-end"}>
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <a href="#" className="text-accent-500 text-sm font-bold">
+
+        <Index placeholder="Password" name="password" />
+        <Link
+          href="auth/forgot-password"
+          className="text-accent-500 text-sm font-bold"
+        >
+
           Forgot your password ?
-        </a>
+        </Link>
       </div>
 
       <Button responsive className={"mt-4"} type={"submit"}>

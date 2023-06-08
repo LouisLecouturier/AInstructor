@@ -1,3 +1,4 @@
+
 "use client"
 import React, { useEffect } from "react";
 import SortbyButton from "@/components/button/sortbybutton"
@@ -7,16 +8,9 @@ import clsx from "clsx";
 import { useSession } from "next-auth/react";
 
 
-
-
-
-
 const Teams = () => {
   const {data : session} = useSession()
   console.log(session)
-
-
-
 
   const id = String(session?.user.user_id)
 
