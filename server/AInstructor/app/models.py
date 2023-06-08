@@ -8,14 +8,17 @@ import os
 
 # Create your models here.
 
-AlphanumericValidator = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
+AlphanumericValidator = RegexValidator(r'^[0-9a-zA-Z ]*$', 'Only alphanumeric characters are allowed.')
 AlphanumericValidatorPlus = RegexValidator(r'^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)(?=[^!#%]*[!#%])[A-Za-z0-9!#%]{8,32}$', 'The password must contain different case, number, and special character')
 
+
+def user_picture_path(instance, filename):
+    return f'profile_picture/{instance.username}.png'
 
 class CustomUser(AbstractUser):
     pass
     # add additional fields in here
-    profil_picture = models.ImageField( max_length = 254,null = True, blank = True, validators = [validate_image_file_extension]) #add uplad to
+    profil_picture = models.ImageField(upload_to=user_picture_path, max_length = 254,null = True, blank = True, validators = [validate_image_file_extension]) #add uplad to
     is_teacher = models.BooleanField(default = 'False')
     last_connexion = models.DateField(auto_now=True, auto_now_add=False, null = True)
     jwt_access = models.CharField(max_length=500, null = True, default=0)
@@ -32,7 +35,7 @@ class Groupe(models.Model):
 
 
 def upload_to_cours(instance, filename):
-    return f'cours/{instance.course_id}/{filename}'
+    return f'cours/{instance.course_id}/{filename}.md'
 
 
 class Course(models.Model):
@@ -40,8 +43,9 @@ class Course(models.Model):
     name = models.CharField(max_length=127, validators= [AlphanumericValidator], default = "New Course",  blank = True)
     theme = models.CharField(max_length=127, validators= [AlphanumericValidator],  default = "Theme",  blank = True)
     uploaded_file = models.FileField(upload_to=upload_to_cours, storage=None, max_length=100)
+    text = models.TextField(null =True,  blank = True)
     uploaded_by = models.ForeignKey(CustomUser, on_delete = models.RESTRICT, null = True, blank = True) 
-
+    color = models.CharField(max_length=7, default = "#000000",  blank = True)
     def __str__(self):
         return self.name
 
@@ -71,12 +75,12 @@ class Quesionnaire(models.Model):
     title = models.CharField(max_length=127, validators= [AlphanumericValidator], default = "New test",  blank = True)
     description = models.CharField(max_length=254, validators= [AlphanumericValidator], default = "description : ", null = True,  blank = True)
     theme = models.CharField(max_length=127, validators= [AlphanumericValidator], null = True,  blank = True)
-    score = models.SmallIntegerField(default = 0, null = True)
-    nbr_question_total = models.PositiveSmallIntegerField(default = 0, null = True)
-    nbr_QCM = models.PositiveSmallIntegerField(default = 0, null = True)
+    score = models.SmallIntegerField(default = 0, null = True, blank = True)
+    nbr_question_total = models.PositiveSmallIntegerField(default = 0, null = True, blank = True)
+    nbr_QCM = models.PositiveSmallIntegerField(default = 0, null = True, blank = True)
     difficulty = models.CharField(max_length = 254, null = True, blank = True)  
-    editable_by = models.ForeignKey(CustomUser, on_delete = models.CASCADE, related_name='editableBy', blank = True)  
-    sign_in = models.ManyToManyField(CustomUser)
+    editable_by = models.ForeignKey(CustomUser, on_delete = models.CASCADE, related_name='editableBy', blank = True, null = True)  
+    sign_in = models.ManyToManyField(Groupe, related_name='sign_in', blank = True)
 
     
     def __str__(self):

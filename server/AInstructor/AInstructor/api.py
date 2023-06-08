@@ -1,13 +1,20 @@
-from ninja import NinjaAPI, Schema, Form, File
-from ninja.files import UploadedFile
+from ninja import NinjaAPI, Schema, Form, Field
 from ninja.security import django_auth, HttpBearer
 from django.contrib.auth import authenticate
-import jwt, datetime,uuid
-from django.shortcuts import render
+import jwt, datetime,uuid, os,json
+from django.db import models
 from app import models
 from django.conf import settings
-from .utils.chatbot import chat_bot_on_course
-import openai
+from typing import List
+from question.api import router as question_router
+from course.api import router as cours_router
+from questionary.api import router as questionary_router
+from response.api import router as response_router
+from group.api import router as group_router
+from user.api import router as user_router
+
+#from .utils.chatbot import chat_bot_on_course
+
 
 
 key = getattr(settings, "SECRET_KEY", None)
@@ -40,15 +47,11 @@ def get_this_token(token):
     
 class GlobalAuth(HttpBearer):
     #gestion d'authentification générale basé sur bearer tokens
-    def authenticate(self, request, token):  
-              
+    def authenticate(self, request, token):            
         user = get_this_token(token)
- 
         if user.jwt_access == token:
             return token, user.username
 
-        
-    
     def create_tokens(self, user_id: str) -> dict:
         access_token = jwt.encode({
             'user' : str(user_id), 
@@ -62,67 +65,48 @@ class GlobalAuth(HttpBearer):
         }, key, algorithm='HS256')
 
         return {"access token" :access_token, "refresh token" :refresh_token}
+
+#api = NinjaAPI(auth=GlobalAuth())
+
+api.add_router("/question", question_router)
+api.add_router("/questionary", question_router)
+api.add_router("/chatbot", question_router)
+api.add_router("/course", cours_router)
+api.add_router("/response", response_router)
+api.add_router("/group", group_router)
+api.add_router("/user", user_router)
+
+
+
+
+
+
+"""   debut des definition de requêtes :    """
+
+
     
-    
-
-
-api = NinjaAPI(auth=GlobalAuth())
-
-"""debut des definition de requêtes : """
-
-
-
-
-
-
-
 @api .get("/hello")
 def hello(request, username = "world"):
+    """hello world test function"""
     return "Hello " + str(username)
 
 
 
-#example d'une requete avec authentification avec un schema d'erreur)
-class UserSchema(Schema):
-    username: str
-    email: str
-    first_name: str
-    last_name: str
-
-class Error(Schema):
-    message: str
-
-@api.get("/me",response={200: UserSchema, 403: Error})
-def me(request):
-    if not request.user.is_authenticated:
-        return 403, {"message": "Please sign in first"}
-    return request.user
-
-
-@api.post("/chatbot", auth=None)
-def ask_chat_bot(request, course, question) : 
-    return chat_bot_on_course(course, question)
-    return True
-
-@api.post("/upload", auth=None)
-def upload_file(request, theme, file: UploadedFile = File(...)):
-    file_data = file.read()
-    name = file.name
-    course = models.Course.objects.create(name=name, theme=theme)
-    course.uploaded_file = file
-    course.save()
-    return {"message": "File uploaded successfully"}
 
 
 
-@api.get("/getcourse", auth=None)
-def get_course(request, course_id) : 
-    cour = models.Course.objects.get(course_id = course_id)
-    raw_text = cour.uploaded_file.read()
-    return {"message": raw_text}
 
 
-@api.post("/login", auth=None) 
+
+
+# @api.post("/chatbot", )
+# def ask_chat_bot(request, course, question) : 
+#     return chat_bot_on_course(course, question)
+
+
+
+
+@api.post("/login",auth=None ) 
 def get_token(request, username: str = Form(...), password: str = Form(...)):
     user = get_this_user(username)
     #token = GlobalAuth().get_token(username)
@@ -134,34 +118,5 @@ def get_token(request, username: str = Form(...), password: str = Form(...)):
         user.jwt_refresh = tokens["refresh token"]
         user.save()
         return 200,{"message": "Authentification successfull","acces token": user.jwt_access, "refresh token" : user.jwt_refresh,"user": user.username,"user_id": user.id}
-
-        """
-        if user.jwt is None or user.jwt == 0 or user.jwt == "" or user.jwt == "null" or user.jwt == "None" or token == 0 or token == "" or token == "null" or token == "None": 
-            user.jwt = GlobalAuth().create_tokens(user.id)
-            user.save()
-            return 200,{"message": "Authentification successfull", 
-                        "token": user.jwt,
-                        "user": user.username,
-                        "user_id": user.id
-                        }
-    
-        else :
-            if GlobalAuth().require_new_token(token) == False:
-                return 200,{"message": "Authentification successfull", 
-                        "token": user.jwt,
-                        "user": user.username,
-                        "user_id": user.id
-                        }
-            elif GlobalAuth().require_new_token(token) == True:
-                print(token)
-                user.jwt = GlobalAuth().refresh_token(user.jwt)
-
-                user.save()
-                return 200,{"message": "Authentification successfull", 
-                        "token": user.jwt,
-                        "user": user.username,
-                        "user_id": user.id
-                        } 
-            """
     else:
         return {"message": "Invalid credentials"}
