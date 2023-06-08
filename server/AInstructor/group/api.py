@@ -4,7 +4,7 @@ from app.models import Groupe
 import json
 from django.http import JsonResponse
 
-router = Router()
+router = Router(tags=["Groups"])
 
 
 

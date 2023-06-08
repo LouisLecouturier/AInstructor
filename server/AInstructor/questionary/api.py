@@ -7,28 +7,36 @@ from datetime import date
 from typing import List
 
 
-router = Router()
+router = Router(tags=["Questionary"])
 
 """_______________________________________requests consergning the questionnaire_________________________________________________________"""
 
 
 class Questionnary(Schema):
-    title: str = Field(...)
-    description: str = Field(...)
-    course_id: int = Field(...)
-    date_end: date = Field(...)
-    date_creation: date = Field(...)
-    theme : str = Field(...)
-    score : int = Field(...)
-    nbr_question_total : int = Field(...)
-    nbr_QCM : int = Field(...)
-    difficulty : str = Field(...)
+    title: str 
+    description: str 
+    course_id:List[uuid.UUID] = Field(...)
+    date_end: date 
+    theme : str  
+    score : int  
+    nbr_question_total : int
+    nbr_QCM : int  
+    difficulty : str 
 
 
 @router.post("/questionnary/create", )
 def create_questionnary(request, body : Questionnary):
     """create a new questionnary"""
-    questionnary = models.Questionnary.objects.create(title=body.title, description=body.description, course_id=body.course_id, course=body.course, questions=body.questions, date_end=body.date_end, date_creation=body.date_creation, theme=body.theme, score=body.score, nbr_question_total=body.nbr_question_total, nbr_QCM=body.nbr_QCM, difficulty=body.difficulty, editable_by=body.editable_by, sign_in=body.sign_in)
+    today = date.today()
+    questionnary = models.Quesionnaire.objects.create(title=body.title, date_creation = today ,description=body.description,  date_end=body.date_end, theme=body.theme, score=body.score, nbr_question_total=body.nbr_question_total, nbr_QCM=body.nbr_QCM, difficulty=body.difficulty)
+    courses = models.Course.objects.filter(course_id__in=body.course_id)
+    questionnary.course.set(courses)    
+    # questions = models.Question.objects.filter(question_id__in=body.questions)
+    # questionnary.questions.set(questions)
+    editable_by = models.CustomUser.objects.filter(editable_by=body.editable_by)
+    questionnary.editable_by.set(editable_by)
+    sign_in = models.CustomUser.objects.filter(user_id__in=body.sign_in)
+    questionnary.sign_in.set(sign_in)
     questionnary.save()
     return {'message': "succesfully created the questionnary :" + questionnary.title, 'id' : 'questionnary.id'}
 
@@ -36,7 +44,7 @@ def create_questionnary(request, body : Questionnary):
 
 
 @router.get("/questionnaire/{questionnaire_id}", )
-def get_course_info(request, questionnaire_id: uuid.UUID):
+def get_questionary_info(request, questionnaire_id: uuid.UUID):
     questionnaire = get_object_or_404(models.Quesionnaire, questionnaire_id=questionnaire_id)
     course = questionnaire.course.first()
     questions = models.Question.objects.filter(questionnaire=questionnaire)

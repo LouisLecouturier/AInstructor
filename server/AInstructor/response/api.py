@@ -8,5 +8,4 @@ from typing import List
 from app import models
 
 
-router = Router()
-
+router = Router(tags=["response"])
