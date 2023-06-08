@@ -1,6 +1,7 @@
 from ninja import NinjaAPI, Schema, Form, Field
 from ninja.security import django_auth, HttpBearer
 from django.contrib.auth import authenticate
+
 import jwt, datetime,uuid, os,json
 from django.db import models
 from app import models
@@ -14,6 +15,7 @@ from group.api import router as group_router
 from user.api import router as user_router
 
 #from .utils.chatbot import chat_bot_on_course
+
 
 
 
@@ -77,15 +79,78 @@ api.add_router("/group", group_router)
 api.add_router("/user", user_router)
 
 
+#il faudra rajouter uploaded_by dans le post
+@api.post("/course-data", auth=None)
+def add_data(request, course_id: str, theme: str):
+    course = models.Course.objects.get(course_id=course_id)
+    course.theme = theme
+    course.save()
+    return {'course_id': course_id, 'theme': theme}
+
+@api.put("/course/{course_id}", auth=None)
+def update_data(request, course_id: str, theme: str):
+    course = models.Course.objects.get(course_id=course_id)
+    course.theme = theme
+    course.save()
+    return {'course_id': course_id, 'theme': theme}
+
+@api.delete("/course/{course_id}", auth=None)
+def delete_data(request, course_id: str):
+    course = models.Course.objects.get(course_id=course_id)
+    course.delete()
+    return {'course_id': course_id}
+
 
 """   debut des definition de requêtes :    """
 
 
-    
-@api .get("/hello")
-def hello(request, username = "world"):
-    """hello world test function"""
-    return "Hello " + str(username)
+
+@api.get("/users", auth=None)
+def list_users(request, username: str = None):
+    #users = list(models.CustomUser.objects.all().values_list('username', flat=True))
+    users = list(models.CustomUser.objects.all().values('id', 'username', 'email', 'first_name', 'last_name','is_teacher','last_connexion','jwt'))
+    return {'users': users}
+
+
+@api.get("/user", auth=None)
+def get_user(request, username: str):
+    user = models.CustomUser.objects.filter(username=username).values('id', 'username', 'email', 'first_name', 'last_name', 'is_teacher', 'last_connexion', 'jwt').first()
+    return {'user': user}
+
+
+@api.get("/users/{user_id}", auth=None)
+def get_user(request, user_id: int):
+    try:
+        user = models.CustomUser.objects.filter(id=user_id).values('id', 'username', 'email', 'first_name', 'last_name', 'is_teacher', 'last_connexion', 'jwt').first()
+        if user:
+            return {'user': user}
+        else:
+            return api.create_response(request, {"detail": "User not found"}, status=404)
+    except Exception as e:
+        return api.create_response(request, {"detail": str(e)}, status=500)
+
+
+
+@api.post("/user/create", auth=None)
+def create_user(request, username: str = Form(...), password: str = Form(...), email: str = Form(...), first_name: str = Form(...), last_name: str = Form(...)):
+    user = models.CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+    return {'name': user.username}
+
+@api.put("/user/{user_id}", auth=None)
+def update_user(request, user_id: int, username: str = Form(...), password: str = Form(...), email: str = Form(...), first_name: str = Form(...), last_name: str = Form(...)):
+    user = models.CustomUser.objects.get(id=user_id)
+    user.username = username
+    user.password = password
+    user.email = email
+    user.first_name = first_name
+    user.last_name = last_name
+    user.save()
+    return {'name': user.username}
+@api.delete("/user/{user_id}", auth=None)
+def delete_user(request, user_id: int):
+    user = models.CustomUser.objects.get(id=user_id)
+    user.delete()
+    return {'status': 'ok'}
 
 
 # @api.post("/chatbot", )
@@ -100,6 +165,8 @@ def get_token(request, username: str = Form(...), password: str = Form(...)):
     #token = GlobalAuth().get_token(username)
     auth_perm = authenticate(request, username=username, password=password)
     print(auth_perm) 
+
+   
     if auth_perm is not None:   
         tokens = GlobalAuth().create_tokens(user.id)
         user.jwt_access = tokens["access token"]
