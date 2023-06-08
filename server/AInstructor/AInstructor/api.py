@@ -67,84 +67,16 @@ class GlobalAuth(HttpBearer):
         }, key, algorithm='HS256')
 
         return {"access token" :access_token, "refresh token" :refresh_token}
-
+    
+#comment for debug without auth
 #api = NinjaAPI(auth=GlobalAuth())
 
 api.add_router("/question", question_router)
-api.add_router("/questionary", question_router)
-api.add_router("/chatbot", question_router)
+api.add_router("/questionary", questionary_router)
 api.add_router("/course", cours_router)
 api.add_router("/response", response_router)
 api.add_router("/group", group_router)
 api.add_router("/user", user_router)
-
-
-@api.post('/upload', auth=None)
-def upload(request):
-    file: InMemoryUploadedFile = request.FILES.get('file')
-    
-    # Convertir le fichier PDF en texte avec encodage UTF-8
-    text_content = ""
-    with pdfplumber.open(file) as pdf:
-        for page in pdf.pages:
-            text_content += page.extract_text()
-
-    # Convertir le texte en encodage UTF-8
-    text_content_utf8 = text_content.encode('utf-8')
-
-    # Créer un fichier texte distinct encodé en UTF-8
-    txt_file = ContentFile(text_content_utf8)
-    file.name = file.name.replace('.pdf', '.md')
-
-    # Enregistrer le fichier texte en tant qu'objet Course en base de données
-    course = models.Course.objects.create()
-    course.uploaded_file.save(file.name, txt_file)
-    course.save()
-
-    return {'name': file.name,'course_id': course.course_id}
-
-@api.get("/course/{course_id}", auth=None)
-def courses(request, course_id: str):
-    cour = models.Course.objects.get(course_id=course_id)
-    raw_text = cour.uploaded_file.read().decode('utf-8')
-    cour.uploaded_file.name= cour.uploaded_file.name.replace('.pdf', '.md')
-    return {'text':raw_text,'nom': cour.uploaded_file.name,'course_id': cour.course_id,'theme':cour.theme,'uploaded_by':cour.uploaded_by}
-
-@api.get("/courses", auth=None)
-def courses(request):
-    cours = models.Course.objects.all()
-
-    result = []
-    for cour in cours:
-        raw_text = cour.uploaded_file.read().decode('utf-8')
-        cour.uploaded_file.name = cour.uploaded_file.name.replace('.pdf', '.md')
-        course_info = {
-            'text': raw_text,
-            'nom': cour.uploaded_file.name,
-            'course_id': cour.course_id,
-            'theme': cour.theme,
-            'uploaded_by': cour.uploaded_by
-        }
-        result.append(course_info)
-
-    return result
-
-@api.post("/course-file", auth=None)
-def add_course(request,uploaded_file: UploadedFile = File(...)):
-    uploaded_file = request.FILES.get('uploaded_file')
-
-    if uploaded_file:
-        file_content = uploaded_file.read()
-        file_name = uploaded_file.name
-        # Traitez les données du fichier et enregistrez-le dans la base de données
-        course = Course()
-        # Enregistrer le contenu du fichier dans le champ uploaded_file
-        course.uploaded_file.save(uploaded_file.name, ContentFile(file_content))
-        # Sauvegarder le modèle en base de données
-        course.save()
-        return {'name': file_name, 'len': len(file_content)}
-
-    return {'message': 'No file uploaded'}
 
 
 #il faudra rajouter uploaded_by dans le post
@@ -221,23 +153,9 @@ def delete_user(request, user_id: int):
     return {'status': 'ok'}
 
 
-
-#example d'une requete avec authentification avec un schema d'erreur)
-class UserSchema(Schema):
-    username: str
-    email: str
-    first_name: str
-    last_name: str
-
-
-
-
-
-
 # @api.post("/chatbot", )
 # def ask_chat_bot(request, course, question) : 
 #     return chat_bot_on_course(course, question)
-
 
 
 

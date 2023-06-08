@@ -72,7 +72,7 @@ const Stats = () => {
   return (
     <>
       <header>
-        <h1 className={"flex items-center h-16 text-4xl font-black"}>Stats</h1>
+        <h1 className={"flex items-center h-16 text-5xl font-black"}>Stats</h1>
       </header>
       <div className="w-96 h-96 flex gap-40">
         <Bar data={data} options={options} />

@@ -64,11 +64,11 @@ const Teams = () => {
 
   return (
     <div className={clsx(
-        "flex-1 h-full flex overflow-auto pt-12 flex-col gap-6",
+        "flex-1 h-full flex overflow-auto flex-col gap-6",
         styles.teams
     )}>
 
-        <h1 className="text-6xl font-black">
+        <h1 className="text-5xl font-black">
           Teams
         </h1>
 
