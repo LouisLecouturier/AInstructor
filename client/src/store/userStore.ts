@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 type UserStore = {
+  id: string;
   userType: "student" | "teacher";
   firstname: string;
   lastname: string;
@@ -8,9 +9,10 @@ type UserStore = {
 };
 
 export const UserStore = create<UserStore>((set) => ({
-  userType: "student",
-  firstname: "Johana",
-  lastname: "Doetek",
+  id: "2",
+  userType: "teacher",
+  firstname: "Antoine",
+  lastname: "Maes",
   setUserType: (newTypeUser) => {
     set(() => ({ userType: newTypeUser }));
   },

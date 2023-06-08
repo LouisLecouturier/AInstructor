@@ -1,5 +1,6 @@
 import React from "react";
 import ListItem from "@components/layout/ListItem";
+
 import Header from "@components/dashboard/Layout/Header";
 
 type Course = {
@@ -99,6 +100,7 @@ const MyCourses = () => {
           })}
         </div>
       </main>
+
     </div>
   );
 };

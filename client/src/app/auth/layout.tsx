@@ -85,6 +85,7 @@ headingContent =<span>Nice to meet <span className="whitespace-nowrap">you !</sp
         <div className="flex flex-col justify-center gap-12 h-full p-8 sm:p-12 lg:p-24">
           <header className={"flex flex-col gap-2"}>
             <h1 className="text-4xl md:text-5xl font-black">
+
               {headingContent}
             </h1>
             <span className={"font-semibold opacity-50"}>
