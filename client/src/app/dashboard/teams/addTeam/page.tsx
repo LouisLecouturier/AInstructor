@@ -2,8 +2,7 @@
 
 import { Button } from '@/components/Interactions/Button';
 import Input from '@/components/Interactions/Forms/Input'
-import ListFieldMapping from '@/components/dashboard/ListMapping/ListUserMapping';
-import { UserStore } from '@/store/userStore';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 
@@ -37,8 +36,11 @@ const newTeam = async (name : string, description : string, color : string, id: 
 
 
 export default function AddTeam() {
+  const {data : session} = useSession()
+
   const [IsError, setIsError] = React.useState(false);
-  const id = UserStore(state => state.id)
+  const id = String(session?.user.user_id)
+  
   const router = useRouter();
 
   

@@ -1,25 +1,21 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation';
-import { UserStore } from '@/store/userStore';
-import clsx from 'clsx';
-import MemberCard from '@/components/dashboard/Cards/MemberCard';
-import Input from '@/components/Interactions/Forms/Input';
-import { Button } from '@/components/Interactions/Button';
 import ListFieldMapping from '@/components/dashboard/ListMapping/ListUserMapping';
 import { addUserMenu } from '@/store/displayMenu';
+import { useSession } from 'next-auth/react';
 
 
-function Delete(){
-
-}
 
 export default function TeamOverview({searchParams} : {searchParams : any}) {
-  const userType = UserStore(state => state.userType)
-  const firstname = UserStore(state => state.firstname)
-  const lastname = UserStore(state => state.lastname)
+
+  const {data : session} = useSession()
+
+  
+  const userType = session?.user.is_teacher ? "teacher" : "student"
+  const firstname = session?.user.first_name
+  const lastname = session?.user.last_name
   const isDisplay = addUserMenu(state => state.isDisplay)
-  const id = UserStore(state => state.id)
+  const id = session?.user.user_id
 
   const [data, setData] = useState({
     name: "",
@@ -40,14 +36,16 @@ export default function TeamOverview({searchParams} : {searchParams : any}) {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/teams/overview", {
+        const response = await fetch("http://localhost:8000/api/teams/overview", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            authorization : `bearer ${session?.user["acces token"]}`
+
           },
           body: JSON.stringify({
             teamUUID : searchParams.id,
-            userID : id,
+            userID : id
             
           }),
         });
@@ -66,7 +64,9 @@ export default function TeamOverview({searchParams} : {searchParams : any}) {
       }
     };
 
-    fetchData();
+    if (session?.user['acces token']) fetchData();
+
+
   }, [userType, firstname, lastname, searchParams.id, isDisplay])
 
 

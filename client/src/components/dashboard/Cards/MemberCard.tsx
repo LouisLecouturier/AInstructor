@@ -2,12 +2,6 @@ import clsx from 'clsx'
 import React from 'react'
 import Delete from '@icons/Delete.svg'
 
-interface user {
-        first_name: string,
-        last_name: string,
-        email: string,
-        is_teacher: boolean,
-}
 
 
 const fetchData = async (modelFieldLine : Record<string, string|boolean>, modelPrimaryKey : string, urlDeleteLine : string) => {

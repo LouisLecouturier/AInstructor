@@ -4,12 +4,22 @@ import SortbyButton from "@/components/button/sortbybutton"
 import TeamsList from "@/components/dashboard/sections/teams"
 import styles from "./Teams.module.scss";
 import clsx from "clsx";
-import { UserStore } from "@/store/userStore";
-import { json } from "stream/consumers";
+import { useSession } from "next-auth/react";
+
+
+
+
 
 
 const Teams = () => {
-  const id = UserStore(state => state.id);
+  const {data : session} = useSession()
+  console.log(session)
+
+
+
+
+  const id = String(session?.user.user_id)
+
 
     const [teams, setTeams] = React.useState([
         {
@@ -25,6 +35,7 @@ const Teams = () => {
       () => {
 
         const fetchData = async () => {
+          console.log('fetch')
             try {
               const response = await fetch("http://127.0.0.1:8000/api/teams/", {
 
@@ -32,6 +43,7 @@ const Teams = () => {
 
                 headers: {
                   "Content-Type": "application/json",
+                  authorization : `bearer ${session?.user["acces token"]}`
                 },
 
                 body: JSON.stringify(
@@ -50,10 +62,11 @@ const Teams = () => {
               console.error(error);
             }
           };
+          console.log(session?.user["acces token"])
           
-          fetchData();
+          if (session?.user["acces token"]) fetchData();
 
-    }, []);
+    }, [session]);
 
   return (
     <div className={clsx(

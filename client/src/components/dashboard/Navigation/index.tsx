@@ -4,7 +4,7 @@ import { UserStore } from "@/store/userStore";
 
 import Avatar from "@icons/Avatar.svg";
 import Logout from "@icons/Logout.svg";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import clsx from "clsx";
 import TeacherNavigation from "@components/dashboard/Navigation/TeacherNavigation";
 import NavigationElement from "@components/dashboard/Navigation/NavigationElement";
@@ -42,8 +42,11 @@ const Teachers: Teachers = {
 
 export default function DashboardNavigation() {
   const userType = UserStore((state) => state.userType);
-  const lastname = UserStore((state) => state.lastname);
-  const firstname = UserStore((state) => state.firstname);
+
+  const { data : session } = useSession()
+
+  const lastname = session?.user.last_name
+  const firstname = session?.user.first_name
 
   const setUserType = UserStore((state) => state.setUserType);
 
