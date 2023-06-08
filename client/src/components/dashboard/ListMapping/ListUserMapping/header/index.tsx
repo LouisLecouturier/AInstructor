@@ -16,7 +16,7 @@ export default function HeaderListFieldMapping({nameField} : {nameField : string
         <span className='text-2xl font-bold'>{nameField}</span>
 
         <div className='w-1/2 flex gap-8 max-w-[500px] h-1/2'>
-            <Input placeholder={'Search'} name={'Search'} border={true} height='h-full' />
+            <Input placeholder={'Search'} name={'Search'} borders />
             <Button className='' variant='accent' size='sm' onClick={() => setDisplay(true)} rounded='lg'>Add</Button>
         </div>
 
