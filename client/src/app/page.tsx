@@ -6,7 +6,9 @@ import clsx from "clsx";
 
 import styles from "./Home.module.scss";
 import {Button} from "@components/Interactions/Button";
+
 import { useSession } from "next-auth/react";
+
 
 const Home = () => {
 
@@ -45,15 +47,8 @@ const Home = () => {
             </span>
             level.
           </h1>
-          {session?.user ? (
-            <Button size={"lg"} rounded={"full"}>
-              See plans {session.user?.first_name}
-            </Button>
-          ) : (
-            <Button size={"lg"} rounded={"full"}>
-              See plans
-            </Button>
-          )}
+
+          <Button size={"lg"} rounded={"full"}>See plans</Button>
         </div>
         <div
           className={clsx(

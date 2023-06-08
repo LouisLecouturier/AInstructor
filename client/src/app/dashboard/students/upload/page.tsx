@@ -3,7 +3,7 @@
 import React from 'react'
 
 import clsx from "clsx";
-import { ChangeEvent, useRef, MouseEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
 export default function Upload() {
     const hiddenFileInput = useRef<HTMLInputElement>(null);
@@ -69,9 +69,9 @@ export default function Upload() {
                 className={clsx("flex w-2/3 h-full rounded-3xl border-dashed border-2 border-accent-900 justify-center items-center",
                     isDragging ? 'bg-primary-200' : '',
                 )}
-                onDragEnter={(event: React.DragEvent<HTMLDivElement>) => {setDragging(true); console.log("drag enter")}}
+                onDragEnter={() => {setDragging(true); console.log("drag enter")}}
                 onDragOver={(event: React.DragEvent<HTMLDivElement>) => {setDragging(true); handleDrop(event); event.preventDefault();}}
-                onDragLeave={(event: React.DragEvent<HTMLDivElement>) => {setDragging(false); console.log("drag leave")}}
+                onDragLeave={() => {setDragging(false); console.log("drag leave")}}
                 onDrop={(event: React.DragEvent<HTMLDivElement>) => {setDragging(false); handleDrop(event); event.preventDefault();}}
 
                 >
@@ -84,7 +84,7 @@ export default function Upload() {
                             </span>
 
                             <span className="text-lg italic">
-                                or <span onClick={(e : MouseEvent) => handleClick()}className="text-primary-400">browse</span> to choose a file
+                                or <span onClick={() => handleClick()} className="text-primary-400">browse</span> to choose a file
                             </span>
 
                         </div>

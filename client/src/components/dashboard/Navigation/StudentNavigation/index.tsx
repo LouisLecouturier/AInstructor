@@ -6,7 +6,9 @@ import Courses from "@icons/Cards.svg";
 import Teams from "@icons/Teams.svg";
 import Stats from "@icons/Stats.svg";
 import Settings from "@icons/Settings.svg";
+
 import Upload from "@icons/Upload.svg";
+
 
 const StudentNavigation = () => {
   return (
@@ -27,11 +29,13 @@ const StudentNavigation = () => {
         link={"/dashboard/students/teams"}
       />
       <NavigationElement
+
         icon={<Upload />}
         label={"Upload"}
         link={"/dashboard/students/upload"}
       />
       <NavigationElement
+
         icon={<Stats />}
         label={"My stats"}
         link={"/dashboard/students/stats"}

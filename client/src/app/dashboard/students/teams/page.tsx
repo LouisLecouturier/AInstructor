@@ -1,11 +1,9 @@
 import React from "react";
 
+import Header from "@components/dashboard/Layout/Header";
+
 const Teams = () => {
-  return (
-    <div>
-      <h1 className={"flex items-center h-16 text-4xl font-black"}>Teams</h1>
-    </div>
-  );
+  return <Header>Teams</Header>;
 };
 
 export default Teams;
