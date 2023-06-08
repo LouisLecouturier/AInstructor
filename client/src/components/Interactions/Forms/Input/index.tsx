@@ -3,8 +3,11 @@ import { FC } from "react";
 
 type InputProps = {
   placeholder?: string;
-  name: string;
+  name?: string;
   borders?: boolean;
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   defaultValue?: string;
   isTextArea?: boolean;
   size?: "sm" | "md" | "lg";
@@ -22,13 +25,14 @@ export const Input: FC<InputProps> = (props) => {
     return (
       <textarea
         className={clsx(
-          "w-full min-h-[8rem] px-4 py-2",
+          "w-full min-h-[8rem] p-2",
           "bg-white font-semibold text-dark-300",
           props.borders && "border-2 border-dark-50 focus:border-accent-200",
           sizesClassNames[props.size || "md"],
           "focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-opacity-20",
           props.className
         )}
+        onChange={props.onChange}
         placeholder={props.placeholder}
         name={props.name}
         defaultValue={props.defaultValue}
@@ -46,6 +50,7 @@ export const Input: FC<InputProps> = (props) => {
         "focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-opacity-20",
         props.className
       )}
+      onChange={props.onChange}
       placeholder={props.placeholder}
       name={props.name}
       defaultValue={props.defaultValue}

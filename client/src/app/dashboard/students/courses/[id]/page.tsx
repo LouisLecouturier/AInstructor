@@ -10,7 +10,7 @@ import Container from "@components/layout/Container";
 import { Button } from "@components/Interactions/Button";
 
 import Stars from "@icons/Stars.svg";
-import Question from "@components/layout/Questions/Question";
+import Question from "../../../../../components/dashboard/Questions/Question";
 
 const config = {
   h1: ({ ...props }) => (
@@ -26,7 +26,7 @@ const config = {
     <h3 className={"text-xl text-accent-400 font-bold mt-6 first:mt-0 mb-2"} {...props} />
   ),
   h4: ({ ...props }) => (
-    <h2 className={"text-lg font-semibold mt-6 mb-2"} {...props} />
+    <h4 className={"text-lg font-semibold mt-6 mb-2"} {...props} />
   ),
   p: ({ ...props }) => (
     <p className={"font-medium text-dark-300 text-justify mb-2"} {...props} />
