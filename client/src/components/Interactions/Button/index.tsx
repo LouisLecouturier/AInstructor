@@ -31,12 +31,6 @@ const roundedClasses = {
   full: "rounded-full",
 };
 
-const roundedClasses = {
-  sm: "rounded-md",
-  md: "rounded-lg",
-  lg: "rounded-xl",
-  full: "rounded-full",
-};
 
 const variantClasses = {
   accent: "bg-accent-500 hover:bg-accent-600 focus:bg-accent-700 text-white",

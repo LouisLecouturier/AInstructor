@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import Input from '../Input'
 import { Button } from '../../Button'
 import { addUserMenu } from '@/store/displayMenu'
@@ -73,7 +73,7 @@ export default function AddObjectModelMenu(
           
           <div className='flex flex-col w-full gap-2'>
               <span className='text-lg font-bold'>Enter {placeholder}</span>
-              <Input placeholder={placeholder} name={"PrimaryKeyElementAdd"} border={true} />
+              <Input placeholder={placeholder} name={"PrimaryKeyElementAdd"} borders />
               {isError && <span className='text-red-500'>Error</span>}
           </div>
 
