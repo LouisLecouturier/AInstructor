@@ -24,7 +24,7 @@ const Avatar: FC<AvatarProps> = (props) => {
   );
 
   if (props.image) {
-    <Image src={props.image} alt="avatar" className={avatarClassNames} />;
+    return <Image src={props.image} alt="avatar" className={avatarClassNames} />;
   }
 
   return <DefaultAvatar className={avatarClassNames}/>;

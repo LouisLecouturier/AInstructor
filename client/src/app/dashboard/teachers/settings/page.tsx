@@ -1,6 +1,7 @@
+"use client"
+
 import React from "react";
 import Header from "@components/dashboard/Layout/Header";
-import EditButton from "@components/button/editbutton";
 import Container from "@components/layout/Container";
 import UserInfo from "../../../../components/layout/User/Userinfo";
 import Information from "@components/layout/Information";

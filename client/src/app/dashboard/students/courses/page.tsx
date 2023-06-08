@@ -49,28 +49,52 @@ const courses: Course[] = [
 ];
 
 const MyCourses = () => {
+  // Group courses by team
+  const sections = courses.reduce((acc, course) => {
+    const team = course.team;
+
+    if (acc.has(team)) {
+      acc.get(team).push(course);
+    } else {
+      acc.set(team, [course]);
+    }
+
+    return acc;
+  }, new Map());
+
+  console.log(sections);
+
   return (
     <div>
       <Header>My courses</Header>
 
       <main>
-        <div className={"flex flex-col gap-2"}>
-          {courses.map((course) => {
-            const properties = [
-              { label: "Creation date", value: course.creationDate },
-              { label: "Delivery date", value: course.deliveryDate },
-              { label: "Team", value: course.team },
-            ];
-
+        <div className={"flex flex-col gap-6"}>
+          {Array.from(sections).map(([team, courses]) => {
             return (
-              <ListItem
-                href={"/dashboard/students/courses/1"}
-                status={course.status}
-                key={course.name}
-                properties={properties}
-              >
-                {course.name}
-              </ListItem>
+              <div key={team} className={"flex flex-col gap-2"}>
+                <h2 className={"text-2xl font-black mt-6 first:mt-0 mb-2"}>
+                  {team}
+                </h2>
+                {courses.map((course: any) => {
+                  const properties = [
+                    { label: "Creation date", value: course.creationDate },
+                    { label: "Delivery date", value: course.deliveryDate },
+                    { label: "Team", value: course.team },
+                  ];
+
+                  return (
+                    <ListItem
+                      href={"/dashboard/students/courses/1"}
+                      status={course.status}
+                      key={course.name}
+                      properties={properties}
+                    >
+                      {course.name}
+                    </ListItem>
+                  );
+                })}
+              </div>
             );
           })}
         </div>
