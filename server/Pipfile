@@ -8,6 +8,11 @@ django-ninja = "*"
 django = "*"
 pillow = "*"
 django-cors-headers = "*"
+pyjwt = "*"
+jwt = "*"
+pdfplumber = "*"
+fastapi = "*"
+
 
 [dev-packages]
 
