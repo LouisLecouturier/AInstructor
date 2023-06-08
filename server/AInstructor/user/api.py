@@ -7,8 +7,8 @@ from pydantic import BaseModel
 from datetime import date
 from typing import List
 from user import user_requirements
-
-router = Router()
+from django.core.serializers.json import DjangoJSONEncoder
+router = Router(tags=["User"])
 
 """__________________________________________________________request conserning the users_______________________________________________________"""
 
@@ -42,10 +42,69 @@ def get_user_by_username(request, username: str):
     user = get_object_or_404(models.CustomUser, username=username)
     return {'id': user.id, 'username': user.username, 'email': user.email, 'first_name': user.first_name, 'last_name': user.last_name, 'is_teacher': user.is_teacher, 'last_connexion': user.last_connexion, 'profile picture' : str(user.profil_picture.url) if user.profil_picture else None}
 
+
+
+class CustomUserEncoder(DjangoJSONEncoder):
+    def default(self, o):
+        if isinstance(o, models.CustomUser):
+            return str(o)  
+        return super().default(o)
+    
+
 @router.get("/users/{user_id}", )
 def get_users_by_id(request, user_id: int):
-    user = get_object_or_404(models.CustomUser, id = user_id)
-    return {'id': user.id, 'username': user.username, 'email': user.email, 'first_name': user.first_name, 'last_name': user.last_name, 'is_teacher': user.is_teacher, 'last_connexion': user.last_connexion, 'profile picture' : str(user.profil_picture.url) if user.profil_picture else None}
+    user = get_object_or_404(models.CustomUser, id = user_id) 
+    courses_list = []
+    try:
+        courses = models.Course.objects.filter(uploaded_by = user)
+        for course in courses:
+            courses_list.append( {
+                'id': course.course_id,
+                'title': course.name,
+                'theme': course.theme,
+                'uploaded_by': course.uploaded_by,
+            })
+    except:
+        courses = None
+    questionnaires_list = []
+    try:
+        questionnaires = models.Questionnaire.objects.filter(uploaded_by = user)
+        for questionnaire in questionnaires:
+            questionnaires_list.append( {
+                'id': questionnaire.questionnaire_id,
+                'title': questionnaire.title,
+                'theme': questionnaire.theme,
+                'uploaded_by': questionnaire.uploaded_by,
+                'description': questionnaire.description,
+                'difficulty': questionnaire.difficulty,
+                'date_end': questionnaire.date_end,
+                'date_creation': questionnaire.date_creation,
+            })
+    except:
+        questionnaires = None
+    response = {
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'is_teacher': user.is_teacher,
+        'last_connexion': user.last_connexion,
+        'profile picture' : str(user.profil_picture.url) if user.profil_picture else None,
+        'courses': courses_list,
+        'questionnaires': questionnaires_list,
+    }
+    response = json.dumps(response, cls=CustomUserEncoder, separators=(',', ':'))
+    #remove the backslash
+    print(response)  
+    #response = response.replace('\\', '')
+    return response
+
+
+
+
+
+
 
 
 class CreateUser(Schema):

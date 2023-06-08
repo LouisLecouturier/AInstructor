@@ -65,19 +65,16 @@ class GlobalAuth(HttpBearer):
         }, key, algorithm='HS256')
 
         return {"access token" :access_token, "refresh token" :refresh_token}
-
+    
+#comment for debug without auth
 #api = NinjaAPI(auth=GlobalAuth())
 
 api.add_router("/question", question_router)
-api.add_router("/questionary", question_router)
-api.add_router("/chatbot", question_router)
+api.add_router("/questionary", questionary_router)
 api.add_router("/course", cours_router)
 api.add_router("/response", response_router)
 api.add_router("/group", group_router)
 api.add_router("/user", user_router)
-
-
-
 
 
 
@@ -91,18 +88,9 @@ def hello(request, username = "world"):
     return "Hello " + str(username)
 
 
-
-
-
-
-
-
-
-
 # @api.post("/chatbot", )
 # def ask_chat_bot(request, course, question) : 
 #     return chat_bot_on_course(course, question)
-
 
 
 

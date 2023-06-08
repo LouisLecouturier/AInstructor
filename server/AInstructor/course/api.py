@@ -10,8 +10,8 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from typing import List
 from course.user_requirements import validate_password_strength, validate_username, validate_mail, validate_not_empty
 
-router = Router()
 
+router = Router(tags=["Course"])
 
 
 """________________________________________request conserning the courses__________________________________________________"""

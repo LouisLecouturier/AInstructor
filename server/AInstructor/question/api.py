@@ -7,7 +7,7 @@ from datetime import date
 from typing import List
 
 
-router = Router()
+router = Router(tags=["Question"])
 
 """_______________________________________requests consergning the questions_________________________________________________________"""
 
