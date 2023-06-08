@@ -1,25 +1,21 @@
-from ninja import NinjaAPI, Schema, Form, File
-from ninja.files import UploadedFile
+from ninja import NinjaAPI, Schema, Form, Field
 from ninja.security import django_auth, HttpBearer
 from django.contrib.auth import authenticate
-import jwt, datetime,uuid
-from django.shortcuts import render
+
+import jwt, datetime,uuid, os,json
 from django.db import models
 from app import models
 from django.conf import settings
+from typing import List
+from question.api import router as question_router
+from course.api import router as cours_router
+from questionary.api import router as questionary_router
+from response.api import router as response_router
+from group.api import router as group_router
+from user.api import router as user_router
 
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.core.files.base import ContentFile
-import os,json 
-from ninja import NinjaAPI, File
-from ninja.files import UploadedFile
-from pydantic import BaseModel
-from fastapi import UploadFile
-import pdfplumber
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from app.models import Course
-from .utils.chatbot import chat_bot_on_course
-import openai
+#from .utils.chatbot import chat_bot_on_course
+
 
 
 
@@ -53,15 +49,11 @@ def get_this_token(token):
     
 class GlobalAuth(HttpBearer):
     #gestion d'authentification générale basé sur bearer tokens
-    def authenticate(self, request, token):  
-              
+    def authenticate(self, request, token):            
         user = get_this_token(token)
- 
         if user.jwt_access == token:
             return token, user.username
 
-        
-    
     def create_tokens(self, user_id: str) -> dict:
         access_token = jwt.encode({
             'user' : str(user_id), 
@@ -75,13 +67,17 @@ class GlobalAuth(HttpBearer):
         }, key, algorithm='HS256')
 
         return {"access token" :access_token, "refresh token" :refresh_token}
-    
-    
 
+#api = NinjaAPI(auth=GlobalAuth())
 
-api = NinjaAPI(auth=GlobalAuth())
+api.add_router("/question", question_router)
+api.add_router("/questionary", question_router)
+api.add_router("/chatbot", question_router)
+api.add_router("/course", cours_router)
+api.add_router("/response", response_router)
+api.add_router("/group", group_router)
+api.add_router("/user", user_router)
 
-"""debut des definition de requêtes : """
 
 @api.post('/upload', auth=None)
 def upload(request):
@@ -172,10 +168,8 @@ def delete_data(request, course_id: str):
     course.delete()
     return {'course_id': course_id}
 
-    
-@api .get("/hello")
-def hello(request, username = "world"):
-    return "Hello " + str(username)
+
+"""   debut des definition de requêtes :    """
 
 
 
@@ -235,22 +229,19 @@ class UserSchema(Schema):
     first_name: str
     last_name: str
 
-class Error(Schema):
-    message: str
-
-@api.get("/me",response={200: UserSchema, 403: Error})
-def me(request):
-    if not request.user.is_authenticated:
-        return 403, {"message": "Please sign in first"}
-    return request.user
 
 
-@api.post("/chatbot", auth=None)
-def ask_chat_bot(request, course, question) : 
-    return chat_bot_on_course(course, question)
-    return True
 
-@api.post("/login", auth=None) 
+
+
+# @api.post("/chatbot", )
+# def ask_chat_bot(request, course, question) : 
+#     return chat_bot_on_course(course, question)
+
+
+
+
+@api.post("/login",auth=None ) 
 def get_token(request, username: str = Form(...), password: str = Form(...)):
     user = get_this_user(username)
     #token = GlobalAuth().get_token(username)
