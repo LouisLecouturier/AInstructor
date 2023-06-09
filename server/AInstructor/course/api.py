@@ -108,7 +108,7 @@ def assign_course(request, body: AssignCourse):
     course.save()
     return {'uuid': course.uuid, 'name' : course.name, 'teamName' : team.name, 'teamUUID': team.uuid, 'deadline': course.dateEnd}
 
-
+#à mettre dans Team api
 @router.get("/{uuid}")
 def get_courses_by_team(request, uuid: uuidLib.UUID):
     """get all the courses of the user"""

@@ -1,6 +1,5 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
-import ListFieldMapping from "@components/dashboard/Table/legacy";
+import React, { useEffect, useState } from "react";
 import { addUserMenu } from "@/store/displayMenu";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/Interactions/Button";
@@ -35,12 +34,12 @@ export default function TeamOverview({ searchParams }: { searchParams: any }) {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const userType = session?.user.is_teacher ? "teacher" : "student";
+  const userType = session?.user.isTeacher ? "teacher" : "student";
   const firstname = session?.user.first_name;
   const lastname = session?.user.last_name;
   const isDisplay = addUserMenu((state) => state.isDisplay);
   const id = String(session?.user.user_id);
-  const token = String(session?.user["acces token"]);
+  const token = String(session?.user["access_token"]);
 
   const [data, setData] = useState({
     name: "",

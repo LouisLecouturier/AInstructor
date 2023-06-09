@@ -3,7 +3,7 @@ const newTeam = async (name: string, description: string, color: string, id: str
 
     try {
 
-      const response = await fetch("http://127.0.0.1:8000/api/group/new", {
+      const response = await fetch("http://127.0.0.1:8000/api/team/new", {
         method: "POST",
 
         headers: {
