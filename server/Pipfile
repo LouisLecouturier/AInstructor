@@ -6,8 +6,13 @@ name = "pypi"
 [packages]
 django-ninja = "*"
 django = "*"
+pillow = "*"
+django-cors-headers = "*"
+pdfplumber = "*"
+fastapi = "*"
+pyjwt = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.11"
