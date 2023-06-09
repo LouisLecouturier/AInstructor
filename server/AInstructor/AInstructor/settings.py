@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'question',
     'questionary',
-    'group',
+    'team',
 
     'app',
     'course',

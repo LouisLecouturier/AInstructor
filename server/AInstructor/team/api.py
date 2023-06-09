@@ -1,6 +1,6 @@
 from ninja import Router
 from app.models import CustomUser
-from app.models import Groupe
+from app.models import Team
 import json
 from django.http import JsonResponse
 
@@ -12,9 +12,9 @@ def main(request):
     request = json.loads(request.body.decode('utf-8'))
 
     user = CustomUser.objects.get(id=request['id'])
-    groups = Groupe.objects.filter(user=user)
+    teams = Team.objects.filter(user=user)
 
-    team_data = [{'teamUUID': group.group_id, 'name': group.name, 'color': group.color} for group in groups]
+    team_data = [{'uuid': team.uuid, 'name': team.name, 'color': team.color} for team in teams]
 
     return JsonResponse({'teams': team_data})
 
@@ -24,18 +24,14 @@ def overview(request):
     request = json.loads(request.body.decode('utf-8'))
     print(request['teamUUID'])
 
-    team = Groupe.objects.get(group_id=request['teamUUID'])
-    users = team.user.all()
-    users_data = [
-        {
+    team = Team.objects.get(uuid=request['teamUUID'])
+    users = Team.users.all()
+    users_data = [{
             'last_name': user.last_name,
             'first_name': user.first_name,
-            'is_teacher': user.is_teacher,
+            'isTeacher': user.isTeacher,
             'email': user.email,
-
-        }
-        for user in users
-    ]
+            } for user in users ]
 
     return JsonResponse(
         {
@@ -52,13 +48,14 @@ def removeUser(request):
     error = False
 
     try:
-        team = Groupe.objects.get(group_id=request['modelPrimaryKey'])
+        team = Team.objects.get(uuid=request['modelPrimaryKey'])
         user = CustomUser.objects.get(first_name=request['modelFieldLine']['first_name'],
                                       last_name=request['modelFieldLine']['last_name'],
                                       email=request['modelFieldLine']['email'],
-                                      is_teacher=request['modelFieldLine']['is_teacher'])
-        team.user.remove(user)
+                                      isTeacher=request['modelFieldLine']['isTeacher'])
+        Team.users.remove(user)
     except:
+
         error = True
 
     return JsonResponse({'error': error})
@@ -71,9 +68,9 @@ def addUser(request):
     error = False
 
     try:
-        team = Groupe.objects.get(group_id=request['modelPrimaryKey'])
+        team = Team.objects.get(uuid=request['modelPrimaryKey'])
         user = CustomUser.objects.get(email=request['PrimaryKeyElementAdd'])
-        team.user.add(user)
+        Team.users.add(user)
     except:
         error = True
 
@@ -88,13 +85,12 @@ def new(request):
 
     try:
         user = CustomUser.objects.get(id=request['userID'])
-        team = Groupe.objects.create(name=request['name'], color=request['color'])
-        team.user.add(user)
+        team = Team.objects.create(name=request['name'], color=request['color'])
+        Team.users.add(user)
     except:
         error = True
 
     return JsonResponse({'error': error})
-
 
 
 @router.post('/delete')
@@ -104,7 +100,7 @@ def delete(request):
     error = False
 
     try:
-        team = Groupe.objects.get(group_id=request['uuid'])
+        team = Team.objects.get(uuid=request['teamUUID'])
         team.delete()
     except:
         error = True

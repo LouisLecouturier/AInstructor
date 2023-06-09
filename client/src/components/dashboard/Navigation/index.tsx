@@ -22,7 +22,7 @@ interface Students {
 }
 
 interface Teachers {
-  Questionnaires: string;
+  quizzs: string;
   Teams: string;
   Stats: string;
   Settings: string;
@@ -37,7 +37,7 @@ const Students: Students = {
 };
 
 const Teachers: Teachers = {
-  Questionnaires: "",
+  quizzs: "",
   Teams: "",
   Stats: "",
   Settings: "",
@@ -68,12 +68,12 @@ export default function DashboardNavigation() {
             <span className="text-dark-500 text-lg font-bold">
               {firstname + " " + lastname}
             </span>
-            <span className="text-dark-500 italic text-sm">{session?.user.is_teacher ? "Teacher" : "Student"}</span>
+            <span className="text-dark-500 italic text-sm">{session?.user.isTeacher ? "Teacher" : "Student"}</span>
           </div>
         </div>
 
         <div className="flex flex-col gap-4">
-          {session?.user.is_teacher ? (
+          {session?.user.isTeacher ? (
             <TeacherNavigation />
           ) : (
             <StudentNavigation />

@@ -1,5 +1,5 @@
 from ninja import NinjaAPI, Schema, Form, File, UploadedFile, Field, Router
-import uuid, os,json
+import uuid as uuidLib, os,json
 from django.shortcuts import get_object_or_404
 from pydantic import BaseModel
 from datetime import date

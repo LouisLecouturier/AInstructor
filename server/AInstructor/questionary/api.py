@@ -1,5 +1,5 @@
 from ninja import NinjaAPI, Schema,  Field, Router  
-import uuid, os,json
+import uuid as uuidLib, os, json
 from django.shortcuts import  get_object_or_404
 from app import models
 from pydantic import BaseModel
@@ -9,14 +9,14 @@ from typing import List
 
 router = Router(tags=["Questionary"])
 
-"""_______________________________________requests consergning the questionnaire_________________________________________________________"""
+"""_______________________________________requests consergning the quizz_________________________________________________________"""
 
 
 class Questionnary(Schema):
     title: str 
     description: str 
-    course_id:List[uuid.UUID] = Field(...)
-    date_end: date 
+    uuid:List[uuidLib.UUID] = Field(...)
+    dateEnd: date 
     theme : str  
     score : int  
     nbr_question_total : int
@@ -28,36 +28,36 @@ class Questionnary(Schema):
 def create_questionnary(request, body : Questionnary):
     """create a new questionnary"""
     today = date.today()
-    questionnary = models.Quesionnaire.objects.create(title=body.title, date_creation = today ,description=body.description,  date_end=body.date_end, theme=body.theme, score=body.score, nbr_question_total=body.nbr_question_total, nbr_QCM=body.nbr_QCM, difficulty=body.difficulty)
-    courses = models.Course.objects.filter(course_id__in=body.course_id)
+    questionnary = models.Quizz.objects.create(title=body.title, dateCreation = today ,description=body.description,  dateEnd=body.dateEnd, theme=body.theme, score=body.score, nbr_question_total=body.nbr_question_total, nbr_QCM=body.nbr_QCM, difficulty=body.difficulty)
+    courses = models.Course.objects.filter(uuid__in=body.uuid)
     questionnary.course.set(courses)    
     # questions = models.Question.objects.filter(question_id__in=body.questions)
     # questionnary.questions.set(questions)
     editable_by = models.CustomUser.objects.filter(editable_by=body.editable_by)
     questionnary.editable_by.set(editable_by)
-    sign_in = models.CustomUser.objects.filter(user_id__in=body.sign_in)
-    questionnary.sign_in.set(sign_in)
+    team = models.CustomUser.objects.filter(user_id__in=body.team)
+    questionnary.team.set(team)
     questionnary.save()
     return {'message': "succesfully created the questionnary :" + questionnary.title, 'id' : 'questionnary.id'}
 
 
 
 
-@router.get("/questionnaire/{questionnaire_id}", )
-def get_questionary_info(request, questionnaire_id: uuid.UUID):
-    questionnaire = get_object_or_404(models.Quesionnaire, questionnaire_id=questionnaire_id)
-    course = questionnaire.course.first()
-    questions = models.Question.objects.filter(questionnaire=questionnaire)
-    editable_users = questionnaire.editable_by.all()
+@router.get("/quizz/{uuid}", )
+def get_questionary_info(request, uuid: uuidLib.UUID):
+    quizz = get_object_or_404(models.Quizz, uuid=uuid)
+    course = quizz.course.first()
+    questions = models.Question.objects.filter(quizz=quizz)
+    editable_users = quizz.editable_by.all()
     return {
-        'questionnaire_id': questionnaire.questionnaire_id,
+        'uuid': quizz.uuid,
         'course': {
-            'course_id': course.course_id,
+            'uuid': course.uuid,
             'name': course.name,
         },
         'questions': [ 
                 {
-                    'question_id': question.question_id,
+                    'uuid': question.uuid,
                     'statement': question.statement,
                     'type': question.type,                
                 }
