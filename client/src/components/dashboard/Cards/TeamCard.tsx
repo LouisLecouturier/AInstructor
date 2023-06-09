@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react'
 export default function TeamCard({className, team, i, isAddingTeam} : {className? : string, team : {teamUUID: string, name: string, color: string}, i: number, isAddingTeam: boolean}) {
     const {data : session} = useSession()
 
-    const href = isAddingTeam && session?.user.is_teacher ? '/dashboard/teachers/teams/addTeam' : '/dashboard/teachers/teams/overview'
+    const href = isAddingTeam && session?.user.isTeacher ? '/dashboard/teachers/teams/addTeam' : '/dashboard/teachers/teams/overview'
     
     return (
         <Link 

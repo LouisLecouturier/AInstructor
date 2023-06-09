@@ -1,6 +1,6 @@
 from ninja import Router, Schema, File, UploadedFile, Field
 from ninja.files import UploadedFile
-import uuid, os, json
+import uuid as uuidLib, os, json
 from django.shortcuts import get_object_or_404
 from app import models
 from pydantic import BaseModel
@@ -27,10 +27,10 @@ def list_users(request):
             'email': user.email,
             'first_name': user.first_name,
             'last_name': user.last_name,
-            'is_teacher': user.is_teacher,
-            'last_connexion': user.last_connexion,
-            'profile picture': str(user.profil_picture.url) if user.profil_picture else None,
-            'jwt': {'acces tokenn': user.jwt_access, 'refresh token': user.jwt_refresh}
+            'isTeacher': user.isTeacher,
+            'lastConnexion': user.lastConnexion,
+            'profilePicture': str(user.profilePicture.url) if user.profilePicture else None,
+            'jwt': {'accessToken': user.accessToken, 'refreshToken': user.refreshToken}
         }
         user_list.append(user_info)
     return {'users': user_list}
@@ -40,8 +40,8 @@ def list_users(request):
 def get_user_by_username(request, username: str):
     user = get_object_or_404(models.CustomUser, username=username)
     return {'id': user.id, 'username': user.username, 'email': user.email, 'first_name': user.first_name,
-            'last_name': user.last_name, 'is_teacher': user.is_teacher, 'last_connexion': user.last_connexion,
-            'profile picture': str(user.profil_picture.url) if user.profil_picture else None}
+            'last_name': user.last_name, 'isTeacher': user.isTeacher, 'lastConnexion': user.lastConnexion,
+            'profilePicture': str(user.profilePicture.url) if user.profilePicture else None}
 
 
 class CustomUserEncoder(DjangoJSONEncoder):
@@ -51,48 +51,48 @@ class CustomUserEncoder(DjangoJSONEncoder):
         return super().default(o)
 
 
-@router.get("/users/{user_id}", )
+@router.get("/users/{user_id}" )
 def get_users_by_id(request, user_id: int):
     user = get_object_or_404(models.CustomUser, id=user_id)
     courses_list = []
     try:
-        courses = models.Course.objects.filter(uploaded_by=user)
+        courses = models.Course.objects.filter(uploadedBy=user)
         for course in courses:
             courses_list.append({
-                'id': course.course_id,
+                'id': course.uuid,
                 'title': course.name,
                 'theme': course.theme,
-                'uploaded_by': course.uploaded_by,
+                'uploadedBy': course.uploadedBy,
             })
     except:
         courses = None
-    questionnaires_list = []
+    quizzs_list = []
     try:
-        questionnaires = models.Questionnaire.objects.filter(uploaded_by=user)
-        for questionnaire in questionnaires:
-            questionnaires_list.append({
-                'id': questionnaire.questionnaire_id,
-                'title': questionnaire.title,
-                'theme': questionnaire.theme,
-                'uploaded_by': questionnaire.uploaded_by,
-                'description': questionnaire.description,
-                'difficulty': questionnaire.difficulty,
-                'date_end': questionnaire.date_end,
-                'date_creation': questionnaire.date_creation,
+        quizzs = models.quizz.objects.filter(uploadedBy=user)
+        for quizz in quizzs:
+            quizzs_list.append({
+                'id': quizz.uuid,
+                'title': quizz.title,
+                'theme': quizz.theme,
+                'uploadedBy': quizz.uploadedBy,
+                'description': quizz.description,
+                'difficulty': quizz.difficulty,
+                'dateEnd': quizz.dateEnd,
+                'dateCreation': quizz.dateCreation,
             })
     except:
-        questionnaires = None
+        quizzs = None
     response = {
         'id': user.id,
         'username': user.username,
         'email': user.email,
         'first_name': user.first_name,
         'last_name': user.last_name,
-        'is_teacher': user.is_teacher,
-        'last_connexion': user.last_connexion,
-        'profile picture': str(user.profil_picture.url) if user.profil_picture else None,
+        'isTeacher': user.isTeacher,
+        'lastConnexion': user.lastConnexion,
+        'profilePicture': str(user.profilePicture.url) if user.profilePicture else None,
         'courses': courses_list,
-        'questionnaires': questionnaires_list,
+        'quizzs': quizzs_list,
     }
     response = json.dumps(response, cls=CustomUserEncoder, separators=(',', ':'))
     # remove the backslash
@@ -107,10 +107,10 @@ class CreateUser(Schema):
     email: str = Field(...)
     first_name: str = Field(...)
     last_name: str = Field(...)
-    is_teacher: bool = Field(...)
+    isTeacher: bool = Field(...)
 
 
-@router.post("/user/create", )
+@router.post("/user/create")
 def create_user(request, body: CreateUser, file: UploadedFile = File(...)):
     """create a new user"""
     if not user_requirements.validate_mail(body.email):
@@ -122,7 +122,7 @@ def create_user(request, body: CreateUser, file: UploadedFile = File(...)):
     else:
         user = models.CustomUser.objects.create_user(username=body.username, password=body.password, email=body.email,
                                                      first_name=body.first_name, last_name=body.last_name,
-                                                     is_teacher=body.is_teacher, profil_picture=file)
+                                                     isTeacher=body.isTeacher, profilePicture=file)
         return {'message': "succesfully created the user :" + user.username, 'id': 'user.id'}
 
 
@@ -134,7 +134,7 @@ class UpdateUser(Schema):
     password: str = Field(...)
 
 
-@router.put("/Update/{user_id}", )
+@router.put("/Update/{user_id}")
 def update_user(request, body: UpdateUser, user_id: int):
     user = get_object_or_404(models.CustomUser, id=user_id)
 
@@ -155,7 +155,7 @@ def update_user(request, body: UpdateUser, user_id: int):
     return {'message': user.username + " updated"}
 
 
-@router.delete("/user/{user_id}", )
+@router.delete("/user/{user_id}")
 def delete_user(request, user_id: int):
     user = get_object_or_404(models.CustomUser, id=user_id)
     user.delete()

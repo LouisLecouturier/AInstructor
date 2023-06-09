@@ -6,11 +6,11 @@ export default withAuth(
   function middleware(req) {
     console.log("token: ", req.nextauth.token);
 
-    if (req.nextUrl.pathname.startsWith("/dashboard/students") && req.nextauth.token?.is_teacher !== false)
+    if (req.nextUrl.pathname.startsWith("/dashboard/students") && req.nextauth.token?.isTeacher !== false)
       return NextResponse.rewrite(
         new URL("/auth/signin", req.url)
       );
-    if (req.nextUrl.pathname.startsWith("/dashboard/teachers") && req.nextauth.token?.is_teacher !== true)
+    if (req.nextUrl.pathname.startsWith("/dashboard/teachers") && req.nextauth.token?.isTeacher !== true)
       return NextResponse.rewrite(
         new URL("/auth/signin", req.url)
       );

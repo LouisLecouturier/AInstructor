@@ -13,7 +13,7 @@ interface user {
   first_name: string,
   last_name: string,
   email: string,
-  is_teacher: boolean,
+  isTeacher: boolean,
 }
 
 
@@ -24,7 +24,7 @@ export default function TeamOverview({searchParams} : {searchParams : any}) {
   const router = useRouter()
 
   
-  const userType = session?.user.is_teacher ? "teacher" : "student"
+  const userType = session?.user.isTeacher ? "teacher" : "student"
   const firstname = session?.user.first_name
   const lastname = session?.user.last_name
   const isDisplay = addUserMenu(state => state.isDisplay)
@@ -38,7 +38,7 @@ export default function TeamOverview({searchParams} : {searchParams : any}) {
         first_name: "",
         last_name: "",
         email: "",
-        is_teacher: false,
+        isTeacher: false,
       }
     ],
   });
