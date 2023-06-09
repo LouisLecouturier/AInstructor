@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
+import ListFieldMapping from "@components/dashboard/Table/legacy";
 import { addUserMenu } from "@/store/displayMenu";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/Interactions/Button";
@@ -9,6 +10,7 @@ import deleteTeam from "./deletehook";
 import { useRouter } from "next/navigation";
 import Container from "@components/layout/Container";
 import Table from "@components/dashboard/Table";
+import { useQuery } from "@tanstack/react-query";
 
 interface user {
   first_name: string;
@@ -30,71 +32,66 @@ const userData = [
   },
 ];
 
+interface data {
+  name: string;
+  users: user[];
+}
+
+
+const fetchData = async (token: string, uuid : string) => {
+  console.log("fetch");
+  const response = await fetch(`http://localhost:8000/api/team/${uuid}`, {
+    headers: {
+      authorization: `bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+  return data
+};
+
+
+
 export default function TeamOverview({ searchParams }: { searchParams: any }) {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const userType = session?.user.isTeacher ? "teacher" : "student";
-  const firstname = session?.user.first_name;
-  const lastname = session?.user.last_name;
-  const isDisplay = addUserMenu((state) => state.isDisplay);
-  const id = String(session?.user.user_id);
-  const token = String(session?.user["access_token"]);
+  
+  const id = String(session?.user.id);
+  const token = String(session?.user.accessToken);
 
-  const [data, setData] = useState({
-    name: "",
-    users: [
-      {
-        first_name: "",
-        last_name: "",
-        email: "",
-        is_teacher: false,
-      },
-    ],
-  });
+  const { data, isLoading } = useQuery<data, Error>(['teams', token], () => fetchData(token, searchParams.id));
+
+
+
+
+
+
 
   async function handleClick() {
-    const error = await deleteTeam(searchParams.id, id, token);
+    const error = await deleteTeam(searchParams.id, token);
     if (!error) {
+      console.log("redirect");
       router.push("/dashboard/teachers/teams");
     }
   }
-
-  useEffect(() => {
-    console.log("fetching data");
-    if (token) {
-      (async () => {
-        let data: { name: string; users: user[] };
-        data = await getTeamInformation(searchParams.id, id, token);
-        setData({
-          name: data.name,
-          users: data.users,
-        });
-      })();
-    }
-  }, [userType, firstname, lastname, searchParams.id, isDisplay, session]);
-
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     const color = formData.get("color") as string;
-
-    // const error = await updateTeam(name, description, color, id, token);
-    // error ? setIsError(error) : router.push("/dashboard/teachers/teams");
   };
 
   return (
     <div className="flex flex-col gap-8">
+
       <div className="w-full flex justify-between items-center">
-        <h1 className="text-6xl font-black">{data.name}</h1>
-        <Button onClick={() => handleClick()} variant="secondary">
-          Delete
-        </Button>
+        <h1 className="text-4xl font-black">{data?.name}</h1>
+        <Button onClick={() => handleClick()} variant="secondary">Delete</Button>
       </div>
 
-      <h2 className="text-3xl font-bold">Overview</h2>
+      <h2 className="text-2xl font-bold">Overview</h2>
 
       <TeamMainInformation onSubmit={handleUpdate} />
 
@@ -114,3 +111,20 @@ export default function TeamOverview({ searchParams }: { searchParams: any }) {
     </div>
   );
 }
+
+
+
+
+// useEffect(() => {
+//   console.log("fetching data");
+//   if (token) {
+//     (async () => {
+//       let data: { name: string; users: user[] };
+//       data = await getTeamInformation(searchParams.id, id, token);
+//       setData({
+//         name: data.name,
+//         users: data.users,
+//       });
+//     })();
+//   }
+// }, [userType, firstname, lastname, searchParams.id, isDisplay, session]);

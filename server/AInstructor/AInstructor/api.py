@@ -74,7 +74,7 @@ class GlobalAuth(HttpBearer):
 
 
 # comment for debug without auth
-api = NinjaAPI(auth=GlobalAuth())
+# api = NinjaAPI(auth=GlobalAuth())
 
 api.add_router("/question", question_router)
 api.add_router("/quizz", quizz_router)
@@ -112,7 +112,7 @@ def get_token(request):
             "first_name": user.first_name,
             "last_name": user.last_name,
             "isTeacher": user.isTeacher,
-            "accesToken": user.accessToken,
+            "accessToken": user.accessToken,
             "refreshToken": user.refreshToken,
             "message": "Authentification successfull",
         }

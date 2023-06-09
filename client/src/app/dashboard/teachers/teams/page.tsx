@@ -8,49 +8,48 @@ import TeamCard from "@/components/dashboard/Cards/TeamCard";
 import TeamMainInformation from "@/components/dashboard/Teams/MainInformation";
 import Header from "@components/dashboard/Layout/Header";
 import { Team } from "@/types/team";
+import { useQuery } from "@tanstack/react-query";
+
+
+const fetchData = async (token: string) => {
+  console.log("fetch");
+  const response = await fetch("http://localhost:8000/api/team/", {
+    headers: {
+      authorization: `bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+
+  return data.teams ?? [];
+};
 
 const Teams = () => {
   const { data: session } = useSession();
   console.log(session);
+  const token = String(session?.user.accessToken);
+  
+  const { data, isLoading } = useQuery<Team[]>(['teams'], () => fetchData(token));
+  console.log(data);
 
-  const id = String(session?.user.user_id);
+  
 
-  const [teams, setTeams] = useState<Team[]>([
-    {
-      uuid: 0,
-      name: "",
-      color: "",
-    },
-  ]);
+  if (isLoading) {
+    return(
+      <div className={clsx("flex-1 h-full flex flex-col gap-6", styles.teams)}>
+      <Header>Teams</Header>
 
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log("fetch");
-      try {
-        const response = await fetch("http://localhost:8000/api/group/", {
-          method: "POST",
+      <SortbyButton />
 
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `bearer ${session?.user["acces token"]}`,
-          },
+      <div>
+        Loading...
+      </div>
 
-          body: JSON.stringify({
-            id: id,
-          }),
-        });
 
-        const responseData = await response.json();
-        console.log(responseData);
-        setTeams(responseData.teams);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    console.log(session?.user["acces token"]);
+    </div>
+    )
+  }
 
-    if (session?.user["acces token"]) fetchData();
-  }, [session]);
 
   return (
     <div className={clsx("flex-1 h-full flex flex-col gap-6", styles.teams)}>
@@ -59,11 +58,13 @@ const Teams = () => {
       <SortbyButton />
 
       <div className="flex w-full flex-wrap pt-6 pb-16 gap-10">
-        {teams.map((team, i) => (
+        {data?.map((team, i) => (
           <TeamCard key={team.uuid} team={team} />
         ))}
         <TeamCard className={"justify-center gap-0"} isAddCard />
       </div>
+
+
     </div>
   );
 };
