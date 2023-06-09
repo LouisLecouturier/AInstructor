@@ -6,6 +6,7 @@ from django.http import JsonResponse
 
 router = Router(tags=["Team"])
 
+# TODO : Remake the whole API to match CRUD operations and modularity
 
 # Create
 # Read
@@ -45,10 +46,10 @@ def overview(request, uuid):
     )
 
 
-{
-    team_uuid: 'uuid',
-    users: ["3", "4", "5"]
-}
+# {
+#     uuid: 'uuid',
+#     users: ["3", "4", "5"]
+# }
 
 @router.post('/remove-users')
 def removeUser(request):
@@ -57,11 +58,8 @@ def removeUser(request):
     error = False
 
     try:
-        team = Team.objects.get(uuid=request['modelPrimaryKey'])
-        user = CustomUser.objects.get(first_name=request['modelFieldLine']['first_name'],
-                                      last_name=request['modelFieldLine']['last_name'],
-                                      email=request['modelFieldLine']['email'],
-                                      isTeacher=request['modelFieldLine']['isTeacher'])
+        team = Team.objects.get(uuid=request['uuid'])
+        user = CustomUser.objects.get(user_id=user)
         Team.users.remove(user)
     except:
 
