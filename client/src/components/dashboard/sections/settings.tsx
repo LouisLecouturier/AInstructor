@@ -2,9 +2,15 @@ import EditButton from "@/components/button/editbutton";
 
 export default function Settings() {
     return (
+<<<<<<< HEAD
         <div className="flex-1 h-full flex flex-col gap-8 pt-16">
 
             <h1 className="text-6xl px-20 font-black">Settings</h1>
+=======
+        <div className="flex-1 h-full flex flex-col gap-8">
+
+            <h1 className="text-6xl font-black">Settings</h1>
+>>>>>>> origin/FullStack
 
             <div className="flex flex-1 overflow-hidden w-full flex-col">
 

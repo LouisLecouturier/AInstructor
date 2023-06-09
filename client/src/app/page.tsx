@@ -1,11 +1,31 @@
+<<<<<<< HEAD
+=======
+"use client"
+>>>>>>> origin/FullStack
 import React from "react";
 import Header from "@components/Pages/landing/navigation/Header";
 import Background from "@components/layout/Background";
 import clsx from "clsx";
+<<<<<<< HEAD
 
 import styles from "./Home.module.scss";
 
 const Home = () => {
+=======
+
+import styles from "./Home.module.scss";
+import {Button} from "@components/Interactions/Button";
+
+import { useSession } from "next-auth/react";
+
+
+const Home = () => {
+
+  const {data : session} = useSession()
+
+  console.log({session})
+
+>>>>>>> origin/FullStack
   return (
     <Background className={"h-screen"}>
       <Header />
@@ -37,6 +57,7 @@ const Home = () => {
             </span>
             level.
           </h1>
+<<<<<<< HEAD
           <button
             className={clsx(
               "w-fit py-4 px-8 self-start bg-accent-500",
@@ -45,6 +66,10 @@ const Home = () => {
           >
             See plans
           </button>
+=======
+
+          <Button size={"lg"} rounded={"full"}>See plans</Button>
+>>>>>>> origin/FullStack
         </div>
         <div
           className={clsx(
@@ -65,6 +90,7 @@ const Home = () => {
             </strong>
             .
           </p>
+<<<<<<< HEAD
           <button
             className={clsx(
               "w-fit py-3 px-6 self-start bg-accent-500",
@@ -79,4 +105,14 @@ const Home = () => {
   );
 };
 
+=======
+          <Button rounded={"full"} >Learn more</Button>
+
+        </div>
+      </section>
+    </Background>
+  );
+};
+
+>>>>>>> origin/FullStack
 export default Home;

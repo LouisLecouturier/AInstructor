@@ -14,6 +14,7 @@ module.exports = {
       black: "#000000",
 
       accent: {
+        50 : "#f9f9ff",
         100: "#f1edff",
         200: "#d6c9fe",
         300: "#986af3",
@@ -51,6 +52,8 @@ module.exports = {
       },
 
       tertiary: {
+        10: "#FAFCFF",
+        20: "#F5F9FF",
         50: "#ebf4ff",
         100: "#c5ddff",
         200: "#9ec5ff",
@@ -76,6 +79,20 @@ module.exports = {
         800: "#0f1828",
         900: "#0a121f",
       },
+
+      green: {
+        10: "#effbf3",
+        50: "#def7e7",
+        100: "#cef3db",
+        200: "#abebc3",
+        300: "#85e2ab",
+        400: "#56d993",
+        500: "#34d487",
+        600: "#2cb875",
+        700: "#249d63",
+        800: "#156941",
+        900: "#0e5131",
+      },
     },
 
     extend: {
@@ -84,9 +101,11 @@ module.exports = {
         sm: "0.5rem",
         md: "0.75rem",
         lg: "1rem",
+        xl: "1.5rem",
         full: "9999px",
       },
 
+<<<<<<< HEAD
       padding: {
         'lg': '36px'
       },
@@ -95,6 +114,12 @@ module.exports = {
         'sm': '0 0 10px 0px rgba(0, 0, 0, 0.05)',
         'md': '0 0 20px 5px rgba(0, 0, 0, 0.05)',
         '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
+=======
+      boxShadow: {
+        sm: "0 0 10px 0px rgba(0, 0, 0, 0.05)",
+        md: "0 0 20px 5px rgba(0, 0, 0, 0.05)",
+        "3xl": "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
+>>>>>>> origin/FullStack
       },
 
       strokeWidth: {
