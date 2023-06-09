@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Fixed changes from pull requests">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/create/hook.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/create/hook.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/overview/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/overview/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Table/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/next-auth.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/next-auth.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/course/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/course/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/db.sqlite3" beforeDir="false" />
-    </list>
+    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Idk too" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -202,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686228084209</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Idk too">
+      <created>1686347522014</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1686347522014</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -243,7 +241,9 @@
     <MESSAGE value="Added Course Page&#10;Created Skeleton Component&#10;Created Question Component" />
     <MESSAGE value="Modified question edit component&#10;Added Question Edit functionnality&#10;Fixed Dashboard content Header &#10;Added OnChange prop Input" />
     <MESSAGE value="Fixed changes from pull requests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed changes from pull requests" />
+    <MESSAGE value="Idk" />
+    <MESSAGE value="Idk too" />
+    <option name="LAST_COMMIT_MESSAGE" value="Idk too" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>
