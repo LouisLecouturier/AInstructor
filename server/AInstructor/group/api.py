@@ -59,7 +59,6 @@ def removeUser(request):
                                       is_teacher=request['modelFieldLine']['is_teacher'])
         team.user.remove(user)
     except:
-
         error = True
 
     return JsonResponse({'error': error})
@@ -97,6 +96,7 @@ def new(request):
     return JsonResponse({'error': error})
 
 
+
 @router.post('/delete')
 def delete(request):
     request = json.loads(request.body.decode('utf-8'))
@@ -104,7 +104,7 @@ def delete(request):
     error = False
 
     try:
-        team = Groupe.objects.get(group_id=request['teamUUID'])
+        team = Groupe.objects.get(group_id=request['uuid'])
         team.delete()
     except:
         error = True

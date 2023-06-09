@@ -14,7 +14,7 @@ const UserInfo: FC<UserInfoProps> = (props) => {
 
   return (
     <div
-      className="flex gap-4"
+      className="flex gap-4 items-center"
     >
       <Avatar size={props.size} />
       <div className="flex flex-col justify-center">

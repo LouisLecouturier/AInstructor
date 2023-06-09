@@ -16,7 +16,8 @@ class CreateQuestion(Schema):
     statement: str = Field()
     questionnaire_id: uuid.UUID = Field(...)
 
-@router.post("/question", )
+
+@router.post("/question")
 def create_question(request, question: CreateQuestion):
     """Create a new question"""
     questionnaire = get_object_or_404(models.Quesionnaire, questionnaire_id=question.questionnaire_id)
@@ -33,7 +34,8 @@ class UpdateQuestion(Schema):
     type_question: str = Field(..., description="Type of question: 'QO' for open-ended question or 'QCM' for multiple-choice question")
     statement: str = Field(..., description="Updated question statement")
 
-@router.put("/question", )
+
+@router.put("/question")
 def update_question(request, question: UpdateQuestion):
     """Update an existing question"""
     existing_question = get_object_or_404(models.Question, question_id= question.question_id)
@@ -46,14 +48,14 @@ def update_question(request, question: UpdateQuestion):
 class DeleteQuestion(Schema):
     question_id: uuid.UUID = Field(..., description="ID of the question to delete")
 
-@router.delete("/question", )
+@router.delete("/question")
 def delete_question(request, question: DeleteQuestion):
     """Delete a question"""
     models.Question.objects.filter(question_id=question.question_id).delete()
     return {"question_id": question.question_id}
 
 
-@router.get("/questions/{questionnaire_id}", )
+@router.get("/questions/{questionnaire_id}")
 def get_questions_by_questionnaire(request, questionnaire_id: uuid.UUID):
     """Get all questions belonging to a questionnaire"""
     questions = models.Question.objects.filter(questionnaire_id=questionnaire_id)
