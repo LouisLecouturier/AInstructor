@@ -46,6 +46,8 @@ class Course(models.Model):
     text = models.TextField(null =True,  blank = True)
     uploaded_by = models.ForeignKey(CustomUser, on_delete = models.RESTRICT, null = True, blank = True) 
     color = models.CharField(max_length=7, default = "#000000",  blank = True)
+    group  = models.ManyToManyField(Groupe, related_name='group', blank = True)
+
     def __str__(self):
         return self.name
 
