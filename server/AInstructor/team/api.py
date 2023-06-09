@@ -4,8 +4,13 @@ from app.models import Team
 import json
 from django.http import JsonResponse
 
-router = Router(tags=["Groups"])
+router = Router(tags=["Team"])
 
+
+Create
+Read
+Update
+Delete
 
 @router.post('/', auth=None)
 def main(request):
@@ -19,12 +24,12 @@ def main(request):
     return JsonResponse({'teams': team_data})
 
 
-@router.post('/overview')
-def overview(request):
-    request = json.loads(request.body.decode('utf-8'))
-    print(request['teamUUID'])
+@router.get('/{uuid}')
+def overview(request, uuid):
+    # request = json.loads(request.body.decode('utf-8'))
+    # print(request['teamUUID'])
 
-    team = Team.objects.get(uuid=request['teamUUID'])
+    team = Team.objects.get(uuid=uuid)
     users = Team.users.all()
     users_data = [{
             'last_name': user.last_name,
@@ -33,8 +38,7 @@ def overview(request):
             'email': user.email,
             } for user in users ]
 
-    return JsonResponse(
-        {
+    return JsonResponse({
             'name': team.name,
             'users': users_data
         }

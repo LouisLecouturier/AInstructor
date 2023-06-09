@@ -9,8 +9,8 @@ from django.conf import settings
 from typing import List
 from question.api import router as question_router
 from course.api import router as cours_router
-from questionary.api import router as questionary_router
-from response.api import router as response_router
+from quizz.api import router as quizz_router
+from answer.api import router as answer_router
 from user.api import router as user_router
 from team.api import router as team_router
 
@@ -77,9 +77,9 @@ class GlobalAuth(HttpBearer):
 api = NinjaAPI(auth=GlobalAuth())
 
 api.add_router("/question", question_router)
-api.add_router("/questionary", questionary_router)
+api.add_router("/quizz", quizz_router)
 api.add_router("/course", cours_router)
-api.add_router("/response", response_router)
+api.add_router("/answer", answer_router)
 api.add_router("/team", team_router)
 api.add_router("/user", user_router)
 

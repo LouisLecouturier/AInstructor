@@ -7,15 +7,15 @@ from datetime import date
 from typing import List
 
 
-router = Router(tags=["Questionary"])
+router = Router(tags=["Quizz"])
 
 """_______________________________________requests consergning the quizz_________________________________________________________"""
 
 
-class Questionnary(Schema):
+class Quizz(Schema):
     title: str 
     description: str 
-    uuid:List[uuidLib.UUID] = Field(...)
+    uuid: List[uuidLib.UUID] = Field(...)
     dateEnd: date 
     theme : str  
     score : int  
@@ -25,7 +25,7 @@ class Questionnary(Schema):
 
 
 @router.post("/questionnary/create", )
-def create_questionnary(request, body : Questionnary):
+def create_questionnary(request, body : Quizz):
     """create a new questionnary"""
     today = date.today()
     questionnary = models.Quizz.objects.create(title=body.title, dateCreation = today ,description=body.description,  dateEnd=body.dateEnd, theme=body.theme, score=body.score, nbr_question_total=body.nbr_question_total, nbr_QCM=body.nbr_QCM, difficulty=body.difficulty)

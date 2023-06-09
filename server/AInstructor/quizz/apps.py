@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class QuestionaryConfig(AppConfig):
+class QuizzConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'questionary'
+    name = 'quizz'

@@ -38,14 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'question',
-    'questionary',
     'team',
-
     'app',
+    'quizz',
     'course',
-    'response',
-
-
+    'answer',
 ]
 
 
