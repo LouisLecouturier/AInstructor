@@ -31,7 +31,7 @@ const onEdit = (questionNumber: number) => {
   console.log("Edit", questionNumber);
 };
 
-export default function Dashboard({}) {
+export default function Dashboard() {
   return (
       <div className="flex flex-col gap-10">
         <header>
