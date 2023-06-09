@@ -91,16 +91,16 @@ def addUser(request):
 def new(request):
     request = json.loads(request.body.decode('utf-8'))
     print(request)
-    error = False
+    isError = False
 
     try:
         user = CustomUser.objects.get(id=request['userID'])
         team = Team.objects.create(name=request['name'], color=request['color'])
         Team.users.add(user)
-    except:
-        error = True
+    except Exception as error:
+        isError = True
 
-    return JsonResponse({'error': error})
+    return JsonResponse({'error': isError})
 
 
 @router.post('/delete')
