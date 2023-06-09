@@ -11,7 +11,7 @@ declare module "next-auth" {
         first_name : string,
         last_name : string,
         email : string,
-        is_teacher : boolean
+        isTeacher : boolean
     };
   }
 }

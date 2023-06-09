@@ -29,7 +29,7 @@ Source
 
 De quoi a-t-on besoin ?
 • De réseaux de communication dont les technologies peuvent
-être différentes, mais communes au sein de chaque groupe de
+être différentes, mais communes au sein de chaque Team de
 postes
 • D’un standard de communication international commun à tous
 les postes (protocole IP)
@@ -111,7 +111,7 @@ Adresse d’un poste (suite) :
 • Masque d’une adresse :
 - Convention de subdivision de l’espace d’adressage,
 - Identification du réseau auquel appartiennent les postes,
-- Allocation de groupes d’adresses contiguës,
+- Allocation de Teams d’adresses contiguës,
 - Quatre octets de masque notés W’.X’.Y’.Z’ ou /n
 • Notation décimale du masque d’un poste 255.255.255.0 ou /24
 13Adressage IP V4 (3).
@@ -196,12 +196,12 @@ organismes habilités,
 • Classe C : 192.134.17.0 / 24
 21Adressage IP V4 (11).
 
-Adresse de groupe de réseaux :
-• W.X.Y.Z = « adresse groupe » . « 0.0… »,
-• Réservées pour identifier un groupe de réseaux (dans le cadre
+Adresse de Team de réseaux :
+• W.X.Y.Z = « adresse Team » . « 0.0… »,
+• Réservées pour identifier un Team de réseaux (dans le cadre
 du routage), inutilisables pour identifier un poste,
 • La notion de classe « disparait » (classless) :
-- « adresse groupe » . « 0.0… » / 0 à 32
+- « adresse Team » . « 0.0… » / 0 à 32
 22Adressage IP V4 (12).
 
 Répartition des adresses (suite) :
@@ -213,7 +213,7 @@ communiquer entre eux sans nécessiter d’interface réseau,
 • Fait référence implicitement à la machine locale,
 • Peut induire la confusion avec une adresse non
 renseignée, cas du DHCP request,
-• Désigne un groupe indéterminé de réseaux dans une
+• Désigne un Team indéterminé de réseaux dans une
 table de routage,
 • Déconseillé de l’utiliser pour désigner un réseau.
 23Réseaux informatiques.
