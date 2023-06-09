@@ -49,7 +49,7 @@ def upload(request,body : UploadTheme, file: UploadedFile,  ):
 
 
 
-@router.get("/course/{uuid}",  )
+@router.get("/{uuid}",  )
 def get_courses_by_id(request, uuid: str):
     """get the course by id"""
     course = get_object_or_404(models.Course, uuid=uuid)
@@ -64,7 +64,7 @@ def get_courses_by_id(request, uuid: str):
         }
 
 
-@router.get("/courses")
+@router.get("/mycourses")
 def get_my_courses(request):
     """get all the courses of the user"""
     token = request.headers.get('Authorization')
@@ -109,7 +109,7 @@ def assign_course(request, body: AssignCourse):
     return {'uuid': course.uuid, 'name' : course.name, 'teamName' : team.name, 'teamUUID': team.uuid, 'deadline': course.dateEnd}
 
 
-@router.get("/courses/{uuid}")
+@router.get("/{uuid}")
 def get_courses_by_team(request, uuid: uuidLib.UUID):
     """get all the courses of the user"""
     team = get_object_or_404(models.Team, uuid=uuid)

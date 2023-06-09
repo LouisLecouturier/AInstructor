@@ -2,21 +2,22 @@
 
 import { Button } from "@/components/Interactions/Button";
 import Input from "@/components/Interactions/Forms/Input";
-import TeamMainInformation from "@/components/dashboard/Teams/MainInformation";
+import TeamMainInformation, {
+  TeamInformations,
+} from "@/components/dashboard/Teams/MainInformation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import newTeam from "./hook";
-
-
+import Container from "@components/layout/Container";
+import Header from "@components/dashboard/Layout/Header";
 
 export default function AddTeam() {
-  const { data : session } = useSession();
+  const { data: session } = useSession();
   const [IsError, setIsError] = React.useState(false);
   const id = String(session?.user.user_id);
   const token = String(session?.user["acces token"]);
   const router = useRouter();
-
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,12 +33,9 @@ export default function AddTeam() {
   };
 
   return (
-    <div className="py-12 flex overflow-auto h-full flex-col gap-8">
-      <h1 className="text-6xl font-black">Create new team</h1>
-
-      <div className="flex-1 flex items-center justify-center">
-        <TeamMainInformation handleSubmit={handleSubmit}/>
-      </div>
-    </div>
+    <>
+      <Header>Create a new team</Header>
+      <TeamInformations onSubmit={handleSubmit} />
+    </>
   );
 }
