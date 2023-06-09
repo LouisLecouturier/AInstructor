@@ -7,10 +7,10 @@ from django.http import JsonResponse
 router = Router(tags=["Team"])
 
 
-Create
-Read
-Update
-Delete
+# Create
+# Read
+# Update
+# Delete
 
 @router.post('/', auth=None)
 def main(request):
@@ -45,7 +45,12 @@ def overview(request, uuid):
     )
 
 
-@router.post('/removeUser')
+{
+    team_uuid: 'uuid',
+    users: ["3", "4", "5"]
+}
+
+@router.post('/remove-users')
 def removeUser(request):
     request = json.loads(request.body.decode('utf-8'))
     print(request)
@@ -59,6 +64,7 @@ def removeUser(request):
                                       isTeacher=request['modelFieldLine']['isTeacher'])
         Team.users.remove(user)
     except:
+
 
         error = True
 
