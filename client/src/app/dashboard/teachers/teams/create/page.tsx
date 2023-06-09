@@ -14,9 +14,7 @@ import Header from "@components/dashboard/Layout/Header";
 
 export default function AddTeam() {
   const { data: session } = useSession();
-  const [IsError, setIsError] = React.useState(false);
-  const id = String(session?.user.user_id);
-  const token = String(session?.user["acces token"]);
+  const token = String(session?.user.accessToken);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,9 +25,12 @@ export default function AddTeam() {
     const description = formData.get("description") as string;
     const color = formData.get("color") as string;
 
-    const error = await newTeam(name, description, color, id, token);
+    const error = await newTeam(name, description, color, token);
 
-    error ? setIsError(error) : router.push("/dashboard/teachers/teams");
+    if (!error){
+      console.log("redirect");
+      router.push("/dashboard/teachers/teams");
+    }
   };
 
   return (
