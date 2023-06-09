@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/Interactions/Button";
 import QuestionEdit from "@/components/dashboard/Questions/QuestionEditor";
@@ -33,12 +32,10 @@ const onEdit = (questionNumber: number) => {
   console.log("Edit", questionNumber);
 };
 
-export default function Dashboard({}) {
-        
-        
-  const {data : session} = useSession()
-  console.log({session})
-        
+export default function Dashboard() {
+  const { data: session } = useSession();
+  console.log({ session });
+
   return (
     <>
       <Header>Dashboard</Header>
@@ -54,13 +51,9 @@ export default function Dashboard({}) {
           />
         ))}
       </div>
-      <Button
-        size="md"
-        rounded="sm"
-      >
+      <Button size="md" rounded="sm">
         Confirm
       </Button>
-
     </>
   );
 }

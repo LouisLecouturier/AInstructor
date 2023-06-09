@@ -14,18 +14,18 @@ const options = [
 ];
 
 function Register() {
-
-
   function onSubmit(e: FormEvent<HTMLFormElement>) {
-
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-    const firstname = formData.get("firstname") as string;
-    const lastname = formData.get("lastname") as string;
+    const first_name = formData.get("firstname") as string;
+    const last_name = formData.get("lastname") as string;
     const type = formData.get("type") as string;
+
+
+    console.table(type)
 
     const res = fetch("http://localhost:8000/api/register", {
       method: "POST",
@@ -33,17 +33,17 @@ function Register() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        password: password,
-        email: email,
-        first_name: firstname,
-        last_name: lastname,
-        is_teacher: type === "teacher" ? true : false,
+        password,
+        email,
+        first_name,
+        last_name,
+        is_teacher: type === "teacher",
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         const error = data.error;
-        console.log(error);
+        console.log(data);
       })
       .catch((error) => {
         // Gérer les erreurs de la requête ici
@@ -54,7 +54,9 @@ function Register() {
   return (
     <form
       className={"flex flex-col gap-4 max-w-[480px]"}
-      onSubmit={(e) => {onSubmit(e)}}
+      onSubmit={(e) => {
+        onSubmit(e);
+      }}
     >
       <MyRadioGroup
         defaultValue={options[0].value}
