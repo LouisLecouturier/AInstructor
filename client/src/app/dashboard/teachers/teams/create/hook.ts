@@ -1,9 +1,6 @@
 
-const newTeam = async (name: string, description: string, color: string, id: string, token: string ) => {
-
-    try {
-
-      const response = await fetch("http://127.0.0.1:8000/api/group/new", {
+const newTeam = async (name: string, description: string, color: string, token: string ) => {
+      const response = await fetch("http://localhost:8000/api/team/", {
         method: "POST",
 
         headers: {
@@ -15,7 +12,6 @@ const newTeam = async (name: string, description: string, color: string, id: str
           name,
           description,
           color,
-          userID: id,
         }),
 
       });
@@ -23,11 +19,6 @@ const newTeam = async (name: string, description: string, color: string, id: str
       const responseData = await response.json();
       console.log(responseData.error);
       return responseData.error;
-  
-  
-    } catch (error) {
-        return  error;
-    }
   };
 
   export default newTeam;

@@ -3,6 +3,8 @@ from app.models import CustomUser
 from app.models import Team
 import json
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+
 
 router = Router(tags=["Team"])
 
@@ -13,16 +15,50 @@ router = Router(tags=["Team"])
 # Update
 # Delete
 
-@router.post('/', auth=None)
+@router.get('/')
 def main(request):
-    request = json.loads(request.body.decode('utf-8'))
 
-    user = CustomUser.objects.get(id=request['id'])
-    teams = Team.objects.filter(user=user)
+    token = request.headers.get('Authorization')
+    token = token.split(' ')[1]
+    user = get_object_or_404(CustomUser, accessToken=token)
+
+    teams = Team.objects.filter(users=user)
 
     team_data = [{'uuid': team.uuid, 'name': team.name, 'color': team.color} for team in teams]
 
     return JsonResponse({'teams': team_data})
+
+
+
+@router.post('/')
+def new(request):
+    token = request.headers.get('Authorization')
+    token = token.split(' ')[1]
+    request = json.loads(request.body.decode('utf-8'))
+    print(request)
+    error = False
+
+    try:
+        user = get_object_or_404(CustomUser, accessToken=token)
+        team = Team.objects.create(name=request['name'], color=request['color'])
+        team.users.add(user)
+    except:
+        error = True
+
+    return JsonResponse({'error': error})
+
+
+@router.delete('/{uuid}')
+def delete(request, uuid):
+    error = False
+    try:
+        team = Team.objects.get(uuid=uuid)
+        team.delete()
+    except:
+        error = True
+
+    return JsonResponse({'error': error})
+
 
 
 @router.get('/{uuid}')
@@ -31,7 +67,7 @@ def overview(request, uuid):
     # print(request['teamUUID'])
 
     team = Team.objects.get(uuid=uuid)
-    users = Team.users.all()
+    users = team.users.all()
     users_data = [{
             'last_name': user.last_name,
             'first_name': user.first_name,
@@ -48,7 +84,7 @@ def overview(request, uuid):
 
 # {
 #     uuid: 'uuid',
-#     users: ["3", "4", "5"]
+#     id: ["3", "4", "5"]
 # }
 
 
@@ -59,60 +95,31 @@ def removeUser(request):
     print(request)
     error = False
 
-    try:
-        team = Team.objects.get(uuid=request['uuid'])
-        user = CustomUser.objects.get(user_id=user)
-        Team.users.remove(user)
-    except:
-
-
-        error = True
+    for id in request['id']:
+        try:
+            user = CustomUser.objects.get(id=id)
+            team = Team.objects.get(uuid=request['uuid'])
+            team.users.remove(user)
+        except:
+            error = True
 
     return JsonResponse({'error': error})
 
 
-@router.post('/addUser')
+@router.post('/add-users')
 def addUser(request):
     request = json.loads(request.body.decode('utf-8'))
     print(request)
     error = False
 
-    try:
-        team = Team.objects.get(uuid=request['modelPrimaryKey'])
-        user = CustomUser.objects.get(email=request['PrimaryKeyElementAdd'])
-        Team.users.add(user)
-    except:
-        error = True
+    for email in request['users_email']:
+        try:
+            user = CustomUser.objects.get(email=email)
+            team = Team.objects.get(uuid=request['uuid'])
+            team.users.add(user)
+        except:
+            error = True
 
     return JsonResponse({'error': error})
 
 
-@router.post('/new')
-def new(request):
-    request = json.loads(request.body.decode('utf-8'))
-    print(request)
-    error = False
-
-    try:
-        user = CustomUser.objects.get(id=request['userID'])
-        team = Team.objects.create(name=request['name'], color=request['color'])
-        Team.users.add(user)
-    except:
-        error = True
-
-    return JsonResponse({'error': error})
-
-
-@router.post('/delete')
-def delete(request):
-    request = json.loads(request.body.decode('utf-8'))
-    print(request)
-    error = False
-
-    try:
-        team = Team.objects.get(uuid=request['teamUUID'])
-        team.delete()
-    except:
-        error = True
-
-    return JsonResponse({'error': error})
