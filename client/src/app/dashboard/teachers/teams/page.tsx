@@ -2,10 +2,11 @@
 "use client"
 import React, { useEffect } from "react";
 import SortbyButton from "@/components/button/sortbybutton"
-import TeamsList from "@/components/dashboard/sections/teams"
 import styles from "./Teams.module.scss";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
+import TeamCard from "@/components/dashboard/Cards/TeamCard";
+import TeamMainInformation from "@/components/dashboard/Teams/MainInformation";
 
 
 const Teams = () => {
@@ -31,7 +32,7 @@ const Teams = () => {
         const fetchData = async () => {
           console.log('fetch')
             try {
-              const response = await fetch("http://127.0.0.1:8000/api/teams/", {
+              const response = await fetch("http://localhost:8000/api/group/", {
 
                 method: "POST",
 
@@ -64,7 +65,7 @@ const Teams = () => {
 
   return (
     <div className={clsx(
-        "flex-1 h-full flex overflow-auto flex-col gap-6",
+        "flex-1 h-full flex flex-col gap-6",
         styles.teams
     )}>
 
@@ -74,7 +75,13 @@ const Teams = () => {
 
         <SortbyButton/>
 
-        <TeamsList teams={teams}/>
+        <div className="flex w-full flex-wrap pt-6 pb-16 gap-10">
+                {teams.map((team,i) => (
+                    <TeamCard key={i} className={"justify-evenly"} team={team} i={i} isAddingTeam={false}/>
+                ))}
+                <TeamCard className={"justify-center gap-0"} team={{teamUUID: "", name: "", color: ""}} i={0} isAddingTeam={true}/>
+        </div>
+
 
     </div>
 )

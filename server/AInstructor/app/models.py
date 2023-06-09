@@ -32,6 +32,9 @@ class Groupe(models.Model):
     group_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=30, validators= [AlphanumericValidator])
     user = models.ManyToManyField(CustomUser)
+    color = models.CharField(max_length=7, default = "#000000",  blank = True)
+    description = models.CharField(max_length=254, validators= [AlphanumericValidator], default = "description : ", null = True,  blank = True)
+
 
 
 def upload_to_cours(instance, filename):

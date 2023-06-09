@@ -69,7 +69,7 @@ class GlobalAuth(HttpBearer):
         return {"access token" :access_token, "refresh token" :refresh_token}
     
 #comment for debug without auth
-#api = NinjaAPI(auth=GlobalAuth())
+api = NinjaAPI(auth=GlobalAuth())
 
 api.add_router("/question", question_router)
 api.add_router("/questionary", questionary_router)
@@ -159,11 +159,15 @@ def delete_user(request, user_id: int):
 
 
 
-@api.post("/login",auth=None ) 
-def get_token(request, username: str = Form(...), password: str = Form(...)):
-    user = get_this_user(username)
-    #token = GlobalAuth().get_token(username)
-    auth_perm = authenticate(request, username=username, password=password)
+@api.post("/login", auth=None ) 
+def get_token(request):
+    request = json.loads(request.body.decode('utf-8'))
+
+    user = models.CustomUser.objects.get(email=request["username"])
+    username = user.username
+
+
+    auth_perm = authenticate(request, username=username, password=request["password"])
     print(auth_perm) 
 
    
@@ -172,6 +176,32 @@ def get_token(request, username: str = Form(...), password: str = Form(...)):
         user.jwt_access = tokens["access token"]
         user.jwt_refresh = tokens["refresh token"]
         user.save()
-        return 200,{"message": "Authentification successfull","acces token": user.jwt_access, "refresh token" : user.jwt_refresh,"user": user.username,"user_id": user.id}
+        return 200,{
+            "message": "Authentification successfull",
+            "acces token": user.jwt_access,
+            "refresh token" : user.jwt_refresh,
+            "user": user.username,
+            "user_id": user.id,
+            "is_teacher": user.is_teacher,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            }
     else:
         return {"message": "Invalid credentials"}
+
+
+@api.post('register', auth=None)
+def register(request):
+    request = json.loads(request.body.decode('utf-8'))
+    print(request)
+
+    try:
+        username = request['first_name'] + request['last_name']
+        user = models.CustomUser.objects.create_user(username=username, password=request['password'], email=request['email'], first_name=request['first_name'], last_name=request['last_name'], is_teacher=request['is_teacher'])
+        user.save()
+    except :
+        print("error")
+
+
+    return {"error" : False, "message" : "User created"}

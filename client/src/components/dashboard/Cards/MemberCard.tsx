@@ -1,15 +1,20 @@
 import clsx from 'clsx'
 import React from 'react'
 import Delete from '@icons/Delete.svg'
+import { useSession } from 'next-auth/react';
 
 
 
-const fetchData = async (modelFieldLine : Record<string, string|boolean>, modelPrimaryKey : string, urlDeleteLine : string) => {
+const fetchData = async (modelFieldLine : Record<string, string|boolean>, modelPrimaryKey : string, urlDeleteLine : string, token :string) => {
+        
+        
         try {
           const response = await fetch(urlDeleteLine, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              authorization : `bearer ${token}`
+
             },
             body: JSON.stringify({
                 modelPrimaryKey,
@@ -46,11 +51,14 @@ export default function Line(
         }
         ) {
 
+        const {data : session} = useSession()
+        const token = String(session?.user["acces token"])
+
         const [Display, setDisplay] = React.useState("");
 
 
         async function handleClick() {
-                const error = await fetchData(modelFieldLine, modelPrimaryKey, urlDeleteLine);
+                const error = await fetchData(modelFieldLine, modelPrimaryKey, urlDeleteLine, token);
                 error ? setDisplay("") : setDisplay("hidden")
         }
 

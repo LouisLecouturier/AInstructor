@@ -7,8 +7,8 @@ import { Chart as ChartJS } from "chart.js/auto";
 
 const data = {
   labels: [
-    "Maths",
-    "English",
+  "Maths",
+  "English",
     "French",
     "History",
     "Geography",
