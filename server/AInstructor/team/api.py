@@ -1,3 +1,4 @@
+import jwt
 from ninja import Router
 from app.models import CustomUser
 from app.models import Team
@@ -5,8 +6,10 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
+from AInstructor import settings
 
 router = Router(tags=["Team"])
+key = getattr(settings, "SECRET_KEY", None)
 
 # TODO : Remake the whole API to match CRUD operations and modularity
 
@@ -32,11 +35,16 @@ def main(request):
 
 @router.post('/')
 def new(request):
-    token = request.headers.get('Authorization')
-    token = token.split(' ')[1]
+    auth_header = request.headers.get('Authorization')
+    token = auth_header.split(' ')[1]
+    content = jwt.decode(token, key, algorithms=['HS256'])
+    print(content)
+
     request = json.loads(request.body.decode('utf-8'))
-    print(request)
     error = False
+
+    print(token)
+
 
     try:
         user = get_object_or_404(CustomUser, accessToken=token)

@@ -1,6 +1,5 @@
 import { Button } from "@/components/Interactions/Button";
 import Input from "@/components/Interactions/Forms/Input";
-import { on } from "events";
 import React, { FC, FormEvent, useState } from "react";
 import Container from "@components/layout/Container";
 import { Team } from "@/types/team";
@@ -15,7 +14,7 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
   const [color, setColor] = useState(props.team?.color ?? "#000000");
 
   return (
-    <Container title={props.team?.name ?? "Your team's informations"}>
+    <Container title={"Team informations"}>
       <form
         onSubmit={props.onSubmit}
         className="flex flex-col gap-8 w-full max-w-[800px]"
@@ -33,6 +32,7 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
               onChange={(e) => setColor(e.target.value)}
               placeholder="#color"
               borders
+              size={"sm"}
               name={"color"}
             />
           </div>
@@ -44,6 +44,7 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
                 defaultValue={props.team?.name ?? ""}
                 placeholder="Enter your team's name"
                 borders
+                size={"sm"}
                 name={"name"}
               />
             </div>
@@ -53,6 +54,7 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
                 defaultValue={props.team?.description ?? ""}
                 placeholder="Enter your team's description"
                 borders
+                size={"sm"}
                 className={"flex flex-1"}
                 isTextArea
                 name={"description"}
@@ -63,13 +65,12 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
 
         <div className="flex w-full gap-4">
           <Button
-            className=""
             variant="accent"
-            size="md"
+            size="sm"
             rounded="full"
             type="submit"
           >
-            Create team
+            {props.team ? "Update Team":"Create Team"}
           </Button>
         </div>
       </form>
