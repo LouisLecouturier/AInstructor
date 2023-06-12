@@ -36,8 +36,6 @@ const homeworks = [
 
 const infos = [
   {
-    nom: "Broage",
-    prenom: "Nicolas",
     classe: "CSI 3",
     profref: "M. Lecouturier",
   },
@@ -60,9 +58,10 @@ const progress = [
 
 const Dashboard = () => {
   const firstname = UserStore.getState().firstname;
+  const lastname = UserStore.getState().lastname;
 
   return (
-    <div className="flex gap-20">
+    <div className="flex gap-5">
       <div className="flex flex-col">
         <div>
           <h1 className={"flex items-center h-16 text-4xl font-black"}>
@@ -72,7 +71,7 @@ const Dashboard = () => {
             Reprendre mon parcours
           </h2>
         </div>
-        <div className="flex gap-10">
+        <div className="flex">
           <div className="flex gap-10">
             {courses.map((course, index) => (
               <QuestionCube
@@ -85,9 +84,6 @@ const Dashboard = () => {
               />
             ))}
           </div>
-          <div>
-            <SuivantButton />
-          </div>
         </div>
         <h2 className="flex items-center h-16 text-3xl">Mes formations</h2>
         <div className="flex flex-col gap-2 w-full">
@@ -99,7 +95,10 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
-      <div className="relative w-full bg-white rounded-xl">
+      <div className="w-full px-40 py-40 bg-dark-300 rounded-md">
+        <SuivantButton />
+      </div>
+      <div className="flex w-1/3 bg-white rounded-xl">
         <div className="flex flex-col gap-4 py-5 p-4 w-full ">
           <h3 className="flex font-semibold px-10 text-4xl">Mon profil</h3>
           <h2 className="flex font-semibold px-5 text-3xl">Informations</h2>
@@ -108,11 +107,11 @@ const Dashboard = () => {
               <div className="flex flex-col gap-1 px-10 w-full">
                 <h3 className="flex font-semibold">
                   <span className="font-black">Nom :&nbsp;</span>
-                  {info.nom}
+                  {lastname}
                 </h3>
                 <h3 className="flex font-semibold">
                   <span className="font-black">Prénom :&nbsp;</span>
-                  {info.prenom}
+                  {firstname}
                 </h3>
                 <h3 className="flex font-semibold">
                   <span className="font-black">Classe :&nbsp;</span>
