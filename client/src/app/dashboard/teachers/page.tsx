@@ -43,10 +43,6 @@ const TableData = [
   },
 ];
 
-export default function Dashboard() {
-  const { data: session } = useSession();
-  console.log({ session });
-
 
 export default function Dashboard() {
 
@@ -55,7 +51,7 @@ export default function Dashboard() {
       <Header>Dashboard</Header>
       <div className="flex flex-col gap-4 my-20px">
         <Container>
-          <Table columns={columns} data={TableData} firstIsKey/>
+          {/* <Table columns={columns} data={TableData} firstIsKey/> */}
         </Container>
       </div>
     </>
