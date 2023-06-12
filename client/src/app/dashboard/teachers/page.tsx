@@ -1,8 +1,9 @@
 "use client";
 
-import { Button } from "@/components/Interactions/Button";
-import QuestionEdit from "@/components/dashboard/Questions/QuestionEditor";
-
+import { useSession } from "next-auth/react";
+import Header from "@components/dashboard/Layout/Header";
+import Container from "@components/layout/Container";
+import Table from "@components/dashboard/Table";
 
 const questions = [
   {
@@ -19,45 +20,44 @@ const questions = [
   },
 ];
 
-const onDelete = (questionNumber: number) => {
-  console.log("Delete", questionNumber);
-};
+const columns = ["Id", "Name", "Surname", "Sexe"];
 
-const onAccept = (questionNumber: number) => {
-  console.log("Accept", questionNumber);
-};
-
-const onEdit = (questionNumber: number) => {
-  console.log("Edit", questionNumber);
-};
+const TableData = [
+  {
+    id: 1,
+    name: "Louis",
+    surname: "Bouchez",
+    sexe: "15cm"
+  },
+  {
+    id: 2,
+    name: "Alexandre",
+    surname: "Bouchez",
+    sexe: "13cm"
+  },
+  {
+    id: 3,
+    name: "Pierre",
+    surname: "Bouchez",
+    sexe: "12cm"
+  },
+];
 
 export default function Dashboard() {
+  const { data: session } = useSession();
+  console.log({ session });
+
+
+export default function Dashboard() {
+
   return (
-      <div className="flex flex-col gap-10">
-        <header>
-          <h1 className={"flex items-center h-16 text-5xl font-black"}>
-            Dashboard
-          </h1>
-          <div className="flex flex-col gap-4 my-20px">
-            {questions.map((question, index) => (
-              <QuestionEdit
-                key={question.id}
-                index={index}
-                question={question.question}
-                onAccept={() => onAccept(index)}
-                onDelete={() => onDelete(index)}
-                onEdit={() => onEdit(index)}
-              />
-            ))}
-          </div>
-        </header>
-        <Button
-          className="w-96 bg-green-700 hover:bg-green-800 "
-          size="md"
-          rounded="sm"
-        >
-          Confirm
-        </Button>
+    <>
+      <Header>Dashboard</Header>
+      <div className="flex flex-col gap-4 my-20px">
+        <Container>
+          <Table columns={columns} data={TableData} firstIsKey/>
+        </Container>
       </div>
+    </>
   );
 }

@@ -23,6 +23,7 @@ type Property = {
 type ListItemProps = {
   children?: React.ReactNode;
   properties: Property[];
+
   status?: "done" | "pending" | "in-progress";
   href?: string;
   withUserActions?: boolean;

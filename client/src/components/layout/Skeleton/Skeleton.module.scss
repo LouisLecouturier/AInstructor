@@ -1,0 +1,25 @@
+.skeleton {
+  background-image: linear-gradient(
+    to right,
+    theme("colors.dark.10") 0%,
+    theme("colors.dark.50") 50%,
+    theme("colors.dark.10") 100%
+  );
+
+  background-size: 400% 100%;
+  background-repeat: no-repeat;
+  background-position: 0;
+
+  animation: skeleton 1.2s ease infinite;
+}
+
+@keyframes skeleton {
+  0% {
+    background-position: right center; /* change the direction of the change here */
+  }
+  100% {
+    background-position: left center; /* change the direction of the change here */
+  }
+
+
+}

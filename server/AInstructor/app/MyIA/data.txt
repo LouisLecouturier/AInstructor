@@ -1,0 +1,10 @@
+1. Qu'est-ce que le protocole IP ?
+2. Quel est le rôle du protocole IP dans la communication entre ordinateurs ?
+3. Quelle est la longueur d'une adresse IP V4 ?
+4. Comment est notée une adresse IP de manière décimale ?
+5. Quelle est la fonction du masque dans une adresse IP ?
+6. Comment est calculé l'adresse du réseau associé à une adresse IP ?
+7. Quels sont les plages d'adresses réservées pour un usage privé ?
+8. Quels sont les plages d'adresses dites "publiques" ?
+9. Qu'est-ce qu'une adresse de Team de réseaux ?
+10. À quoi servent les tables de routage IP ?

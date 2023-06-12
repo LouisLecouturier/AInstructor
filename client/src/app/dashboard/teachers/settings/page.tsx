@@ -1,6 +1,8 @@
+
+"use client"
+
 import React from "react";
 import Header from "@components/dashboard/Layout/Header";
-import EditButton from "@components/button/editbutton";
 import Container from "@components/layout/Container";
 import UserInfo from "../../../../components/layout/User/Userinfo";
 import Information from "@components/layout/Information";
@@ -45,7 +47,7 @@ const Settings = () => {
             </div>
             <Information
               label="Biography"
-              value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+              value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim uuid est laborum."
               editable
               name={"biography"}
               isTextArea

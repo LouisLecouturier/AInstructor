@@ -8,10 +8,10 @@ type HeaderProps = {
 
 const Header: FC<HeaderProps> = (props) => {
   return (
-    <header className={clsx("flex flex-col gap-2 mb-16", props.className)}>
-      <h1 className={"flex items-center text-4xl h-16 font-black"}>
-        {props.children}
-      </h1>
+    <header
+      className={clsx("flex gap-2 text-5xl font-black mb-16", props.className)}
+    >
+      {props.children}
     </header>
   );
 };
