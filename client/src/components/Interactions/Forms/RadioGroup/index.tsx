@@ -19,7 +19,7 @@ type RadioGroupProps = {
   defaultValue: string;
   options: Option[];
   name: string;
-  onChange?: (value?: Option) => void;
+  onChange?: (value?: string) => void;
   variant?: "accent" | "primary" | "secondary";
 <<<<<<< HEAD
 =======
@@ -32,10 +32,13 @@ type RadioGroupProps = {
 };
 
 export default function MyRadioGroup(props: RadioGroupProps) {
-  const [currentValue, setCurrentValue] = useState(props.options[0]);
+  const [currentValue, setCurrentValue] = useState<string>(
+    props.options[0].value
+  );
 
-  const onChange = (value: Option) => {
+  const onChange = (value: string) => {
     setCurrentValue(value);
+    console.log(value);
     props.onChange && props.onChange(value);
 <<<<<<< HEAD
   }
@@ -68,7 +71,7 @@ export default function MyRadioGroup(props: RadioGroupProps) {
       >
 >>>>>>> origin/FullStack
         {props.options.map((option) => (
-          <RadioGroup.Option key={option.value} value={option}>
+          <RadioGroup.Option key={option.value} value={option.value}>
             {({ checked }) => (
               <div className={clsx("flex items-center gap-2 font-bold")}>
                 <Radio

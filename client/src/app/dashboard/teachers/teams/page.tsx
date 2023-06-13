@@ -1,84 +1,72 @@
-
-"use client"
-import React, { useEffect } from "react";
-import SortbyButton from "@/components/button/sortbybutton"
-import TeamsList from "@/components/dashboard/sections/teams"
+"use client";
+import React, { useEffect, useState } from "react";
+import SortbyButton from "@/components/button/sortbybutton";
 import styles from "./Teams.module.scss";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
+import TeamCard from "@/components/dashboard/Cards/TeamCard";
+import TeamMainInformation from "@/components/dashboard/Teams/MainInformation";
+import Header from "@components/dashboard/Layout/Header";
+import { Team } from "@/types/team";
+import { useQuery } from "@tanstack/react-query";
 
+
+const fetchData = async (token: string) => {
+  console.log("fetch");
+  const response = await fetch("http://localhost:8000/api/team/", {
+    headers: {
+      authorization: `bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+
+  return data.teams ?? [];
+};
 
 const Teams = () => {
-  const {data : session} = useSession()
-  console.log(session)
+  const { data: session } = useSession();
+  console.log(session);
+  const token = String(session?.user.accessToken);
+  
+  const { data, isLoading } = useQuery<Team[]>(['teams'], () => fetchData(token));
+  console.log(data);
 
-  const id = String(session?.user.user_id)
+  
 
+  if (isLoading) {
+    return(
+      <div className={clsx("flex-1 h-full flex flex-col gap-6", styles.teams)}>
+      <Header>Teams</Header>
 
-    const [teams, setTeams] = React.useState([
-        {
-            "teamUUID": "",
-            "name": "",
-            "color": "",
-        }
-    ]);
+      <SortbyButton />
 
+      <div>
+        Loading...
+      </div>
 
-
-    useEffect(
-      () => {
-
-        const fetchData = async () => {
-          console.log('fetch')
-            try {
-              const response = await fetch("http://127.0.0.1:8000/api/teams/", {
-
-                method: "POST",
-
-                headers: {
-                  "Content-Type": "application/json",
-                  authorization : `bearer ${session?.user["acces token"]}`
-                },
-
-                body: JSON.stringify(
-                  {
-                    id : id,
-                  }
-                ),
-              });
-              
-              const responseData = await response.json();
-              console.log(responseData);
-              setTeams(responseData.teams); 
-            } 
-      
-            catch (error) {
-              console.error(error);
-            }
-          };
-          console.log(session?.user["acces token"])
-          
-          if (session?.user["acces token"]) fetchData();
-
-    }, [session]);
-
-  return (
-    <div className={clsx(
-        "flex-1 h-full flex overflow-auto pt-12 flex-col gap-6",
-        styles.teams
-    )}>
-
-        <h1 className="text-6xl font-black">
-          Teams
-        </h1>
-
-        <SortbyButton/>
-
-        <TeamsList teams={teams}/>
 
     </div>
-)
-  
+    )
+  }
+
+
+  return (
+    <div className={clsx("flex-1 h-full flex flex-col gap-6", styles.teams)}>
+      <Header>Teams</Header>
+
+      <SortbyButton />
+
+      <div className="flex w-full flex-wrap pt-6 pb-16 gap-10">
+        {data?.map((team, i) => (
+          <TeamCard key={team.uuid} team={team} />
+        ))}
+        <TeamCard className={"justify-center gap-0"} isAddCard />
+      </div>
+
+
+    </div>
+  );
 };
 
 export default Teams;

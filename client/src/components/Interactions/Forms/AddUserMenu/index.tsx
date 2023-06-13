@@ -2,14 +2,19 @@ import React from 'react'
 import Input from '../Input'
 import { Button } from '../../Button'
 import { addUserMenu } from '@/store/displayMenu'
+import { useSession } from 'next-auth/react';
 
 
-const AddLine = async (PrimaryKeyElementAdd : string, modelPrimaryKey : string, urlAddLine: string) => {
+const AddLine = async (PrimaryKeyElementAdd : string, modelPrimaryKey : string, urlAddLine: string, token: string) => {
+ 
+  
   try {
     const response = await fetch(urlAddLine, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization : `bearer ${token}`
+
       },
       body: JSON.stringify({
         modelPrimaryKey,
@@ -50,14 +55,16 @@ export default function AddObjectModelMenu(
   const [isError, setIsError] = React.useState(false);
 
   const setDisplay = addUserMenu(state => state.setDisplay)
-
+  
+  const {data : session} = useSession()
+  const token = String(session?.user["acces token"])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const PrimaryKeyElementAdd = formData.get("PrimaryKeyElementAdd") as string;
 
-    const error = await AddLine(PrimaryKeyElementAdd, modelPrimaryKey, urlAddLine);
+    const error = await AddLine(PrimaryKeyElementAdd, modelPrimaryKey, urlAddLine, token);
 
     if (error == false) { setDisplay(false) }
     setIsError(error);

@@ -1,10 +1,9 @@
 "use client";
 
-
 import { useSession } from "next-auth/react";
-import { Button } from "@/components/Interactions/Button";
-import QuestionEdit from "@/components/dashboard/Questions/QuestionEditor";
 import Header from "@components/dashboard/Layout/Header";
+import Container from "@components/layout/Container";
+import Table from "@components/dashboard/Table";
 
 const questions = [
   {
@@ -21,46 +20,41 @@ const questions = [
   },
 ];
 
-const onDelete = (questionNumber: number) => {
-  console.log("Delete", questionNumber);
-};
+const columns = ["Id", "Name", "Surname", "Sexe"];
 
-const onAccept = (questionNumber: number) => {
-  console.log("Accept", questionNumber);
-};
+const TableData = [
+  {
+    id: 1,
+    name: "Louis",
+    surname: "Bouchez",
+    sexe: "15cm"
+  },
+  {
+    id: 2,
+    name: "Alexandre",
+    surname: "Bouchez",
+    sexe: "13cm"
+  },
+  {
+    id: 3,
+    name: "Pierre",
+    surname: "Bouchez",
+    sexe: "12cm"
+  },
+];
 
-const onEdit = (questionNumber: number) => {
-  console.log("Edit", questionNumber);
-};
+export default function Dashboard() {
+  const { data: session } = useSession();
+  console.log({ session });
 
-export default function Dashboard({}) {
-        
-        
-  const {data : session} = useSession()
-  console.log({session})
-        
   return (
     <>
       <Header>Dashboard</Header>
       <div className="flex flex-col gap-4 my-20px">
-        {questions.map((question, index) => (
-          <QuestionEdit
-            key={question.id}
-            index={index + 1}
-            question={question.question}
-            onAccept={() => onAccept(index)}
-            onDelete={() => onDelete(index)}
-            onEdit={() => onEdit(index)}
-          />
-        ))}
+        <Container>
+          <Table columns={columns} data={TableData} firstIsKey/>
+        </Container>
       </div>
-      <Button
-        size="md"
-        rounded="sm"
-      >
-        Confirm
-      </Button>
-
     </>
   );
 }

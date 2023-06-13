@@ -21,6 +21,7 @@ export default function RootLayout({
 =======
 import { ReactNode } from "react";
 import Provider from "./provider";
+import ReactQueryProvider from "./ReactQueryProvider";
 
 
 interface IProps {
@@ -32,7 +33,9 @@ export default function RootLayout({ children }: IProps) {
     <html lang="fr" className="h-full scroll-smooth antialiased">
       <body className="flex h-full flex-col">
         <Provider>
-          <div className="grow">{children}</div>
+          <ReactQueryProvider>
+            <div className="grow">{children}</div>
+          </ReactQueryProvider>
         </Provider>
 >>>>>>> origin/FullStack
       </body>

@@ -9,7 +9,7 @@ type HeaderProps = {
 const Header: FC<HeaderProps> = (props) => {
   return (
     <header className={clsx("flex flex-col gap-2 mb-16", props.className)}>
-      <h1 className={"flex items-center text-4xl h-16 font-black"}>
+      <h1 className={"flex items-center text-5xl h-16 font-black"}>
         {props.children}
       </h1>
     </header>
