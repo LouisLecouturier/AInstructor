@@ -95,7 +95,7 @@ class Question(models.Model):
     
     
     def __str__(self):
-        return self.statement,self.questionType
+        return self.statement
     
 
 # class PossibleAnswer(models.Model):

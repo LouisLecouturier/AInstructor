@@ -42,17 +42,17 @@ def upload(request,body : UploadTheme, file: UploadedFile = File(...) ):
     course.save()
     # file.name = file.name.replace('.pdf', '.md')
 
-    doc = pdf2md.Document(course.uploadedFile.path)
-    doc.save(course.uploadedFile.path.replace('.pdf', '.md'))
+    # doc = pdf2md.Document(course.uploadedFile.path)
+    # doc.save(course.uploadedFile.path.replace('.pdf', '.md'))
 
-    with open(course.uploadedFile.path, 'r',encoding='utf-8', errors='ignore') as f:
-        try :
-            text = f.read()
-        except UnicodeDecodeError:
-            text = ""
+    # with open(course.uploadedFile.path, 'r',encoding='utf-8', errors='ignore') as f:
+    #     try :
+    #         text = f.read()
+    #     except UnicodeDecodeError:
+    #         text = ""
 
-    course.text = text
-    course.save()
+    # course.text = text
+    # course.save()
 
     return {'name': file.name,'uuid': course.uuid, "uploadedBy": user.username}
 

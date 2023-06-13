@@ -79,3 +79,101 @@ def get_questionary_info(request, uuid: uuidLib.UUID):
     }
 
 
+@router.get("/{uuid}/questions")
+def get_questions_by_quizz(request, uuid: uuidLib.UUID):
+    """Get all questions belonging to a quizz"""
+    try:
+        questions = models.Question.objects.filter(quizz__in=[uuid])
+    except models.Question.DoesNotExist:
+        return {'message': "the quizz does not exist"}
+    
+
+    question_list = []
+    for question in questions:
+        question_list.append({
+            "question uuid": question.uuid,
+            "questionType": question.questionType,
+            "statement": question.statement,
+        })
+    return question_list
+
+
+@router.get("/{uuid}/teams")
+def get_teams_by_quizz(request, uuid: uuidLib.UUID):
+    quizz = get_object_or_404(models.Quizz, uuid=uuid)
+    teams = quizz.teams.all()
+    team_list = []
+    for team in teams:
+        team_list.append({
+            "uuid": team.uuid,
+            "name": team.name,
+        })
+    return team_list
+
+
+
+@router.get("/{uuid}/courses") 
+def get_courses_by_quizz(request, uuid: uuidLib.UUID):
+    quizz = get_object_or_404(models.Quizz, uuid=uuid)
+    courses = quizz.course.all()
+    course_list = []
+    for course in courses:
+        course_list.append({
+            "uuid": course.uuid,
+            "name": course.name,
+        })
+    return course_list
+    
+class Question(Schema):
+    add_team_uuid : List[uuidLib.UUID] = Field(...)
+    rm_team_uuid : List[uuidLib.UUID] = Field(...)
+
+@router.post("/{uuid}/assign-teams")
+def assign_quizz_to_teams(request,body : Question, uuid: uuidLib.UUID):
+    """assign a quizz to a team or remove the quizz from team"""
+    quizz = get_object_or_404(models.Quizz, uuid=uuid)
+    try:
+        add_teams = models.Team.objects.filter(uuid__in=body.add_team_uuid)
+    except models.Team.DoesNotExist:
+        return {'message': "one of the added teams does not exist"}
+    try:
+        rm_teams = models.Team.objects.filter(uuid__in=body.rm_team_uuid)
+    except models.Team.DoesNotExist:
+        return {'message': "one of the removed teams does not exist"}
+    quizz.teams.set(add_teams, clear=False)
+    quizz.teams.remove(*rm_teams)
+    quizz.save()
+    return {'message': "succesfully assigned the course to the teams"}
+        
+
+class QuizzUpdate(Schema):
+    title: str 
+    description: str 
+    dateEnd: date 
+    theme : str
+
+@router.post("/{uuid}/update-info")
+def update_quizz(request, body : QuizzUpdate, uuid: uuidLib.UUID):
+    quizz = get_object_or_404(models.Quizz, uuid=uuid)
+    quizz.title = body.title
+    quizz.description = body.description
+    quizz.dateEnd = body.dateEnd
+    quizz.theme = body.theme
+    quizz.save()
+    return {'message': "succesfully updated the quizz" , 'id' : quizz.uuid}
+
+
+@router.delete("/{uuid}/delete")
+def delete_quizz(request, uuid: uuidLib.UUID):
+    quizz = get_object_or_404(models.Quizz, uuid=uuid)
+    quizz.delete()
+    return {'message': "succesfully deleted the quizz" , 'id' : quizz.uuid}
+
+class DeleteQuizz(Schema):
+    uuid : list[uuidLib.UUID] = Field(...)
+@router.get("/quizz/delete")
+def delete_quizz_list(request, list : DeleteQuizz):
+    for uuid in list.uuid:
+        quizz = get_object_or_404(models.Quizz, uuid=uuid)
+        quizz.delete()
+    return {'message': "succesfully deleted the quizz" , 'id' : quizz.uuid}
