@@ -29,7 +29,7 @@ function progessBar(props: Course) {
 export default function QuestionCube(props: Course) {
   if (props.isSeeAll) {
     return (
-      <div className="flex flex-col justify-center gap-1 p-4 py-3 w-64 h-64 bg-white rounded-xl hover:bg-accent-200 transition">
+      <div className="flex flex-col justify-center gap-1 p-4 py-3 flex-1 max-w-[16rem] h-80 bg-white rounded-xl hover:bg-accent-200 transition">
         <div className="text-accent-500 text-xl font-bold text-center">...</div>
         <h3 className="text-accent-500 text-xl font-bold text-center">
           See all
@@ -39,12 +39,20 @@ export default function QuestionCube(props: Course) {
   }
 
   return (
-    <div className="flex flex-col gap-1 p-4 py-3 w-64 h-64 bg-white rounded-xl hover:bg-accent-200 transition">
-      <div className="flex bg-dark-50 rounded-md h-full w-full"></div>
-      <h3 className="font-semibold">Cours : {props.course}</h3>
-      <h3 className="font-semibold">Date : {props.date}</h3>
-      <div className="flex gap-2">{progessBar(props)}</div>
-      <ProgressBar progress={props.progress || 0} />
+    <div className="flex flex-col p-4 flex-1 h-80 max-w-[16rem] bg-white rounded-xl hover:bg-accent-200 transition">
+      <div className="flex-1 flex justify-center items-center">
+        <div className="flex bg-dark-50 rounded-md aspect-square w-3/4" />
+      </div>
+      <div className="flex flex-1 flex-col justify-between">
+        <div className="flex-1 flex flex-col justify-center">
+          <h3 className="font-semibold text-xl">{props.course}</h3>
+          <h3 className="font-semibold">Date : {props.date}</h3>
+        </div>
+        <div>
+          <div className="flex gap-2">{progessBar(props)}</div>
+          <ProgressBar progress={props.progress || 0} />
+        </div>
+      </div>
     </div>
   );
 }

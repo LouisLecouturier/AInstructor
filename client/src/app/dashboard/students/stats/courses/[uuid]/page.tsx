@@ -154,7 +154,11 @@ export default function coursesStats() {
         </div>
         <div className="flex flex-col w-full gap-10">
           <div className="w-full h-full">
-            <Container className="w-full h-full">
+            <Container
+              title="Courbe de progression"
+              className="w-full h-full"
+              description="c'est une belle courbe"
+            >
               <Line data={data4} />
             </Container>
           </div>

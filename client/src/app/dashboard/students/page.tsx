@@ -4,6 +4,7 @@ import QuestionCube from "@/components/dashboard/Courses";
 import React from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import Header from "@/components/dashboard/Layout/Header";
 
 const courses = [
   {
@@ -67,17 +68,17 @@ const Dashboard = () => {
   const lastname = data?.user.last_name;
 
   return (
-    <div className="flex gap-40">
-      <div className="flex flex-col">
-        <div>
-          <h1 className={"flex items-center h-16 text-4xl font-black"}>
-            Bon retour parmi nous {firstname} !
-          </h1>
+    <div className="flex flex-1 h-full w-full flex-col pb-12">
+      <Header>Dashboard</Header>
+      <div className="flex-col flex gap-8">
+        <h1 className="text-4xl font-bold">
+          Bon retour parmi nous {firstname} !
+        </h1>
+
+        <div className="flex flex-col gap-2">
           <h2 className="flex items-center h-16 text-3xl">
             Reprendre mon parcours
           </h2>
-        </div>
-        <div className="flex">
           <div className="flex gap-8">
             {courses.map((course, index) => (
               <QuestionCube
@@ -89,20 +90,34 @@ const Dashboard = () => {
                 // image={course.image}
               />
             ))}
+
+            {/* <Link href={"/dashboard/students/seeAll"}> */}
             <QuestionCube isSeeAll />
+            {/* </Link> */}
           </div>
         </div>
-        <h2 className="flex items-center h-16 text-3xl">Mes formations</h2>
-        <div className="flex flex-col gap-2 w-full">
-          {homeworks.map((homework) => (
-            <div className="flex flex-col gap-1 p-4 w-full bg-white rounded-xl hover:bg-accent-200">
-              <h3 className="flex font-semibold">Devoir : {homework.course}</h3>
-              <h3 className="flex font-semibold">Date : {homework.date}</h3>
-            </div>
-          ))}
+
+        <div className="flex flex-col gap-2">
+          <h2 className="flex items-center h-16 text-3xl">Mes formations</h2>
+          <div className="flex flex-col gap-2 w-full">
+            {homeworks.map((homework) => (
+              <div className="flex flex-col gap-1 p-4 w-full bg-white rounded-xl hover:bg-accent-200">
+                <h3 className="flex font-semibold">
+                  Devoir : {homework.course}
+                </h3>
+                <h3 className="flex font-semibold">Date : {homework.date}</h3>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      <div className="flex w-1/3 bg-white rounded-xl">
+    </div>
+  );
+};
+
+export default Dashboard;
+
+/* <div className="flex w-1/3 bg-white rounded-xl">
         <div className="flex flex-col gap-4 py-5 p-4 w-full ">
           <h3 className="flex font-semibold px-10 text-4xl">Mon profil</h3>
           <h2 className="flex font-semibold px-5 text-3xl">Informations</h2>
@@ -153,9 +168,4 @@ const Dashboard = () => {
             prof@acad.me
           </h1>
         </div>
-      </div>
-    </div>
-  );
-};
-
-export default Dashboard;
+      </div> */
