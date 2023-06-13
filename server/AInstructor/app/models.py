@@ -23,6 +23,12 @@ class CustomUser(AbstractUser):
     lastConnexion = models.DateField(auto_now=True, auto_now_add=False, null = True)
     accessToken = models.CharField(max_length=500, null = True, default=0)
     refreshToken =  models.CharField(max_length=500, null = True, default=0)
+    address = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
+    city = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
+    country = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
+    postalCode = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
+    bio = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
+    phone = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
 
     def __str__(self):
         return self.username
@@ -50,6 +56,8 @@ class Course(models.Model):
     uploadedBy = models.ForeignKey(CustomUser, on_delete = models.RESTRICT, null = True, blank = True) 
     color = models.CharField(max_length=7, default = "#000000",  blank = True)
     team  = models.ManyToManyField(Team, related_name='team', blank = True)
+    creationDate = models.DateField(auto_now=True, auto_now_add=False, null = True)
+    deliveryDate = models.DateField(auto_now=False, auto_now_add=False, null = True)
     def __str__(self):
         return self.name
 
@@ -64,6 +72,7 @@ class Quizz(models.Model):
     description = models.CharField(max_length=254, validators= [AlphanumericValidator], default = "description : ", null = True,  blank = True)
     theme = models.CharField(max_length=127, validators= [AlphanumericValidator], null = True,  blank = True)
     teams = models.ManyToManyField(Team, related_name='teams', blank = True)
+    status = models.CharField(max_length=127, validators= [AlphanumericValidator], default = "pending",  blank = True)
 
     
     def __str__(self):

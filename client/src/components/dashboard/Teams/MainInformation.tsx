@@ -6,8 +6,9 @@ import { Team } from "@/types/team";
 import clsx from "clsx";
 
 type TeamMainInformationProps = {
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
   team?: Team;
+  readonly?: boolean;
 };
 
 export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
@@ -34,6 +35,8 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
               borders
               size={"sm"}
               name={"color"}
+              readonly={props.readonly}
+
             />
           </div>
 
@@ -46,6 +49,8 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
                 borders
                 size={"sm"}
                 name={"name"}
+                readonly={props.readonly}
+
               />
             </div>
             <div className={"flex flex-col gap-2"}>
@@ -58,12 +63,14 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
                 className={"flex flex-1"}
                 isTextArea
                 name={"description"}
+                readonly={props.readonly}
               />
             </div>
           </div>
         </div>
 
         <div className="flex w-full gap-4">
+          { !props.readonly &&
           <Button
             variant="accent"
             size="sm"
@@ -72,6 +79,7 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
           >
             {props.team ? "Update Team":"Create Team"}
           </Button>
+        }
         </div>
       </form>
     </Container>

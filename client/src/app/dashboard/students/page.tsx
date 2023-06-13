@@ -70,6 +70,7 @@ const Dashboard = () => {
   const firstname = data?.user.first_name;
   const lastname = data?.user.last_name;
 
+
   return (
     <div className="flex flex-1 w-full flex-col">
       <Header>Dashboard</Header>

@@ -14,6 +14,46 @@ router = Router(tags=["User"])
 """__________________________________________________________request conserning the users_______________________________________________________"""
 
 
+@router.get("/{id}")
+def get_user(request, id: int):
+    user = models.CustomUser.objects.get(id=id)
+    return {
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'isTeacher': user.isTeacher,
+        'address': user.address,
+        'city': user.city,
+        'country': user.country,
+        'postalCode': user.postalCode,
+        'bio': user.bio,
+        'phone': user.phone,
+    }
+
+
+@router.put("/{id}")
+def update_user(request, id: int):
+    body = json.loads(request.body.decode('utf-8'))
+
+    user = models.CustomUser.objects.get(id=id)
+    user.username = body['username']
+    user.email = body['email']
+    user.first_name = body['first_name']
+    user.last_name = body['last_name']
+    user.isTeacher = body['isTeacher']
+    user.address = body['address']
+    user.city = body['city']
+    user.country = body['country']
+    user.postalCode = body['postalCode']
+    user.bio = body['bio']
+    user.phone = body['phone']
+    user.save()
+
+    return {'error': False}
+
+
 @router.get("/users", )
 def list_users(request):
     """get the list of all users -> debug only pcq pas safe"""
