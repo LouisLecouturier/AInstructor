@@ -6,6 +6,7 @@ type ContainerProps = {
   description?: string;
   children: React.ReactNode;
   className?: string;
+  action?: React.ReactNode;
 };
 
 const Container: FC<ContainerProps> = (props) => {
@@ -19,16 +20,26 @@ const Container: FC<ContainerProps> = (props) => {
       )}
     >
       {props.title && (
-        <header>
-          <h2 className={"flex items-center text-xl font-black"}>
-            {props.title}
-          </h2>
-          {props.description && <span className={"text-sm text-dark-200 font-semibold"}>{props.description}</span>}
+        <header className={"flex flex-wrap justify-between gap-4"}>
+          <div>
+            {(props.title || props.description) && (
+              <h2 className={"flex items-center text-xl font-black"}>
+                {props.title}
+              </h2>
+            )}
+            {props.description && (
+              <span className={"text-sm text-dark-200 font-semibold"}>
+                {props.description}
+              </span>
+            )}
+          </div>
+          {props.action}
         </header>
       )}
-      {props.children}
+      {props?.children}
     </div>
   );
 };
+
 
 export default Container;

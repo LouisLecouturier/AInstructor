@@ -25,6 +25,8 @@ const fetchData = async (token: string) => {
 const Teams = () => {
   const { data: session } = useSession();
   console.log(session);
+
+
   const token = String(session?.user.accessToken);
 
   const { data, isLoading } = useQuery<Team[]>(["teams"], () =>
@@ -50,7 +52,7 @@ const Teams = () => {
       <SortbyButton />
 
       <div className="flex w-full flex-wrap pt-6 pb-16 gap-10">
-        {data?.map((team, i) => (
+        {data?.map((team) => (
           <TeamCard key={team.uuid} team={team} />
         ))}
         <TeamCard className={"justify-center gap-0"} isAddCard />

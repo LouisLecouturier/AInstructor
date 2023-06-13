@@ -35,53 +35,50 @@ const Table: FC<TableProps> = (props) => {
         </tr>
       </thead>
       <tbody>
-        {props.data.map((row, index) => {
-          console.log(row);
-          return (
-            <tr
-              key={index}
-              className={clsx(
-                "h-8 font-medium",
-                (index + 1) % 2 === 0 && "bg-accent-50"
-              )}
-            >
-              {props.ordered && (
-                <td
-                  className={clsx(
-                    "px-4 py-2",
-                    "text-dark-200/50",
-                    "border-r-2 border-dark-500/5 last:border-none"
-                  )}
-                >
-                  {index + 1}
-                </td>
-              )}
-              {props.columns.map((column, index) => (
-                <td
-                  key={column.key + index}
-                  className={clsx(
-                    "px-4 py-2",
-                    props.firstIsKey && "first:text-dark-200/50",
-                    "border-r-2 border-dark-500/5 last:border-none"
-                  )}
-                >
-                  {row[column.key]}
-                </td>
-              ))}
+        {props.data.map((row, index) => (
+          <tr
+            key={index}
+            className={clsx(
+              "h-8 font-medium",
+              (index + 1) % 2 === 0 && "bg-accent-50"
+            )}
+          >
+            {props.ordered && (
+              <td
+                className={clsx(
+                  "px-4 py-2",
+                  "text-dark-200/50",
+                  "border-r-2 border-dark-500/5 last:border-none"
+                )}
+              >
+                {index + 1}
+              </td>
+            )}
+            {props.columns.map((column, index) => (
+              <td
+                key={column.key + index}
+                className={clsx(
+                  "px-4 py-2",
+                  props.firstIsKey && "first:text-dark-200/50",
+                  "border-r-2 border-dark-500/5 last:border-none"
+                )}
+              >
+                {row[column.key]}
+              </td>
+            ))}
 
-              {props.actions && (
-                <td
-                  className={clsx(
-                    "px-4 py-2",
-                    "border-r-2 border-dark-500/5 last:border-none"
-                  )}
-                >
-                  {props.actions.map((action) => action)}
-                </td>
-              )}
-            </tr>
-          );
-        })}
+            {props.actions && (
+              <td
+                className={clsx(
+                  "px-4 py-2",
+                  "border-r-2 border-dark-500/5 last:border-none"
+                )}
+              >
+                {props.actions.map((action) => action)}
+              </td>
+            )}
+          </tr>
+        ))}
       </tbody>
     </table>
   );

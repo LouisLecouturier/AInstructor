@@ -1,20 +1,12 @@
-"use client"
+"use client";
 import React from "react";
 import Header from "@components/Pages/landing/navigation/Header";
 import Background from "@components/layout/Background";
 import clsx from "clsx";
 
-import styles from "./Home.module.scss";
-import {Button} from "@components/Interactions/Button";
-
-import { useSession } from "next-auth/react";
-
+import { Button } from "@components/Interactions/Button";
 
 const Home = () => {
-
-  const {data : session} = useSession()
-
-  console.log({session})
 
   return (
     <Background className={"h-screen"}>
@@ -48,7 +40,9 @@ const Home = () => {
             level.
           </h1>
 
-          <Button size={"lg"} rounded={"full"}>See plans</Button>
+          <Button size={"lg"} rounded={"full"}>
+            See plans
+          </Button>
         </div>
         <div
           className={clsx(
@@ -69,8 +63,7 @@ const Home = () => {
             </strong>
             .
           </p>
-          <Button rounded={"full"} >Learn more</Button>
-
+          <Button rounded={"full"}>Learn more</Button>
         </div>
       </section>
     </Background>

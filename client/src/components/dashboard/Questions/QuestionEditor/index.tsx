@@ -8,19 +8,23 @@ import { useOnClickOutside } from "usehooks-ts";
 
 import Close from "@icons/Close.svg";
 import Check from "@icons/Checkmark.svg";
+import Skeleton from "@components/layout/Skeleton";
 
-type Question = {
+type QuestionEditProps = {
   index: number;
-  question: string;
-  onAccept: () => void;
-  onEdit: () => void;
-  onDelete: () => void;
+  question: Question;
+  isLoading?: boolean;
+  onEdit?: () => void;
+  onDelete?: () => void;
 };
 
-export default function QuestionEdit(props: Question) {
-  const question = "Lorem ipsum dolor sit amet consectetur adipisicing elit.";
+type Question = {
+  question: string;
+  isLoading?: boolean;
+};
 
-  const [questionValue, setQuestionValue] = useState(question); // [value, setValue
+export default function QuestionEdit(props: QuestionEditProps) {
+  const [question, setQuestion] = useState<Question>(props.question); // [value, setValue
   const [isEditing, setIsEditing] = useState(false);
   const containerRef = useRef(null);
 
@@ -30,57 +34,90 @@ export default function QuestionEdit(props: Question) {
 
   useOnClickOutside(containerRef, handleClickOutside);
 
+  const computeContent = () => {
+    if (question.isLoading) {
+      return (
+        <div className={"flex flex-col gap-4"}>
+          <h3 className={clsx("font-semibold text-lg underline-primary")}>
+            Question {props.index}
+          </h3>
+          <Skeleton className={"w-full h-16"} />
+          <Skeleton className={"w-1/2 h-10"} />
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <div className={"flex flex-col gap-4"}>
+          <h3 className={clsx("font-semibold text-lg underline-primary")}>
+            Question {props.index}
+          </h3>
+          {isEditing ? (
+            <Input
+              textarea
+              borders
+              onChange={(e) => setQuestion({ question: e.target.value })}
+              className={"italic text-sm px-2"}
+              size={"sm"}
+              defaultValue={question.question}
+            />
+          ) : (
+            <div
+              onClick={() => {
+                setIsEditing(true);
+                props.onEdit?.();
+              }}
+              className={clsx(
+                "w-full min-h-[4rem] p-2",
+                "text-sm font-semibold italic",
+                "bg-accent-50 text-dark-300 rounded-md"
+              )}
+            >
+              {question.question}
+            </div>
+          )}
+        </div>
+
+        <div className="flex gap-2 w-1/2">
+          <Button
+            size="sm"
+            rounded="sm"
+            fluid
+            onClick={() => setIsEditing((a) => !a)}
+          >
+            {isEditing && <Check className={"w-5 h-5"} />}
+            <span>{isEditing ? "Save" : "Edit"}</span>
+          </Button>
+          {props.onDelete && (
+            <Button
+              size="sm"
+              rounded="sm"
+              fluid
+              onClick={props.onDelete}
+              variant="secondary"
+              outlined
+            >
+              <Close className={"w-5 min-w-[1rem] h-5"} />
+              <span>Delete</span>
+            </Button>
+          )}
+        </div>
+      </>
+    );
+  };
+
   return (
     <article
-      className="flex flex-col gap-4 p-4 py-3 w-full max-w-lg bg-white rounded-xl"
+      className={clsx(
+        "flex flex-col gap-8",
+        "p-4 py-3 w-full h-fit",
+        "bg-white border-2 border-dark-50 rounded-lg"
+      )}
       ref={containerRef}
     >
-      <input type="hidden" name="question" value={questionValue} />
-      <div className={"flex flex-col gap-1"}>
-        <h3 className="font-semibold text-lg">Question {props.index}</h3>
-        {isEditing ? (
-          <Input
-            isTextArea
-            borders
-            onChange={(e) => setQuestionValue(e.target.value)}
-            className={"italic text-sm px-2"}
-            defaultValue={questionValue}
-          />
-        ) : (
-          <div
-            onClick={() => setIsEditing(true)}
-            className={clsx(
-              "w-full",
-              "text-sm font-medium italic",
-              "bg-white text-dark-300"
-            )}
-          >
-            {questionValue}
-          </div>
-        )}
-      </div>
-      <div className="flex gap-2 w-1/2">
-        <Button
-          size="sm"
-          rounded="sm"
-          fluid
-          onClick={() => setIsEditing((a) => !a)}
-        >
-          {isEditing && <Check className={"w-5 h-5"} />}
-          <span>{isEditing ? "Save" : "Edit"}</span>
-        </Button>
-        <Button
-          size="sm"
-          rounded="sm"
-          fluid
-          onClick={props.onDelete}
-          variant="secondary"
-          outlined
-        >
-          <Close className={"w-5 h-5"} />
-          <span>Delete</span>
-        </Button>
-      </div>
+      <input type="hidden" name="question" value={question.question} />
+      {computeContent()}
     </article>
   );
 }
