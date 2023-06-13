@@ -1,8 +1,7 @@
 import jwt
 from ninja import Router
-from app.models import CustomUser
-from app.models import Team
-import json
+from app import models 
+import json, uuid as uuidLib
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
@@ -24,9 +23,9 @@ def main(request):
 
     token = request.headers.get('Authorization')
     token = token.split(' ')[1]
-    user = get_object_or_404(CustomUser, accessToken=token)
+    user = get_object_or_404(models.CustomUser, accessToken=token)
 
-    teams = Team.objects.filter(users=user)
+    teams = models.Team.objects.filter(users=user)
 
     team_data = [{'uuid': team.uuid, 'name': team.name, 'color': team.color} for team in teams]
 
@@ -54,7 +53,7 @@ def new(request):
 def delete(request, uuid):
     error = False
     try:
-        team = Team.objects.get(uuid=uuid)
+        team = models.Team.objects.get(uuid=uuid)
         team.delete()
     except:
         error = True
@@ -81,7 +80,7 @@ def overview(request, uuid):
     # request = json.loads(request.body.decode('utf-8'))
     # print(request['teamUUID'])
 
-    team = Team.objects.get(uuid=uuid)
+    team = models.Team.objects.get(uuid=uuid)
     users = team.users.all()
     users_data = [{
             'uuid': user.id,
@@ -100,11 +99,6 @@ def overview(request, uuid):
     )
 
 
-# {
-#     uuid: 'uuid',
-#     id: ["3", "4", "5"]
-# }
-
 
 
 @router.post('/{uuid}/remove-users')
@@ -112,12 +106,10 @@ def removeUser(request, uuid):
     request = json.loads(request.body.decode('utf-8'))
     print(request)
     error = False
-
     for email in request['emails']:
         user = CustomUser.objects.get(email=email)
         team = Team.objects.get(uuid=uuid)
         team.users.remove(user)
-
 
     return JsonResponse({'error': error})
 
@@ -129,6 +121,7 @@ def addUser(request, uuid):
     error = False
     
 
+
     for email in request['emails']:
         if email == '':
             return JsonResponse({'error': True})
@@ -136,11 +129,26 @@ def addUser(request, uuid):
         team = Team.objects.get(uuid=uuid)
         team.users.add(user)
 
+
     return JsonResponse({'error': error})
 
 
+@router.get("/{uuid}/courses/")
+def get_courses_by_team(request, uuid: uuidLib.UUID):
+    """get all the courses of one team"""
+    team = get_object_or_404(models.Team, uuid=uuid)
+    print(team)
+    courses = models.Course.objects.filter(team=team)
 
-
-
-    
-
+    result = []
+    for course in courses:
+        course_info = {
+            'uuid': course.uuid,
+            'name': course.name,
+            'theme': course.theme,
+            'color': course.color,
+            'file': course.uploadedFile.path,
+            #'text': course.text,
+        }
+        result.append(course_info)
+    return result

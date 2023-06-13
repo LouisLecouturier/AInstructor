@@ -36,6 +36,7 @@ const Table: FC<TableProps> = (props) => {
   };
 
   return (
+
     <>
 
       <header className="flex justify-between">
@@ -145,6 +146,7 @@ const Table: FC<TableProps> = (props) => {
         </tbody>
       </table>
     </>
+
   );
 };
 

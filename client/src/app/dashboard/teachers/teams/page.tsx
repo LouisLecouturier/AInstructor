@@ -12,7 +12,9 @@ import { fetchTeamsUser } from "@/request";
 
 const Teams = () => {
   const { data: session } = useSession();
+
   const token = session?.user.accessToken;
+
 
   const { data, isLoading, isError } = useQuery<Team[]>({
     queryKey: ["teams"],
@@ -43,6 +45,7 @@ const Teams = () => {
 
       <div className="flex w-full flex-wrap pt-6 pb-16 gap-10">
         {data.map((team, i) => (
+
           <TeamCard key={team.uuid} team={team} />
         ))}
         <TeamCard className={"justify-center gap-0"} isAddCard />

@@ -1,6 +1,7 @@
 "use client";
 
-import "./globals.css";
+import "./globals.scss";
+
 import { ReactNode } from "react";
 import Provider from "./provider";
 

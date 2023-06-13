@@ -8,7 +8,7 @@ import os
 
 # Create your models here.
 
-AlphanumericValidator = RegexValidator(r'^[0-9a-zA-Z ]*$', 'Only alphanumeric characters are allowed.')
+AlphanumericValidator = RegexValidator(r'^[a-zA-Z0-9\s()]+$', 'Only alphanumeric characters are allowed and parenthesis.')
 AlphanumericValidatorPlus = RegexValidator(r'^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)(?=[^!#%]*[!#%])[A-Za-z0-9!#%]{8,32}$', 'The password must contain different case, number, and special character')
 
 
@@ -58,6 +58,8 @@ class Course(models.Model):
     team  = models.ManyToManyField(Team, related_name='team', blank = True)
     creationDate = models.DateField(auto_now=True, auto_now_add=False, null = True)
     deliveryDate = models.DateField(auto_now=False, auto_now_add=False, null = True)
+
+    textPath = models.TextField(null=True, blank=True)
     def __str__(self):
         return self.name
 
@@ -73,7 +75,7 @@ class Quizz(models.Model):
     theme = models.CharField(max_length=127, validators= [AlphanumericValidator], null = True,  blank = True)
     teams = models.ManyToManyField(Team, related_name='teams', blank = True)
     status = models.CharField(max_length=127, validators= [AlphanumericValidator], default = "pending",  blank = True)
-
+    owner = models.ManyToManyField(CustomUser, related_name='quizzes')
     
     def __str__(self):
         return self.title
@@ -97,15 +99,13 @@ class Question(models.Model):
         ]
 
     uuid =  models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
-    
     questionType = models.CharField(max_length = 3, choices = Type_Question_Choice, default = openQuestion)
     statement = models.TextField(null = True)
     quizz = models.ForeignKey(Quizz, on_delete = models.RESTRICT, null = True)
     
     
     def __str__(self):
-        return self.statement,self.questionType
-    
+        return self.statement
 
 # class PossibleAnswer(models.Model):
 #     question = ""
@@ -115,14 +115,14 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
+
     uuid = models.UUIDField(primary_key = True, default = uuidLib.uuid4, editable =False)
     user = models.ForeignKey(CustomUser, on_delete = models.RESTRICT, null = True)
-    question = models.ForeignKey(Quizz, on_delete = models.RESTRICT, null = True)
+    question = models.ForeignKey(Question, on_delete = models.RESTRICT, null = True)
     givenAnswer = models.TextField(null = True,  blank = True)
     aiCorrection = models.TextField(null = True,  blank = True)
     isCorrect = models.BooleanField(default = False)
 
-    
     def __str__(self):
         return self.givenAnswer
 

@@ -1,5 +1,4 @@
-
-"use client"
+"use client";
 
 import React from "react";
 import Header from "@components/dashboard/Layout/Header";
@@ -68,7 +67,7 @@ const Settings = () => {
   return (
     <>
       <Header>Settings</Header>
-      <section className={"flex flex-col gap-4"}>
+      <section className={"flex flex-col gap-8"}>
         <Container title="Personal informations">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <UserInfo name={data.first_name +" "+ data.last_name} type={data.isTeacher ? "Teacher" : "Student"} />

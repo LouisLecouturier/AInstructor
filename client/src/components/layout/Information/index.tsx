@@ -12,13 +12,13 @@ type InformationProps = {
 const Information: FC<InformationProps> = (props) => {
   if (props.editable && props.name) {
     return (
-      <div className={"flex flex-col gap-1"}>
+      <div className={"flex flex-col gap-0.5"}>
         <h4 className={"font-bold"}>{props.label}</h4>
         <Input
           size={"sm"}
           name={props.name}
           defaultValue={props.value?.toString()}
-          isTextArea={props.isTextArea}
+          textarea={props.isTextArea}
           borders
         />
       </div>
@@ -26,7 +26,7 @@ const Information: FC<InformationProps> = (props) => {
   }
 
   return (
-    <div className={"flex flex-col gap-1"}>
+    <div className={"flex flex-col gap-0.5"}>
       <h4 className={"font-bold"}>{props.label}</h4>
       <span>{props.value}</span>
     </div>

@@ -8,7 +8,6 @@ from datetime import date
 from typing import List
 from user import user_requirements
 from django.core.serializers.json import DjangoJSONEncoder
-
 router = Router(tags=["User"])
 
 """__________________________________________________________request conserning the users_______________________________________________________"""

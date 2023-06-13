@@ -61,7 +61,7 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
                 borders
                 size={"sm"}
                 className={"flex flex-1"}
-                isTextArea
+                textarea
                 name={"description"}
                 readonly={props.readonly}
               />
