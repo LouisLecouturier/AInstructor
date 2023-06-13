@@ -1,4 +1,31 @@
-export { default } from "next-auth/middleware"
+import { withAuth } from "next-auth/middleware";
+import { NextRequest, NextResponse } from "next/server";
 
+export default withAuth(
 
-export const config = { matcher : ["/dashboard/:path*"]}
+  // `withAuth` augments your `Request` with the user's token.
+  function middleware(req) {
+    
+    console.log("token: ", req.nextauth.token);
+
+    if (req.nextUrl.pathname.startsWith("/dashboard/students") && req.nextauth.token?.isTeacher !== false){
+      return NextResponse.rewrite(
+        new URL("/dashboard/teachers", req.url)
+      );
+    }
+    if (req.nextUrl.pathname.startsWith("/dashboard/teachers") && req.nextauth.token?.isTeacher !== true){
+      return NextResponse.rewrite(
+        new URL("/dashboard/students", req.url)
+      );
+    }
+  },
+  {
+    callbacks: {
+      authorized: ({ token }) => !!token,
+    },
+  }
+);
+
+export const config = {
+  matcher: ["/dashboard/students/:path*", "/dashboard/teachers/:path*"],
+};

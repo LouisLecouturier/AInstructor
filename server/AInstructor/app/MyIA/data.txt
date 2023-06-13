@@ -6,5 +6,5 @@
 6. Comment est calculé l'adresse du réseau associé à une adresse IP ?
 7. Quels sont les plages d'adresses réservées pour un usage privé ?
 8. Quels sont les plages d'adresses dites "publiques" ?
-9. Qu'est-ce qu'une adresse de groupe de réseaux ?
+9. Qu'est-ce qu'une adresse de Team de réseaux ?
 10. À quoi servent les tables de routage IP ?

@@ -1,17 +1,57 @@
 from ninja import Router, Schema, File, UploadedFile, Field
 from ninja.files import UploadedFile
-import uuid, os,json
+import uuid as uuidLib, os, json
 from django.shortcuts import get_object_or_404
 from app import models
 from pydantic import BaseModel
 from datetime import date
 from typing import List
 from user import user_requirements
+from django.core.serializers.json import DjangoJSONEncoder
 
-router = Router()
+router = Router(tags=["User"])
 
 """__________________________________________________________request conserning the users_______________________________________________________"""
 
+
+@router.get("/{id}")
+def get_user(request, id: int):
+    user = models.CustomUser.objects.get(id=id)
+    return {
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'isTeacher': user.isTeacher,
+        'address': user.address,
+        'city': user.city,
+        'country': user.country,
+        'postalCode': user.postalCode,
+        'bio': user.bio,
+        'phone': user.phone,
+    }
+
+
+@router.put("/{id}")
+def update_user(request, id: int):
+    body = json.loads(request.body.decode('utf-8'))
+
+    user = models.CustomUser.objects.get(id=id)
+    user.username = body['username']
+    user.email = body['email']
+    user.first_name = body['first_name']
+    user.last_name = body['last_name']
+    user.isTeacher = body['isTeacher']
+    user.address = body['address']
+    user.city = body['city']
+    user.country = body['country']
+    user.postalCode = body['postalCode']
+    user.bio = body['bio']
+    user.phone = body['phone']
+    user.save()
+
+    return {'error': False}
 
 
 @router.get("/users", )
@@ -27,25 +67,78 @@ def list_users(request):
             'email': user.email,
             'first_name': user.first_name,
             'last_name': user.last_name,
-            'is_teacher': user.is_teacher,
-            'last_connexion': user.last_connexion,
-            'profile picture' : str(user.profil_picture.url) if user.profil_picture else None,
-            'jwt': {'acces tokenn' :user.jwt_access, 'refresh token': user.jwt_refresh}
+            'isTeacher': user.isTeacher,
+            'lastConnexion': user.lastConnexion,
+            'profilePicture': str(user.profilePicture.url) if user.profilePicture else None,
+            'jwt': {'accessToken': user.accessToken, 'refreshToken': user.refreshToken}
         }
         user_list.append(user_info)
     return {'users': user_list}
 
 
-
-@router.get("/user", )
+@router.get("/user")
 def get_user_by_username(request, username: str):
     user = get_object_or_404(models.CustomUser, username=username)
-    return {'id': user.id, 'username': user.username, 'email': user.email, 'first_name': user.first_name, 'last_name': user.last_name, 'is_teacher': user.is_teacher, 'last_connexion': user.last_connexion, 'profile picture' : str(user.profil_picture.url) if user.profil_picture else None}
+    return {'id': user.id, 'username': user.username, 'email': user.email, 'first_name': user.first_name,
+            'last_name': user.last_name, 'isTeacher': user.isTeacher, 'lastConnexion': user.lastConnexion,
+            'profilePicture': str(user.profilePicture.url) if user.profilePicture else None}
 
-@router.get("/users/{user_id}", )
+
+class CustomUserEncoder(DjangoJSONEncoder):
+    def default(self, o):
+        if isinstance(o, models.CustomUser):
+            return str(o)
+        return super().default(o)
+
+
+@router.get("/users/{user_id}" )
 def get_users_by_id(request, user_id: int):
-    user = get_object_or_404(models.CustomUser, id = user_id)
-    return {'id': user.id, 'username': user.username, 'email': user.email, 'first_name': user.first_name, 'last_name': user.last_name, 'is_teacher': user.is_teacher, 'last_connexion': user.last_connexion, 'profile picture' : str(user.profil_picture.url) if user.profil_picture else None}
+    user = get_object_or_404(models.CustomUser, id=user_id)
+    courses_list = []
+    try:
+        courses = models.Course.objects.filter(uploadedBy=user)
+        for course in courses:
+            courses_list.append({
+                'id': course.uuid,
+                'title': course.name,
+                'theme': course.theme,
+                'uploadedBy': course.uploadedBy,
+            })
+    except:
+        courses = None
+    quizzs_list = []
+    try:
+        quizzs = models.quizz.objects.filter(uploadedBy=user)
+        for quizz in quizzs:
+            quizzs_list.append({
+                'id': quizz.uuid,
+                'title': quizz.title,
+                'theme': quizz.theme,
+                'uploadedBy': quizz.uploadedBy,
+                'description': quizz.description,
+                'difficulty': quizz.difficulty,
+                'dateEnd': quizz.dateEnd,
+                'dateCreation': quizz.dateCreation,
+            })
+    except:
+        quizzs = None
+    response = {
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'isTeacher': user.isTeacher,
+        'lastConnexion': user.lastConnexion,
+        'profilePicture': str(user.profilePicture.url) if user.profilePicture else None,
+        'courses': courses_list,
+        'quizzs': quizzs_list,
+    }
+    response = json.dumps(response, cls=CustomUserEncoder, separators=(',', ':'))
+    # remove the backslash
+    print(response)
+    # response = response.replace('\\', '')
+    return response
 
 
 class CreateUser(Schema):
@@ -54,20 +147,24 @@ class CreateUser(Schema):
     email: str = Field(...)
     first_name: str = Field(...)
     last_name: str = Field(...)
-    is_teacher: bool = Field(...)
-    
-@router.post("/user/create", )
-def create_user(request,body : CreateUser, file: UploadedFile = File(...)):
+    isTeacher: bool = Field(...)
+
+
+@router.post("/user/create")
+def create_user(request, body: CreateUser, file: UploadedFile = File(...)):
     """create a new user"""
-    if  not user_requirements.validate_mail(body.email):
+    if not user_requirements.validate_mail(body.email):
         return {'error': 'mail is not valid or already used !'}
     elif not user_requirements.validate_username(body.username):
         return {'error': 'username is not valid or already used !'}
     # elif not user_requirements.validate_password_strength(body.password):
     #     return {'error': 'password is not strong enougth! use at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character'}
     else:
-        user = models.CustomUser.objects.create_user(username=body.username, password=body.password, email=body.email, first_name=body.first_name, last_name=body.last_name, is_teacher=body.is_teacher, profil_picture=file)
-        return {'message': "succesfully created the user :" + user.username, 'id' : 'user.id'}
+        user = models.CustomUser.objects.create_user(username=body.username, password=body.password, email=body.email,
+                                                     first_name=body.first_name, last_name=body.last_name,
+                                                     isTeacher=body.isTeacher, profilePicture=file)
+        return {'message': "succesfully created the user :" + user.username, 'id': 'user.id'}
+
 
 class UpdateUser(Schema):
     username: str = Field(...)
@@ -76,10 +173,11 @@ class UpdateUser(Schema):
     last_name: str = Field(...)
     password: str = Field(...)
 
-@router.put("/Update/{user_id}", )
-def update_user(request, body : UpdateUser, user_id: int):
+
+@router.put("/Update/{user_id}")
+def update_user(request, body: UpdateUser, user_id: int):
     user = get_object_or_404(models.CustomUser, id=user_id)
-   
+
     if user_requirements.validate_username(body.username) == False:
         return {'error': 'Username already exists'}
     if user_requirements.validate_password_strength(body.password) == False:
@@ -94,12 +192,11 @@ def update_user(request, body : UpdateUser, user_id: int):
     user.first_name = body.first_name
     user.last_name = body.last_name
     user.save()
-    return {'message': user.username +" updated"}
+    return {'message': user.username + " updated"}
 
 
-
-@router.delete("/user/{user_id}", )
+@router.delete("/user/{user_id}")
 def delete_user(request, user_id: int):
     user = get_object_or_404(models.CustomUser, id=user_id)
     user.delete()
-    return {'status': 'ok', 'message': 'user'+ user.username+'deleted'}
+    return {'status': 'ok', 'message': 'user' + user.username + 'deleted'}

@@ -26,6 +26,7 @@ type ListItemProps = {
 
   status?: "done" | "pending" | "in-progress";
   href?: string;
+  query?: string;
   withUserActions?: boolean;
   onDelete?: () => void;
   onEdit?: () => void;
@@ -49,8 +50,8 @@ const ListItem: FC<ListItemProps> = (props) => {
   return (
     <article
       onClick={() => {
-        if (props.href) {
-          router.push(props.href);
+        if (props.href && props.query) {
+          router.push(props.href + '/' + props.query);
         }
       }}
       className={clsx(
