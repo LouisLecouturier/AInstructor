@@ -38,11 +38,13 @@ function Login() {
         console.error(error);
         setError("An error occurred during sign in.");
       });
+
   }
 
   return (
     <form className={"flex flex-col gap-4 max-w-[480px]"} onSubmit={onSubmit}>
       <div>
+
         <Input placeholder="Email" name="email" />
       </div>
       <div className={"flex flex-col gap-2 items-end"}>
@@ -59,8 +61,8 @@ function Login() {
         <span>Sign In</span>
         <LoginIcon className={"w-5"} />
       </Button>
-
       {error && <p className="text-red-500 mt-2">{error}</p>}
+
     </form>
   );
 }

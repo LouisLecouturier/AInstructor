@@ -1,3 +1,4 @@
+
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -49,7 +50,8 @@ export default NextAuth({
     },
   },
 
-  pages: {
-    signIn: "/auth/login",
-  },
+  pages : {
+    signIn : '/auth/login'
+  }
 });
+

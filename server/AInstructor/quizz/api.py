@@ -19,32 +19,32 @@ class Quizz(Schema):
     dateEnd: date 
     theme : str   
     teams: List[uuidLib.UUID] = Field(...)
-    
 
-@router.post("/questionnary/create", )
+@router.post("/create", )
 def create_questionnary(request, body : Quizz):
     """create a new questionnary"""
     today = date.today()
-
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
     print(accessToken)
-    
     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
     quizz = models.Quizz.objects.create(title=body.title, dateCreation = today ,description=body.description,  dateEnd=body.dateEnd, theme=body.theme)
-    quizz.owner.add(user)
-    
-    
-    for course in body.courses:
-        course = get_object_or_404(models.Course, uuid=course)
-        quizz.course.add(course)
+    quizz.owner.set([user])
+    try : 
+        courses = models.Course.objects.filter(uuid__in=body.courses)
+    except models.Course.DoesNotExist:
+        return {'message': " some of the courses does not exist"}
+    quizz.course.set(courses)    
 
-    for team in body.teams:
-        team = get_object_or_404(models.Team, uuid=team)
-        quizz.teams.add(team)
-
+    try :
+        teams = models.Team.objects.filter(uuid__in=body.teams )
+    except models.CustomUser.DoesNotExist:
+        return {'message': " some of the users does not exist"}
+    
+    quizz.teams.set(teams)
     quizz.save()
     return {'message': "succesfully created the quizz : %s" %quizz.title , 'id' : quizz.uuid}
+
 
 @router.get("/{uuid}")
 def get_questionary_info(request, uuid: uuidLib.UUID):
@@ -167,6 +167,7 @@ def delete_quizz(request, uuid: uuidLib.UUID):
     quizz.delete()
     return {'message': "succesfully deleted the quizz" , 'id' : quizz.uuid}
 
+
 class DeleteQuizz(Schema):
     uuid : list[uuidLib.UUID] = Field(...)
 @router.delete("/delete")
@@ -200,3 +201,4 @@ def update_quizz(request, uuid: uuidLib.UUID):
 
     return {"message" : "Questions saved succesfully"}
     # return {'message': "Successfully updated the quizz: %s" % quizz.title, 'id': quizz.uuid}
+

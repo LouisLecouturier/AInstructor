@@ -8,7 +8,7 @@ import os
 
 # Create your models here.
 
-AlphanumericValidator = RegexValidator(r'^[0-9a-zA-Z ]*$', 'Only alphanumeric characters are allowed.')
+AlphanumericValidator = RegexValidator(r'^[a-zA-Z0-9\s()]+$', 'Only alphanumeric characters are allowed and parenthesis.')
 AlphanumericValidatorPlus = RegexValidator(r'^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)(?=[^!#%]*[!#%])[A-Za-z0-9!#%]{8,32}$', 'The password must contain different case, number, and special character')
 
 
@@ -90,7 +90,6 @@ class Question(models.Model):
         ]
 
     uuid =  models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
-    
     questionType = models.CharField(max_length = 3, choices = Type_Question_Choice, default = openQuestion)
     statement = models.TextField(null = True)
     quizz = models.ForeignKey(Quizz, on_delete = models.RESTRICT, null = True)
@@ -98,8 +97,6 @@ class Question(models.Model):
     
     def __str__(self):
         return self.statement
-    
-    
 
 # class PossibleAnswer(models.Model):
 #     question = ""
@@ -109,6 +106,7 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
+
     uuid = models.UUIDField(primary_key = True, default = uuidLib.uuid4, editable =False)
     user = models.ForeignKey(CustomUser, on_delete = models.RESTRICT, null = True)
     question = models.ForeignKey(Question, on_delete = models.RESTRICT, null = True)
@@ -116,7 +114,6 @@ class Answer(models.Model):
     aiCorrection = models.TextField(null = True,  blank = True)
     isCorrect = models.BooleanField(default = False)
 
-    
     def __str__(self):
         return self.givenAnswer
 

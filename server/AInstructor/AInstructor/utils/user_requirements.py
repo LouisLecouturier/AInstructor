@@ -5,8 +5,9 @@ from django.core.validators import validate_email
 
 def validate_password_strength(value):
     try:
-        if validate_password(value):
-            return True
+        validate_password(value)
+        return True
+
     except ValidationError as e:
         print(e.messages)
         return False

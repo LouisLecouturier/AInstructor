@@ -13,9 +13,11 @@ from pydantic import BaseModel, Field
 import openai
 
 
-
-
-
+import pdfplumber
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+import os
+from docx import Document
 
 
 router = Router(tags=["Course"])
@@ -24,14 +26,8 @@ router = Router(tags=["Course"])
 """________________________________________request conserning the courses__________________________________________________"""
 class UploadTheme(Schema):
     theme: str  = Field(...)
-    color: str = Field(...)
+    name : str
 
-
-import pdfplumber
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
-import os
-from docx import Document
 
 @router.post('/uploadCourse')
 def upload(request, body: UploadTheme, file: UploadedFile = File(...)):
@@ -68,17 +64,18 @@ def upload(request, body: UploadTheme, file: UploadedFile = File(...)):
     # Sauvegarder le fichier .md
     course = models.Course.objects.create(name=file.name, theme=body.theme, uploadedFile=file, color=body.color, textPath=txt_file_path)
 
+
     token = request.headers.get('Authorization')
     token = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=token)
 
     course.uploadedBy = user
-
     # Enregistrer le fichier .md en utilisant pdf2md.Document
     doc = pdf2md.Document(course.uploadedFile.path)
     doc.save(course.uploadedFile.path)
-
+    
     return {'name': file.name, 'uuid': course.uuid, 'uploadedBy': user.username}
+
 
 
 @router.get("/course/{uuid}/generate-questions",  )
@@ -106,6 +103,7 @@ def generate_questions(request, uuid: str):
 
     return {"questions": questions} 
     
+
 @router.get("/{uuid}",  )
 def get_courses_by_id(request, uuid: str):
     """get the course by id"""
@@ -117,7 +115,7 @@ def get_courses_by_id(request, uuid: str):
         'text': course.text,
         'uploadedBy': course.uploadedBy.username,
         'color': course.color,
-        'file': course.uploaded_file.name,
+        'file': course.uploadedFile.name,
         }
 
 
@@ -148,6 +146,7 @@ def get_my_courses(request):
         }
         result.append(course_info)
     return result
+
 
 
 class AssignCourse(Schema):
@@ -222,6 +221,7 @@ def get_courses_by_group(request, group_id: uuidLib.UUID):
         }
         result.append(course_info)
     return result
+
 
 
 class UpdateCourse(Schema):
