@@ -157,5 +157,3 @@ def register(request, body: CreateUser, file  : UploadedFile = File(...)):
     except Exception as e:
         print(e)
         return {"error": True, "message": "User not created"}
-
-

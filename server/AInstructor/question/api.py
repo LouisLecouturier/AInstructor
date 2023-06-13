@@ -94,3 +94,5 @@ def get_questions_by_quizz(request, uuid: uuidLib.UUID):
         question_list.append(question_info)
     return {"questions": question_list}
 
+
+
