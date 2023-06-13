@@ -1,0 +1,11 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "${workspaceFolder:AInstructor}/server/AInstructor/db.sqlite3",
+      "name": "Ainstructor"
+    }
+  ],
+  "sqltools.useNodeRuntime": true
+}

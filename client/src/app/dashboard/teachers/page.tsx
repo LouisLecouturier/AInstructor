@@ -27,31 +27,32 @@ const TableData = [
     id: 1,
     name: "Louis",
     surname: "Bouchez",
-    sexe: "15cm"
+    sexe: "15cm",
   },
   {
     id: 2,
     name: "Alexandre",
     surname: "Bouchez",
-    sexe: "13cm"
+    sexe: "13cm",
   },
   {
     id: 3,
     name: "Pierre",
     surname: "Bouchez",
-    sexe: "12cm"
+    sexe: "12cm",
   },
 ];
 
-
 export default function Dashboard() {
+  const { data: session } = useSession();
+  console.log({ session });
 
   return (
     <>
       <Header>Dashboard</Header>
       <div className="flex flex-col gap-4 my-20px">
         <Container>
-          {/* <Table columns={columns} data={TableData} firstIsKey/> */}
+          <Table columns={columns} data={TableData} firstIsKey />
         </Container>
       </div>
     </>
