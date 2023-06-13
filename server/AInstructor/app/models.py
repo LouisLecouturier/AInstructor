@@ -23,6 +23,12 @@ class CustomUser(AbstractUser):
     lastConnexion = models.DateField(auto_now=True, auto_now_add=False, null = True)
     accessToken = models.CharField(max_length=500, null = True, default=0)
     refreshToken =  models.CharField(max_length=500, null = True, default=0)
+    address = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
+    city = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
+    country = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
+    postalCode = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
+    bio = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
+    phone = models.CharField(max_length=254, validators= [AlphanumericValidator], null = True,  blank = True)
 
     def __str__(self):
         return self.username
