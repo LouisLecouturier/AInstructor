@@ -56,6 +56,8 @@ class Course(models.Model):
     uploadedBy = models.ForeignKey(CustomUser, on_delete = models.RESTRICT, null = True, blank = True) 
     color = models.CharField(max_length=7, default = "#000000",  blank = True)
     team  = models.ManyToManyField(Team, related_name='team', blank = True)
+    creationDate = models.DateField(auto_now=True, auto_now_add=False, null = True)
+    deliveryDate = models.DateField(auto_now=False, auto_now_add=False, null = True)
     def __str__(self):
         return self.name
 
@@ -70,6 +72,7 @@ class Quizz(models.Model):
     description = models.CharField(max_length=254, validators= [AlphanumericValidator], default = "description : ", null = True,  blank = True)
     theme = models.CharField(max_length=127, validators= [AlphanumericValidator], null = True,  blank = True)
     teams = models.ManyToManyField(Team, related_name='teams', blank = True)
+    status = models.CharField(max_length=127, validators= [AlphanumericValidator], default = "pending",  blank = True)
 
     
     def __str__(self):

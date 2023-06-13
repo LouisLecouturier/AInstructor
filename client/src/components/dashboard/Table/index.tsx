@@ -17,7 +17,7 @@ type TableProps = {
   className?: string;
   actions?: string[];
   selectable?: boolean;
-  Delete : (emails: string[]) => void;
+  Delete? : (emails: string[]) => void;
 };
 
 const Table: FC<TableProps> = (props) => {
@@ -40,15 +40,30 @@ const Table: FC<TableProps> = (props) => {
 
       <header className="flex justify-between">
         <h2 className={"flex items-center text-xl font-black"}>Members</h2>
+        { props.selectable && 
         <div className="flex gap-4 px-4"> 
           <span className="text-dark-200">{selectedRows.length} items selected</span>
           {selectedRows.length > 0 &&
             <div className="flex gap-2">
-              {props.actions?.includes("delete") && <Delete onClick={() => props.Delete(selectedRows.map((index) => props.data[index].email))} className="w-6 h-6"/>}
-              {props.actions?.includes("edit") && <Edit className="w-6 h-6"/>}
+              {props.actions?.includes("delete") &&
+                <Delete 
+                  onClick={() => {
+                    if (props.Delete){
+                      props.Delete(selectedRows.map((index) => props.data[index].email))
+                      setSelectedRows([]);
+                    }
+                  }} 
+                  className="w-6 h-6"/>
+              }
+
+              {props.actions?.includes("edit") && 
+                <Edit className="w-6 h-6"/>
+              }
+
             </div>
           }
         </div>
+      }
       </header>
       <table className={props.className}>
         

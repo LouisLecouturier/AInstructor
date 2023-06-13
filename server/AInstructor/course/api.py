@@ -64,32 +64,30 @@ def get_courses_by_id(request, uuid: str):
         }
 
 
-@router.get("/mycourses")
-def get_my_courses(request):
-    """get all the courses of the user"""
-    token = request.headers.get('Authorization')
-    token = token.split(' ')[1]
-    
-    try:
-        user = models.CustomUser.objects.get(accessToken=token)
-    except ObjectDoesNotExist:
-        return {"error": "User not found"} 
+@router.get("/mycourses/{user_id}")
+def get_my_courses(request, user_id: int):
+
+    user = get_object_or_404(models.CustomUser, id=user_id)
 
     teams = user.team_set.all()
-    courses = models.Course.objects.filter(group__in=teams)
+    courses = models.Course.objects.filter(team__in=teams)
+
+    Quizz = models.Quizz.objects.filter(course__in=courses)
 
     result = []
     for course in courses:
+        quizz = models.Quizz.objects.filter(course=course)
+
         course_info = {
             'uuid': course.uuid,
             'name': course.name,
-            'theme': course.theme,
-            'uploadedBy': course.uploadedBy.username,
-            'color': course.color,
-            'file': course.uploadedFile.name,
-            #'text': course.text,
+            'team': course.team.first().name,
+            "status" : quizz[0].status,
+            "deliveryDate" : course.deliveryDate,
+            "creationDate" : course.creationDate,
         }
         result.append(course_info)
+
     return result
 
 

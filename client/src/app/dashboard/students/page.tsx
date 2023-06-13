@@ -1,5 +1,4 @@
 import QuestionCube from "@/components/dashboard/Courses";
-import { UserStore } from "@/store/userStore";
 import React from "react";
 import Link from "next/link";
 import SuivantButton from "@components/button/SuivantButton";
@@ -57,8 +56,10 @@ const progress = [
 ];
 
 const Dashboard = () => {
-  const firstname = UserStore.getState().firstname;
-  const lastname = UserStore.getState().lastname;
+  const firstname = "Antoine"
+  const lastname = "Maes"
+
+  
 
   return (
     <div className="flex gap-5">
