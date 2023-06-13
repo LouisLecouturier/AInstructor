@@ -1,8 +1,9 @@
+"use client";
 import QuestionCube from "@/components/dashboard/Courses";
-import { UserStore } from "@/store/userStore";
+
 import React from "react";
 import Link from "next/link";
-import SuivantButton from "@components/button/SuivantButton";
+import { useSession } from "next-auth/react";
 
 const courses = [
   {
@@ -12,10 +13,6 @@ const courses = [
   {
     date: "06/06",
     course: "Meca Q",
-  },
-  {
-    date: "06/06",
-    course: "Français",
   },
 ];
 
@@ -54,14 +51,23 @@ const progress = [
     course: "Français",
     progress: 93,
   },
+  {
+    course: "Maths",
+    progress: 68,
+  },
+  {
+    course: "Physique",
+    progress: 100,
+  },
 ];
 
 const Dashboard = () => {
-  const firstname = UserStore.getState().firstname;
-  const lastname = UserStore.getState().lastname;
+  const { data } = useSession();
+  const firstname = data?.user.first_name;
+  const lastname = data?.user.last_name;
 
   return (
-    <div className="flex gap-5">
+    <div className="flex gap-40">
       <div className="flex flex-col">
         <div>
           <h1 className={"flex items-center h-16 text-4xl font-black"}>
@@ -72,7 +78,7 @@ const Dashboard = () => {
           </h2>
         </div>
         <div className="flex">
-          <div className="flex gap-10">
+          <div className="flex gap-8">
             {courses.map((course, index) => (
               <QuestionCube
                 key={course.course}
@@ -83,20 +89,18 @@ const Dashboard = () => {
                 // image={course.image}
               />
             ))}
+            <QuestionCube isSeeAll />
           </div>
         </div>
         <h2 className="flex items-center h-16 text-3xl">Mes formations</h2>
         <div className="flex flex-col gap-2 w-full">
           {homeworks.map((homework) => (
-            <div className="flex flex-col gap-1 p-4 w-full bg-white rounded-xl">
+            <div className="flex flex-col gap-1 p-4 w-full bg-white rounded-xl hover:bg-accent-200">
               <h3 className="flex font-semibold">Devoir : {homework.course}</h3>
               <h3 className="flex font-semibold">Date : {homework.date}</h3>
             </div>
           ))}
         </div>
-      </div>
-      <div className="w-full px-40 py-40 bg-dark-300 rounded-md">
-        <SuivantButton />
       </div>
       <div className="flex w-1/3 bg-white rounded-xl">
         <div className="flex flex-col gap-4 py-5 p-4 w-full ">

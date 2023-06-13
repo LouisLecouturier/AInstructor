@@ -22,8 +22,7 @@ function Login() {
       const result = await signIn("credentials", {
         username: email,
         password: password,
-        redirect: true,
-        callbackUrl: "http://localhost:3000/dashboard/teachers", // URL de redirection
+        redirect: false,
       });
 
       if (result) {

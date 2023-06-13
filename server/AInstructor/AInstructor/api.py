@@ -136,7 +136,7 @@ def register(request):
             isTeacher=request['isTeacher']
         )
         user.save()
-    except:
-        print("error")
+    except Exception as e:
+        print(e)
 
     return {"error": False, "message": "User created"}
