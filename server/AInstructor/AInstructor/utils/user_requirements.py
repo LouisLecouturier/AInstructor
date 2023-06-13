@@ -7,6 +7,7 @@ def validate_password_strength(value):
     try:
         validate_password(value)
         return True
+
     except ValidationError as e:
         print(e.messages)
         return False
@@ -21,8 +22,6 @@ def validate_username(value):
         return True
        
     
-
-
 
 def validate_mail(value):
     from app.models import CustomUser

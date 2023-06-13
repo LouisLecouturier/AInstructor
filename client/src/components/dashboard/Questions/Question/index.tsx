@@ -139,7 +139,7 @@ const Question: FC<QuestionProps> = (props) => {
         <Input
           name={"question"}
           placeholder={"Write your answer..."}
-          isTextArea
+          textarea
           borders
         />
       </div>

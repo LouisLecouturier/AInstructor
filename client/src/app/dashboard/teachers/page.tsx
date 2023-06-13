@@ -47,6 +47,9 @@ export default function Dashboard() {
   const { data: session } = useSession();
   console.log({ session });
 
+
+export default function Dashboard() {
+
   return (
     <>
       <Header>Dashboard</Header>
