@@ -88,7 +88,6 @@ class Question(models.Model):
         ]
 
     uuid =  models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
-    
     questionType = models.CharField(max_length = 3, choices = Type_Question_Choice, default = openQuestion)
     statement = models.TextField(null = True)
     quizz = models.ForeignKey(Quizz, on_delete = models.RESTRICT, null = True)
@@ -106,14 +105,13 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    uuid = models.UUIDField(primary_key = True, default = uuidLib.uuid4, editable =False)
-    user = models.ForeignKey(CustomUser, on_delete = models.RESTRICT, null = True)
-    question = models.ForeignKey(Quizz, on_delete = models.RESTRICT, null = True)
-    givenAnswer = models.TextField(null = True,  blank = True)
-    aiCorrection = models.TextField(null = True,  blank = True)
-    isCorrect = models.BooleanField(default = False)
+    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
+    user = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True)
+    question = models.ForeignKey(Question, on_delete=models.RESTRICT, null=True)
+    givenAnswer = models.TextField(null=True, blank=True)
+    aiCorrection = models.TextField(null=True, blank=True)
+    isCorrect = models.BooleanField(default=False)
 
-    
     def __str__(self):
         return self.givenAnswer
 
