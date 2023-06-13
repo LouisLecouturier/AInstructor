@@ -1,5 +1,6 @@
 import React from "react";
 import ProgressBar from "@components/dashboard/Layout/ProgressBar";
+import Link from "next/link";
 
 type Course = {
   id?: number;
@@ -29,12 +30,15 @@ function progessBar(props: Course) {
 export default function QuestionCube(props: Course) {
   if (props.isSeeAll) {
     return (
-      <div className="flex flex-col justify-center gap-1 p-4 py-3 flex-1 max-w-[16rem] h-80 bg-white rounded-xl hover:bg-accent-200 transition">
+      <Link
+        href={"/dashboard/students/seeAll"}
+        className="flex flex-col justify-center gap-1 p-4 py-3 flex-1 max-w-[16rem] h-80 bg-white rounded-xl hover:bg-accent-200 transition"
+      >
         <div className="text-accent-500 text-xl font-bold text-center">...</div>
         <h3 className="text-accent-500 text-xl font-bold text-center">
           See all
         </h3>
-      </div>
+      </Link>
     );
   }
 
