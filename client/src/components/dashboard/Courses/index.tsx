@@ -9,6 +9,7 @@ type Course = {
   course?: string;
   progress?: number;
   isSeeAll?: boolean;
+  href?: string;
   //   image: string;
 };
 
@@ -43,7 +44,10 @@ export default function QuestionCube(props: Course) {
   }
 
   return (
-    <div className="flex flex-col p-4 flex-1 h-80 max-w-[16rem] bg-white rounded-xl hover:bg-accent-200 transition">
+    <Link
+      href={props.href || "/dashboard/students"}
+      className="flex flex-col p-4 flex-1 h-80 max-w-[16rem] bg-white rounded-xl hover:bg-accent-200 transition"
+    >
       <div className="flex-1 flex justify-center items-center">
         <div className="flex bg-dark-50 rounded-md aspect-square w-3/4" />
       </div>
@@ -57,6 +61,6 @@ export default function QuestionCube(props: Course) {
           <ProgressBar progress={props.progress || 0} />
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

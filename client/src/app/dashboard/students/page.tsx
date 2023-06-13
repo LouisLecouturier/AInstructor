@@ -2,9 +2,9 @@
 import QuestionCube from "@/components/dashboard/Courses";
 
 import React from "react";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 import Header from "@/components/dashboard/Layout/Header";
+import ListItem from "@/components/layout/ListItem";
 
 const courses = [
   {
@@ -19,15 +19,18 @@ const courses = [
 
 const homeworks = [
   {
-    date: "06/06",
+    creationDate: "06/06/2023",
+    deliveryDate: "06/06/2023",
     course: "Electronique",
   },
   {
-    date: "06/06",
+    creationDate: "06/06/2023",
+    deliveryDate: "06/06/2023",
     course: "Physique",
   },
   {
-    date: "06/06",
+    creationDate: "06/06/2023",
+    deliveryDate: "06/06/2023",
     course: "Maths",
   },
 ];
@@ -68,7 +71,7 @@ const Dashboard = () => {
   const lastname = data?.user.last_name;
 
   return (
-    <div className="flex flex-1 h-full w-full flex-col pb-12">
+    <div className="flex flex-1 w-full flex-col">
       <Header>Dashboard</Header>
       <div className="flex-col flex gap-8">
         <h1 className="text-4xl font-bold">
@@ -91,23 +94,32 @@ const Dashboard = () => {
               />
             ))}
 
-            {/* <Link href={"/dashboard/students/seeAll"}> */}
             <QuestionCube isSeeAll />
-            {/* </Link> */}
+           
           </div>
         </div>
 
         <div className="flex flex-col gap-2">
           <h2 className="flex items-center h-16 text-3xl">Mes formations</h2>
           <div className="flex flex-col gap-2 w-full">
-            {homeworks.map((homework) => (
-              <div className="flex flex-col gap-1 p-4 w-full bg-white rounded-xl hover:bg-accent-200">
-                <h3 className="flex font-semibold">
-                  Devoir : {homework.course}
-                </h3>
-                <h3 className="flex font-semibold">Date : {homework.date}</h3>
-              </div>
-            ))}
+            
+
+            {homeworks.map((homework: any) => {
+              const properties = [
+                { label: "Creation date", value: homework.creationDate },
+                { label: "Delivery date", value: homework.deliveryDate },
+              ];
+
+              return (
+                <ListItem
+                  href={"/dashboard/students/courses/1"}
+                  key={homework.name}
+                  properties={properties}
+                >
+                  {homework.course}
+                </ListItem>
+              );
+            })}
           </div>
         </div>
       </div>
