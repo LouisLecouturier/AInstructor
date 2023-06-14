@@ -6,8 +6,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from ninja import Router
 
-from ..AInstructor import settings
-from ..app import models
+from AInstructor import settings
+from app import models
 
 router = Router(tags=["Team"])
 key = getattr(settings, "SECRET_KEY", None)

@@ -13,7 +13,7 @@ from docx import Document
 from ninja import Router, Schema, File, UploadedFile
 from pydantic import Field
 
-from ..app import models
+from app import models
 
 router = Router(tags=["Course"])
 

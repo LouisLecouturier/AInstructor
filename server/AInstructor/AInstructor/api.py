@@ -3,15 +3,15 @@ from ninja.security import HttpBearer
 from django.contrib.auth import authenticate
 import jwt, datetime, uuid as uuidLib
 from django.db import models
-from ..app import models
+from app import models
 from django.conf import settings
 from .utils import user_requirements
-from ..question.api import router as question_router
-from ..course.api import router as course_router
-from ..quizz.api import router as quizz_router
-from ..answer.api import router as answer_router
-from ..user.api import router as user_router
-from ..team.api import router as team_router
+from question.api import router as question_router
+from course.api import router as course_router
+from quizz.api import router as quizz_router
+from answer.api import router as answer_router
+from user.api import router as user_router
+from team.api import router as team_router
 from django.shortcuts import get_object_or_404
 
 key = getattr(settings, "SECRET_KEY", None)

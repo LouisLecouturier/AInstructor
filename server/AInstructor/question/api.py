@@ -1,7 +1,7 @@
 from ninja import Schema, Field, Router
 import uuid as uuidLib
 from django.shortcuts import get_object_or_404
-from ..app import models
+from app import models
 
 router = Router(tags=["Question"])
 
