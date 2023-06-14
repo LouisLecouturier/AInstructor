@@ -52,9 +52,10 @@ def upload_to_course(instance, filename):
 class Course(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
     name = models.CharField(max_length=127, validators=[AlphanumericValidator], default="New Course", blank=True)
-    theme = models.CharField(max_length=127, validators=[AlphanumericValidator], default="Theme", blank=True)
+    subject = models.CharField(max_length=127, validators=[AlphanumericValidator], default="Theme", blank=True)
     uploadedFile = models.FileField(upload_to=upload_to_course, storage=None, max_length=100)
     text = models.TextField(null=True, blank=True)
+    description = models.CharField(max_length=254, validators=[AlphanumericValidator], default="Hello World"),
     uploadedBy = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True, blank=True)
     color = models.CharField(max_length=7, default="#000000", blank=True)
     team = models.ManyToManyField(Team, related_name='team', blank=True)

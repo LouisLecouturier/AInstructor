@@ -12,6 +12,8 @@ from django.shortcuts import get_object_or_404
 from docx import Document
 from ninja import Router, Schema, File, UploadedFile
 from pydantic import Field
+from django.http import HttpResponse
+
 
 from app import models
 
@@ -25,21 +27,12 @@ class UploadTheme(Schema):
     name: str
     color: str
 
-@router.post("/")
-def create_course(request):
-    #get file in the body of the request
-    print("request", request)
-    print(request.FILES)
-    file = request.FILES.get('file')
-    print(file)
+@router.post("/{user_id}")
+def create_course(request, user_id: int, file : UploadedFile = File(...)):
+    print(file.name)
+    print(user_id)
 
-
-
-@router.post('/uploadCourse')
-def upload(request, body: UploadTheme, file: UploadedFile = File(...)):
-    token = request.headers.get('Authorization')
-    token = token.split(' ')[1]
-    user = get_object_or_404(models.CustomUser, accessToken=token)
+    user = get_object_or_404(models.CustomUser, id=user_id)
 
     # Vérifier l'extension du fichier
     file_extension = os.path.splitext(file.name)[1].lower()
@@ -72,8 +65,11 @@ def upload(request, body: UploadTheme, file: UploadedFile = File(...)):
     default_storage.save(txt_file_path, txt_file)
 
     # Sauvegarder le fichier .md
-    course = models.Course.objects.create(name=file.name, theme=body.theme, uploadedFile=file, color=body.color,
-                                          textPath=txt_file_path)
+    course = models.Course.objects.create(
+        name=file.name,
+        uploadedFile=file, 
+        textPath=txt_file_path
+    )
 
     course.uploadedBy = user
 
@@ -81,7 +77,62 @@ def upload(request, body: UploadTheme, file: UploadedFile = File(...)):
     doc = pdf2md.Document(course.uploadedFile.path)
     doc.save(course.uploadedFile.path)
 
-    return {'name': file.name, 'uuid': course.uuid, 'uploadedBy': user.username}
+    print(course.uuid)
+    return {'uuid': course.uuid}
+
+
+
+   
+
+
+
+# @router.post('/uploadCourse')
+# def upload(request, body: UploadTheme, file: UploadedFile = File(...)):
+#     token = request.headers.get('Authorization')
+#     token = token.split(' ')[1]
+#     user = get_object_or_404(models.CustomUser, accessToken=token)
+
+#     # Vérifier l'extension du fichier
+#     file_extension = os.path.splitext(file.name)[1].lower()
+
+#     if file_extension == '.pdf':
+#         # Convertir le fichier PDF en texte
+#         text_content = ""
+#         with pdfplumber.open(file) as pdf:
+#             for page in pdf.pages:
+#                 text_content += page.extract_text()
+
+#     elif file_extension == '.docx':
+#         # Convertir le fichier Word en texte
+#         document = Document(file)
+#         paragraphs = document.paragraphs
+#         text_content = "\n".join([p.text for p in paragraphs])
+
+#     else:
+#         # Gérer d'autres extensions de fichiers ou afficher une erreur
+#         return {'error': 'Unsupported file format.'}
+
+#     # Enregistrer le contenu texte dans un fichier .txt
+#     txt_file_name = file.name.replace(file_extension, '.txt')
+#     txt_file_path = f"courses-for-IA/{txt_file_name}"  # Spécifiez le chemin de stockage souhaité
+
+#     # Convertir le texte en encodage UTF-8
+#     text_content_utf8 = text_content.encode('utf-8')
+
+#     txt_file = ContentFile(text_content_utf8)
+#     default_storage.save(txt_file_path, txt_file)
+
+#     # Sauvegarder le fichier .md
+#     course = models.Course.objects.create(name=file.name, theme=body.theme, uploadedFile=file, color=body.color,
+#                                           textPath=txt_file_path)
+
+#     course.uploadedBy = user
+
+#     # Enregistrer le fichier .md en utilisant pdf2md.Document
+#     doc = pdf2md.Document(course.uploadedFile.path)
+#     doc.save(course.uploadedFile.path)
+
+#     return {'name': file.name, 'uuid': course.uuid, 'uploadedBy': user.username}
 
 
 @router.get("/course/{uuid}/generate-questions", )
@@ -231,23 +282,54 @@ def get_courses_by_group(request, group_id: uuidLib.UUID):
     return result
 
 
+
+
+
+
+
+
+
+
+
 class UpdateCourse(Schema):
-    uuid: uuidLib.UUID = Field(...)
     name: str = Field(...)
-    theme: str = Field(...)
-    color: str = Field(...)
+    subject: str = Field(...)
+    # color: str = Field(...)
+    description: str = Field(...)
 
 
-@router.put("/update-metadate-course")
-def update_meta_data_from_course(request, course: UpdateCourse):
+@router.put("/hello/{uuid}")
+def update_meta_data_from_course(request, uuid,  courseInfo: UpdateCourse):
     """update the course metadata : name, theme, color"""
-    update_course = get_object_or_404(models.Course, uuid=course.uuid)
-    update_course.theme = course.theme
-    update_course.name = course.name
-    update_course.color = course.color
-    update_course.save()
-    return {'uuid': update_course.uuid, 'theme': update_course.theme, 'name': update_course.name,
-            'color': update_course.color}
+    course = get_object_or_404(models.Course, uuid=uuid)
+    print(courseInfo)
+
+    course.subject = courseInfo.subject
+    course.name = courseInfo.name
+    course.description = courseInfo.description
+    # course.color = courseInfo.color
+    course.save()
+
+    return {
+        'uuid': course.uuid, 
+        'subject': course.subject, 
+        'name': course.name,
+        'description': course.description,
+        # 'color': course.color
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class UpdateCourseFile(Schema):
