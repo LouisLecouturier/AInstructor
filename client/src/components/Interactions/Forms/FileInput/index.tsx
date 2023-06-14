@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, FC, useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import clsx from "clsx";
 
 import UploadIcon from "@icons/Upload.svg";
@@ -14,24 +14,24 @@ type FileInputProps = {
 const MyComponent: FC<FileInputProps> = (props) => {
   const hiddenFileInput = useRef<HTMLInputElement>(null);
   const [isDragging, setDragging] = useState(false);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-
-      const formData = new FormData();
-      formData.append("file", file);
-
-      fetch("http://localhost:8000/api/upload", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-        });
-    }
-  };
+  //
+  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files && e.target.files[0]) {
+  //     const file = e.target.files[0];
+  //
+  //     const formData = new FormData();
+  //     formData.append("file", file);
+  //
+  //     fetch("http://localhost:8000/api/upload", {
+  //       method: "POST",
+  //       body: formData,
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         console.log(data);
+  //       });
+  //   }
+  // };
 
   const handleClick = () => {
     if (hiddenFileInput.current) {
@@ -45,7 +45,7 @@ const MyComponent: FC<FileInputProps> = (props) => {
       const fileInput = hiddenFileInput.current;
       if (fileInput) {
         fileInput.files = e.dataTransfer.files; // Assigner les fichiers à l'élément d'entrée de fichier
-        handleChange({ target: fileInput } as ChangeEvent<HTMLInputElement>); // Appeler la fonction handleChange pour traiter le fichier
+        // handleChange({ target: fileInput } as ChangeEvent<HTMLInputElement>); // Appeler la fonction handleChange pour traiter le fichier
       }
     }
   };
@@ -85,7 +85,7 @@ const MyComponent: FC<FileInputProps> = (props) => {
         name={props.name}
         className={"hidden"}
         ref={hiddenFileInput}
-        onChange={handleChange}
+        // onChange={handleChange}
         accept={props.accept}
       />
 
