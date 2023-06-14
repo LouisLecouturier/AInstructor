@@ -25,6 +25,15 @@ class UploadTheme(Schema):
     name: str
     color: str
 
+@router.post("/")
+def create_course(request):
+    #get file in the body of the request
+    print("request", request)
+    print(request.FILES)
+    file = request.FILES.get('file')
+    print(file)
+
+
 
 @router.post('/uploadCourse')
 def upload(request, body: UploadTheme, file: UploadedFile = File(...)):

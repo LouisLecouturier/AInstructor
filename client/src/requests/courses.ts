@@ -8,3 +8,16 @@ export const fetchCourses = async (token: string, user_id : string) => {
     const data = await response.json();
     return data;
   };
+
+
+export const newCourse = async (token: string, formData : FormData) => {
+  const response = await fetch(`http://localhost:8000/api/course/`, {
+    method: "POST",
+    headers: {
+      authorization: `bearer ${token}`,
+    },
+    body: formData,
+  });
+  const data = await response.json();
+  return data;
+}
