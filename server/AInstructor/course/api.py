@@ -23,6 +23,7 @@ router = Router(tags=["Course"])
 class UploadTheme(Schema):
     theme: str = Field(...)
     name: str
+    color: str
 
 
 @router.post('/uploadCourse')
