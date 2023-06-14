@@ -7,11 +7,9 @@ import LoginIcon from "@icons/Login.svg";
 
 import Link from "next/link";
 import Input from "@components/Interactions/Forms/Input";
-import { useRouter } from "next/navigation";
 
 function Login() {
   const { data: session } = useSession();
-  const router = useRouter();
   const [error, setError] = useState("");
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -21,20 +19,15 @@ function Login() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const res = await signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
       redirect: false,
+    }).then((res) => {
+      if (res?.error) setError(res.error);
     });
 
-    if (res?.error) {
-      setError(res.error);
-      return;
-    }
-
-    if (!session) return;
-
-    router.push(`/dashboard/${session.user.isTeacher ? "teachers" : "students"}`);
+    return;
   }
 
   return (

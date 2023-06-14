@@ -56,6 +56,7 @@ const ListItem: FC<ListItemProps> = (props) => {
       }}
       className={clsx(
         "group",
+        "border-2 border-dark-50 hover:border-accent-200 transition",
         "flex flex-col gap-1",
         "p-4 py-3 w-full bg-white rounded-xl",
         "cursor-pointer"

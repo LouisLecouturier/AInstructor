@@ -39,7 +39,6 @@ type LayoutProps = {
 
 export default function Layout(props: LayoutProps) {
   const pathname = usePathname();
-  const isSigningIn = pathname?.includes("signin") || false;
 
   const isLoggingIn = pathname?.includes("login") || false;
   const isForgotPassword = pathname?.includes("forgot-password") || false;
