@@ -112,7 +112,7 @@ def get_token(request, body: Login):
             "message": "Authentification successfull",
         }
     else:
-        return {"message": "Invalid credentials"}
+        return 400, {"message": "Authentification failed"}
 
 
 class CreateUser(Schema):
@@ -124,7 +124,8 @@ class CreateUser(Schema):
 
 
 @api.post('register', auth=None)
-def register(request, body: CreateUser, file: UploadedFile = File(...)):
+def register(request, body: CreateUser):
+    print(body)
     username = body.email
     if not user_requirements.validate_mail(body.email):
         return {"error": True, "message": "Invalid email"}
@@ -141,7 +142,7 @@ def register(request, body: CreateUser, file: UploadedFile = File(...)):
         first_name=body.first_name,
         last_name=body.last_name,
         isTeacher=body.isTeacher,
-        profilePicture=file,
+        # profilePicture=file,
     )
     try:
 

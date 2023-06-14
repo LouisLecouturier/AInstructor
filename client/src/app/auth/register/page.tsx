@@ -16,7 +16,7 @@ const options = [
 function Register() {
   const { data: session } = useSession();
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -26,7 +26,7 @@ function Register() {
     const last_name = formData.get("lastname") as string;
     const isTeacher = formData.get("type") === "teacher";
 
-    fetch("http://localhost:8000/api/register", {
+    await fetch("http://localhost:8000/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,14 +38,15 @@ function Register() {
         last_name,
         isTeacher,
       }),
-    }).then(async (response) => {
+    }).then((response) => {
       if (response.ok) {
-        await signIn("credentials", {
-          email,
-          password,
-        });
+        signIn();
       }
-    });
+    })
+      .catch((error) => {
+        // Gérer les erreurs de la requête ici
+        console.error(error);
+      });
   }
 
   return (

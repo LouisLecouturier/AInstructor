@@ -28,7 +28,10 @@ export default NextAuth({
           }),
         }).then(async (res) => {
           if (res.ok) {
-            return await res.json();
+            
+            const reponse =  await res.json();
+            console.log(reponse);
+            return reponse;
           }
 
           return null;
