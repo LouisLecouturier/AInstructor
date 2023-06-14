@@ -6,7 +6,6 @@ import { Button } from "@components/Interactions/Button";
 import LoginIcon from "@icons/Login.svg";
 import MyRadioGroup from "@components/Interactions/Forms/RadioGroup";
 import { FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 const options = [
@@ -15,7 +14,6 @@ const options = [
 ];
 
 function Register() {
-  const router = useRouter();
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

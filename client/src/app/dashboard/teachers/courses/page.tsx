@@ -6,6 +6,9 @@ import Header from "@components/dashboard/Layout/Header";
 import ListItem from "@components/layout/ListItem";
 import SectionTitle from "@components/dashboard/Layout/SectionTitle";
 import { useRouter } from "next/navigation";
+import Container from "@components/layout/Container";
+import { Button } from "@components/Interactions/Button";
+import { nanoid } from "nanoid";
 
 type Course = {
   name: string;
@@ -65,6 +68,16 @@ const Courses = () => {
     <div>
       <Header>Courses</Header>
       <main className={"flex flex-col gap-8"}>
+        <Container title={"Create a new course"}>
+          <div className={"flex flex-col gap-1"}>
+            <Button
+              rounded={"full"}
+              onClick={() => goTo("/dashboard/teachers/courses/create")}
+            >
+              Create
+            </Button>
+          </div>
+        </Container>
         <section>
           <SectionTitle>Incoming courses</SectionTitle>
           <div className={"flex flex-col gap-2"}>
@@ -77,7 +90,7 @@ const Courses = () => {
 
               return (
                 <ListItem
-                  key={course.name}
+                  key={nanoid()}
                   properties={properties}
                   withUserActions
                   onSee={() =>
@@ -105,7 +118,7 @@ const Courses = () => {
 
               return (
                 <ListItem
-                  key={course.name}
+                  key={nanoid()}
                   properties={properties}
                   withUserActions
                   onSee={() =>

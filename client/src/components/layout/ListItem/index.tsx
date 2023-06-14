@@ -81,7 +81,7 @@ const ListItem: FC<ListItemProps> = (props) => {
           >
             <Show onClick={props.onSee} />
             <Edit onClick={props.onEdit} />
-            <Delete onEdit={props.onDelete} />
+            <Delete onClick={props.onDelete} />
           </div>
         )}
       </header>
