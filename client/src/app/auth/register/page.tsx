@@ -6,7 +6,8 @@ import { Button } from "@components/Interactions/Button";
 import LoginIcon from "@icons/Login.svg";
 import MyRadioGroup from "@components/Interactions/Forms/RadioGroup";
 import { FormEvent } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const options = [
   { value: "teacher", label: "Teacher" },
@@ -14,6 +15,8 @@ const options = [
 ];
 
 function Register() {
+  const { data: session } = useSession();
+  const router = useRouter();
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

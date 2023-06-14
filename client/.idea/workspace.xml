@@ -5,19 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Fixed merge conflicts">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_06_2023_10_53__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_06_2023_10_53__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/auth/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middleware.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/auth/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/login/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/auth/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/register/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Interactions/Forms/FileInput/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/FileInput/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Background/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Background/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/ListItem/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/ListItem/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/auth/[...nextauth].ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/[...nextauth].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/layout.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,15 +20,15 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="SCSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="Front-End-Louis" />
+        <entry key="$PROJECT_DIR$/.." value="FullStack" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -62,30 +54,30 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;FullStack&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/src/components/dashboard/Navigation/StudentNavigation&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;SCSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/louislecouturier/.nvm/versions/node/v18.14.2/lib/node_modules/prettier&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.updates&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Front-End-Louis",
+    "last_opened_file_path": "/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/src/components/dashboard/Navigation/StudentNavigation",
+    "list.type.of.created.stylesheet": "SCSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "pnpm",
+    "prettierjs.PrettierConfiguration.Package": "/Users/louislecouturier/.nvm/versions/node/v18.14.2/lib/node_modules/prettier",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.updates",
+    "ts.external.directory.path": "/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/dashboard/Navigation/StudentNavigation" />
@@ -93,11 +85,11 @@
       <recent name="$PROJECT_DIR$/src/app/auth/signup" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/app" />
+      <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/preview/[id]" />
       <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/Edit" />
       <recent name="$PROJECT_DIR$/src/components/dashboard/Table" />
       <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src/components/dashboard/Questions" />
     </key>
   </component>
   <component name="RunManager">
@@ -109,10 +101,18 @@
       </scripts>
       <node-interpreter value="project" />
       <envs />
-      <method v="2" />
+      <method v="2">
+        <option name="NpmBeforeRunTask" enabled="true">
+          <package-json value="$PROJECT_DIR$/package.json" />
+          <command value="install" />
+          <node-interpreter value="project" />
+          <envs />
+        </option>
+      </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
@@ -144,7 +144,7 @@
       <workItem from="1686660044826" duration="2302000" />
       <workItem from="1686676008908" duration="956000" />
       <workItem from="1686733870435" duration="3368000" />
-      <workItem from="1686743396911" duration="4639000" />
+      <workItem from="1686743396911" duration="11179000" />
     </task>
     <task id="LOCAL-00001" summary="Config + landing&#10;&#10;Added Satoshi Font&#10;Added TS paths for icons and components&#10;Started header (not responsive)">
       <created>1685096667428</created>
@@ -237,7 +237,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686733907790</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Fixed merge conflicts">
+      <created>1686748356852</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1686748356852</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

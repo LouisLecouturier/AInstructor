@@ -21,20 +21,19 @@ function Login() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const res = await signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
       redirect: false,
+    }).then((res) => {
+      if (res?.error) {
+        setError(res.error);
+        return;
+      }
+      router.push("/dashboard/students");
     });
 
-    if (res?.error) {
-      setError(res.error);
-      return;
-    }
-
-    if (!session) return;
-
-    router.push(`/dashboard/${session.user.isTeacher ? "teachers" : "students"}`);
+    return;
   }
 
   return (
