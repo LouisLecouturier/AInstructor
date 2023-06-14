@@ -20,32 +20,36 @@ const questions = [
   },
 ];
 
-const columns = ["Id", "Name", "Surname", "Sexe"];
+const columns = [
+  { key: "id", label: "Id" },
+  { key: "name", label: "Name" },
+  { key: "surname", label: "Surname" },
+  { key: "sex", label: "Sexe" },
+];
 
 const TableData = [
   {
     id: 1,
     name: "Louis",
     surname: "Bouchez",
-    sexe: "15cm",
+    sex: "15cm",
   },
   {
     id: 2,
     name: "Alexandre",
     surname: "Bouchez",
-    sexe: "13cm",
+    sex: "13cm",
   },
   {
     id: 3,
     name: "Pierre",
     surname: "Bouchez",
-    sexe: "12cm",
+    sex: "12cm",
   },
 ];
 
 export default function Dashboard() {
   const { data: session } = useSession();
-  console.log({ session });
 
   return (
     <>

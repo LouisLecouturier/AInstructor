@@ -1,21 +1,17 @@
+import json
+import uuid as uuidLib
+
 import jwt
-from ninja import Router
-from app import models 
-import json, uuid as uuidLib
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from ninja import Router
 
-from AInstructor import settings
+from ..AInstructor import settings
+from ..app import models
 
 router = Router(tags=["Team"])
 key = getattr(settings, "SECRET_KEY", None)
 
-# TODO : Remake the whole API to match CRUD operations and modularity
-
-# Create
-# Read
-# Update
-# Delete
 
 @router.get('/')
 def main(request):
@@ -30,7 +26,6 @@ def main(request):
     team_data = [{'uuid': team.uuid, 'name': team.name, 'color': team.color} for team in teams]
 
     return JsonResponse({'teams': team_data})
-
 
 
 @router.post('/')
@@ -60,6 +55,7 @@ def delete(request, uuid):
 
     return JsonResponse({'error': error})
 
+
 @router.put('/{uuid}')
 def update(request, uuid):
     request = json.loads(request.body.decode('utf-8'))['team']
@@ -74,7 +70,6 @@ def update(request, uuid):
     return JsonResponse({'error': error})
 
 
-
 @router.get('/{uuid}')
 def overview(request, uuid):
     # request = json.loads(request.body.decode('utf-8'))
@@ -83,22 +78,20 @@ def overview(request, uuid):
     team = models.Team.objects.get(uuid=uuid)
     users = team.users.all()
     users_data = [{
-            'uuid': user.id,
-            'last_name': user.last_name,
-            'first_name': user.first_name,
-            'isTeacher': user.isTeacher,
-            'email': user.email,
-            } for user in users ]
+        'uuid': user.id,
+        'last_name': user.last_name,
+        'first_name': user.first_name,
+        'isTeacher': user.isTeacher,
+        'email': user.email,
+    } for user in users]
 
     return JsonResponse({
-            'name': team.name,
-            'color': team.color,
-            'description': team.description,
-            'users': users_data
-        }
+        'name': team.name,
+        'color': team.color,
+        'description': team.description,
+        'users': users_data
+    }
     )
-
-
 
 
 @router.post('/{uuid}/remove-users')
@@ -119,8 +112,6 @@ def addUser(request, uuid):
     request = json.loads(request.body.decode('utf-8'))
     print(request)
     error = False
-    
-
 
     for email in request['emails']:
         if email == '':
@@ -128,7 +119,6 @@ def addUser(request, uuid):
         user = CustomUser.objects.get(email=email)
         team = Team.objects.get(uuid=uuid)
         team.users.add(user)
-
 
     return JsonResponse({'error': error})
 
@@ -148,7 +138,7 @@ def get_courses_by_team(request, uuid: uuidLib.UUID):
             'theme': course.theme,
             'color': course.color,
             'file': course.uploadedFile.path,
-            #'text': course.text,
+            # 'text': course.text,
         }
         result.append(course_info)
     return result

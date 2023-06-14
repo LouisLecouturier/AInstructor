@@ -11,11 +11,7 @@ const Aside = (props: { isLoggingIn?: boolean }) => {
     <aside
       className={clsx(
         "flex flex-col justify-center items-center gap-8 order-2 md:order-first",
-<<<<<<< HEAD
-        "w-full md:w-2/5 md:p-8 font-medium"
-=======
         "w-full md:w-2/5 max-w-md md:p-8 font-medium"
->>>>>>> origin/FullStack
       )}
     >
       <span className={"hidden md:flex text-5xl font-black"}>AInstructor</span>
@@ -43,15 +39,9 @@ type LayoutProps = {
 
 export default function Layout(props: LayoutProps) {
   const pathname = usePathname();
-<<<<<<< HEAD
   const isSigningIn = pathname?.includes("signin") || false;
-<<<<<<< HEAD
 
-  return (
-=======
-=======
   const isLoggingIn = pathname?.includes("login") || false;
->>>>>>> origin/FullStack
   const isForgotPassword = pathname?.includes("forgot-password") || false;
 
   let description: string;
@@ -82,11 +72,6 @@ export default function Layout(props: LayoutProps) {
   }
 
   return (
-<<<<<<< HEAD
-
->>>>>>> origin/FullStack
-=======
->>>>>>> origin/FullStack
     <div
       className={
         "flex flex-col md:flex-row p-6 gap-6 w-screen min-h-screen bg-white"
@@ -95,42 +80,19 @@ export default function Layout(props: LayoutProps) {
       <span className={"flex md:hidden py-2 text-4xl font-black"}>
         AInstructor
       </span>
-<<<<<<< HEAD
-      <Aside isSigningIn={isSigningIn} />
-<<<<<<< HEAD
-      <Background rounded>
-        <div className="flex flex-col justify-center gap-12 h-full p-8 sm:p-12 lg:p-24">
-          <header className={"flex flex-col gap-2"}>
-            <h1 className="text-5xl font-black">
-              {isSigningIn ? "Welcome back !" : "Nice to meet you !"}
-            </h1>
-            <span className={"font-semibold opacity-50"}>
-              {isSigningIn ? "Sign in to your account" : "Create your account"}
-=======
-=======
+
       <Aside isLoggingIn={isLoggingIn} />
->>>>>>> origin/FullStack
+
       <Background rounded className={"flex flex-1 items-center"}>
         <div className="flex flex-col justify-center gap-12 h-full p-8 sm:p-12 lg:p-24">
           <header className={"flex flex-col gap-2"}>
             <h1 className="text-4xl md:text-5xl font-black">
               {headingContent}
             </h1>
-<<<<<<< HEAD
-            <span className={"font-semibold opacity-50"}>
-              {description}
->>>>>>> origin/FullStack
-            </span>
-=======
             <span className={"font-semibold opacity-50"}>{description}</span>
->>>>>>> origin/FullStack
           </header>
           {props.children}
         </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/FullStack
       </Background>
     </div>
   );

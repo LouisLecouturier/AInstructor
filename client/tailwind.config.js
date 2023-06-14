@@ -105,21 +105,11 @@ module.exports = {
         full: "9999px",
       },
 
-<<<<<<< HEAD
-      padding: {
-        'lg': '36px'
-      },
 
-      boxShadow: {
-        'sm': '0 0 10px 0px rgba(0, 0, 0, 0.05)',
-        'md': '0 0 20px 5px rgba(0, 0, 0, 0.05)',
-        '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
-=======
       boxShadow: {
         sm: "0 0 10px 0px rgba(0, 0, 0, 0.05)",
         md: "0 0 20px 5px rgba(0, 0, 0, 0.05)",
         "3xl": "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
->>>>>>> origin/FullStack
       },
 
       strokeWidth: {

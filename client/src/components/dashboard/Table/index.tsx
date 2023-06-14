@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, useState } from "react";
 import clsx from "clsx";
 import Options from "@icons/Options.svg";
 import Delete from "@icons/Delete.svg";
@@ -24,8 +24,7 @@ const Table: FC<TableProps> = (props) => {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
   const getSelectedEmails = () => {
-    const selectedEmails = selectedRows.map((index) => props.data[index].email);
-    return selectedEmails;
+    return selectedRows.map((index) => props.data[index].email);
   };
 
   const handleRowSelect = (index: number) => {
