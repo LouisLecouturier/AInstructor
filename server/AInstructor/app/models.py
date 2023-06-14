@@ -50,6 +50,8 @@ class Course(models.Model):
     uploadedBy = models.ForeignKey(CustomUser, on_delete = models.RESTRICT, null = True, blank = True) 
     color = models.CharField(max_length=7, default = "#000000",  blank = True)
     team  = models.ManyToManyField(Team, related_name='team', blank = True)
+    textPath = models.TextField(null=True, blank=True)
+
     def __str__(self):
         return self.name
 
@@ -95,7 +97,6 @@ class Question(models.Model):
     
     def __str__(self):
         return self.statement
-    
 
 # class PossibleAnswer(models.Model):
 #     question = ""
@@ -105,12 +106,13 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
-    user = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True)
-    question = models.ForeignKey(Question, on_delete=models.RESTRICT, null=True)
-    givenAnswer = models.TextField(null=True, blank=True)
-    aiCorrection = models.TextField(null=True, blank=True)
-    isCorrect = models.BooleanField(default=False)
+
+    uuid = models.UUIDField(primary_key = True, default = uuidLib.uuid4, editable =False)
+    user = models.ForeignKey(CustomUser, on_delete = models.RESTRICT, null = True)
+    question = models.ForeignKey(Question, on_delete = models.RESTRICT, null = True)
+    givenAnswer = models.TextField(null = True,  blank = True)
+    aiCorrection = models.TextField(null = True,  blank = True)
+    isCorrect = models.BooleanField(default = False)
 
     def __str__(self):
         return self.givenAnswer

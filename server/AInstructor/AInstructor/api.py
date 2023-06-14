@@ -126,8 +126,6 @@ class CreateUser(Schema):
     first_name: str 
     last_name: str 
     isTeacher: bool 
-   
-    
 
 @api.post('register', auth=None)
 def register(request, body: CreateUser, file  : UploadedFile = File(...)):
@@ -135,11 +133,14 @@ def register(request, body: CreateUser, file  : UploadedFile = File(...)):
     username = body.email
     if not user_requirements.validate_mail(body.email):
         return {"error": True, "message": "Invalid email"}
+
     if not user_requirements.validate_password_strength(body.password):
+
         return {"error": True, "message": "Invalid password"}
     if not user_requirements.validate_username(username) and not user_requirements.validate_not_empty(username):
         return {'error': 'username is not valid or already used !'}
     
+
     user = models.CustomUser.objects.create_user(
         username=username, 
         password=body.password,
@@ -150,12 +151,11 @@ def register(request, body: CreateUser, file  : UploadedFile = File(...)):
         profilePicture=file,
     )
     try:
+
         user.save()
         return {"error": False, "message": "User created"}
     except Exception as e:
         print(e)
-        return {"error": True, "message": "User   not created"}
-
-
+        return {"error": True, "message": "User not created"}
 
 

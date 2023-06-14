@@ -119,3 +119,21 @@ def get_answer_to_one_question_by_id(request, uuid_answer: uuidLib.UUID):
     answer = get_object_or_404(models.Answer, uuid=uuid_answer)
     return {"message": "successfully got the answer", "answer": answer.givenAnswer, "answer_uuid": answer.uuid, "question_uuid": answer.question.uuid, "is_correct": answer.is_correct, "aiCorrection": answer.aiCorrection, "user" : answer.user.uuid}
     
+class newAnswer(Schema):    
+    answer: str = Field(...)
+
+@router.put("/{uuid_answer}/update")
+def update_answer(request, uuid_answer: uuidLib.UUID, new_answer : newAnswer):
+    answer = get_object_or_404(models.Answer, uuid=uuid_answer)
+    print(new_answer)
+    answer.givenAnswer = new_answer.answer
+    print(answer.givenAnswer)
+    answer.save()
+    return {"message": "successfully updated the answer", "answer": answer.givenAnswer, "answer_uuid": answer.uuid, "question_uuid": answer.question.uuid}
+
+
+@router.delete("/{uuid_answer}/delete")
+def delete_answer(request, uuid_answer: uuidLib.UUID):
+    answer = get_object_or_404(models.Answer, uuid=uuid_answer)
+    answer.delete()
+    return {"message": "successfully deleted the answer", "answer_uuid": uuid_answer}

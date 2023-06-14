@@ -1,11 +1,6 @@
-import { Button } from "@components/Interactions/Button";
-import Input from "@components/Interactions/Forms/Input";
-import clsx from "clsx";
-import React, { useState } from "react";
+import React from "react";
 import Line from "../Cards/MemberCard";
-import HeaderListFieldMapping from "./TableRow/header";
 import { addUserMenu } from "@/store/displayMenu";
-import AddObjectModelMenu from "@components/Interactions/Forms/AddUserMenu";
 import Container from "@components/layout/Container";
 
 interface user {
@@ -33,13 +28,6 @@ export default function ListFieldMapping({
   placeholderPrimaryKeyElementAdd: string;
 }) {
   const isAddUserMenuDisplayed = addUserMenu((state) => state.isDisplay);
-
-
-  return (
-    <table>
-
-    </table>
-  )
 
 
 

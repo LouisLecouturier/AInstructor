@@ -12,7 +12,8 @@ from django.core.files.base import ContentFile
 from pydantic import BaseModel, Field
 from django.core.files.storage import default_storage
 from docx import Document
-from AInstructor.settings import CORS_ALLOWED_METHODS
+import openai
+
 
 
 router = Router(tags=["Course"])
@@ -28,74 +29,69 @@ def upload(request, body: UploadTheme, file: UploadedFile = File(...)):
     # Vérifier l'extension du fichier
     file_extension = os.path.splitext(file.name)[1].lower()
 
-    if file_extension == '.pdf':
-        # Convertir le fichier PDF en texte
-        text_content = ""
-        with pdfplumber.open(file) as pdf:
-            for page in pdf.pages:
-                text_content += page.extract_text()
+@router.post('/uploadCourse',)
+def upload(request,body : UploadTheme, file: UploadedFile = File(...) ):
+    text_content = ""
+    with pdfplumber.open(file) as pdf:
+        for page in pdf.pages:
+            text_content += page.extract_text()
 
-    elif file_extension == '.docx':
-        # Convertir le fichier Word en texte
-        document = Document(file)
-        paragraphs = document.paragraphs
-        text_content = "\n".join([p.text for p in paragraphs])
+    # text_content_utf8 = text_content.encode('utf-8')
+    # txt_file = ContentFile(text_content)
+    if body.name is None:
+        name = file.name
 
-    else:
-        # Gérer d'autres extensions de fichiers ou afficher une erreur
-        return {'error': 'Unsupported file format.'}
-
-    # Enregistrer le contenu texte dans un fichier .txt
-    txt_file_name = file.name.replace(file_extension, '.txt')
-    txt_file_path = f"courses-for-IA/{txt_file_name}"  # Spécifiez le chemin de stockage souhaité
-    
-    # Convertir le texte en encodage UTF-8
-    text_content_utf8 = text_content.encode('utf-8')
-    
-    txt_file = ContentFile(text_content_utf8)
-    default_storage.save(txt_file_path, txt_file)
-
-    # Sauvegarder le fichier .md
-    course = models.Course.objects.create(name=file.name, theme=body.theme, uploadedFile=file, color=body.color, textPath=txt_file_path)
+    course = models.Course.objects.create( name = name ,text = text_content,  theme = body.theme, uploadedFile = file)
 
     token = request.headers.get('Authorization')
     token = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=token)
 
     course.uploadedBy = user
+    course.save()
+    # file.name = file.name.replace('.pdf', '.md')
 
-    # Enregistrer le fichier .md en utilisant pdf2md.Document
-    doc = pdf2md.Document(course.uploadedFile.path)
-    doc.save(course.uploadedFile.path)
+    # doc = pdf2md.Document(course.uploadedFile.path)
+    # doc.save(course.uploadedFile.path.replace('.pdf', '.md'))
 
-    return {'name': file.name, 'uuid': course.uuid, 'uploadedBy': user.username}
+    # with open(course.uploadedFile.path, 'r',encoding='utf-8', errors='ignore') as f:
+    #     try :
+    #         text = f.read()
+    #     except UnicodeDecodeError:
+    #         text = ""
 
-class AssignCourse(Schema):
-    #assigne courses to a team
-    course_id: List[uuidLib.UUID] = Field(...)
-    team_id: uuidLib.UUID = Field(...)
-    deadline: datetime.date 
+    # course.text = text
+    # course.save()
 
-@router.post("/assignCourse")
-def assign_course(request , body: AssignCourse):
-    """assigne  courses to a team"""
-    try:
-        courses = models.Course.objects.filter(uuid__in=body.course_id)
-    except ObjectDoesNotExist:
-        return {"message":"some of the courses are not found"}
-    team = get_object_or_404(models.Team, uuid=body.team_id)
+    return {'name': file.name,'uuid': course.uuid, "uploadedBy": user.username}
 
-    for course in courses:
-        course.team.add(team)
 
-        if body.deadline is None:
-            course.date_end = datetime.date.today() + datetime.timedelta(years=1)
-        else : 
-            course.date_end = body.deadline
+@router.get("/course/{uuid}/generate-questions",  )
+def generate_questions(request, uuid: str):
+    """generate questions from the course"""
+    course = get_object_or_404(models.Course, uuid=uuid)
+    path = course.textPath
+        #Ouvrez le fichier en mode lecture
+    with open(path, "r",encoding="utf-8") as fichier:
+    # Lisez le contenu du fichier
+        texte = fichier.read()
+    openai.api_key = "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"
 
-        course.save()
-    return {'message': 'courses assigned successfully'}
-   
+    response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "assistant", "content": texte},
+        {"role": "user", "content": "Ecrit moi 10 questions sur ce texte pour tester mes connaisances mais tu ecris seulement les questions et pas les réponses"},
+    ]
+)
+
+    questions_with_numbers = response.choices[0].message.content.split('\n')
+    questions = [q.split('.', 1)[1].strip() for q in questions_with_numbers if q.strip()]
+
+    return {"questions": questions} 
+    
+
 @router.get("/{uuid}",  )
 def get_courses_by_id(request, uuid: str):
     """get the course by id"""
@@ -109,6 +105,53 @@ def get_courses_by_id(request, uuid: str):
         'color': course.color,
         'file': course.uploadedFile.name,
         }
+
+
+@router.get("/mycourses")
+def get_my_courses(request):
+    """get all the courses of the user"""
+    token = request.headers.get('Authorization')
+    token = token.split(' ')[1]
+    
+    try:
+        user = models.CustomUser.objects.get(accessToken=token)
+    except ObjectDoesNotExist:
+        return {"error": "User not found"} 
+
+    teams = user.team_set.all()
+    courses = models.Course.objects.filter(group__in=teams)
+
+    result = []
+    for course in courses:
+        course_info = {
+            'uuid': course.uuid,
+            'name': course.name,
+            'theme': course.theme,
+            'uploadedBy': course.uploadedBy.username,
+            'color': course.color,
+            'file': course.uploadedFile.name,
+            #'text': course.text,
+        }
+        result.append(course_info)
+    return result
+
+
+class UpdateCourse(Schema):
+    uuid: uuidLib.UUID  = Field(...)
+    name: str = Field(...)
+    theme: str = Field(...)
+    color: str = Field(...)
+
+@router.put("/update-metadate-course")
+def update_meta_data_from_course(request,course : UpdateCourse):
+    """update the course metadata : name, theme, color"""
+    update_course = get_object_or_404(models.Course, uuid=course.uuid)
+    update_course.theme = course.theme
+    update_course.name = course.name
+    update_course.color = course.color
+    update_course.save()
+    return {'uuid': update_course.uuid, 'theme': update_course.theme, 'name': update_course.name, 'color': update_course.color}
+
 
 
 class UpdateCourseFile(Schema):

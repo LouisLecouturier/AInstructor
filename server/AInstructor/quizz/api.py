@@ -20,13 +20,12 @@ class Quizz(Schema):
     theme : str   
     teams: List[uuidLib.UUID] = Field(...)
 
-@router.post("/questionnary/create", )
+@router.post("/create", )
 def create_questionnary(request, body : Quizz):
     """create a new questionnary"""
     today = date.today()
-
-    tojen = request.headers.get('Authorization')
-    accessToken = tojen.split(' ')[1]
+    token = request.headers.get('Authorization')
+    accessToken = token.split(' ')[1]
     print(accessToken)
     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
     quizz = models.Quizz.objects.create(title=body.title, dateCreation = today ,description=body.description,  dateEnd=body.dateEnd, theme=body.theme)
@@ -47,8 +46,7 @@ def create_questionnary(request, body : Quizz):
     return {'message': "succesfully created the quizz : %s" %quizz.title , 'id' : quizz.uuid}
 
 
-
-@router.get("/quizz/{uuid}")
+@router.get("/{uuid}")
 def get_questionary_info(request, uuid: uuidLib.UUID):
     quizz = get_object_or_404(models.Quizz, uuid=uuid)
     course = quizz.course.first()
@@ -65,7 +63,7 @@ def get_questionary_info(request, uuid: uuidLib.UUID):
             {
                 'uuid': question.uuid,
                 'statement': question.statement,
-                'type': question.type,
+                'type': question.questionType,
             }
             for question in questions
         ],
@@ -169,11 +167,38 @@ def delete_quizz(request, uuid: uuidLib.UUID):
     quizz.delete()
     return {'message': "succesfully deleted the quizz" , 'id' : quizz.uuid}
 
+
 class DeleteQuizz(Schema):
     uuid : list[uuidLib.UUID] = Field(...)
-@router.get("/quizz/delete")
+@router.delete("/delete")
 def delete_quizz_list(request, list : DeleteQuizz):
     for uuid in list.uuid:
         quizz = get_object_or_404(models.Quizz, uuid=uuid)
         quizz.delete()
     return {'message': "succesfully deleted the quizz" , 'id' : quizz.uuid}
+
+
+
+@router.put("/questions/{uuid}")
+def update_quizz(request, uuid: uuidLib.UUID):
+    quizz = get_object_or_404(models.Quizz, uuid=uuid)
+    questions = models.Question.objects.filter(quizz=quizz)
+
+    # Supprimer toutes les questions existantes du quizz
+    questions.delete()
+
+    # Parsing du data
+    data_unicode = request.body.decode('utf-8')
+    data = json.loads(data_unicode)
+
+    # Loop through questions
+    for question in data["questions"]:
+        #print(question)
+        # For each question given, create entity in DB
+        q = models.Question.objects.create(uuid=uuidLib.uuid4(), statement=question, quizz=quizz)
+        q.save()
+        
+
+    return {"message" : "Questions saved succesfully"}
+    # return {'message': "Successfully updated the quizz: %s" % quizz.title, 'id': quizz.uuid}
+
