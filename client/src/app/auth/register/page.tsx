@@ -7,6 +7,7 @@ import LoginIcon from "@icons/Login.svg";
 import MyRadioGroup from "@components/Interactions/Forms/RadioGroup";
 import { FormEvent } from "react";
 import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const options = [
   { value: "teacher", label: "Teacher" },
@@ -15,6 +16,7 @@ const options = [
 
 function Register() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -38,11 +40,12 @@ function Register() {
         last_name,
         isTeacher,
       }),
-    }).then((response) => {
-      if (response.ok) {
-        signIn();
-      }
     })
+      .then((response) => {
+        if (response.ok) {
+          signIn();
+        }
+      })
       .catch((error) => {
         // Gérer les erreurs de la requête ici
         console.error(error);
