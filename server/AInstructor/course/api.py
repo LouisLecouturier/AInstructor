@@ -1,6 +1,6 @@
 from ninja import Router, Schema, File, UploadedFile, Field
 from app import models
-import datetime,uuid as uuidLib,pdfplumber, aspose.words as pdf2md
+import datetime,uuid as uuidLib,pdfplumber, aspose.words as pdf2md, os
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -10,6 +10,9 @@ from typing import List
 from course.user_requirements import validate_password_strength, validate_username, validate_mail, validate_not_empty
 from django.core.files.base import ContentFile
 from pydantic import BaseModel, Field
+from django.core.files.storage import default_storage
+from docx import Document
+from AInstructor.settings import CORS_ALLOWED_METHODS
 
 
 router = Router(tags=["Course"])
@@ -17,45 +20,55 @@ router = Router(tags=["Course"])
 
 """________________________________________request conserning the courses__________________________________________________"""
 class UploadTheme(Schema):
-    theme: str  = Field(...)
+    theme: str 
     name : str
+    color : str
+@router.post('/uploadCourse')
+def upload(request, body: UploadTheme, file: UploadedFile = File(...)):
+    # Vérifier l'extension du fichier
+    file_extension = os.path.splitext(file.name)[1].lower()
 
-@router.post('/uploadCourse',)
-def upload(request,body : UploadTheme, file: UploadedFile = File(...) ):
-    text_content = ""
-    with pdfplumber.open(file) as pdf:
-        for page in pdf.pages:
-            text_content += page.extract_text()
+    if file_extension == '.pdf':
+        # Convertir le fichier PDF en texte
+        text_content = ""
+        with pdfplumber.open(file) as pdf:
+            for page in pdf.pages:
+                text_content += page.extract_text()
 
-    # text_content_utf8 = text_content.encode('utf-8')
-    # txt_file = ContentFile(text_content)
-    if body.name is None:
-        name = file.name
+    elif file_extension == '.docx':
+        # Convertir le fichier Word en texte
+        document = Document(file)
+        paragraphs = document.paragraphs
+        text_content = "\n".join([p.text for p in paragraphs])
 
-    course = models.Course.objects.create( name = name ,text = text_content,  theme = body.theme, uploadedFile = file)
+    else:
+        # Gérer d'autres extensions de fichiers ou afficher une erreur
+        return {'error': 'Unsupported file format.'}
+
+    # Enregistrer le contenu texte dans un fichier .txt
+    txt_file_name = file.name.replace(file_extension, '.txt')
+    txt_file_path = f"courses-for-IA/{txt_file_name}"  # Spécifiez le chemin de stockage souhaité
+    
+    # Convertir le texte en encodage UTF-8
+    text_content_utf8 = text_content.encode('utf-8')
+    
+    txt_file = ContentFile(text_content_utf8)
+    default_storage.save(txt_file_path, txt_file)
+
+    # Sauvegarder le fichier .md
+    course = models.Course.objects.create(name=file.name, theme=body.theme, uploadedFile=file, color=body.color, textPath=txt_file_path)
 
     token = request.headers.get('Authorization')
     token = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=token)
 
     course.uploadedBy = user
-    course.save()
-    # file.name = file.name.replace('.pdf', '.md')
 
-    # doc = pdf2md.Document(course.uploadedFile.path)
-    # doc.save(course.uploadedFile.path.replace('.pdf', '.md'))
+    # Enregistrer le fichier .md en utilisant pdf2md.Document
+    doc = pdf2md.Document(course.uploadedFile.path)
+    doc.save(course.uploadedFile.path)
 
-    # with open(course.uploadedFile.path, 'r',encoding='utf-8', errors='ignore') as f:
-    #     try :
-    #         text = f.read()
-    #     except UnicodeDecodeError:
-    #         text = ""
-
-    # course.text = text
-    # course.save()
-
-    return {'name': file.name,'uuid': course.uuid, "uploadedBy": user.username}
-
+    return {'name': file.name, 'uuid': course.uuid, 'uploadedBy': user.username}
 
 class AssignCourse(Schema):
     #assigne courses to a team
@@ -98,57 +111,10 @@ def get_courses_by_id(request, uuid: str):
         }
 
 
-@router.get("/mycourses")
-def get_my_courses(request):
-    """get all the courses of the user"""
-    token = request.headers.get('Authorization')
-    token = token.split(' ')[1]
-    
-    try:
-        user = models.CustomUser.objects.get(accessToken=token)
-    except ObjectDoesNotExist:
-        return {"error": "User not found"} 
-
-    teams = user.team_set.all()
-    courses = models.Course.objects.filter(group__in=teams)
-
-    result = []
-    for course in courses:
-        course_info = {
-            'uuid': course.uuid,
-            'name': course.name,
-            'theme': course.theme,
-            'uploadedBy': course.uploadedBy.username,
-            'color': course.color,
-            'file': course.uploadedFile.name,
-            #'text': course.text,
-        }
-        result.append(course_info)
-    return result
-
-
-class UpdateCourse(Schema):
-    uuid: uuidLib.UUID  = Field(...)
-    name: str = Field(...)
-    theme: str = Field(...)
-    color: str = Field(...)
-
-@router.put("/update-metadate-course")
-def update_meta_data_from_course(request,course : UpdateCourse):
-    """update the course metadata : name, theme, color"""
-    update_course = get_object_or_404(models.Course, uuid=course.uuid)
-    update_course.theme = course.theme
-    update_course.name = course.name
-    update_course.color = course.color
-    update_course.save()
-    return {'uuid': update_course.uuid, 'theme': update_course.theme, 'name': update_course.name, 'color': update_course.color}
-
-
-
 class UpdateCourseFile(Schema):
-    uuid: uuidLib.UUID  = Field(...)
+    uuid: uuidLib.UUID = Field(...)
 
-@router.put("/update-course-file")
+@router.put("/updateCourseFile")
 def update_course_file(request,body: UpdateCourseFile,file: UploadedFile = File(...)):
     """update the course file"""
     course = get_object_or_404(models.Course, uuid=body.uuid)
@@ -162,9 +128,28 @@ def update_course_file(request,body: UpdateCourseFile,file: UploadedFile = File(
 
 @router.delete("/course/{uuid}")
 def delete_data(request, uuid: str):
-    course = models.Course.objects.get(uuid=uuid)
+    course  = get_object_or_404(models.Course, uuid=uuid)
     course.delete()
     return {'uuid': uuid}
+
+
+
+class UpdateCourse(Schema):
+    uuid: uuidLib.UUID  = Field(...)
+    name: str
+    theme: str 
+    color: str 
+
+@router.put("/update/metadata")
+def update_meta_data_from_course(request,body : UpdateCourse):
+    course = get_object_or_404(models.Course, uuid=body.uuid)
+    course.theme = body.theme
+    course.name = body.name
+    course.color = body.color
+    course.save()
+    return {'uuid': course.uuid, 'theme': course.theme, 'name': course.name, 'color': course.color}
+
+
 
 
 class UpdateCourseText(Schema):
