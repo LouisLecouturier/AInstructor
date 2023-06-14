@@ -23,6 +23,7 @@ const Background: FC<BackgroundProps> = (props) => {
       <Image
         src={background}
         alt={"background"}
+        priority={true}
         className={
           "absolute inset-0 w-full h-full pointer-events-none object-cover"
         }

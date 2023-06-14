@@ -6,8 +6,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from ninja import Router
 
-from ..AInstructor import settings
-from ..app import models
+from AInstructor import settings
+from app import models
 
 router = Router(tags=["Team"])
 key = getattr(settings, "SECRET_KEY", None)
@@ -37,8 +37,8 @@ def new(request):
     request = json.loads(request.body.decode('utf-8'))['team']
     error = False
 
-    user = get_object_or_404(CustomUser, accessToken=token)
-    team = Team.objects.create(name=request['name'], color=request['color'])
+    user = get_object_or_404(models.CustomUser, accessToken=token)
+    team = models.Team.objects.create(name=request['name'], color=request['color'])
     team.users.add(user)
 
     return JsonResponse({'error': error})
@@ -61,7 +61,7 @@ def update(request, uuid):
     request = json.loads(request.body.decode('utf-8'))['team']
     error = False
 
-    team = Team.objects.get(uuid=uuid)
+    team = models.Team.objects.get(uuid=uuid)
     team.name = request['name']
     team.color = request['color']
     team.description = request['description']
@@ -100,8 +100,8 @@ def removeUser(request, uuid):
     print(request)
     error = False
     for email in request['emails']:
-        user = CustomUser.objects.get(email=email)
-        team = Team.objects.get(uuid=uuid)
+        user = models.CustomUser.objects.get(email=email)
+        team = models.Team.objects.get(uuid=uuid)
         team.users.remove(user)
 
     return JsonResponse({'error': error})
@@ -116,8 +116,8 @@ def addUser(request, uuid):
     for email in request['emails']:
         if email == '':
             return JsonResponse({'error': True})
-        user = CustomUser.objects.get(email=email)
-        team = Team.objects.get(uuid=uuid)
+        user = models.CustomUser.objects.get(email=email)
+        team = models.Team.objects.get(uuid=uuid)
         team.users.add(user)
 
     return JsonResponse({'error': error})

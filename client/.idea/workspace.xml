@@ -4,62 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="">
+    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Fixed merge conflicts">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_06_2023_10_53__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_06_2023_10_53__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/auth/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/teams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/teams/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/auth/login/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/auth/signup/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/dashboard/layout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/dashboard/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/svg/blob/yellow.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/svg/blob/yellow.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/svg/icons/Plus.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/svg/icons/Plus.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Interactions/Button/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Button/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Interactions/Forms/AddUserMenu/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/AddUserMenu/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Interactions/Forms/Input/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/Input/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Interactions/Forms/RadioGroup/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/RadioGroup/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Pages/landing/navigation/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Pages/landing/navigation/Header/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/button/editbutton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/button/formbutton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/button/sortbybutton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Cards/MemberCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Cards/MemberCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Table/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/dashboard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/sections/homeworks.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/sections/imp.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/sections/import.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/sections/settings.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/sections/teams.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/register/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Interactions/Forms/FileInput/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/FileInput/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/layout/Background/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Background/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/AInstructor/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/AInstructor/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/AInstructor/utils/user_requirements.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/AInstructor/utils/user_requirements.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/answer/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/answer/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/answer/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/answer/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/answer/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/app/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/app/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/app/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/course/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/course/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/course/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/course/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/course/user_requirements.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/question/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/question/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/question/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/quizz/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/quizz/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/quizz/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/team/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/team/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/team/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/user/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/user/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/user/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/user/user_requirements.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/../server/Pipfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/Pipfile.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/ListItem/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/ListItem/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/auth/[...nextauth].ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/[...nextauth].ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/request.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,8 +28,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="SCSS File" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -162,6 +120,9 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="ShelveChangesManager">
+    <option name="remove_strategy" value="true" />
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -182,6 +143,8 @@
       <workItem from="1686657132016" duration="843000" />
       <workItem from="1686660044826" duration="2302000" />
       <workItem from="1686676008908" duration="956000" />
+      <workItem from="1686733870435" duration="3368000" />
+      <workItem from="1686743396911" duration="4639000" />
     </task>
     <task id="LOCAL-00001" summary="Config + landing&#10;&#10;Added Satoshi Font&#10;Added TS paths for icons and components&#10;Started header (not responsive)">
       <created>1685096667428</created>
@@ -267,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686559436945</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Fixed merge conflicts">
+      <created>1686733907790</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1686733907790</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -312,7 +282,8 @@
     <MESSAGE value="Idk too" />
     <MESSAGE value="Updated gitignore" />
     <MESSAGE value="Course management Pages + Bg fix + various fixes/changes&#10;&#10;Made add course page, edit course&#10;InputFile component&#10;Label Component&#10;Added Header Action on Container component&#10;Added redirects after login/register&#10;Changed username to email key for api&#10;Added nanoId lib to fix unique key issue&#10;Added @assets path to tsconfig.json&#10;Added underline-primary class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Course management Pages + Bg fix + various fixes/changes&#10;&#10;Made add course page, edit course&#10;InputFile component&#10;Label Component&#10;Added Header Action on Container component&#10;Added redirects after login/register&#10;Changed username to email key for api&#10;Added nanoId lib to fix unique key issue&#10;Added @assets path to tsconfig.json&#10;Added underline-primary class" />
+    <MESSAGE value="Fixed merge conflicts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed merge conflicts" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

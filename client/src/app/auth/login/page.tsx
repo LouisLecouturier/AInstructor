@@ -14,11 +14,6 @@ function Login() {
   const router = useRouter();
   const [error, setError] = useState("");
 
-  if (session) {
-    const { user } = session;
-    router.push(`/dashboard/${user.isTeacher ? "teachers" : "students"}`);
-  }
-
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -26,25 +21,25 @@ function Login() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    signIn("credentials", {
+    const res = await signIn("credentials", {
       email,
       password,
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        // Gérer les erreurs de la requête ici
-        console.error(error);
-        setError("An error occurred during sign in.");
-      });
+      redirect: false,
+    });
 
+    if (res?.error) {
+      setError(res.error);
+      return;
+    }
+
+    if (!session) return;
+
+    router.push(`/dashboard/${session.user.isTeacher ? "teachers" : "students"}`);
   }
 
   return (
     <form className={"flex flex-col gap-4 max-w-[480px]"} onSubmit={onSubmit}>
       <div>
-
         <Input placeholder="Email" name="email" />
       </div>
       <div className={"flex flex-col gap-2 items-end"}>
@@ -62,7 +57,6 @@ function Login() {
         <LoginIcon className={"w-5"} />
       </Button>
       {error && <p className="text-red-500 mt-2">{error}</p>}
-
     </form>
   );
 }

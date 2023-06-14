@@ -13,6 +13,7 @@ fastapi = "*"
 pyjwt = "*"
 python-docx = "*"
 openai = "*"
+aspose-words = "*"
 
 [dev-packages]
 

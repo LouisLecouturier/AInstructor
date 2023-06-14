@@ -2,9 +2,9 @@ from ninja import Router, Schema, File, UploadedFile, Field
 from ninja.files import UploadedFile
 import json
 from django.shortcuts import get_object_or_404
-from ..app import models
+from app import models
 
-from ..AInstructor.utils import user_requirements
+from AInstructor.utils import user_requirements
 from django.core.serializers.json import DjangoJSONEncoder
 
 router = Router(tags=["User"])

@@ -1,7 +1,7 @@
 from ninja import Schema, Router
 from django.shortcuts import get_object_or_404
-from ..app import models
-import datetime,uuid as uuidLib
+from app import models
+import uuid as uuidLib
 from typing import List
 from pydantic import Field
 
