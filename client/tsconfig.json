@@ -23,6 +23,7 @@
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@icons/*": ["./src/assets/svg/icons/*"],
+      "@assets/*": ["./src/assets/*"],
       "@blob/*": ["./src/assets/svg/blob/*"],
     }
   },

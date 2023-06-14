@@ -1,8 +1,11 @@
+"use client";
+
 import React from "react";
 
 import Header from "@components/dashboard/Layout/Header";
 import ListItem from "@components/layout/ListItem";
 import SectionTitle from "@components/dashboard/Layout/SectionTitle";
+import { useRouter } from "next/navigation";
 
 type Course = {
   name: string;
@@ -52,6 +55,11 @@ const courses: Course[] = [
 
 const Courses = () => {
   const pastCourses = courses.filter((course) => course.status === "done");
+  const router = useRouter();
+
+  const goTo = (path: string) => {
+    router.push(path);
+  };
 
   return (
     <div>
@@ -60,7 +68,7 @@ const Courses = () => {
         <section>
           <SectionTitle>Incoming courses</SectionTitle>
           <div className={"flex flex-col gap-2"}>
-            {courses.map((course) => {
+            {courses.map((course, index) => {
               const properties = [
                 { label: "Creation date", value: course.creationDate },
                 { label: "Delivery date", value: course.deliveryDate },
@@ -72,6 +80,12 @@ const Courses = () => {
                   key={course.name}
                   properties={properties}
                   withUserActions
+                  onSee={() =>
+                    goTo(`/dashboard/teachers/courses/preview/${index}`)
+                  }
+                  onEdit={() =>
+                    goTo(`/dashboard/teachers/courses/edit/${index}`)
+                  }
                 >
                   {course.name}
                 </ListItem>
@@ -82,7 +96,7 @@ const Courses = () => {
         <section>
           <SectionTitle>Passed courses</SectionTitle>
           <div className={"flex flex-col gap-2"}>
-            {courses.map((course) => {
+            {courses.map((course, index) => {
               const properties = [
                 { label: "Creation date", value: course.creationDate },
                 { label: "Delivery date", value: course.deliveryDate },
@@ -94,6 +108,12 @@ const Courses = () => {
                   key={course.name}
                   properties={properties}
                   withUserActions
+                  onSee={() =>
+                    goTo(`/dashboard/teachers/courses/preview/${index}`)
+                  }
+                  onEdit={() =>
+                    goTo(`/dashboard/teachers/courses/edit/${index}`)
+                  }
                 >
                   {course.name}
                 </ListItem>

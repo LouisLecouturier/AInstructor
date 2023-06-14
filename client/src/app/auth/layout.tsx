@@ -39,6 +39,8 @@ type LayoutProps = {
 
 export default function Layout(props: LayoutProps) {
   const pathname = usePathname();
+  const isSigningIn = pathname?.includes("signin") || false;
+
   const isLoggingIn = pathname?.includes("login") || false;
   const isForgotPassword = pathname?.includes("forgot-password") || false;
 
@@ -78,7 +80,9 @@ export default function Layout(props: LayoutProps) {
       <span className={"flex md:hidden py-2 text-4xl font-black"}>
         AInstructor
       </span>
+
       <Aside isLoggingIn={isLoggingIn} />
+
       <Background rounded className={"flex flex-1 items-center"}>
         <div className="flex flex-col justify-center gap-12 h-full p-8 sm:p-12 lg:p-24">
           <header className={"flex flex-col gap-2"}>

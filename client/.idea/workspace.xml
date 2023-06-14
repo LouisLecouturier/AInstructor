@@ -4,18 +4,62 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Idk too">
-      <change afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" afterDir="false" />
+    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/overview/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/overview/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/teams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/teams/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/auth/login/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/auth/signup/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/dashboard/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/dashboard/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/svg/blob/yellow.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/svg/blob/yellow.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/svg/icons/Plus.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/svg/icons/Plus.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Interactions/Button/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Button/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Interactions/Forms/AddUserMenu/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/AddUserMenu/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Interactions/Forms/Input/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/Input/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Layout/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Layout/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Interactions/Forms/RadioGroup/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/RadioGroup/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Pages/landing/navigation/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Pages/landing/navigation/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/button/editbutton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/button/formbutton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/button/sortbybutton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Cards/MemberCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Cards/MemberCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/dashboard/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Table/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Table/legacy.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Table/legacy.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Teams/MainInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Teams/MainInformation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/dashboard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/sections/homeworks.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/sections/imp.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/sections/import.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/sections/settings.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/sections/teams.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/Background/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Background/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/AInstructor/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/AInstructor/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/AInstructor/utils/user_requirements.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/AInstructor/utils/user_requirements.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/answer/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/answer/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/answer/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/answer/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/answer/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/app/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/app/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/app/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/course/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/course/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/course/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/course/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/course/user_requirements.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/question/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/question/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/question/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/quizz/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/quizz/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/quizz/migrations/__init__.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/AInstructor/team/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/team/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/team/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/user/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/user/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/user/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/user/user_requirements.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/../server/Pipfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/Pipfile.lock" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +78,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="FullStack" />
+        <entry key="$PROJECT_DIR$/.." value="Front-End-Louis" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -47,7 +91,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2QH84EwRGota6604sy6sGLLZkOj" />
   <component name="ProjectLevelVcsManager">
@@ -91,11 +135,11 @@
       <recent name="$PROJECT_DIR$/src/app/auth/signup" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/Edit" />
       <recent name="$PROJECT_DIR$/src/components/dashboard/Table" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/components/dashboard/Questions" />
-      <recent name="$PROJECT_DIR$/src/app/dashboard/students/courses" />
     </key>
   </component>
   <component name="RunManager">
@@ -111,6 +155,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
@@ -134,6 +179,9 @@
       <workItem from="1686303005090" duration="14261000" />
       <workItem from="1686331199485" duration="2062000" />
       <workItem from="1686342266331" duration="4057000" />
+      <workItem from="1686657132016" duration="843000" />
+      <workItem from="1686660044826" duration="2302000" />
+      <workItem from="1686676008908" duration="956000" />
     </task>
     <task id="LOCAL-00001" summary="Config + landing&#10;&#10;Added Satoshi Font&#10;Added TS paths for icons and components&#10;Started header (not responsive)">
       <created>1685096667428</created>
@@ -212,7 +260,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686347522014</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Updated gitignore">
+      <created>1686559436945</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1686559436945</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,7 +310,9 @@
     <MESSAGE value="Fixed changes from pull requests" />
     <MESSAGE value="Idk" />
     <MESSAGE value="Idk too" />
-    <option name="LAST_COMMIT_MESSAGE" value="Idk too" />
+    <MESSAGE value="Updated gitignore" />
+    <MESSAGE value="Course management Pages + Bg fix + various fixes/changes&#10;&#10;Made add course page, edit course&#10;InputFile component&#10;Label Component&#10;Added Header Action on Container component&#10;Added redirects after login/register&#10;Changed username to email key for api&#10;Added nanoId lib to fix unique key issue&#10;Added @assets path to tsconfig.json&#10;Added underline-primary class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Course management Pages + Bg fix + various fixes/changes&#10;&#10;Made add course page, edit course&#10;InputFile component&#10;Label Component&#10;Added Header Action on Container component&#10;Added redirects after login/register&#10;Changed username to email key for api&#10;Added nanoId lib to fix unique key issue&#10;Added @assets path to tsconfig.json&#10;Added underline-primary class" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

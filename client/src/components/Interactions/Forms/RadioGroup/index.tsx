@@ -15,6 +15,7 @@ type RadioGroupProps = {
   name: string;
   onChange?: (value?: string) => void;
   variant?: "accent" | "primary" | "secondary";
+
   direction?: "row" | "column";
 
   size?: "sm" | "md" | "lg";

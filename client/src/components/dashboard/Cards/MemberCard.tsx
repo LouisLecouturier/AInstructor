@@ -40,7 +40,7 @@ export default function Line({
   urlDeleteLine: string;
 }) {
   const { data: session } = useSession();
-  const token = String(session?.user["acces token"]);
+  const token = String(session?.user["accessToken"]);
 
   const [Display, setDisplay] = React.useState("");
 

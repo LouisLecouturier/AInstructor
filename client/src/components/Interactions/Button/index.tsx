@@ -5,6 +5,7 @@ import styles from "./Button.module.scss";
 type ButtonProps = {
   children: ReactNode;
   className?: string;
+
   variant?: "accent" | "primary" | "secondary" | "tertiary" | "success";
   rounded?: "sm" | "md" | "lg" | "full";
   outlined?: boolean;
@@ -86,6 +87,7 @@ export const Button: FC<ButtonProps> = (props) => {
       type={props.type || "button"}
       onClick={props.onClick}
       className={clsx(
+
         "flex items-center justify-center",
         "w-fit transition duration-200",
         "font-bold cursor-pointer",

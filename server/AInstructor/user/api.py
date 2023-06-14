@@ -1,12 +1,10 @@
 from ninja import Router, Schema, File, UploadedFile, Field
 from ninja.files import UploadedFile
-import uuid as uuidLib, os, json
+import json
 from django.shortcuts import get_object_or_404
 from app import models
-from pydantic import BaseModel
-from datetime import date
-from typing import List
-from user import user_requirements
+
+from AInstructor.utils import user_requirements
 from django.core.serializers.json import DjangoJSONEncoder
 
 router = Router(tags=["User"])
@@ -91,7 +89,7 @@ class CustomUserEncoder(DjangoJSONEncoder):
         return super().default(o)
 
 
-@router.get("/users/{user_id}" )
+@router.get("/users/{user_id}")
 def get_users_by_id(request, user_id: int):
     user = get_object_or_404(models.CustomUser, id=user_id)
     courses_list = []

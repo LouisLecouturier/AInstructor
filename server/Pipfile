@@ -11,6 +11,9 @@ django-cors-headers = "*"
 pdfplumber = "*"
 fastapi = "*"
 pyjwt = "*"
+python-docx = "*"
+openai = "*"
+aspose-words = "*"
 
 [dev-packages]
 
