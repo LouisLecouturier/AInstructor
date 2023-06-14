@@ -7,9 +7,11 @@ import LoginIcon from "@icons/Login.svg";
 
 import Link from "next/link";
 import Input from "@components/Interactions/Forms/Input";
+import { useRouter } from "next/navigation";
 
 function Login() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [error, setError] = useState("");
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -24,7 +26,11 @@ function Login() {
       password,
       redirect: false,
     }).then((res) => {
-      if (res?.error) setError(res.error);
+      if (res?.error) {
+        setError(res.error);
+        return;
+      }
+      router.push("/dashboard/students");
     });
 
     return;
