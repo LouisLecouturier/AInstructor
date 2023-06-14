@@ -4,7 +4,6 @@ import React from "react";
 
 import Header from "@components/dashboard/Layout/Header";
 import ListItem from "@components/layout/ListItem";
-import SectionTitle from "@components/dashboard/Layout/SectionTitle";
 import { useRouter } from "next/navigation";
 import Container from "@components/layout/Container";
 import { Button } from "@components/Interactions/Button";
@@ -72,14 +71,14 @@ const Courses = () => {
           <div className={"flex flex-col gap-1"}>
             <Button
               rounded={"full"}
+              size={"sm"}
               onClick={() => goTo("/dashboard/teachers/courses/create")}
             >
-              Create
+              Create a new course
             </Button>
           </div>
         </Container>
-        <section>
-          <SectionTitle>Incoming courses</SectionTitle>
+        <Container title={"Your courses"} description={"Preview, manage, delete your courses"}>
           <div className={"flex flex-col gap-2"}>
             {courses.map((course, index) => {
               const properties = [
@@ -105,35 +104,7 @@ const Courses = () => {
               );
             })}
           </div>
-        </section>
-        <section>
-          <SectionTitle>Passed courses</SectionTitle>
-          <div className={"flex flex-col gap-2"}>
-            {courses.map((course, index) => {
-              const properties = [
-                { label: "Creation date", value: course.creationDate },
-                { label: "Delivery date", value: course.deliveryDate },
-                { label: "Team", value: course.team },
-              ];
-
-              return (
-                <ListItem
-                  key={nanoid()}
-                  properties={properties}
-                  withUserActions
-                  onSee={() =>
-                    goTo(`/dashboard/teachers/courses/preview/${index}`)
-                  }
-                  onEdit={() =>
-                    goTo(`/dashboard/teachers/courses/edit/${index}`)
-                  }
-                >
-                  {course.name}
-                </ListItem>
-              );
-            })}
-          </div>
-        </section>
+        </Container>
       </main>
     </div>
   );
