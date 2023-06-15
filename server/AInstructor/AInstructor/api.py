@@ -1,14 +1,13 @@
 from ninja import NinjaAPI, Schema, Field, UploadedFile, File
-from ninja.security import django_auth, HttpBearer
+from ninja.security import HttpBearer
 from django.contrib.auth import authenticate
-import jwt, datetime, uuid as uuidLib, os, json
+import jwt, datetime, uuid as uuidLib
 from django.db import models
 from app import models
 from django.conf import settings
-from typing import List
 from .utils import user_requirements
 from question.api import router as question_router
-from course.api import router as cours_router
+from course.api import router as course_router
 from quizz.api import router as quizz_router
 from answer.api import router as answer_router
 from user.api import router as user_router
@@ -27,10 +26,8 @@ class InvalidToken(Exception):
 @api.exception_handler(InvalidToken)
 def on_invalid_token(request, exc):
     return api.create_response(request,
-        {"detail": "Invalid token supplied", "user message": "your session has expired"},
-        status=401)
-
-
+                               {"detail": "Invalid token supplied", "user message": "your session has expired"},
+                               status=401)
 
 
 def get_user_by_token(token):
@@ -40,11 +37,11 @@ def get_user_by_token(token):
         return this_token
     except models.CustomUser.DoesNotExist:
         return None
-    
-    
+
+
 class GlobalAuth(HttpBearer):
-    #gestion d'authentification générale basé sur bearer tokens
-    def authenticate(self, request, token):            
+    # gestion d'authentification générale basé sur bearer tokens
+    def authenticate(self, request, token):
         try:
             user = get_user_by_token(token)
             if user.jwt_access == token:
@@ -54,7 +51,7 @@ class GlobalAuth(HttpBearer):
         except models.CustomUser.DoesNotExist:
             return InvalidToken("Token supplied is invalid")
         return InvalidToken("Token supplied is invalid")
-    
+
     def create_tokens(self, user_id: str) -> dict:
         accessToken = jwt.encode({
             'user': str(user_id),
@@ -75,27 +72,27 @@ api = NinjaAPI(auth=GlobalAuth())
 
 api.add_router("/question", question_router)
 api.add_router("/quizz", quizz_router)
-api.add_router("/course", cours_router)
+api.add_router("/course", course_router)
 api.add_router("/answer", answer_router)
 api.add_router("/team", team_router)
 api.add_router("/user", user_router)
-
 
 
 # @api.post("/chatbot", )
 # def ask_chat_bot(request, course, question) : 
 #     return chat_bot_on_course(course, question)
 
-    
+
 class Login(Schema):
     email: str
     password: str
 
-@api.post("/login",auth=None)
-def get_token(request, body : Login):
+
+@api.post("/login", auth=None)
+def get_token(request, body: Login):
     body = body.dict()
     print(body)
-    user  = get_object_or_404(models.CustomUser, email=body["email"])
+    user = get_object_or_404(models.CustomUser, email=body["email"])
     auth_perm = authenticate(request, username=body["email"], password=body["password"])
     print(auth_perm)
     if auth_perm is not None:
@@ -115,40 +112,37 @@ def get_token(request, body : Login):
             "message": "Authentification successfull",
         }
     else:
-        return {"message": "Invalid credentials"}
-
-    
+        return 400, {"message": "Authentification failed"}
 
 
 class CreateUser(Schema):
     email: str = Field(...)
-    password: str = Field(...)  
-    first_name: str 
-    last_name: str 
-    isTeacher: bool 
+    password: str = Field(...)
+    first_name: str
+    last_name: str
+    isTeacher: bool
+
 
 @api.post('register', auth=None)
-def register(request, body: CreateUser, file  : UploadedFile = File(...)):
-
+def register(request, body: CreateUser):
+    print(body)
     username = body.email
     if not user_requirements.validate_mail(body.email):
         return {"error": True, "message": "Invalid email"}
 
     if not user_requirements.validate_password_strength(body.password):
-
         return {"error": True, "message": "Invalid password"}
     if not user_requirements.validate_username(username) and not user_requirements.validate_not_empty(username):
         return {'error': 'username is not valid or already used !'}
-    
 
     user = models.CustomUser.objects.create_user(
-        username=username, 
+        username=username,
         password=body.password,
-        email=body.email, 
+        email=body.email,
         first_name=body.first_name,
-        last_name=body.last_name, 
-        isTeacher=body.isTeacher, 
-        profilePicture=file,
+        last_name=body.last_name,
+        isTeacher=body.isTeacher,
+        # profilePicture=file,
     )
     try:
 
@@ -157,5 +151,3 @@ def register(request, body: CreateUser, file  : UploadedFile = File(...)):
     except Exception as e:
         print(e)
         return {"error": True, "message": "User not created"}
-
-

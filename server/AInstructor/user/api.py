@@ -1,16 +1,55 @@
 from ninja import Router, Schema, File, UploadedFile, Field
 from ninja.files import UploadedFile
-import uuid as uuidLib, os, json
+import json
 from django.shortcuts import get_object_or_404
 from app import models
-from pydantic import BaseModel
-from datetime import date
-from typing import List
-from user import user_requirements
+
+from AInstructor.utils import user_requirements
 from django.core.serializers.json import DjangoJSONEncoder
+
 router = Router(tags=["User"])
 
 """__________________________________________________________request conserning the users_______________________________________________________"""
+
+
+@router.get("/{id}")
+def get_user(request, id: int):
+    user = models.CustomUser.objects.get(id=id)
+    return {
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'isTeacher': user.isTeacher,
+        'address': user.address,
+        'city': user.city,
+        'country': user.country,
+        'postalCode': user.postalCode,
+        'bio': user.bio,
+        'phone': user.phone,
+    }
+
+
+@router.put("/{id}")
+def update_user(request, id: int):
+    body = json.loads(request.body.decode('utf-8'))
+
+    user = models.CustomUser.objects.get(id=id)
+    user.username = body['username']
+    user.email = body['email']
+    user.first_name = body['first_name']
+    user.last_name = body['last_name']
+    user.isTeacher = body['isTeacher']
+    user.address = body['address']
+    user.city = body['city']
+    user.country = body['country']
+    user.postalCode = body['postalCode']
+    user.bio = body['bio']
+    user.phone = body['phone']
+    user.save()
+
+    return {'error': False}
 
 
 @router.get("/users", )
@@ -50,7 +89,7 @@ class CustomUserEncoder(DjangoJSONEncoder):
         return super().default(o)
 
 
-@router.get("/users/{user_id}" )
+@router.get("/users/{user_id}")
 def get_users_by_id(request, user_id: int):
     user = get_object_or_404(models.CustomUser, id=user_id)
     courses_list = []

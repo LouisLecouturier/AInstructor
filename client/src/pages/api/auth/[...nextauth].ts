@@ -1,4 +1,3 @@
-
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -18,7 +17,7 @@ export default NextAuth({
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
 
-        const res = await fetch("http://127.0.0.1:8000/api/login", {
+        return fetch("http://127.0.0.1:8000/api/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -27,14 +26,16 @@ export default NextAuth({
             email: credentials?.email,
             password: credentials?.password,
           }),
-        });
-        const user = await res.json();
+        }).then(async (res) => {
+          if (res.ok) {
+            
+            const reponse =  await res.json();
+            console.log(reponse);
+            return reponse;
+          }
 
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user;
-        }
-        throw new Error("Invalid credentials");
+          return null;
+        });
 
         // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
       },
@@ -50,8 +51,7 @@ export default NextAuth({
     },
   },
 
-  pages : {
-    signIn : '/auth/login'
-  }
+  pages: {
+    signIn: "/auth/login",
+  },
 });
-

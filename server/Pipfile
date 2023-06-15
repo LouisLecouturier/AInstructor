@@ -10,9 +10,10 @@ pillow = "*"
 django-cors-headers = "*"
 pdfplumber = "*"
 fastapi = "*"
-aspose-words = "*"
 pyjwt = "*"
 python-docx = "*"
+openai = "*"
+aspose-words = "*"
 
 [dev-packages]
 
