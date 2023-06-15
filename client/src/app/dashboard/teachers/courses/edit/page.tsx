@@ -9,29 +9,30 @@ import { Button } from "@components/Interactions/Button";
 import EditIcon from "@icons/Edit.svg";
 import CheckIcon from "@icons/Checkmark.svg";
 import Table from "@components/dashboard/Table";
-import QuestionsManager from "../../../../../../components/dashboard/Teachers/QuestionsManager";
+import QuestionsManager from "../../../../../components/dashboard/Teachers/QuestionsManager";
 
-const ManageCourse = () => {
+const teams = [
+  { name: "CSI3_2022_2023" },
+  { name: "CIR3_2022_2023" },
+  { name: "CNB3_2022_2023" },
+];
+
+const question = [
+  { question: "Quels étaient les principaux événements et réalisations de Napoléon Bonaparte qui ont façonné son règne en tant qu'empereur des Français, et quel impact ont-ils eu sur l'Europe et le monde au cours du XIXe siècle ?",},
+  { question: "Quoi ?" },
+  { question: "Apagnant" },
+  { question: "yeee" },
+  { question: "Heyooo" },
+]
+
+
+
+const ManageCourse = (searchParams : {searchParams : {uuid : string}}) => {
   const [isEditing, setIsEditing] = useState(false);
-
-  const [questions, setQuestions] = useState([
-    {
-      question:
-        "Quels étaient les principaux événements et réalisations de Napoléon Bonaparte qui ont façonné son règne en tant qu'empereur des Français, et quel impact ont-ils eu sur l'Europe et le monde au cours du XIXe siècle ?",
-    },
-    { question: "Quoi ?" },
-    { question: "Apagnant" },
-    { question: "yeee" },
-    { question: "Heyooo" },
-  ]);
+  const [questions, setQuestions] = useState(question);
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const teams = [
-    { name: "CSI3_2022_2023" },
-    { name: "CIR3_2022_2023" },
-    { name: "CNB3_2022_2023" },
-  ];
 
   const handleUpdate = (e: HTMLFormElement) => {
     const formData = new FormData(e);

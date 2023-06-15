@@ -55,7 +55,7 @@ class Course(models.Model):
     subject = models.CharField(max_length=127, validators=[AlphanumericValidator], default="Theme", blank=True)
     uploadedFile = models.FileField(upload_to=upload_to_course, storage=None, max_length=100)
     text = models.TextField(null=True, blank=True)
-    description = models.CharField(max_length=254, validators=[AlphanumericValidator], default="Hello World"),
+    description = models.TextField(null=True, blank=True, default="desc")
     uploadedBy = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True, blank=True)
     color = models.CharField(max_length=7, default="#000000", blank=True)
     team = models.ManyToManyField(Team, related_name='team', blank=True)
