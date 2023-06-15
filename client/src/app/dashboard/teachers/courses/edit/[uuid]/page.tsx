@@ -9,21 +9,60 @@ import { Button } from "@components/Interactions/Button";
 import EditIcon from "@icons/Edit.svg";
 import CheckIcon from "@icons/Checkmark.svg";
 import Table from "@components/dashboard/Table";
-import QuestionsManager from "../../../../../../components/dashboard/Teachers/QuestionsManager";
+import QuestionsManager from "@components/dashboard/Teachers/QuestionsManager";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
 
-const ManageCourse = () => {
+const courseQuery = async (uuid: string, accessToken?: string) => {
+  if (!accessToken) return null;
+
+  const res = await fetch("http://127.0.0.1:8000/api/course/byId/" + uuid, {
+    method: "GET",
+    headers: {
+      authorization: "Bearer " + accessToken,
+    },
+  });
+
+  const data = await res.json();
+  return data;
+};
+
+const getCourseQuestions = async (uuid: string, accessToken?: string) => {
+  if (!accessToken) return null;
+
+  const res = await fetch(
+    "http://127.0.0.1:8000/api/quizz/by-course/" + uuid + "/questions",
+    {
+      method: "GET",
+      headers: {
+        authorization: "Bearer " + accessToken,
+      },
+    }
+  );
+
+  const data = await res.json();
+  return data;
+};
+
+const ManageCourse = ({ params }: { params: { uuid: string } }) => {
+  const { data: session } = useSession();
+  const accessToken = session?.user.accessToken;
   const [isEditing, setIsEditing] = useState(false);
 
-  const [questions, setQuestions] = useState([
-    {
-      question:
-        "Quels étaient les principaux événements et réalisations de Napoléon Bonaparte qui ont façonné son règne en tant qu'empereur des Français, et quel impact ont-ils eu sur l'Europe et le monde au cours du XIXe siècle ?",
-    },
-    { question: "Quoi ?" },
-    { question: "Apagnant" },
-    { question: "yeee" },
-    { question: "Heyooo" },
-  ]);
+  const { data: courseData, isLoading: courseLoading } = useQuery({
+    queryKey: ["course", accessToken],
+    queryFn: () => courseQuery(params.uuid, session?.user.accessToken),
+    enabled: ![params.uuid, accessToken].includes(undefined),
+  });
+
+  const { data: courseQuestions, isLoading: questionsLoading } = useQuery({
+    queryKey: ["courseQuestions", accessToken],
+    queryFn: () => getCourseQuestions(params.uuid, session?.user.accessToken),
+    enabled: ![params.uuid, accessToken].includes(undefined),
+  });
+
+
+  const [questions, setQuestions] = useState([]);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -39,6 +78,10 @@ const ManageCourse = () => {
     console.log(data);
     setIsEditing(false);
   };
+
+  if (courseLoading || questionsLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -121,10 +164,7 @@ const ManageCourse = () => {
             Save access
           </Button>
         </Container>
-        <QuestionsManager
-          questions={questions}
-          setQuestions={setQuestions}
-        />
+        <QuestionsManager questions={questions} setQuestions={setQuestions} />
       </main>
     </div>
   );
