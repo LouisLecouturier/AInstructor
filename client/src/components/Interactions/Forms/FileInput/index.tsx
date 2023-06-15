@@ -4,8 +4,8 @@ import React, { ChangeEvent, FC, useRef, useState } from "react";
 import clsx from "clsx";
 
 import UploadIcon from "@icons/Upload.svg";
-import Loading from "@icons/Loading.svg"
-import Checkmark from "@icons/Checkmark.svg"
+import Loading from "@icons/Loading.svg";
+import Checkmark from "@icons/Checkmark.svg";
 
 type FileInputProps = {
   id?: string;
@@ -99,7 +99,7 @@ const MyComponent: FC<FileInputProps> = (props) => {
         "rounded-lg",
         "border-dashed border-spacing-60 border-2 border-green-200",
         "transition cursor-pointer",
-        "bg-green-50",
+        "bg-green-10",
       )}
       onClick={handleClick}
       
@@ -119,11 +119,11 @@ const MyComponent: FC<FileInputProps> = (props) => {
 
       <div className={clsx("flex h-full justify-center items-center")}>
         <div className="flex flex-col gap-5 items-center">
-          <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-accent-500">
+          <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-green-600">
             <Checkmark className="w-3/5 h-3/5 text-white" />
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-lg font-bold">File successfully uploaded !</span>
+            <span className="text-lg font-bold">File uploaded successfully !</span>
           </div>
         </div>
       </div>
