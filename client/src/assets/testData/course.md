@@ -54,11 +54,11 @@ communistes.
 
 
 L’OTASE (Organisation du Traité de l'Asie du Sud-Est), créée en 1954 suite à la
-guerre d’Indochine, a pour fonction de regrouper tous les pays asiatiques qui
+guerre d’Indochine, a pour fonction de reTeamr tous les pays asiatiques qui
 ne sont pas communistes.
 Le bloc de l’est, le camp anti-impérialiste, est composé de démocraties
 populaires. Un seul parti y est reconnu, le parti communiste. A ce titre, le
-Kominform regroupe les représentants des pays communistes. Ces différents
+Kominform reTeam les représentants des pays communistes. Ces différents
 pays appliquent les principes marxistes et léninistes, dont la « dictature du
 prolétariat ».
 Ils y appliquent également une économie socialiste. Les moyens de

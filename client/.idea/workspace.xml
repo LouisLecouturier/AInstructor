@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Fixed Login Redirect">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/svg/icons/Loading.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/svg/icons/Loading.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Interactions/Forms/FileInput/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/FileInput/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Layout/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Layout/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Navigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Navigation/index.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="SCSS File" />
+        <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="FullStack" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="JsBowerSettings">
+    <bower-package value="" />
+    <bower.json value="" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2QH84EwRGota6604sy6sGLLZkOj" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Front-End-Louis&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/src/components/dashboard/Navigation/StudentNavigation&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;SCSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/louislecouturier/.nvm/versions/node/v18.14.2/lib/node_modules/prettier&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.updates&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/dashboard/Navigation/StudentNavigation" />
+      <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/teams" />
+      <recent name="$PROJECT_DIR$/src/app/auth/signup" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/app" />
+      <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/preview/[id]" />
+      <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/Edit" />
+      <recent name="$PROJECT_DIR$/src/components/dashboard/Table" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2">
+        <option name="NpmBeforeRunTask" enabled="true">
+          <package-json value="$PROJECT_DIR$/package.json" />
+          <command value="install" />
+          <node-interpreter value="project" />
+          <envs />
+        </option>
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev" />
+        <item itemvalue="npm.dev" />
+        <item itemvalue="npm.dev" />
+        <item itemvalue="npm.dev" />
+        <item itemvalue="npm.dev" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager">
+    <option name="remove_strategy" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="" />
+      <created>1684998952821</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1684998952821</updated>
+      <workItem from="1684998954010" duration="21376000" />
+      <workItem from="1685105982052" duration="21042000" />
+      <workItem from="1685538583384" duration="34614000" />
+      <workItem from="1685709492473" duration="21377000" />
+      <workItem from="1686044272340" duration="36282000" />
+      <workItem from="1686298647591" duration="1161000" />
+      <workItem from="1686303005090" duration="14261000" />
+      <workItem from="1686331199485" duration="2062000" />
+      <workItem from="1686342266331" duration="4057000" />
+      <workItem from="1686657132016" duration="843000" />
+      <workItem from="1686660044826" duration="2302000" />
+      <workItem from="1686676008908" duration="956000" />
+      <workItem from="1686733870435" duration="3368000" />
+      <workItem from="1686743396911" duration="11179000" />
+      <workItem from="1686819311190" duration="8224000" />
+      <workItem from="1686835896532" duration="1757000" />
+    </task>
+    <task id="LOCAL-00001" summary="Config + landing&#10;&#10;Added Satoshi Font&#10;Added TS paths for icons and components&#10;Started header (not responsive)">
+      <created>1685096667428</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1685096667428</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Fixed hero responsive">
+      <created>1685109340268</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1685109340268</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Fixed merge issues">
+      <created>1685109898450</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1685109898450</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Login Page Redesign">
+      <created>1685525168615</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1685525168615</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Auth Page Redesign&#10;Modified Button component&#10;Created RadioGroup Component">
+      <created>1685542995949</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1685542995949</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Redesigned Dashboard">
+      <created>1685700756995</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1685700756995</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Refacto Dashboard Routing">
+      <created>1686051995475</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1686051995475</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added Course Page&#10;Created Skeleton Component&#10;Created Question Component">
+      <created>1686147210090</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1686147210090</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Modified question edit component&#10;Added Question Edit functionnality&#10;Fixed Dashboard content Header &#10;Added OnChange prop Input">
+      <created>1686226152962</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1686226152962</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Fixed changes from pull requests">
+      <created>1686228084209</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1686228084209</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Idk too">
+      <created>1686347522014</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1686347522014</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Updated gitignore">
+      <created>1686559436945</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1686559436945</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Fixed merge conflicts">
+      <created>1686733907790</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1686733907790</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Fixed merge conflicts">
+      <created>1686748356852</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1686748356852</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Fixed Login Redirect">
+      <created>1686756391753</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1686756391753</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="FullStack" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Config + landing&#10;&#10;Added Satoshi Font&#10;Added TS paths for icons and components&#10;Started header (not responsive)" />
+    <MESSAGE value="Fixed hero responsive" />
+    <MESSAGE value="Fixed merge issues" />
+    <MESSAGE value="Login Page Redesign" />
+    <MESSAGE value="Auth Page Redesign&#10;Modified Button component&#10;Created RadioGroup Component" />
+    <MESSAGE value="Redesigned Dashboard" />
+    <MESSAGE value="Refacto Dashboard Routing" />
+    <MESSAGE value="Added Course Page&#10;Created Skeleton Component&#10;Created Question Component" />
+    <MESSAGE value="Modified question edit component&#10;Added Question Edit functionnality&#10;Fixed Dashboard content Header &#10;Added OnChange prop Input" />
+    <MESSAGE value="Fixed changes from pull requests" />
+    <MESSAGE value="Idk" />
+    <MESSAGE value="Idk too" />
+    <MESSAGE value="Updated gitignore" />
+    <MESSAGE value="Course management Pages + Bg fix + various fixes/changes&#10;&#10;Made add course page, edit course&#10;InputFile component&#10;Label Component&#10;Added Header Action on Container component&#10;Added redirects after login/register&#10;Changed username to email key for api&#10;Added nanoId lib to fix unique key issue&#10;Added @assets path to tsconfig.json&#10;Added underline-primary class" />
+    <MESSAGE value="Fixed merge conflicts" />
+    <MESSAGE value="Fixed Login Redirect" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed Login Redirect" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+</project>

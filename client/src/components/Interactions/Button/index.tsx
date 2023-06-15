@@ -5,6 +5,7 @@ import styles from "./Button.module.scss";
 type ButtonProps = {
   children: ReactNode;
   className?: string;
+
   variant?: "accent" | "primary" | "secondary" | "tertiary" | "success";
   rounded?: "sm" | "md" | "lg" | "full";
   outlined?: boolean;
@@ -19,9 +20,9 @@ type ButtonProps = {
 
 const sizeClasses = {
 
-  sm: "px-4 py-2 text-sm min-w-[96px] gap-2",
-  md: "px-6 py-3 text-lg min-h-[3rem] min-w-[96px] gap-4",
-  lg: "px-8 py-4 text-lg gap-4",
+  sm: "px-4 py-2 text-sm h-10 min-w-[96px] gap-2",
+  md: "px-6 py-3 text-lg h-14 min-w-[96px] gap-4",
+  lg: "px-8 py-4 text-lg h-16 gap-4",
 };
 
 const roundedClasses = {
@@ -86,6 +87,7 @@ export const Button: FC<ButtonProps> = (props) => {
       type={props.type || "button"}
       onClick={props.onClick}
       className={clsx(
+
         "flex items-center justify-center",
         "w-fit transition duration-200",
         "font-bold cursor-pointer",
