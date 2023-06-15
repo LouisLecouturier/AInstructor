@@ -77,6 +77,30 @@ def get_questionary_info(request, uuid: uuidLib.UUID):
     }
 
 
+@router.get("by-course/{uuid}/questions")
+def get_quizz_by_course(request, uuid: uuidLib.UUID):
+    """Get quizz by course"""
+    course = get_object_or_404(models.Course, uuid=uuid)
+
+    quizz = get_object_or_404(models.Quizz, course=course)
+
+    print(quizz)
+
+    try:
+        questions = models.Question.objects.filter(quizz__in=[quizz.uuid])
+    except models.Question.DoesNotExist:
+        return
+
+    question_list = []
+    for question in questions:
+        question_list.append({
+            "question uuid": question.uuid,
+            "questionType": question.questionType,
+            "statement": question.statement,
+        })
+    return question_list
+
+
 @router.get("/{uuid}/questions")
 def get_questions_by_quizz(request, uuid: uuidLib.UUID):
     """Get all questions belonging to a quizz"""

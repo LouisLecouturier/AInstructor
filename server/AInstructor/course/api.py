@@ -67,6 +67,7 @@ def create_course(request, user_id: int, file : UploadedFile = File(...)):
     # Sauvegarder le fichier .md
     course = models.Course.objects.create(
         name=file.name,
+        uploadedBy=user,
         uploadedFile=file, 
         textPath=txt_file_path
     )
@@ -135,7 +136,7 @@ def create_course(request, user_id: int, file : UploadedFile = File(...)):
 #     return {'name': file.name, 'uuid': course.uuid, 'uploadedBy': user.username}
 
 
-@router.get("/course/{uuid}/generate-questions", )
+@router.get("/{uuid}/generate-questions", )
 def generate_questions(request, uuid: str):
     """generate questions from the course"""
     course = get_object_or_404(models.Course, uuid=uuid)
@@ -162,14 +163,14 @@ def generate_questions(request, uuid: str):
     return {"questions": questions}
 
 
-@router.get("/{uuid}", )
-def get_courses_by_id(request, uuid: str):
+@router.get("byId/{uuid}")
+def get_course_by_id(request, uuid: str):
     """get the course by id"""
     course = get_object_or_404(models.Course, uuid=uuid)
     return {
         'uuid': course.uuid,
         'name': course.name,
-        'theme': course.theme,
+        'subject': course.subject,
         'text': course.text,
         'uploadedBy': course.uploadedBy.username,
         'color': course.color,
@@ -222,9 +223,9 @@ def assign_course(request, body: AssignCourse):
 
 
 # à mettre dans Team api
-@router.get("/{uuid}")
+@router.get("/team/{uuid}")
 def get_courses_by_team(request, uuid: uuidLib.UUID):
-    """get all the courses of the user"""
+    """get all the courses of the team"""
     team = get_object_or_404(models.Team, uuid=uuid)
     courses = models.Course.objects.filter(team=team)
 
