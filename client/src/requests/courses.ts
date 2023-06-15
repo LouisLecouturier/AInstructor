@@ -15,7 +15,7 @@ export const fetchCourses = async (token: string, user_id : string) => {
 
 export const updateCourse = async (token: string, course : Course) => {
   let {uuid, ...courseExceptUUID} = course;
-  const response = await fetch(`http://localhost:8000/api/course/hello/${course.uuid}`, {
+  const response = await fetch(`http://localhost:8000/api/course/put/${course.uuid}`, {
     method: "PUT",
     headers: {
       authorization: `bearer ${token}`,
@@ -61,4 +61,18 @@ export const newCourse = async (id :string, token: string, formData: FormData, s
     xhr.setRequestHeader('authorization', `bearer ${token}`);
     xhr.send(formData);
   });
+};
+
+
+
+export const getCourses = async (token: string, user_id : string) => {
+  const response = await fetch(`http://localhost:8000/api/course/teachers/${user_id}`, {
+    headers: {
+      authorization: `bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+  
 };
