@@ -1,96 +1,130 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-import uuid
-from django.core import validators
-from django.core.exceptions import ValidationError
+import uuid as uuidLib
 from django.core.validators import validate_image_file_extension, RegexValidator
+
 # Create your models here.
 
-AlphanumericValidator = RegexValidator(r'^[a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
+AlphanumericValidator = RegexValidator(r'^[a-zA-Z0-9\s()]+$',
+                                       'Only alphanumeric characters are allowed and parenthesis.')
+AlphanumericValidatorPlus = RegexValidator(
+    r'^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)(?=[^!#%]*[!#%])[A-Za-z0-9!#%]{8,32}$',
+    'The password must contain different case, number, and special character')
 
-class User(models.Model):
-    user = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) # unique=True
-    first_name = models.CharField(error_messages="{'error' : True}",max_length=30, validators= [AlphanumericValidator])
-    last_name = models.CharField(max_length=30,validators= [AlphanumericValidator])
-    profil_picture = models.ImageField( max_length = 254, validators = [validate_image_file_extension] ,null=True, blank=True) 
-    mail = models.EmailField(max_length=254)
-    password = models.CharField(max_length = 254)           #Password validation settings
-    is_prof = models.BooleanField(default = 'False')
-    phone = models.CharField(max_length=10, validators= [validators.MinLengthValidator(10), validators.MaxLengthValidator(10)])
-    date_creation = models.DateField(auto_now=False, auto_now_add=True, null = True)
-    last_connexion = models.DateField(auto_now=True, auto_now_add=False, null = True)
-    
+
+def user_picture_path(instance, filename):
+    return f'profilePicture/{instance.username}.png'
+
+
+class CustomUser(AbstractUser):
+    pass
+    # add additional fields in here
+    profilePicture = models.ImageField(upload_to=user_picture_path, max_length=254, null=True, blank=True,
+                                       validators=[validate_image_file_extension])  # add uplad to
+    isTeacher = models.BooleanField(default='False')
+    lastConnexion = models.DateField(auto_now=True, auto_now_add=False, null=True)
+    accessToken = models.CharField(max_length=500, null=True, default=0)
+    refreshToken = models.CharField(max_length=500, null=True, default=0)
+    address = models.CharField(max_length=254, validators=[AlphanumericValidator], null=True, blank=True)
+    city = models.CharField(max_length=254, validators=[AlphanumericValidator], null=True, blank=True)
+    country = models.CharField(max_length=254, validators=[AlphanumericValidator], null=True, blank=True)
+    postalCode = models.CharField(max_length=254, validators=[AlphanumericValidator], null=True, blank=True)
+    bio = models.CharField(max_length=254, validators=[AlphanumericValidator], null=True, blank=True)
+    phone = models.CharField(max_length=254, validators=[AlphanumericValidator], null=True, blank=True)
+
     def __str__(self):
-        return self.first_name + " " + self.last_name
-    
+        return self.username
 
 
+class Team(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
+    name = models.CharField(max_length=30, validators=[AlphanumericValidator])
+    users = models.ManyToManyField(CustomUser)
+    color = models.CharField(max_length=7, default="#000000", blank=True)
+    description = models.CharField(max_length=254, validators=[AlphanumericValidator], default="description : ",
+                                   null=True, blank=True)
 
 
-# class Groupe(models.Model):
-#     group_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
-#     name = models.CharField(max_length=30, validators= [AlphanumericValidator])
-#     user = models.ManyToManyField(User)
+def upload_to_course(instance, filename):
+    return f'cours/{instance.uuid}/{filename}.md'
 
 
-# def upload_to_cours(instance, filename):
-#     return f'cours/{instance.course_id}/{filename}'
+class Course(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
+    name = models.CharField(max_length=127, validators=[AlphanumericValidator], default="New Course", blank=True)
+    subject = models.CharField(max_length=127, validators=[AlphanumericValidator], default="Theme", blank=True)
+    uploadedFile = models.FileField(upload_to=upload_to_course, storage=None, max_length=100)
+    text = models.TextField(null=True, blank=True)
+    description = models.CharField(max_length=254, validators=[AlphanumericValidator], default="Hello World"),
+    uploadedBy = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True, blank=True)
+    color = models.CharField(max_length=7, default="#000000", blank=True)
+    team = models.ManyToManyField(Team, related_name='team', blank=True)
+    creationDate = models.DateField(auto_now=True, auto_now_add=False, null=True)
+    deliveryDate = models.DateField(auto_now=False, auto_now_add=False, null=True)
+
+    textPath = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
-# class Course(models.Model):
-#     course_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#     name = models.CharField(max_length=127, validators= [AlphanumericValidator])
-#     theme = models.CharField(max_length=127, validators= [AlphanumericValidator])
-#     uploaded_file = models.FileField(upload_to=upload_to_cours, storage=None, max_length=100)
-#     uploaded_by = models.ForeignKey(User, on_delete = models.RESTRICT) 
+class Quizz(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
+    course = models.ManyToManyField(Course)
+    temporary = models.BooleanField(default=False, null=True)
+    dateEnd = models.DateField(auto_now=False, auto_now_add=False, null=True)
+    dateCreation = models.DateField(auto_now=True, auto_now_add=False, null=True)
+    title = models.CharField(max_length=127, validators=[AlphanumericValidator], default="New test", blank=True)
+    description = models.CharField(max_length=254, validators=[AlphanumericValidator], default="description : ",
+                                   null=True, blank=True)
+    theme = models.CharField(max_length=127, validators=[AlphanumericValidator], null=True, blank=True)
+    teams = models.ManyToManyField(Team, related_name='teams', blank=True)
+    status = models.CharField(max_length=127, validators=[AlphanumericValidator], default="pending", blank=True)
+    owner = models.ManyToManyField(CustomUser, related_name='quizzes')
+
+    def __str__(self):
+        return self.title
 
 
-# def generate_unique_filename(instance, filename):
-#     extension = filename.split('.')[-1] 
-#     random_name = str(uuid.uuid4()) 
-#     return os.path.join({instance.course_id}/'course_files/', random_name + '.' + extension)
-
-# class Image(models.Model):
-#     course_id =models.ForeignKey(Course, on_delete=models.RESTRICT, related_name='images')
-#     image = models.ImageField(upload_to=generate_unique_filename)
+class UserQuizzResult(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    quizz = models.ForeignKey(Quizz, on_delete=models.SET_NULL, null=True)
+    score = models.SmallIntegerField(default=0)
+    sumbitionDate = models.DateField(auto_now_add=True)
 
 
-# class Text(models.Model):
-#     course =models.ForeignKey(Course, on_delete=models.RESTRICT, related_name='text')
-#     text =  models.TextField()
-#     text_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Question(models.Model):
+    openQuestion = "QO"
+    multipleChoiceQuestion = "MCQ"
+    Type_Question_Choice = [
+        (multipleChoiceQuestion, "Question a choix multiples"),
+        (openQuestion, "Question ouverte")
+    ]
 
-# class Quesionnaire(models.Model):
-#     questionnaire_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#     course = models.ManyToManyField(Course)  
-#     temporaire = models.BooleanField(default = False)
-#     date_end = models.DateField(auto_now=False, auto_now_add=False, null = True)
-#     date_creation = models.DateField(auto_now=True, auto_now_add=False, null = True)
-#     title = models.CharField(max_length=127, validators= [AlphanumericValidator])
-#     description = models.CharField(max_length=254, validators= [AlphanumericValidator])
-#     theme = models.CharField(max_length=127, validators= [AlphanumericValidator])
-#     score = models.SmallIntegerField(default = 0)
-#     nbr_question_total = models.PositiveSmallIntegerField(default = 0)
-#     nbr_QCM = models.PositiveSmallIntegerField(default = 0)
-#     difficulty = models.CharField(max_length = 254)    
+    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
+    questionType = models.CharField(max_length=3, choices=Type_Question_Choice, default=openQuestion)
+    statement = models.TextField(null=True)
+    quizz = models.ForeignKey(Quizz, on_delete=models.RESTRICT, null=True)
+
+    def __str__(self):
+        return self.statement
 
 
-# class Question(models.Model):
-#     question_id =  models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#     question_ouverte = "QO"
-#     question_choix_multiple = "QCM"
-#     Type_Question_Choice = [
-#         (question_choix_multiple, "question Ã  choix multiples"),
-#         (question_ouverte , "question ouverte")
-#         ]
+# class PossibleAnswer(models.Model):
+#     question = ""
+#     answer = "rouge", "bleu"
 
-#     type_question = models.CharField(max_length = 3, choices = Type_Question_Choice, default = question_ouverte)
-#     statement = models.TextField()
-#     questionnaire = models.ForeignKey(Quesionnaire, on_delete = models.RESTRICT)
+#     isCorrect = True
 
 
-# class Response(models.Model):
-#     response_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable =False)
-#     response_user = models.TextField()
-#     correction = models.BooleanField(default = False)
-#     user_id = models.ForeignKey(User, on_delete = models.RESTRICT)
-#     question = models.ForeignKey(Quesionnaire, on_delete = models.RESTRICT)
+class Answer(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
+    user = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True)
+    question = models.ForeignKey(Question, on_delete=models.RESTRICT, null=True)
+    givenAnswer = models.TextField(null=True, blank=True)
+    aiCorrection = models.TextField(null=True, blank=True)
+    isCorrect = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.givenAnswer

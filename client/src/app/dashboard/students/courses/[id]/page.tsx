@@ -64,30 +64,36 @@ const Course = () => {
         teacher={"Pascal Ricq"}
       />
       <main className={"flex flex-col gap-12"}>
+
         <Container className={"max-w-2xl"}>
           <div>
             <ReactMarkdown components={config}>{course}</ReactMarkdown>
           </div>
         </Container>
+
+
         <Container
           title={"Let's train together !"}
           description={"Learn your course using the AI coach"}
           className={"max-w-2xl"}
         >
-          {isTraining ? (
-            <Questions />
-          ) : (
-            <Button
-              isMagic
-              rounded={"full"}
-              size={"sm"}
-              onClick={() => setIsTraining(true)}
-            >
-              <Stars className={"w-5 h-5"} />
-              <span>Generate questions</span>
-            </Button>
-          )}
+          {isTraining 
+            ?  <Questions /> 
+            : (
+              <Button
+                isMagic
+                rounded={"full"}
+                size={"sm"}
+                onClick={() => setIsTraining(true)}
+              >
+                <Stars className={"w-5 h-5"} />
+                <span>Generate questions</span>
+              </Button>
+            )
+          }
         </Container>
+
+
       </main>
     </div>
   );

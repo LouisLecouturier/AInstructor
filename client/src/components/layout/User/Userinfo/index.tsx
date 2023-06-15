@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import Avatar from "../Avatar";
-import { UserStore } from "@/store/userStore";
 
 type UserInfoProps = {
   name: string;
@@ -12,17 +11,10 @@ type UserInfoProps = {
 //FIXME : Remove onClick event
 
 const UserInfo: FC<UserInfoProps> = (props) => {
-  const [userType, setUserType] = UserStore((state) => [
-    state.userType,
-    state.setUserType,
-  ]);
 
   return (
     <div
-      className="flex gap-4"
-      onClick={() =>
-        setUserType(userType === "teacher" ? "student" : "teacher")
-      }
+      className="flex gap-4 items-center"
     >
       <Avatar size={props.size} />
       <div className="flex flex-col justify-center">
