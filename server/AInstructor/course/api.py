@@ -70,7 +70,6 @@ def create_course(request, user_id: int, file : UploadedFile = File(...)):
         uploadedBy=user,
         uploadedFile=file, 
         textPath=txt_file_path,
-        uploadedBy=user,
     )
 
 
