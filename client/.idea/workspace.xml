@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Fixed merge conflicts">
-      <change afterPath="$PROJECT_DIR$/src/app/auth/page.tsx" afterDir="false" />
+    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Fixed Login Redirect">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/auth/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/login/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/auth/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/register/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/svg/icons/Loading.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/svg/icons/Loading.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Interactions/Forms/FileInput/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/FileInput/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Layout/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Layout/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Navigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Navigation/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,30 +56,30 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Front-End-Louis",
-    "last_opened_file_path": "/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/src/components/dashboard/Navigation/StudentNavigation",
-    "list.type.of.created.stylesheet": "SCSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "pnpm",
-    "prettierjs.PrettierConfiguration.Package": "/Users/louislecouturier/.nvm/versions/node/v18.14.2/lib/node_modules/prettier",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.updates",
-    "ts.external.directory.path": "/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Front-End-Louis&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/src/components/dashboard/Navigation/StudentNavigation&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;SCSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/louislecouturier/.nvm/versions/node/v18.14.2/lib/node_modules/prettier&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.updates&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/dashboard/Navigation/StudentNavigation" />
@@ -145,6 +147,8 @@
       <workItem from="1686676008908" duration="956000" />
       <workItem from="1686733870435" duration="3368000" />
       <workItem from="1686743396911" duration="11179000" />
+      <workItem from="1686819311190" duration="8224000" />
+      <workItem from="1686835896532" duration="1757000" />
     </task>
     <task id="LOCAL-00001" summary="Config + landing&#10;&#10;Added Satoshi Font&#10;Added TS paths for icons and components&#10;Started header (not responsive)">
       <created>1685096667428</created>
@@ -244,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686748356852</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Fixed Login Redirect">
+      <created>1686756391753</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1686756391753</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -290,7 +301,8 @@
     <MESSAGE value="Updated gitignore" />
     <MESSAGE value="Course management Pages + Bg fix + various fixes/changes&#10;&#10;Made add course page, edit course&#10;InputFile component&#10;Label Component&#10;Added Header Action on Container component&#10;Added redirects after login/register&#10;Changed username to email key for api&#10;Added nanoId lib to fix unique key issue&#10;Added @assets path to tsconfig.json&#10;Added underline-primary class" />
     <MESSAGE value="Fixed merge conflicts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed merge conflicts" />
+    <MESSAGE value="Fixed Login Redirect" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed Login Redirect" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

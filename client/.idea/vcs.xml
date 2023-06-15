@@ -5,7 +5,4 @@
       <inspection_tool class="SubjectBodySeparation" enabled="true" level="ERROR" enabled_by_default="true" />
     </profile>
   </component>
-  <component name="VcsDirectoryMappings">
-    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
-  </component>
 </project>
