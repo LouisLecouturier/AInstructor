@@ -141,9 +141,9 @@ const MyComponent: FC<FileInputProps> = (props) => {
         "p-6",
         "rounded-lg",
         "border-dashed border-spacing-60 border-2 border-dark-50 hover:border-accent-200 focus:border-accent-200",
-        "bg-white hover:bg-accent-50 focus:bg-accent-50",
+        "hover:bg-accent-50 focus:bg-accent-50",
         "transition cursor-pointer",
-        isDragging && "bg-accent-100"
+        isDragging ? "bg-accent-100" : "bg-white"
       )}
       onClick={handleClick}
       onDragEnter={() => {
@@ -168,7 +168,7 @@ const MyComponent: FC<FileInputProps> = (props) => {
         name={props.name}
         className={"hidden"}
         ref={hiddenFileInput}
-        // onChange={handleChange}
+        onChange={handleChange}
         accept={props.accept}
       />
 

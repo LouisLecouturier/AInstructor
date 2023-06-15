@@ -111,8 +111,6 @@ def get_token(request, body: Login):
             "refreshToken": user.refreshToken,
             "message": "Authentification successfull",
         }
-    else:
-        return 400, {"message": "Authentification failed"}
 
 
 class CreateUser(Schema):
