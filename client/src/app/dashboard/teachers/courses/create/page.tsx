@@ -49,7 +49,7 @@ const Create = () => {
     mutationFn: (course : Course ) => updateCourse(String(token), course),
     onSuccess: () => {
       queryClient.invalidateQueries(["courses"]);
-      router.push("/dashboard/teachers/courses/create/team?uuid="+uuid)
+      router.push("/dashboard/teachers/courses")
     }
   })
 
