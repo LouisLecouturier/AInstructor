@@ -19,8 +19,12 @@ export type User = {
   postalCode: string;
   bio: string;
   phone: string;
-  
+}
 
-
+export type Course = {
+  uuid : string;
+  name: string;
+  description: string;
+  subject: string;
 }
 

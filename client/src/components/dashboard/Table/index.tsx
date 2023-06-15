@@ -1,3 +1,4 @@
+"use client"
 import React, { FC, useState } from "react";
 import clsx from "clsx";
 import Options from "@icons/Options.svg";
