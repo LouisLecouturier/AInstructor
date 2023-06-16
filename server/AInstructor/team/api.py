@@ -41,13 +41,9 @@ def new(request, body: TeamSchema):
     auth_header = request.headers.get('Authorization')
     token = auth_header.split(' ')[1]
     content = jwt.decode(token, key, algorithms=['HS256'])
-    print(content)
 
     request = json.loads(request.body.decode('utf-8'))
     message = ""
-
-    print(token)
-
 
     try:
         user = get_object_or_404(models.CustomUser, accessToken=token)
@@ -116,7 +112,6 @@ class addUser(Schema):
 @router.post('/add-users/')
 def addUser(request, body: addUser):
     request = json.loads(request.body.decode('utf-8'))
-    print(request)
     error = False
 
     for email in body.users_email:
@@ -132,12 +127,10 @@ def addUser(request, body: addUser):
 
 
 
-
 @router.get("/{uuid}/courses/")
 def get_courses_by_team(request, uuid: uuidLib.UUID):
     """get all the courses of one team"""
     team = get_object_or_404(models.Team, uuid=uuid)
-    print(team)
     courses = models.Course.objects.filter(team=team)
 
     result = []
