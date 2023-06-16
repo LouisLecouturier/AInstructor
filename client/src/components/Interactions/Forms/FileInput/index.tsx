@@ -4,29 +4,37 @@ import React, { ChangeEvent, FC, useRef, useState } from "react";
 import clsx from "clsx";
 
 import UploadIcon from "@icons/Upload.svg";
+<<<<<<< HEAD
+=======
 import Loading from "@icons/Loading.svg";
 import Checkmark from "@icons/Checkmark.svg";
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
 
 type FileInputProps = {
   id?: string;
   name: string;
   accept?: string;
-  sendFile: (formData : FormData) => void;
-  type : "loading" | "upload" | "uploaded";
 };
 
 const MyComponent: FC<FileInputProps> = (props) => {
   const hiddenFileInput = useRef<HTMLInputElement>(null);
   const [isDragging, setDragging] = useState(false);
-  
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-  
+
       const formData = new FormData();
       formData.append("file", file);
-  
-      props.sendFile(formData);
+
+      fetch("http://localhost:8000/api/upload", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
     }
   };
 
@@ -47,6 +55,8 @@ const MyComponent: FC<FileInputProps> = (props) => {
     }
   };
 
+<<<<<<< HEAD
+=======
   if (props.type === "loading") {
     return (
     <div
@@ -133,6 +143,7 @@ const MyComponent: FC<FileInputProps> = (props) => {
 
 
 
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
   return (
     <div
       id={props.id}
@@ -143,7 +154,11 @@ const MyComponent: FC<FileInputProps> = (props) => {
         "border-dashed border-spacing-60 border-2 border-dark-50 hover:border-accent-200 focus:border-accent-200",
         "hover:bg-accent-50 focus:bg-accent-50",
         "transition cursor-pointer",
+<<<<<<< HEAD
+        isDragging && "border-accent-200"
+=======
         isDragging ? "bg-accent-100" : "bg-white"
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
       )}
       onClick={handleClick}
       onDragEnter={() => {

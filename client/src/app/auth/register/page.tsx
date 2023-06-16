@@ -6,8 +6,8 @@ import { Button } from "@components/Interactions/Button";
 import LoginIcon from "@icons/Login.svg";
 import MyRadioGroup from "@components/Interactions/Forms/RadioGroup";
 import { FormEvent } from "react";
-import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const options = [
   { value: "teacher", label: "Teacher" },
@@ -15,10 +15,9 @@ const options = [
 ];
 
 function Register() {
-  const { data: session } = useSession();
   const router = useRouter();
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -28,7 +27,7 @@ function Register() {
     const last_name = formData.get("lastname") as string;
     const isTeacher = formData.get("type") === "teacher";
 
-    await fetch("http://localhost:8000/api/register", {
+    fetch("http://localhost:8000/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +42,10 @@ function Register() {
     })
       .then((response) => {
         if (response.ok) {
-          signIn();
+          signIn("credentials", {
+            email,
+            password,
+          });
         }
       })
       .catch((error) => {

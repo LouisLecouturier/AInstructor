@@ -1,42 +1,36 @@
 "use client";
 
-import {TeamInformations,} from "@/components/dashboard/Teams/MainInformation";
+import { Button } from "@/components/Interactions/Button";
+import Input from "@/components/Interactions/Forms/Input";
+import TeamMainInformation, {
+  TeamInformations,
+} from "@/components/dashboard/Teams/MainInformation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import newTeam from "./hook";
+import Container from "@components/layout/Container";
 import Header from "@components/dashboard/Layout/Header";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-import {createTeam  } from "@/request";
-
 
 export default function AddTeam() {
-  const router = useRouter();
-  
   const { data: session } = useSession();
   const token = String(session?.user.accessToken);
-  
-  const queryClient = useQueryClient();
-  
-  const mutation = useMutation({
-    mutationFn: (team: {name: string, description : string, color : string}) => createTeam(team, token),
-    onSuccess: () => {
-      router.push("/dashboard/teachers/teams");
-      queryClient.invalidateQueries(["teams"]);
-      
-    }
-  });
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const team = {
-      name: String(formData.get("name")),
-      description: String(formData.get("description")),
-      color: String(formData.get("color")),
-    }
 
-    mutation.mutate(team);
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const description = formData.get("description") as string;
+    const color = formData.get("color") as string;
+
+    const error = await newTeam(name, description, color, token);
+
+    if (!error){
+      console.log("redirect");
+      router.push("/dashboard/teachers/teams");
+    }
   };
 
   return (

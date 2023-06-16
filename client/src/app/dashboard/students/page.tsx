@@ -1,10 +1,8 @@
-"use client";
 import QuestionCube from "@/components/dashboard/Courses";
-
+import { UserStore } from "@/store/userStore";
 import React from "react";
-import { useSession } from "next-auth/react";
-import Header from "@/components/dashboard/Layout/Header";
-import ListItem from "@/components/layout/ListItem";
+import Link from "next/link";
+import SuivantButton from "@components/button/SuivantButton";
 
 const courses = [
   {
@@ -15,22 +13,23 @@ const courses = [
     date: "06/06",
     course: "Meca Q",
   },
+  {
+    date: "06/06",
+    course: "Français",
+  },
 ];
 
 const homeworks = [
   {
-    creationDate: "06/06/2023",
-    deliveryDate: "06/06/2023",
+    date: "06/06",
     course: "Electronique",
   },
   {
-    creationDate: "06/06/2023",
-    deliveryDate: "06/06/2023",
+    date: "06/06",
     course: "Physique",
   },
   {
-    creationDate: "06/06/2023",
-    deliveryDate: "06/06/2023",
+    date: "06/06",
     course: "Maths",
   },
 ];
@@ -55,35 +54,25 @@ const progress = [
     course: "Français",
     progress: 93,
   },
-  {
-    course: "Maths",
-    progress: 68,
-  },
-  {
-    course: "Physique",
-    progress: 100,
-  },
 ];
 
 const Dashboard = () => {
-  const { data } = useSession();
-  const firstname = data?.user.first_name;
-  const lastname = data?.user.last_name;
-
+  const firstname = UserStore.getState().firstname;
+  const lastname = UserStore.getState().lastname;
 
   return (
-    <div className="flex flex-1 w-full flex-col">
-      <Header>Dashboard</Header>
-      <div className="flex-col flex gap-8">
-        <h1 className="text-4xl font-bold">
-          Bon retour parmi nous {firstname} !
-        </h1>
-
-        <div className="flex flex-col gap-2">
+    <div className="flex gap-5">
+      <div className="flex flex-col">
+        <div>
+          <h1 className={"flex items-center h-16 text-4xl font-black"}>
+            Bon retour parmi nous {firstname} !
+          </h1>
           <h2 className="flex items-center h-16 text-3xl">
             Reprendre mon parcours
           </h2>
-          <div className="flex gap-8">
+        </div>
+        <div className="flex">
+          <div className="flex gap-10">
             {courses.map((course, index) => (
               <QuestionCube
                 key={course.course}
@@ -94,43 +83,22 @@ const Dashboard = () => {
                 // image={course.image}
               />
             ))}
-
-            <QuestionCube isSeeAll />
-           
           </div>
         </div>
-
-        <div className="flex flex-col gap-2">
-          <h2 className="flex items-center h-16 text-3xl">Mes formations</h2>
-          <div className="flex flex-col gap-2 w-full">
-            
-
-            {homeworks.map((homework: any) => {
-              const properties = [
-                { label: "Creation date", value: homework.creationDate },
-                { label: "Delivery date", value: homework.deliveryDate },
-              ];
-
-              return (
-                <ListItem
-                  href={"/dashboard/students/courses/1"}
-                  key={homework.name}
-                  properties={properties}
-                >
-                  {homework.course}
-                </ListItem>
-              );
-            })}
-          </div>
+        <h2 className="flex items-center h-16 text-3xl">Mes formations</h2>
+        <div className="flex flex-col gap-2 w-full">
+          {homeworks.map((homework) => (
+            <div className="flex flex-col gap-1 p-4 w-full bg-white rounded-xl">
+              <h3 className="flex font-semibold">Devoir : {homework.course}</h3>
+              <h3 className="flex font-semibold">Date : {homework.date}</h3>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
-  );
-};
-
-export default Dashboard;
-
-/* <div className="flex w-1/3 bg-white rounded-xl">
+      <div className="w-full px-40 py-40 bg-dark-300 rounded-md">
+        <SuivantButton />
+      </div>
+      <div className="flex w-1/3 bg-white rounded-xl">
         <div className="flex flex-col gap-4 py-5 p-4 w-full ">
           <h3 className="flex font-semibold px-10 text-4xl">Mon profil</h3>
           <h2 className="flex font-semibold px-5 text-3xl">Informations</h2>
@@ -181,4 +149,9 @@ export default Dashboard;
             prof@acad.me
           </h1>
         </div>
-      </div> */
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;

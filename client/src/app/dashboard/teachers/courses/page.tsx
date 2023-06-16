@@ -4,7 +4,10 @@ import React from "react";
 
 import Header from "@components/dashboard/Layout/Header";
 import ListItem from "@components/layout/ListItem";
+import SectionTitle from "@components/dashboard/Layout/SectionTitle";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
+=======
 import Container from "@components/layout/Container";
 import { Button } from "@components/Interactions/Button";
 import { nanoid } from "nanoid";
@@ -12,6 +15,7 @@ import { Course } from "@/types/team";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { getCourses } from "@/requests/courses";
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
 
 
 const courses = [
@@ -81,6 +85,10 @@ const Courses = () => {
     <div>
       <Header>Courses</Header>
       <main className={"flex flex-col gap-8"}>
+<<<<<<< HEAD
+        <section>
+          <SectionTitle>Incoming courses</SectionTitle>
+=======
         <Container title={"Create a new course"}>
           <div className={"flex flex-col gap-1"}>
             <Button
@@ -94,6 +102,7 @@ const Courses = () => {
         </Container>
 
         <Container title={"Your courses"} description={"Preview, manage, delete your courses"}>
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
           <div className={"flex flex-col gap-2"}>
             {data.map((course, index) => {
               const properties = [
@@ -104,7 +113,7 @@ const Courses = () => {
 
               return (
                 <ListItem
-                  key={nanoid()}
+                  key={course.name}
                   properties={properties}
                   withUserActions
                   onSee={() =>
@@ -119,7 +128,35 @@ const Courses = () => {
               );
             })}
           </div>
-        </Container>
+        </section>
+        <section>
+          <SectionTitle>Passed courses</SectionTitle>
+          <div className={"flex flex-col gap-2"}>
+            {courses.map((course, index) => {
+              const properties = [
+                { label: "Creation date", value: course.creationDate },
+                { label: "Delivery date", value: course.deliveryDate },
+                { label: "Team", value: course.team },
+              ];
+
+              return (
+                <ListItem
+                  key={course.name}
+                  properties={properties}
+                  withUserActions
+                  onSee={() =>
+                    goTo(`/dashboard/teachers/courses/preview/${index}`)
+                  }
+                  onEdit={() =>
+                    goTo(`/dashboard/teachers/courses/edit/${index}`)
+                  }
+                >
+                  {course.name}
+                </ListItem>
+              );
+            })}
+          </div>
+        </section>
       </main>
     </div>
   );

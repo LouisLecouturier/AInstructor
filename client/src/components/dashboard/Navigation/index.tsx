@@ -12,7 +12,7 @@ import UserInfo from "../../layout/User/Userinfo";
 interface Students {
   Homeworks: string;
   Teams: string;
-  // Import: string;
+  Import: string;
   Stats: string;
   Settings: string;
 }
@@ -27,7 +27,7 @@ interface Teachers {
 const Students: Students = {
   Homeworks: "",
   Teams: "",
-  // Import: "",
+  Import: "",
   Stats: "",
   Settings: "",
 };

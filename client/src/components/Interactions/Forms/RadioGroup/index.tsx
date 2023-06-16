@@ -5,9 +5,15 @@ import clsx from "clsx";
 import Radio from "@components/Interactions/Forms/RadioGroup/Radio";
 
 type Option = {
+<<<<<<< HEAD
+    value: string;
+    label: string;
+}
+=======
   value: string;
   label: string;
 };
+>>>>>>> origin/FullStack
 
 type RadioGroupProps = {
   defaultValue: string;
@@ -15,9 +21,11 @@ type RadioGroupProps = {
   name: string;
   onChange?: (value?: string) => void;
   variant?: "accent" | "primary" | "secondary";
-
+<<<<<<< HEAD
+=======
   direction?: "row" | "column";
 
+>>>>>>> origin/FullStack
   size?: "sm" | "md" | "lg";
   label: string;
   className?: string;
@@ -32,7 +40,11 @@ export default function MyRadioGroup(props: RadioGroupProps) {
     setCurrentValue(value);
     console.log(value);
     props.onChange && props.onChange(value);
+<<<<<<< HEAD
+  }
+=======
   };
+>>>>>>> origin/FullStack
 
   return (
     <RadioGroup
@@ -41,6 +53,11 @@ export default function MyRadioGroup(props: RadioGroupProps) {
       name={props.name}
       className={clsx("flex flex-col gap-2", props.className)}
     >
+<<<<<<< HEAD
+      <RadioGroup.Label className={"font-semibold"}>{props.label}</RadioGroup.Label>
+
+      <div className={clsx("flex gap-4 text-dark-300")}>
+=======
       <RadioGroup.Label className={"font-semibold"}>
         {props.label}
       </RadioGroup.Label>
@@ -52,6 +69,7 @@ export default function MyRadioGroup(props: RadioGroupProps) {
           "text-dark-300"
         )}
       >
+>>>>>>> origin/FullStack
         {props.options.map((option) => (
           <RadioGroup.Option key={option.value} value={option.value}>
             {({ checked }) => (
