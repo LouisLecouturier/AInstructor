@@ -1,48 +1,44 @@
-from ninja import NinjaAPI, Schema, Field, Router
-import  datetime, uuid as uuidLib, os,json
+from ninja import Schema, Field, Router
+import uuid as uuidLib
 from django.shortcuts import get_object_or_404
 from app import models
-from pydantic import BaseModel
-from datetime import date
-from typing import List
-import openai
-
 
 router = Router(tags=["Question"])
 
 """_______________________________________requests consergning the questions_________________________________________________________"""
+
 
 class CreateQuestion(Schema):
     QuizzUUID: uuidLib.UUID = Field(...)
     questionType: str = Field(...)
     statement: str = Field()
 
+
 @router.post("/question", )
 def create_question(request, question: CreateQuestion):
     """Create a new question"""
-    
 
-    quizz = models.Quizz.objects.get(uuid=question.QuizzUUID)#recuperer le quizz uuid
-#     course = quizz.course.first() #recuperer le cours du quizz
-#     path = course.textPath#recuperer le chemin du fichier texte du cours
-#     # Ouvrez le fichier en mode lecture
-#     with open(path, "r",encoding="utf-8") as fichier:
-#     # Lisez le contenu du fichier
-#         texte = fichier.read()
-#     openai.api_key = "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"
+    quizz = models.Quizz.objects.get(uuid=question.QuizzUUID)  # recuperer le quizz uuid
+    #     course = quizz.course.first() #recuperer le cours du quizz
+    #     path = course.textPath#recuperer le chemin du fichier texte du cours
+    #     # Ouvrez le fichier en mode lecture
+    #     with open(path, "r",encoding="utf-8") as fichier:
+    #     # Lisez le contenu du fichier
+    #         texte = fichier.read()
+    #     openai.api_key = "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"
 
-#     response = openai.ChatCompletion.create(
-#     model="gpt-3.5-turbo",
-#     messages=[
-#         {"role": "system", "content": "You are a helpful assistant."},
-#         {"role": "assistant", "content": texte},
-#         {"role": "user", "content": "Ecrit moi 10 questions sur ce texte pour tester mes connaisances mais tu ecris seulement les questions et pas les réponses"},
-#     ]
-# )
+    #     response = openai.ChatCompletion.create(
+    #     model="gpt-3.5-turbo",
+    #     messages=[
+    #         {"role": "system", "content": "You are a helpful assistant."},
+    #         {"role": "assistant", "content": texte},
+    #         {"role": "user", "content": "Ecrit moi 10 questions sur ce texte pour tester mes connaisances mais tu ecris seulement les questions et pas les réponses"},
+    #     ]
+    # )
 
-#     print(response.choices[0].message.content)
+    #     print(response.choices[0].message.content)
 
-#     print("done")
+    #     print("done")
 
     new_question = models.Question.objects.create(
         questionType=question.questionType,
@@ -53,9 +49,11 @@ def create_question(request, question: CreateQuestion):
 
 
 class UpdateQuestion(Schema):
-    uuid: uuidLib.UUID= Field(..., description="ID of the question to update")
-    questionType: str = Field(..., description="Type of question: 'QO' for open-ended question or 'QCM' for multiple-choice question")
+    uuid: uuidLib.UUID = Field(..., description="ID of the question to update")
+    questionType: str = Field(...,
+                              description="Type of question: 'QO' for open-ended question or 'QCM' for multiple-choice question")
     statement: str = Field(..., description="Updated question statement")
+
 
 @router.put("/question", )
 def update_question(request, question: UpdateQuestion):
@@ -69,7 +67,6 @@ def update_question(request, question: UpdateQuestion):
 
 class DeleteQuestion(Schema):
     uuid: uuidLib.UUID = Field(..., description="ID of the question to delete")
-    
 
 
 @router.delete("/question", )
@@ -93,4 +90,3 @@ def get_questions_by_quizz(request, uuid: uuidLib.UUID):
         }
         question_list.append(question_info)
     return {"questions": question_list}
-
