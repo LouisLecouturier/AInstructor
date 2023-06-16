@@ -11,6 +11,10 @@ import { Button } from "@components/Interactions/Button";
 
 import Stars from "@icons/Stars.svg";
 import Question from "@components/dashboard/Questions/Question";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
+import { getCourseText } from "@/requests/courses";
+import { data } from "autoprefixer";
 
 const config = {
   h1: ({ ...props }) => (
@@ -57,23 +61,43 @@ const Questions = () => {
   );
 };
 
-const Course = () => {
+const Course = ({ params }: { params: { uuid: string } }) => {
   const [isTraining, setIsTraining] = useState(false);
+
+  const { data : session } = useSession()
+  const token = session?.user?.accessToken;
+  const uuid = params.uuid;
+
+  console.log(uuid)
+
+  const { data: course, isLoading, isError} = useQuery({
+    queryKey: ["course", params.uuid, "text"],
+    queryFn: () => getCourseText(uuid, String(token)),
+    enabled: ![params.uuid, token].includes(undefined),
+});
+
+if (isLoading || isError) return <div>loading...</div>;
+
+console.log(course)
+
+
+
 
   return (
     <div>
-      <CourseHeader
+      {/* <CourseHeader
         title={"Preview"}
         teacher={"This is what your students will see"}
-      />
+      /> */}
       <CourseHeader
-        title={"Regarder ses séries en VF"}
-        teacher={"Pascal Ricq"}
+        title={course.name}
+        teacher={course.teacher}
+        subject={course.subject}
       />
       <main className={"flex flex-col gap-8"}>
         <Container className={"max-w-2xl"}>
           <div>
-            <ReactMarkdown components={config}>{course}</ReactMarkdown>
+            <ReactMarkdown components={config}>{course.text}</ReactMarkdown>
           </div>
         </Container>
 

@@ -19,8 +19,7 @@ def user_picture_path(instance, filename):
 class CustomUser(AbstractUser):
     pass
     # add additional fields in here
-    profilePicture = models.ImageField(upload_to=user_picture_path, max_length=254, null=True, blank=True,
-                                       validators=[validate_image_file_extension])  # add uplad to
+    profilePicture = models.ImageField(upload_to=user_picture_path, max_length=254, null=True, blank=True, validators=[validate_image_file_extension])  # add uplad to
     isTeacher = models.BooleanField(default='False')
     lastConnexion = models.DateField(auto_now=True, auto_now_add=False, null=True)
     accessToken = models.CharField(max_length=500, null=True, default=0)
