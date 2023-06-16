@@ -8,16 +8,13 @@ import { useRouter } from "next/navigation";
 import Container from "@components/layout/Container";
 import { Button } from "@components/Interactions/Button";
 import { nanoid } from "nanoid";
+import { Course } from "@/types/team";
+import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { getCourses } from "@/requests/courses";
 
-type Course = {
-  name: string;
-  creationDate: string;
-  deliveryDate: string;
-  team: string;
-  status: "pending" | "in-progress" | "done";
-};
 
-const courses: Course[] = [
+const courses = [
   {
     name: "Homework 1",
     creationDate: "12/12/2021",
@@ -53,15 +50,32 @@ const courses: Course[] = [
     team: "English - 4B",
     status: "done",
   },
-];
+] as Course[];
 
 const Courses = () => {
   const pastCourses = courses.filter((course) => course.status === "done");
   const router = useRouter();
+  
+  const { data: session } = useSession();
+  const token = session?.user.accessToken;
+  const id = session?.user.id;
+
 
   const goTo = (path: string) => {
     router.push(path);
   };
+
+
+  const { data, isLoading, isError } = useQuery<Course[]>({
+    queryKey: ["teams"],
+    queryFn: () => getCourses(String(token), String(id) ),
+    enabled: (token && id )!== undefined,
+  });
+
+  if (isLoading || isError) {
+    return <div>loading...</div>;
+  }
+
 
   return (
     <div>
@@ -78,9 +92,10 @@ const Courses = () => {
             </Button>
           </div>
         </Container>
+
         <Container title={"Your courses"} description={"Preview, manage, delete your courses"}>
           <div className={"flex flex-col gap-2"}>
-            {courses.map((course, index) => {
+            {data.map((course, index) => {
               const properties = [
                 { label: "Creation date", value: course.creationDate },
                 { label: "Delivery date", value: course.deliveryDate },
@@ -93,10 +108,10 @@ const Courses = () => {
                   properties={properties}
                   withUserActions
                   onSee={() =>
-                    goTo(`/dashboard/teachers/courses/preview/${index}`)
+                    goTo(`/dashboard/teachers/courses/preview/${course.uuid}`)
                   }
                   onEdit={() =>
-                    goTo(`/dashboard/teachers/courses/edit/${index}`)
+                    goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
                   }
                 >
                   {course.name}

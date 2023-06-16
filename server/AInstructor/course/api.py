@@ -112,8 +112,6 @@ def get_my_courses(request, user_id: int):
             teamName = course.team.all().first().name
         else :  teamName = None
 
-        print(course.description)
-
         course_info = {
             'uuid': course.uuid,
             'name': course.name,
@@ -126,11 +124,7 @@ def get_my_courses(request, user_id: int):
         }
         result.append(course_info)
 
-    print(result)
     return result
-
-
-
 
 
 @router.get("/{uuid}/generate-questions", )
@@ -256,14 +250,6 @@ def get_courses_by_group(request, group_id: uuidLib.UUID):
 
 
 
-
-
-
-
-
-
-
-
 class UpdateCourse(Schema):
     name: str = Field(...)
     subject: str = Field(...)
@@ -290,16 +276,6 @@ def update_meta_data_from_course(request, uuid,  courseInfo: UpdateCourse):
         'description': course.description,
         # 'color': course.color
         }
-
-
-
-
-
-
-
-
-
-
 
 
 
