@@ -5,6 +5,7 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import Header from "@/components/dashboard/Layout/Header";
 import ListItem from "@/components/layout/ListItem";
+import Container from "@/components/layout/Container";
 
 const courses = [
   {
@@ -70,7 +71,6 @@ const Dashboard = () => {
   const firstname = data?.user.first_name;
   const lastname = data?.user.last_name;
 
-
   return (
     <div className="flex flex-1 w-full flex-col">
       <Header>Dashboard</Header>
@@ -79,11 +79,12 @@ const Dashboard = () => {
           Bon retour parmi nous {firstname} !
         </h1>
 
+        {/* <Container title="Reprendre mon parcours"> */}
         <div className="flex flex-col gap-2">
           <h2 className="flex items-center h-16 text-3xl">
             Reprendre mon parcours
           </h2>
-          <div className="flex gap-8">
+          <div className="flex gap-8 ">
             {courses.map((course, index) => (
               <QuestionCube
                 key={course.course}
@@ -96,32 +97,31 @@ const Dashboard = () => {
             ))}
 
             <QuestionCube isSeeAll />
-           
           </div>
         </div>
+        {/* </Container> */}
 
         <div className="flex flex-col gap-2">
-          <h2 className="flex items-center h-16 text-3xl">Mes formations</h2>
-          <div className="flex flex-col gap-2 w-full">
-            
+          <Container title="Mes formations" description={"Access your courses"}>
+            <div className="flex flex-col gap-2 w-full">
+              {homeworks.map((homework: any) => {
+                const properties = [
+                  { label: "Creation date", value: homework.creationDate },
+                  { label: "Delivery date", value: homework.deliveryDate },
+                ];
 
-            {homeworks.map((homework: any) => {
-              const properties = [
-                { label: "Creation date", value: homework.creationDate },
-                { label: "Delivery date", value: homework.deliveryDate },
-              ];
-
-              return (
-                <ListItem
-                  href={"/dashboard/students/courses/1"}
-                  key={homework.name}
-                  properties={properties}
-                >
-                  {homework.course}
-                </ListItem>
-              );
-            })}
-          </div>
+                return (
+                  <ListItem
+                    href={"/dashboard/students/courses/1"}
+                    key={homework.name}
+                    properties={properties}
+                  >
+                    {homework.course}
+                  </ListItem>
+                );
+              })}
+            </div>
+          </Container>
         </div>
       </div>
     </div>

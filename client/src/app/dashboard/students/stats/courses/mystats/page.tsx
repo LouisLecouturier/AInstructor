@@ -71,7 +71,7 @@ export default function MyStats() {
               },
               {
                 type: "line",
-                label: "Moyenne cours",
+                label: "Moyenne classe",
                 data: [
                   courses[0].moy,
                   courses[1].moy,
@@ -101,7 +101,7 @@ export default function MyStats() {
     <div className="flex flex-col gap-10">
       <div className="flex text-4xl font-black">MyStats</div>
       <div className="flex flex-col items-center">
-        <Container className="max-h-xl max-w-xl">
+        <Container className="max-h-xl max-w-xl border-2 border-dark-50 hover:border-accent-300 transition">
           <canvas ref={chartRef} width={400} height={400}></canvas>
         </Container>
       </div>

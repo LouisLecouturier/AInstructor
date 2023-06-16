@@ -73,7 +73,7 @@ const data2 = {
   labels: ["Chap 1", "Chap 2", "Chap 3", "Chap 4"],
   datasets: [
     {
-      label: "En %",
+      label: "Score élève",
       /* IQ */
       data: [12, 52, 69, 100],
       backgroundColor: [
@@ -120,7 +120,7 @@ const data4 = {
   labels: ["Chap 1", "Chap 2", "Chap 3", "Chap 4"],
   datasets: [
     {
-      label: "Evolution du score",
+      label: "Score élève",
       data: [12, 52, 69, 100],
       fill: false,
       borderColor: "rgb(75, 192, 192)",
@@ -142,12 +142,12 @@ export default function coursesStats() {
       <div className="flex gap-10 items-center">
         <div className="flex flex-col gap-5">
           <div className="w-96 h-96">
-            <Container className="w-96 h-96">
+            <Container className="w-96 h-96 border-2 border-dark-50 hover:border-accent-300 transition">
               <Radar data={data3} />
             </Container>
           </div>
           <div className="w-96 h-96">
-            <Container className="w-96 h-96">
+            <Container className="w-96 h-96 border-2 border-dark-50 hover:border-accent-300 transition">
               <Doughnut data={data2} />
             </Container>
           </div>
@@ -155,9 +155,9 @@ export default function coursesStats() {
         <div className="flex flex-col w-full gap-10">
           <div className="w-full h-full">
             <Container
-              title="Courbe de progression"
-              className="w-full h-full"
-              description="c'est une belle courbe"
+              title="Score de l'élève par cours"
+              className="w-full h-full border-2 border-dark-50 hover:border-accent-300 transition"
+              // description="c'est une belle courbe"
             >
               <Line data={data4} />
             </Container>

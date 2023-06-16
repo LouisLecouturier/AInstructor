@@ -34,7 +34,7 @@ const Stats = () => {
     <div className="flex flex-col gap-5">
       <h1 className={"flex items-center h-16 text-4xl font-black"}>My stats</h1>
       <div className="flex flex-col gap-20">
-        <div className="flex gap-8">
+        <div className="flex gap-8 ">
           {courses.map((course) => (
             <CubeCourses
               uuid={course.id}
@@ -47,7 +47,7 @@ const Stats = () => {
           className="rounded-xl w-1/3 h-15 "
           href={`/dashboard/students/stats/courses/mystats`}
         >
-          <div className="flex flex-col gap-5 p-4 py-3 bg-white rounded-xl font-bold text-accent-500 text-xl text-center">
+          <div className="flex flex-col gap-5 p-4 py-3 bg-white rounded-xl font-bold text-accent-500 text-xl text-center border-2 border-dark-50 hover:border-accent-300 transition">
             Accéder à toutes mes stats
           </div>
         </Link>
