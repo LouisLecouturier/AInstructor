@@ -1,8 +1,7 @@
-
-
-**/db.sqlite3
-**/migrations/
-**/courses-for-IA/
+db.sqlite3
+migrations/
+courses-for-IA/
+cours/
 
 ### Python template
 # Byte-compiled / optimized / DLL files

@@ -67,75 +67,73 @@ def create_course(request, user_id: int, file : UploadedFile = File(...)):
     # Sauvegarder le fichier .md
     course = models.Course.objects.create(
         name=file.name,
+        uploadedBy=user,
         uploadedFile=file, 
-        textPath=txt_file_path
+        textPath=txt_file_path,
     )
 
-    course.uploadedBy = user
 
     # Enregistrer le fichier .md en utilisant pdf2md.Document
     doc = pdf2md.Document(course.uploadedFile.path)
     doc.save(course.uploadedFile.path)
+
+
+    quizz = models.Quizz.objects.create(
+        owner=user
+    )
+
+    quizz.course.add(course)
+
+    quizz.save()
+
 
     print(course.uuid)
     return {'uuid': course.uuid}
 
 
 
-   
+
+@router.get("/teachers/{user_id}")
+def get_my_courses(request, user_id: int):
+    user = get_object_or_404(models.CustomUser, id=user_id)
+
+    # teams = user.team_set.all()
+    # courses = models.Course.objects.filter(team__in=teams)    
+
+    courses = models.Course.objects.filter(uploadedBy=user)
+    # Quizz = models.Quizz.objects.filter(course__in=courses)
+
+    result = []
+    for course in courses:
+        # quizz = models.Quizz.objects.filter(course=course)
+        # print(course.team.all().first())
+
+        if course.team.all().first() is not None:
+            teamName = course.team.all().first().name
+        else :  teamName = None
+
+        print(course.description)
+
+        course_info = {
+            'uuid': course.uuid,
+            'name': course.name,
+            'team': teamName,
+            'description': course.description,
+            'subject': course.subject,
+            "status": "pending",
+            "deliveryDate": course.deliveryDate,
+            "creationDate": course.creationDate,
+        }
+        result.append(course_info)
+
+    print(result)
+    return result
 
 
 
-# @router.post('/uploadCourse')
-# def upload(request, body: UploadTheme, file: UploadedFile = File(...)):
-#     token = request.headers.get('Authorization')
-#     token = token.split(' ')[1]
-#     user = get_object_or_404(models.CustomUser, accessToken=token)
-
-#     # Vérifier l'extension du fichier
-#     file_extension = os.path.splitext(file.name)[1].lower()
-
-#     if file_extension == '.pdf':
-#         # Convertir le fichier PDF en texte
-#         text_content = ""
-#         with pdfplumber.open(file) as pdf:
-#             for page in pdf.pages:
-#                 text_content += page.extract_text()
-
-#     elif file_extension == '.docx':
-#         # Convertir le fichier Word en texte
-#         document = Document(file)
-#         paragraphs = document.paragraphs
-#         text_content = "\n".join([p.text for p in paragraphs])
-
-#     else:
-#         # Gérer d'autres extensions de fichiers ou afficher une erreur
-#         return {'error': 'Unsupported file format.'}
-
-#     # Enregistrer le contenu texte dans un fichier .txt
-#     txt_file_name = file.name.replace(file_extension, '.txt')
-#     txt_file_path = f"courses-for-IA/{txt_file_name}"  # Spécifiez le chemin de stockage souhaité
-
-#     # Convertir le texte en encodage UTF-8
-#     text_content_utf8 = text_content.encode('utf-8')
-
-#     txt_file = ContentFile(text_content_utf8)
-#     default_storage.save(txt_file_path, txt_file)
-
-#     # Sauvegarder le fichier .md
-#     course = models.Course.objects.create(name=file.name, theme=body.theme, uploadedFile=file, color=body.color,
-#                                           textPath=txt_file_path)
-
-#     course.uploadedBy = user
-
-#     # Enregistrer le fichier .md en utilisant pdf2md.Document
-#     doc = pdf2md.Document(course.uploadedFile.path)
-#     doc.save(course.uploadedFile.path)
-
-#     return {'name': file.name, 'uuid': course.uuid, 'uploadedBy': user.username}
 
 
-@router.get("/course/{uuid}/generate-questions", )
+@router.get("/{uuid}/generate-questions", )
 def generate_questions(request, uuid: str):
     """generate questions from the course"""
     course = get_object_or_404(models.Course, uuid=uuid)
@@ -149,10 +147,10 @@ def generate_questions(request, uuid: str):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": "You are a helpful teacher."},
             {"role": "assistant", "content": texte},
             {"role": "user",
-             "content": "Ecrit moi 10 questions sur ce texte pour tester mes connaisances mais tu ecris seulement les questions et pas les réponses"},
+             "content": "Écris moi 10 questions sur ce texte pour tester mes connaisances mais tu écris seulement les questions et pas les réponses"},
         ]
     )
 
@@ -162,45 +160,20 @@ def generate_questions(request, uuid: str):
     return {"questions": questions}
 
 
-@router.get("/{uuid}", )
-def get_courses_by_id(request, uuid: str):
+@router.get("/byId/{uuid}")
+def get_course_by_id(request, uuid: str):
     """get the course by id"""
     course = get_object_or_404(models.Course, uuid=uuid)
     return {
         'uuid': course.uuid,
         'name': course.name,
-        'theme': course.theme,
+        'subject': course.subject,
+        'description' : course.description,
         'text': course.text,
         'uploadedBy': course.uploadedBy.username,
         'color': course.color,
         'file': course.uploadedFile.name,
     }
-
-
-@router.get("/mycourses/{user_id}")
-def get_my_courses(request, user_id: int):
-    user = get_object_or_404(models.CustomUser, id=user_id)
-
-    teams = user.team_set.all()
-    courses = models.Course.objects.filter(team__in=teams)
-
-    Quizz = models.Quizz.objects.filter(course__in=courses)
-
-    result = []
-    for course in courses:
-        quizz = models.Quizz.objects.filter(course=course)
-
-        course_info = {
-            'uuid': course.uuid,
-            'name': course.name,
-            'team': course.team.first().name,
-            "status": quizz[0].status,
-            "deliveryDate": course.deliveryDate,
-            "creationDate": course.creationDate,
-        }
-        result.append(course_info)
-
-    return result
 
 
 class AssignCourse(Schema):
@@ -222,9 +195,9 @@ def assign_course(request, body: AssignCourse):
 
 
 # à mettre dans Team api
-@router.get("/{uuid}")
+@router.get("/team/{uuid}")
 def get_courses_by_team(request, uuid: uuidLib.UUID):
-    """get all the courses of the user"""
+    """get all the courses of the team"""
     team = get_object_or_404(models.Team, uuid=uuid)
     courses = models.Course.objects.filter(team=team)
 
@@ -298,7 +271,7 @@ class UpdateCourse(Schema):
     description: str = Field(...)
 
 
-@router.put("/hello/{uuid}")
+@router.put("/put/{uuid}")
 def update_meta_data_from_course(request, uuid,  courseInfo: UpdateCourse):
     """update the course metadata : name, theme, color"""
     course = get_object_or_404(models.Course, uuid=uuid)
