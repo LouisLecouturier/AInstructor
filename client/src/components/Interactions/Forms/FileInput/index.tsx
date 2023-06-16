@@ -4,6 +4,11 @@ import React, { ChangeEvent, FC, useRef, useState } from "react";
 import clsx from "clsx";
 
 import UploadIcon from "@icons/Upload.svg";
+<<<<<<< HEAD
+=======
+import Loading from "@icons/Loading.svg";
+import Checkmark from "@icons/Checkmark.svg";
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
 
 type FileInputProps = {
   id?: string;
@@ -50,6 +55,95 @@ const MyComponent: FC<FileInputProps> = (props) => {
     }
   };
 
+<<<<<<< HEAD
+=======
+  if (props.type === "loading") {
+    return (
+    <div
+      id={props.id}
+      className={clsx(
+        "flex-1 flex flex-col gap-8",
+        "p-6",
+        "rounded-lg",
+        "border-dashed border-spacing-60 border-2 border-accent-200",
+        "transition cursor-pointer",
+        "bg-accent-100",
+      )}
+      onClick={handleClick}
+      
+      onDrop={(e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        handleDrop(e);
+      }}
+    >
+      <input
+        type="file"
+        name={props.name}
+        className={"hidden"}
+        ref={hiddenFileInput}
+        // onChange={handleChange}
+        accept={props.accept}
+      />
+
+      <div className={clsx("flex h-full justify-center items-center")}>
+        <div className="flex flex-col gap-5 items-center">
+          <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-accent-500">
+            <Loading className="w-3/5 h-3/5 text-white animate-spin" />
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-lg font-bold">Uploading file</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    )
+  }
+
+  if (props.type === "uploaded") {
+    return (
+    <div
+      id={props.id}
+      className={clsx(
+        "flex-1 flex flex-col gap-8",
+        "p-6",
+        "rounded-lg",
+        "border-dashed border-spacing-60 border-2 border-green-200",
+        "transition cursor-pointer",
+        "bg-green-10",
+      )}
+      onClick={handleClick}
+      
+      onDrop={(e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        handleDrop(e);
+      }}
+    >
+      <input
+        type="file"
+        name={props.name}
+        className={"hidden"}
+        ref={hiddenFileInput}
+        // onChange={handleChange}
+        accept={props.accept}
+      />
+
+      <div className={clsx("flex h-full justify-center items-center")}>
+        <div className="flex flex-col gap-5 items-center">
+          <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-green-600">
+            <Checkmark className="w-3/5 h-3/5 text-white" />
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-lg font-bold">File uploaded successfully !</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    )
+  }
+
+
+
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
   return (
     <div
       id={props.id}
@@ -58,9 +152,13 @@ const MyComponent: FC<FileInputProps> = (props) => {
         "p-6",
         "rounded-lg",
         "border-dashed border-spacing-60 border-2 border-dark-50 hover:border-accent-200 focus:border-accent-200",
-        "bg-white hover:bg-accent-50 focus:bg-accent-50",
+        "hover:bg-accent-50 focus:bg-accent-50",
         "transition cursor-pointer",
+<<<<<<< HEAD
         isDragging && "border-accent-200"
+=======
+        isDragging ? "bg-accent-100" : "bg-white"
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
       )}
       onClick={handleClick}
       onDragEnter={() => {

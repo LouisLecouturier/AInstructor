@@ -50,7 +50,7 @@ const FeedBackIcon = ({ feedback }: { feedback: "correct" | "incorrect" }) => {
   return <ErrorIcon className={"w-8 h-8"} />;
 };
 
-const Question: FC<QuestionProps> = (props) => {
+const QuestionElement: FC<QuestionProps> = (props) => {
   if (props.isLoading) {
     return (
       <article className={clsx(containerClassNames, "p-4")}>
@@ -147,4 +147,4 @@ const Question: FC<QuestionProps> = (props) => {
   );
 };
 
-export default Question;
+export default QuestionElement;
