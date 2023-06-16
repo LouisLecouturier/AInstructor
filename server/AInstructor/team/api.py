@@ -1,6 +1,3 @@
-import json
-import uuid as uuidLib
-
 import jwt
 from ninja import Router, Schema
 from app import models 
@@ -18,8 +15,7 @@ key = getattr(settings, "SECRET_KEY", None)
 
 @router.get('/')
 def main(request):
-    print(request.headers.get('Authorization'))
-
+   
     token = request.headers.get('Authorization')
     token = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=token)
@@ -56,7 +52,7 @@ def new(request, body: TeamSchema):
 
 
 @router.delete('/{uuid}')
-def delete(request, uuid):
+def delete(request, uuid : uuidLib.UUID):
 
     try:
         team = get_object_or_404(models.Team, uuid=uuid)
@@ -68,7 +64,7 @@ def delete(request, uuid):
 
 
 @router.put('/{uuid}')
-def update(request, uuid):
+def update(request, uuid : uuidLib.UUID):
     request = json.loads(request.body.decode('utf-8'))['team']
     error = False
 
