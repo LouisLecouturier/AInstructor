@@ -62,15 +62,30 @@ export default function myTeams() {
   return (
     <div className="flex flex-col gap-5">
       <header>
-        <h1 className={"flex items-center h-16 text-5xl font-black"}>
+        <h1 className="flex items-center h-16 text-5xl font-black">
           Stats de mes teams
         </h1>
       </header>
-      <div className="flex gap-40">
+      <div className="flex gap-40 items-center">
         <Container className="w-1/2 h-1/2 border-2 border-dark-50 hover:border-accent-300 transition">
           <Bar data={data} options={options} />
         </Container>
       </div>
+      <Container className="w-full h-1/2 border-2 border-dark-50 hover:border-accent-300 transition text-center">
+        <div className="flex flex-col gap-5">
+          <h1 className="flex font-black text-4xl">Quelques chiffres</h1>
+          <div className="flex gap-40 text-center">
+            <div className="flex flex-col gap-5">
+              <h1>Nombre d'équipe : </h1>
+              <h1>Nombre d'élève : </h1>
+            </div>
+            <div className="flex flex-col gap-5">
+              <h1>Score le plus élevé : </h1>
+              <h1>Score le plus bas : </h1>
+            </div>
+          </div>
+        </div>
+      </Container>
     </div>
   );
 }

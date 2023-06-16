@@ -4,6 +4,8 @@ import { Bar, Line, Doughnut, Pie } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import Container from "@/components/layout/Container";
+import { useEffect, useRef, useCallback } from "react";
+import { registerables } from "chart.js";
 
 const data = {
   labels: [
@@ -110,23 +112,23 @@ const teamStats = () => {
       <header>
         <h1 className={"flex items-center h-16 text-5xl font-black"}>Stats</h1>
       </header>
-      <div className="flex w-full h-full gap-10 items-center">
-        {/* <div className="max-w max-h flex gap-40"> */}
-        <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
-          <Bar data={data} options={options} />
-        </Container>
-        <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
-          <Doughnut data={data2} />
-        </Container>
-        {/* </div> */}
-        {/* <div className="flex gap-40 max-w max-h "> */}
-        <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
-          <Line data={data} options={options} />
-        </Container>
-        <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
-          <Pie data={data} />
-        </Container>
-        {/* </div> */}
+      <div className="flex flex-col w-full h-full gap-10 items-center">
+        <div className="max-w max-h flex gap-40 items-center">
+          <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
+            <Bar data={data} options={options} />
+          </Container>
+          <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
+            <Doughnut data={data2} />
+          </Container>
+        </div>
+        {/* <div className="flex gap-40 max-w max-h ">
+          <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
+            <Line data={data} options={options} />
+          </Container>
+          <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
+            <Pie data={data} />
+          </Container>
+        </div> */}
       </div>
     </div>
   );
