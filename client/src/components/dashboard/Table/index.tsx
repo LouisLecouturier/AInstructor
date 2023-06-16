@@ -1,9 +1,10 @@
-"use client";
+"use client"
 import React, { FC, useState } from "react";
 import clsx from "clsx";
 import Options from "@icons/Options.svg";
 import Delete from "@icons/Delete.svg";
 import Edit from "@icons/Edit.svg";
+import { Button } from "@/components/Interactions/Button";
 
 type column = {
   key: string;
@@ -13,74 +14,89 @@ type column = {
 type TableProps = {
   columns: column[];
   data: any[];
-  title?: string;
   firstIsKey?: boolean;
   ordered?: boolean;
   className?: string;
   actions?: string[];
   selectable?: boolean;
-  Delete?: (emails: string[]) => void;
+  selectedRows?: any[];
+  Delete?: (filteredData : {email : string}[]) => void;
+  Submit? : (selectedRows : {uuid : string}[]) => void;
 };
 
+function checkUUIDExistence(toto: any[], popo:any[]) {
+  const uuidList = toto.map((obj) => obj.uuid);
+  const result = popo.map((obj) => uuidList.includes(obj.uuid));
+  return result;
+}
+
+
+
+
 const Table: FC<TableProps> = (props) => {
-  const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [selectedRows, setSelectedRows] = useState<boolean[]>(
+    props.selectedRows !== undefined
+    ? checkUUIDExistence(props.selectedRows, props.data)
+    : Array(props.data.length).fill(false)
+  );
 
-  const getSelectedEmails = () => {
-    return selectedRows.map((index) => props.data[index].email);
-  };
 
-  const handleRowSelect = (index: number) => {
-    selectedRows.includes(index)
-      ? setSelectedRows(selectedRows.filter((rowIndex) => rowIndex !== index))
-      : setSelectedRows([...selectedRows, index]);
-  };
 
-  const computeHeader = () => {
-    return (
-      <header className="flex justify-between">
-        {props.title && (
-          <h2 className="text-2xl font-semibold">{props.title}</h2>
-        )}
-        <div className="flex gap-4 px-4">
-          <span className="text-dark-200">
-            {selectedRows.length} items selected
-          </span>
-          {selectedRows.length > 0 && (
-            <div className="flex gap-2">
-              {props.actions?.includes("delete") && (
-                <Delete
-                  onClick={() => {
-                    if (props.Delete) {
-                      props.Delete(
-                        selectedRows.map((index) => props.data[index].email)
-                      );
-                      setSelectedRows([]);
-                    }
-                  }}
-                  className="w-6 h-6"
-                />
-              )}
+  function filterDataByBoolean() {
 
-              {props.actions?.includes("edit") && <Edit className="w-6 h-6" />}
-            </div>
-          )}
-        </div>
-      </header>
-    );
-  };
+    const filteredData: any[] = [];
+
+    selectedRows.forEach((value, index) => {
+      if (value) {
+        filteredData.push(props.data[index]);
+      }
+    });
+    return filteredData;
+  }
+
+
+
+
+
 
   return (
     <>
-      {(props.selectable || props.actions || props.title) && computeHeader()}
+      <header className="flex justify-between">
+        <h2 className={"flex items-center text-xl font-black"}>Members</h2>
+        {props.selectable && (
+          <div className="flex gap-4 px-4">
+            <span className="text-dark-200">
+              {selectedRows.filter(Boolean).length} items selected
+            </span>
+            {selectedRows.length > 0 && (
+              <div className="flex gap-2">
+
+
+                {props.actions?.includes("delete") && (
+                  <Delete onClick={() => {
+                    const data = filterDataByBoolean()
+                    if (props.Delete) {
+                      props.Delete(data);
+                    }
+                  }} className="w-6 h-6"
+                  />
+                )}
+
+
+
+
+
+                {props.actions?.includes("edit") && <Edit className="w-6 h-6" />}
+              </div>
+            )}
+          </div>
+        )}
+      </header>
       <table className={props.className}>
         <thead>
           <tr className={"border-b-2 border-accent-200"}>
-            {props.selectable && (
-              <th className={clsx("text-start px-4 py-2")}></th>
-            )}
-            {props.ordered && (
-              <th className={clsx("text-start px-4 py-2")}>#</th>
-            )}
+            {props.selectable && <th className={clsx("text-start px-4 py-2")}></th>}
+            {props.ordered && <th className={clsx("text-start px-4 py-2")}>#</th>}
             {props.columns.map((column, index) => (
               <th
                 key={column.key + index}
@@ -110,8 +126,8 @@ const Table: FC<TableProps> = (props) => {
                     )}
                   >
                     <input
-                      checked={selectedRows.includes(index)}
-                      onChange={() => handleRowSelect(index)}
+                    checked={selectedRows[index]}
+                    onChange={() => {setSelectedRows(selectedRows.map((value, i) => i === index ? !value : value))}}
                       type="checkbox"
                     />
                   </td>
@@ -145,10 +161,9 @@ const Table: FC<TableProps> = (props) => {
                     className={clsx(
                       "px-4 py-2",
                       "border-r-2 border-dark-500/5 last:border-none",
-                      "flex items-center justify-center"
+                      "flex items-center justify-center",
                     )}
                   >
-                    {/* {props.actions?.map((action) => action)} */}
                     <Options className="h-6 w-4 text-dark-500" />
                   </td>
                 )}
@@ -157,6 +172,17 @@ const Table: FC<TableProps> = (props) => {
           })}
         </tbody>
       </table>
+
+      {props.Submit && (
+        <Button size="sm" rounded="full" onClick={()=>{
+          const data = filterDataByBoolean()
+          if (props.Submit) {
+            props.Submit(data);
+          }
+        }}>
+          <span>Save</span>
+        </Button>
+      )}
     </>
   );
 };

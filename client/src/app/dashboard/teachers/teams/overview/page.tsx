@@ -93,6 +93,13 @@ export default function TeamOverview({ searchParams }: { searchParams: {id : str
     mutationAddUsers.mutate([email]);
   };
 
+  const getEmailList = (filteredData : {email : string}[]) => {
+    const emails = filteredData.map((obj : {email : string}) => obj.email);
+    console.log(emails);
+
+    mutationRemoveUsers.mutate(emails)
+  }
+
 
 
 
@@ -129,7 +136,7 @@ export default function TeamOverview({ searchParams }: { searchParams: {id : str
             selectable
             actions={["edit", "delete"]}
             data={data.users}
-            Delete={(emails) => mutationRemoveUsers.mutate(emails)}
+            Delete={(filteredData : {email : string}[]) => getEmailList(filteredData)}
           />
 
           <form onSubmit={handleSubmitAddUser}>

@@ -14,6 +14,8 @@ from ninja import Router, Schema, File, UploadedFile
 from pydantic import Field
 from django.http import HttpResponse
 
+import json
+
 
 from app import models
 
@@ -52,6 +54,7 @@ def create_course(request, user_id: int, file : UploadedFile = File(...)):
 
     else:
         # Gérer d'autres extensions de fichiers ou afficher une erreur
+        print('Unsupported file format.')
         return {'error': 'Unsupported file format.'}
 
     # Enregistrer le contenu texte dans un fichier .txt
@@ -68,7 +71,7 @@ def create_course(request, user_id: int, file : UploadedFile = File(...)):
     course = models.Course.objects.create(
         name=file.name,
         uploadedBy=user,
-        uploadedFile=file, 
+        uploadedFile=file,
         textPath=txt_file_path,
     )
 
@@ -76,6 +79,7 @@ def create_course(request, user_id: int, file : UploadedFile = File(...)):
     # Enregistrer le fichier .md en utilisant pdf2md.Document
     doc = pdf2md.Document(course.uploadedFile.path)
     doc.save(course.uploadedFile.path)
+
 
 
     quizz = models.Quizz.objects.create(
@@ -87,7 +91,7 @@ def create_course(request, user_id: int, file : UploadedFile = File(...)):
     quizz.save()
 
 
-    print(course.uuid)
+
     return {'uuid': course.uuid}
 
 
@@ -98,15 +102,16 @@ def get_my_courses(request, user_id: int):
     user = get_object_or_404(models.CustomUser, id=user_id)
 
     # teams = user.team_set.all()
-    # courses = models.Course.objects.filter(team__in=teams)    
+    # courses = models.Course.objects.filter(team__in=teams)
 
     courses = models.Course.objects.filter(uploadedBy=user)
-    # Quizz = models.Quizz.objects.filter(course__in=courses)
+
+    Quizz = models.Quizz.objects.filter(course__in=courses)
 
     result = []
     for course in courses:
-        # quizz = models.Quizz.objects.filter(course=course)
-        # print(course.team.all().first())
+        quizz = models.Quizz.objects.filter(course=course)
+        print(course.team.all().first())
 
         if course.team.all().first() is not None:
             teamName = course.team.all().first().name
@@ -126,7 +131,89 @@ def get_my_courses(request, user_id: int):
 
     return result
 
-@router.get("/{uuid}/generate-questions", )
+
+@router.get("/students/{user_id}")
+def get_my_courses(request, user_id: int):
+    user = get_object_or_404(models.CustomUser, id=user_id)
+
+    teams = user.team_set.all()
+    courses = models.Course.objects.filter(team__in=teams)
+
+    # courses = models.Course.objects.filter(uploadedBy=user)
+
+    Quizz = models.Quizz.objects.filter(course__in=courses)
+
+    result = []
+    for course in courses:
+        quizz = models.Quizz.objects.filter(course=course)
+        print(course.team.all().first())
+
+        if course.team.all().first() is not None:
+            teamName = course.team.all().first().name
+        else :  teamName = None
+
+
+        if quizz.exists():
+            status = quizz.first().status
+        else:
+            status = None
+
+        course_info = {
+            'uuid': course.uuid,
+            'name': course.name,
+            'team': teamName,
+            'description': course.description,
+            'subject': course.subject,
+            "status": status,
+            "deliveryDate": course.deliveryDate,
+            "creationDate": course.creationDate,
+        }
+        result.append(course_info)
+
+    return result
+
+
+# class teamsList(Schema):
+
+@router.put("/{uuid}/updateTeams")
+def update_teams(request, uuid: str):
+    request = json.loads(request.body.decode('utf-8'))
+
+    course = get_object_or_404(models.Course, uuid=uuid)
+    course.team.clear()
+
+    for teamUUID in request:
+        team = get_object_or_404(models.Team, uuid=teamUUID)
+        course.team.add(team)
+        course.save()
+
+    return {"error": False}
+
+
+@router.get("/{uuid}/text")
+def get_rawtext(request, uuid: uuidLib.UUID):
+    course = get_object_or_404(models.Course, uuid=uuid)
+    with open(course.uploadedFile.path, 'r', encoding='utf-8') as file:
+        lines = file.readlines()
+
+    # Supprimer les trois premières lignes
+    lines = lines[3:]
+
+    # Supprimer la dernière ligne
+    lines = lines[:-1]
+
+    # Récupérer le contenu restant
+    content = ''.join(lines)
+    # text = cours.read()
+    # # print(text)
+    return {
+        "text": content,
+        "name": course.name,
+        "subject": course.subject,
+        "teacher" : course.uploadedBy.first_name + " " + course.uploadedBy.last_name,
+        }
+
+@router.get("/course/{uuid}/generate-questions", )
 def generate_questions(request, uuid: str):
     """generate questions from the course"""
     course = get_object_or_404(models.Course, uuid=uuid)
@@ -140,10 +227,10 @@ def generate_questions(request, uuid: str):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are a helpful teacher."},
+            {"role": "system", "content": "You are a helpful assistant."},
             {"role": "assistant", "content": texte},
             {"role": "user",
-             "content": "Écris moi 10 questions sur ce texte pour tester mes connaisances mais tu écris seulement les questions et pas les réponses"},
+             "content": "Ecrit moi 10 questions sur ce texte pour tester mes connaisances mais tu ecris seulement les questions et pas les réponses"},
         ]
     )
 
@@ -153,21 +240,29 @@ def generate_questions(request, uuid: str):
     return {"questions": questions}
 
 
-
-@router.get("/byId/{uuid}")
-
-def get_course_by_id(request, uuid: str):
+@router.get("/byId/{uuid}", )
+def get_courses_by_id(request, uuid: str):
     """get the course by id"""
     course = get_object_or_404(models.Course, uuid=uuid)
+
+
+    teams = []
+    for team in course.team.all():
+        teamInfo = {
+            'uuid': team.uuid,
+            'name': team.name,
+        }
+        teams.append(teamInfo)
+
+
     return {
         'uuid': course.uuid,
         'name': course.name,
         'subject': course.subject,
-        'description' : course.description,
-        'text': course.text,
+        'description': course.description,
         'uploadedBy': course.uploadedBy.username,
-        'color': course.color,
         'file': course.uploadedFile.name,
+        'teams' : teams,
     }
 
 
@@ -277,9 +372,6 @@ def update_meta_data_from_course(request, uuid,  courseInfo: UpdateCourse):
         'description': course.description,
         # 'color': course.color
         }
-
-
-
 
 
 class UpdateCourseFile(Schema):

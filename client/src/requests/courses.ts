@@ -1,7 +1,7 @@
 import { Course } from "@/types/team";
 
 export const fetchCourses = async (token: string, user_id : string) => {
-    const response = await fetch(`http://localhost:8000/api/course/mycourses/${user_id}`, {
+    const response = await fetch(`http://localhost:8000/api/course/students/${user_id}`, {
       headers: {
         authorization: `bearer ${token}`,
         "Content-Type": "application/json",
@@ -76,3 +76,31 @@ export const getCourses = async (token: string, user_id : string) => {
   return data;
   
 };
+
+
+export const updateCourseTeams = async (uuid: string, token: string, teamsUUID : string[]) => {
+  const response = await fetch(`http://localhost:8000/api/course/${uuid}/updateTeams`, {
+    method: "PUT",
+    headers: {
+      authorization: `bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(teamsUUID),
+  });
+  const data = await response.json();
+  return data;
+
+}
+
+
+
+export const getCourseText = async (uuid: string, token: string) => {
+  console.log('fetctext');
+  const response = await fetch(`http://localhost:8000/api/course/${uuid}/text`, {
+    headers: {
+      authorization: `bearer ${token}`,
+    },
+  });
+  const data = await response.json();
+  return data;
+}
