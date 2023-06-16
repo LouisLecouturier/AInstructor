@@ -86,8 +86,6 @@ def get_quizz_by_course(request, uuid: uuidLib.UUID):
     except:
         return {"questions":[]}
 
-    print(quizz)
-
     try:
         questions = models.Question.objects.filter(quizz__in=[quizz.uuid])
     except models.Question.DoesNotExist:

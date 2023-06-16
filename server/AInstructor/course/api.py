@@ -126,7 +126,6 @@ def get_my_courses(request, user_id: int):
 
     return result
 
-
 @router.get("/{uuid}/generate-questions", )
 def generate_questions(request, uuid: str):
     """generate questions from the course"""
@@ -154,7 +153,9 @@ def generate_questions(request, uuid: str):
     return {"questions": questions}
 
 
+
 @router.get("/byId/{uuid}")
+
 def get_course_by_id(request, uuid: str):
     """get the course by id"""
     course = get_object_or_404(models.Course, uuid=uuid)

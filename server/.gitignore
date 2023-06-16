@@ -9,6 +9,9 @@ cours/
 *.py[cod]
 *$py.class
 
+.idea/
+cours/
+
 # C extensions
 *.so
 
