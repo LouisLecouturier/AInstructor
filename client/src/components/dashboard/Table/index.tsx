@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { FC, useState } from "react";
 import clsx from "clsx";
 import Options from "@icons/Options.svg";
@@ -13,12 +13,13 @@ type column = {
 type TableProps = {
   columns: column[];
   data: any[];
+  title?: string;
   firstIsKey?: boolean;
   ordered?: boolean;
   className?: string;
   actions?: string[];
   selectable?: boolean;
-  Delete? : (emails: string[]) => void;
+  Delete?: (emails: string[]) => void;
 };
 
 const Table: FC<TableProps> = (props) => {
@@ -29,49 +30,57 @@ const Table: FC<TableProps> = (props) => {
   };
 
   const handleRowSelect = (index: number) => {
-    selectedRows.includes(index) ? 
-    setSelectedRows(selectedRows.filter((rowIndex) => rowIndex !== index))
-    :
-    setSelectedRows([...selectedRows, index]);
+    selectedRows.includes(index)
+      ? setSelectedRows(selectedRows.filter((rowIndex) => rowIndex !== index))
+      : setSelectedRows([...selectedRows, index]);
+  };
+
+  const computeHeader = () => {
+    return (
+      <header className="flex justify-between">
+        {props.title && (
+          <h2 className="text-2xl font-semibold">{props.title}</h2>
+        )}
+        <div className="flex gap-4 px-4">
+          <span className="text-dark-200">
+            {selectedRows.length} items selected
+          </span>
+          {selectedRows.length > 0 && (
+            <div className="flex gap-2">
+              {props.actions?.includes("delete") && (
+                <Delete
+                  onClick={() => {
+                    if (props.Delete) {
+                      props.Delete(
+                        selectedRows.map((index) => props.data[index].email)
+                      );
+                      setSelectedRows([]);
+                    }
+                  }}
+                  className="w-6 h-6"
+                />
+              )}
+
+              {props.actions?.includes("edit") && <Edit className="w-6 h-6" />}
+            </div>
+          )}
+        </div>
+      </header>
+    );
   };
 
   return (
-
     <>
-
-      <header className="flex justify-between">
-        <h2 className={"flex items-center text-xl font-black"}>Members</h2>
-        { props.selectable && 
-        <div className="flex gap-4 px-4"> 
-          <span className="text-dark-200">{selectedRows.length} items selected</span>
-          {selectedRows.length > 0 &&
-            <div className="flex gap-2">
-              {props.actions?.includes("delete") &&
-                <Delete 
-                  onClick={() => {
-                    if (props.Delete){
-                      props.Delete(selectedRows.map((index) => props.data[index].email))
-                      setSelectedRows([]);
-                    }
-                  }} 
-                  className="w-6 h-6"/>
-              }
-
-              {props.actions?.includes("edit") && 
-                <Edit className="w-6 h-6"/>
-              }
-
-            </div>
-          }
-        </div>
-      }
-      </header>
+      {(props.selectable || props.actions || props.title) && computeHeader()}
       <table className={props.className}>
-        
         <thead>
           <tr className={"border-b-2 border-accent-200"}>
-            {props.selectable && <th className={clsx("text-start px-4 py-2")}></th>}
-            {props.ordered && <th className={clsx("text-start px-4 py-2")}>#</th>}
+            {props.selectable && (
+              <th className={clsx("text-start px-4 py-2")}></th>
+            )}
+            {props.ordered && (
+              <th className={clsx("text-start px-4 py-2")}>#</th>
+            )}
             {props.columns.map((column, index) => (
               <th
                 key={column.key + index}
@@ -80,7 +89,6 @@ const Table: FC<TableProps> = (props) => {
                 {column.label}
               </th>
             ))}
-            
           </tr>
         </thead>
         <tbody>
@@ -98,10 +106,14 @@ const Table: FC<TableProps> = (props) => {
                     className={clsx(
                       "px-4 py-2",
                       "text-dark-200/50",
-                      "border-r-2 border-dark-500/5 last:border-none",
+                      "border-r-2 border-dark-500/5 last:border-none"
                     )}
                   >
-                    <input checked={selectedRows.includes(index)} onChange={() => handleRowSelect(index)} type="checkbox" />
+                    <input
+                      checked={selectedRows.includes(index)}
+                      onChange={() => handleRowSelect(index)}
+                      type="checkbox"
+                    />
                   </td>
                 )}
                 {props.ordered && (
@@ -133,11 +145,11 @@ const Table: FC<TableProps> = (props) => {
                     className={clsx(
                       "px-4 py-2",
                       "border-r-2 border-dark-500/5 last:border-none",
-                      "flex items-center justify-center",
+                      "flex items-center justify-center"
                     )}
                   >
                     {/* {props.actions?.map((action) => action)} */}
-                    <Options className="h-6 w-4 text-dark-500"/>
+                    <Options className="h-6 w-4 text-dark-500" />
                   </td>
                 )}
               </tr>
@@ -146,7 +158,6 @@ const Table: FC<TableProps> = (props) => {
         </tbody>
       </table>
     </>
-
   );
 };
 

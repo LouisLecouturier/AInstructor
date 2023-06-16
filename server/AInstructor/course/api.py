@@ -77,6 +77,16 @@ def create_course(request, user_id: int, file : UploadedFile = File(...)):
     doc = pdf2md.Document(course.uploadedFile.path)
     doc.save(course.uploadedFile.path)
 
+
+    quizz = models.Quizz.objects.create(
+        owner=user
+    )
+
+    quizz.course.add(course)
+
+    quizz.save()
+
+
     print(course.uuid)
     return {'uuid': course.uuid}
 
@@ -88,18 +98,15 @@ def get_my_courses(request, user_id: int):
     user = get_object_or_404(models.CustomUser, id=user_id)
 
     # teams = user.team_set.all()
-    # courses = models.Course.objects.filter(team__in=teams)
-
-    
+    # courses = models.Course.objects.filter(team__in=teams)    
 
     courses = models.Course.objects.filter(uploadedBy=user)
-
-    Quizz = models.Quizz.objects.filter(course__in=courses)
+    # Quizz = models.Quizz.objects.filter(course__in=courses)
 
     result = []
     for course in courses:
-        quizz = models.Quizz.objects.filter(course=course)
-        print(course.team.all().first())
+        # quizz = models.Quizz.objects.filter(course=course)
+        # print(course.team.all().first())
 
         if course.team.all().first() is not None:
             teamName = course.team.all().first().name
@@ -119,57 +126,6 @@ def get_my_courses(request, user_id: int):
 
     return result
 
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @router.get("/{uuid}/generate-questions", )
 def generate_questions(request, uuid: str):
     """generate questions from the course"""
@@ -184,10 +140,10 @@ def generate_questions(request, uuid: str):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": "You are a helpful teacher."},
             {"role": "assistant", "content": texte},
             {"role": "user",
-             "content": "Ecrit moi 10 questions sur ce texte pour tester mes connaisances mais tu ecris seulement les questions et pas les réponses"},
+             "content": "Écris moi 10 questions sur ce texte pour tester mes connaisances mais tu écris seulement les questions et pas les réponses"},
         ]
     )
 
@@ -197,7 +153,9 @@ def generate_questions(request, uuid: str):
     return {"questions": questions}
 
 
-@router.get("byId/{uuid}")
+
+@router.get("/byId/{uuid}")
+
 def get_course_by_id(request, uuid: str):
     """get the course by id"""
     course = get_object_or_404(models.Course, uuid=uuid)
@@ -205,16 +163,12 @@ def get_course_by_id(request, uuid: str):
         'uuid': course.uuid,
         'name': course.name,
         'subject': course.subject,
+        'description' : course.description,
         'text': course.text,
         'uploadedBy': course.uploadedBy.username,
         'color': course.color,
         'file': course.uploadedFile.name,
     }
-
-
-
-
-
 
 
 class AssignCourse(Schema):
@@ -297,14 +251,6 @@ def get_courses_by_group(request, group_id: uuidLib.UUID):
 
 
 
-
-
-
-
-
-
-
-
 class UpdateCourse(Schema):
     name: str = Field(...)
     subject: str = Field(...)
@@ -331,16 +277,6 @@ def update_meta_data_from_course(request, uuid,  courseInfo: UpdateCourse):
         'description': course.description,
         # 'color': course.color
         }
-
-
-
-
-
-
-
-
-
-
 
 
 

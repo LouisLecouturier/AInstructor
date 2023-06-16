@@ -20,15 +20,14 @@ class Quizz(Schema):
 
 
 @router.post("/create", )
-def create_questionnary(request, body: Quizz):
+def create_quizz(request, body: Quizz):
     """create a new questionnary"""
     today = date.today()
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
-    print(accessToken)
     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
     quizz = models.Quizz.objects.create(title=body.title, dateCreation=today, description=body.description,
-                                        dateEnd=body.dateEnd, theme=body.theme)
+                                        dateEnd=body.dateEnd, theme=body.theme, owner=user)
     quizz.owner.set([user])
     try:
         courses = models.Course.objects.filter(uuid__in=body.courses)
@@ -36,14 +35,14 @@ def create_questionnary(request, body: Quizz):
         return {'message': " some of the courses does not exist"}
     quizz.course.set(courses)
 
-    try:
-        teams = models.Team.objects.filter(uuid__in=body.teams)
-    except models.CustomUser.DoesNotExist:
-        return {'message': " some of the users does not exist"}
+    # try:
+    #     teams = models.Team.objects.filter(uuid__in=body.teams)
+    # except models.CustomUser.DoesNotExist:
+    #     return {'message': " some of the users does not exist"}
 
-    quizz.teams.set(teams)
+    # quizz.teams.set(teams)
     quizz.save()
-    return {'message': "succesfully created the quizz : %s" % quizz.title, 'id': quizz.uuid}
+    return {'message': "succesfully created the quizz : %s" % quizz.title, 'uuid': quizz.uuid}
 
 
 @router.get("/{uuid}")
@@ -82,9 +81,10 @@ def get_quizz_by_course(request, uuid: uuidLib.UUID):
     """Get quizz by course"""
     course = get_object_or_404(models.Course, uuid=uuid)
 
-    quizz = get_object_or_404(models.Quizz, course=course)
-
-    print(quizz)
+    try :
+        quizz = models.Quizz.objects.get(course=course)
+    except:
+        return {"questions":[]}
 
     try:
         questions = models.Question.objects.filter(quizz__in=[quizz.uuid])
@@ -98,7 +98,7 @@ def get_quizz_by_course(request, uuid: uuidLib.UUID):
             "questionType": question.questionType,
             "statement": question.statement,
         })
-    return question_list
+    return {"uuid" : quizz.uuid, "questions" : question_list}
 
 
 @router.get("/{uuid}/questions")
@@ -209,6 +209,8 @@ def delete_quizz_list(request, list: DeleteQuizz):
 def update_quizz(request, uuid: uuidLib.UUID):
     quizz = get_object_or_404(models.Quizz, uuid=uuid)
     questions = models.Question.objects.filter(quizz=quizz)
+
+    # TODO : Secure so only quizz owner can update its quizz
 
     # Supprimer toutes les questions existantes du quizz
     questions.delete()

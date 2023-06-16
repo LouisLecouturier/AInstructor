@@ -10,7 +10,7 @@ import Container from "@components/layout/Container";
 import { Button } from "@components/Interactions/Button";
 
 import Stars from "@icons/Stars.svg";
-import Question from "@components/dashboard/Questions/Question";
+import QuestionElement from "@components/dashboard/Questions/Question";
 
 const config = {
   h1: ({ ...props }) => (
@@ -42,7 +42,7 @@ const Questions = () => {
   return (
     <div className={"flex flex-col gap-4"}>
       {q.map((_, i) => (
-        <Question
+        <QuestionElement
           key={i}
           isLoading={i === 0}
           feedback={i === 1 ? undefined : i === 2 ? "correct" : "incorrect"}

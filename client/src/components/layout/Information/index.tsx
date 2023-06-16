@@ -1,11 +1,13 @@
 import React, { FC, ReactNode } from "react";
 import Input from "@components/Interactions/Forms/Input";
+import Skeleton from "@components/layout/Skeleton";
 
 type InformationProps = {
   label: string;
   value: ReactNode;
   editable?: boolean;
   isTextArea?: boolean;
+  isLoading?: boolean;
   name?: string;
 };
 
@@ -28,7 +30,11 @@ const Information: FC<InformationProps> = (props) => {
   return (
     <div className={"flex flex-col gap-0.5"}>
       <h4 className={"font-bold"}>{props.label}</h4>
-      <span>{props.value}</span>
+      {props.isLoading ? (
+        <Skeleton className={"w-full h-6"} />
+      ) : (
+        <span>{props.value}</span>
+      )}
     </div>
   );
 };

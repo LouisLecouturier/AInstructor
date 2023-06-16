@@ -61,7 +61,6 @@ class Course(models.Model):
     team = models.ManyToManyField(Team, related_name='team', blank=True)
     creationDate = models.DateField(auto_now=True, auto_now_add=False, null=True)
     deliveryDate = models.DateField(auto_now=False, auto_now_add=False, null=True)
-
     textPath = models.TextField(null=True, blank=True)
 
     def __str__(self):
@@ -70,6 +69,7 @@ class Course(models.Model):
 
 class Quizz(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     course = models.ManyToManyField(Course)
     temporary = models.BooleanField(default=False, null=True)
     dateEnd = models.DateField(auto_now=False, auto_now_add=False, null=True)
@@ -78,9 +78,7 @@ class Quizz(models.Model):
     description = models.CharField(max_length=254, validators=[AlphanumericValidator], default="description : ",
                                    null=True, blank=True)
     theme = models.CharField(max_length=127, validators=[AlphanumericValidator], null=True, blank=True)
-    teams = models.ManyToManyField(Team, related_name='teams', blank=True)
     status = models.CharField(max_length=127, validators=[AlphanumericValidator], default="pending", blank=True)
-    owner = models.ManyToManyField(CustomUser, related_name='quizzes')
 
     def __str__(self):
         return self.title
