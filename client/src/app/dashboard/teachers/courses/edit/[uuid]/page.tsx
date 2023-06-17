@@ -23,46 +23,52 @@ const courseQuery = async (uuid: string, accessToken: string) => {
   });
 
   const data = await res.json();
+
+  console.log("data", data);
   return data;
 };
 
-const ManageCourse = (searchParams: { params: { uuid: string } }) => {
+const ManageCourse = ({ params }: { params: { uuid: string } }) => {
   const { data: session } = useSession();
   const accessToken = session?.user.accessToken;
   const [isEditing, setIsEditing] = useState(false);
   const queryClient = useQueryClient();
 
   const formRef = useRef<HTMLFormElement>(null);
+  const COURSE_UUID = params.uuid;
 
-  const { uuid } = searchParams.params;
+  const {
+    data: courseData,
+    isLoading: courseLoading,
+    isError: courseError,
+  } = useQuery({
+    queryKey: ["course", COURSE_UUID],
+    queryFn: () => courseQuery(COURSE_UUID, String(accessToken)),
+    enabled: ![COURSE_UUID, accessToken].includes(undefined),
+  });
 
+  const {
+    data: teamsData,
+    isLoading: teamsLoading,
+    isError: teamsError,
+  } = useQuery({
+    queryKey: ["teams"],
+    queryFn: () => fetchTeamsUser(String(accessToken)),
+    enabled: !!accessToken,
+  });
 
-    const { data: courseData, isLoading: courseLoading, isError : courseError } = useQuery({
-        queryKey: ["course", params.uuid],
-        queryFn: () => courseQuery(params.uuid, String(token)),
-        enabled: ![params.uuid, token].includes(undefined),
-    });
+  const mutationCourseTeams = useMutation({
+    mutationFn: (teamUUID: string[]) =>
+      updateCourseTeams(COURSE_UUID, String(accessToken), teamUUID),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["course", COURSE_UUID]);
+    },
+  });
 
-
-    const { data : teamsData, isLoading: teamsLoading, isError : teamsError } = useQuery({
-        queryKey: ["teams"],
-        queryFn: () => fetchTeamsUser(String(token)),
-        enabled: token !== undefined,
-    });
-
-    const mutationCourseTeams = useMutation({
-        mutationFn: (teamUUID : string[]) => updateCourseTeams(params.uuid, String(token), teamUUID),
-        onSuccess: () => {
-        queryClient.invalidateQueries(["course", params.uuid]);
-        }
-    });
-
-    const getTeamsUUID = (selected : {uuid :string}[]) => {
-        const selectedUUID = selected.map((obj) => obj.uuid);
-        mutationCourseTeams.mutate(selectedUUID);
-    }
-
-
+  const getTeamsUUID = (selected: { uuid: string }[]) => {
+    const selectedUUID = selected.map((obj) => obj.uuid);
+    mutationCourseTeams.mutate(selectedUUID);
+  };
 
   const handleUpdate = (e: HTMLFormElement) => {
     const formData = new FormData(e);
@@ -112,15 +118,15 @@ const ManageCourse = (searchParams: { params: { uuid: string } }) => {
                 <Information
                   label={"Name"}
                   name={"name"}
-                  value={coursesData?.name}
-                  isLoading={coursesLoading}
+                  value={courseData?.name}
+                  isLoading={courseLoading}
                   editable={isEditing}
                 />
                 <Information
                   label={"Description"}
                   name={"description"}
-                  value={coursesData?.description}
-                  isLoading={coursesLoading}
+                  value={courseData?.description}
+                  isLoading={courseLoading}
                   editable={isEditing}
                   isTextArea
                 />
@@ -129,15 +135,15 @@ const ManageCourse = (searchParams: { params: { uuid: string } }) => {
                 <Information
                   label={"Subject"}
                   name={"subject"}
-                  value={coursesData?.subject}
-                  isLoading={coursesLoading}
+                  value={courseData?.subject}
+                  isLoading={courseLoading}
                   editable={isEditing}
                 />
                 <Information
                   label={"File uploaded"}
                   name={"file"}
-                  value={coursesData?.file.split("/").at(-1).replace(".md", "")}
-                  isLoading={coursesLoading}
+                  value={courseData?.file.split("/").at(-1).replace(".md", "")}
+                  isLoading={courseLoading}
                   editable={isEditing}
                 />
               </div>
@@ -145,20 +151,22 @@ const ManageCourse = (searchParams: { params: { uuid: string } }) => {
           </form>
         </Container>
 
-        <Container title={"Manage team access"} description={"Assign this course to your teams"}>
-            <Table
-                columns={[{ key: "name", label: "Name" }]}
-                data={teamsData}
-                ordered
-                selectable
-                selectedRows={courseData.teams}
-                Submit={(selected) => getTeamsUUID(selected)}
-                // inlineActions={false}
-            />
+        <Container
+          title={"Manage team access"}
+          description={"Assign this course to your teams"}
+        >
+          <Table
+            columns={[{ key: "name", label: "Name" }]}
+            data={teamsData}
+            ordered
+            selectable
+            selectedRows={courseData.teams}
+            Submit={(selected) => getTeamsUUID(selected)}
+            // inlineActions={false}
+          />
         </Container>
 
-
-        <QuestionsManager courseUuid={uuid} />
+        <QuestionsManager courseUuid={COURSE_UUID} />
       </main>
     </div>
   );

@@ -19,7 +19,8 @@ def user_picture_path(instance, filename):
 class CustomUser(AbstractUser):
     pass
     # add additional fields in here
-    profilePicture = models.ImageField(upload_to=user_picture_path, max_length=254, null=True, blank=True, validators=[validate_image_file_extension])  # add uplad to
+    profilePicture = models.ImageField(upload_to=user_picture_path, max_length=254, null=True, blank=True,
+                                       validators=[validate_image_file_extension])  # add uplad to
     isTeacher = models.BooleanField(default='False')
     lastConnexion = models.DateField(auto_now=True, auto_now_add=False, null=True)
     accessToken = models.CharField(max_length=500, null=True, default=0)
@@ -44,15 +45,11 @@ class Team(models.Model):
                                    null=True, blank=True)
 
 
-def upload_to_course(instance, filename):
-    return f'cours/{instance.uuid}/{filename}.md'
-
-
 class Course(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
     name = models.CharField(max_length=127, validators=[AlphanumericValidator], default="New Course", blank=True)
     subject = models.CharField(max_length=127, validators=[AlphanumericValidator], default="Theme", blank=True)
-    uploadedFile = models.FileField(upload_to=upload_to_course, storage=None, max_length=100)
+    filePath = models.TextField(blank=False)
     text = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True, default="desc")
     uploadedBy = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True, blank=True)
