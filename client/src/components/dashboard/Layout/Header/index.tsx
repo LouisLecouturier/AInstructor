@@ -1,9 +1,11 @@
-"use client"
 import React, { FC, ReactNode } from "react";
 import clsx from "clsx";
+<<<<<<< HEAD
+=======
 import { usePathname, useRouter } from 'next/navigation'
 import { nanoid } from "nanoid";
 
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
 
 type HeaderProps = {
   children: ReactNode;
@@ -11,17 +13,13 @@ type HeaderProps = {
 };
 
 const Header: FC<HeaderProps> = (props) => {
-
-  const path = String(usePathname()).split('/').slice(3);
-  const router = useRouter()
-
   return (
-    <header className={clsx(
-      "text-5xl font-black mb-16",
-      "flex flex-col gap-2",
-       props.className,
-    )}>
+    <header
+      className={clsx("flex gap-2 text-5xl font-black mb-16", props.className)}
+    >
       {props.children}
+<<<<<<< HEAD
+=======
 
         <h1 className="text-dark-500 font-normal text-xl"></h1>
 
@@ -40,6 +38,7 @@ const Header: FC<HeaderProps> = (props) => {
         }
 
 
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
     </header>
   );
 };

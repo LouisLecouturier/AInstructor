@@ -1,11 +1,19 @@
+<<<<<<< HEAD
+import React from "react";
+=======
 "use client";
 import React, { useState } from "react";
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
 import Header from "@components/dashboard/Layout/Header";
 import Container from "@components/layout/Container";
 import Input from "@components/Interactions/Forms/Input";
 import Label from "@components/Interactions/Forms/Label";
 import { Button } from "@components/Interactions/Button";
 import FileInput from "@components/Interactions/Forms/FileInput";
+<<<<<<< HEAD
+
+const Create = () => {
+=======
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -79,10 +87,42 @@ const Create = () => {
     }
   };
 
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
   return (
     <div>
       <Header>Create a new course</Header>
 
+<<<<<<< HEAD
+      <form className={"flex flex-col gap-8"}>
+        <Container
+          title={"Course file"}
+          description={"Import your course in md"}
+        >
+          <FileInput id={"file"} accept={".md"} name={"file"} />
+        </Container>
+        <Container title={"Course informations"}>
+          <div className={"flex flex-col gap-1"}>
+            <Label htmlFor="name">Name</Label>
+            <Input id={"name"} placeholder="Name" name="name" borders />
+          </div>
+          <div className={"flex flex-col gap-1"}>
+            <Label htmlFor="subject">Subject</Label>
+            <Input id={"subject"} placeholder="Subject" name="theme" borders />
+          </div>
+          <div className={"flex flex-col gap-1"}>
+            <Label htmlFor="description">Description</Label>
+            <Input
+              id={"description"}
+              placeholder="Description of the course"
+              name="description"
+              textarea
+              borders
+            />
+          </div>
+          <Button rounded={"full"} type={"submit"}>Create and manage course</Button>
+        </Container>
+      </form>
+=======
       <div className={"flex flex-col gap-8"}>
         <Container
           title={"Course file"}
@@ -157,6 +197,7 @@ const Create = () => {
           </Container>
         </form>
       </div>
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
     </div>
   );
 };

@@ -1,7 +1,7 @@
-import json
-import uuid as uuidLib
-
 import jwt
+from ninja import Router, Schema
+from app import models 
+import json, uuid as uuidLib
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from ninja import Router
@@ -15,8 +15,7 @@ key = getattr(settings, "SECRET_KEY", None)
 
 @router.get('/')
 def main(request):
-    print(request.headers.get('Authorization'))
-
+   
     token = request.headers.get('Authorization')
     token = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=token)
@@ -27,55 +26,65 @@ def main(request):
 
     return JsonResponse({'teams': team_data})
 
+class TeamSchema(Schema):
+    name: str
+    color: str
 
 @router.post('/')
-def new(request):
+def new(request, body: TeamSchema):
+    """Create a new team"""
     auth_header = request.headers.get('Authorization')
     token = auth_header.split(' ')[1]
     content = jwt.decode(token, key, algorithms=['HS256'])
 
-    request = json.loads(request.body.decode('utf-8'))['team']
-    error = False
+    request = json.loads(request.body.decode('utf-8'))
+    message = ""
 
-    user = get_object_or_404(models.CustomUser, accessToken=token)
-    team = models.Team.objects.create(name=request['name'], color=request['color'])
-    team.users.add(user)
+    try:
+        user = get_object_or_404(models.CustomUser, accessToken=token)
+        team = models.Team.objects.create(name=body.name, color=body.color, owner=user)
+        team.users.add(user)
+        massage = "Team created"
+    except:
+       message = "Error while creating the team"
 
-    return JsonResponse({'error': error})
+    return JsonResponse({'error': message})
 
 
 @router.delete('/{uuid}')
-def delete(request, uuid):
-    error = False
+def delete(request, uuid : uuidLib.UUID):
+
     try:
-        team = models.Team.objects.get(uuid=uuid)
+        team = get_object_or_404(models.Team, uuid=uuid)
         team.delete()
+        error = False
     except:
         error = True
-
     return JsonResponse({'error': error})
 
 
-@router.put('/{uuid}')
-def update(request, uuid):
-    request = json.loads(request.body.decode('utf-8'))['team']
-    error = False
+class UpdateTeam(Schema):
+    name: str
+    color: str
+    description: str
 
-    team = models.Team.objects.get(uuid=uuid)
-    team.name = request['name']
-    team.color = request['color']
-    team.description = request['description']
+@router.put('/{uuid}')
+def update(request, body : UpdateTeam, uuid : uuidLib.UUID):
+
+    error = False
+    team = get_object_or_404(models.Team, uuid=uuid)
+    team.name = body.name
+    team.color = body.color
+    team.description = body.description
     team.save()
 
     return JsonResponse({'error': error})
 
 
 @router.get('/{uuid}')
-def overview(request, uuid):
-    # request = json.loads(request.body.decode('utf-8'))
-    # print(request['teamUUID'])
-
-    team = models.Team.objects.get(uuid=uuid)
+def overview(request, uuid : uuidLib.UUID):
+    """Get the overview of a team"""
+    team = get_object_or_404(models.Team, uuid=uuid)
     users = team.users.all()
     users_data = [{
         'uuid': user.id,
@@ -94,40 +103,47 @@ def overview(request, uuid):
     )
 
 
-@router.post('/{uuid}/remove-users')
-def removeUser(request, uuid):
-    request = json.loads(request.body.decode('utf-8'))
-    print(request)
-    error = False
-    for email in request['emails']:
-        user = models.CustomUser.objects.get(email=email)
-        team = models.Team.objects.get(uuid=uuid)
-        team.users.remove(user)
+class removeUser(Schema):
+    id: list[int]
 
-    return JsonResponse({'error': error})
+@router.post("/{uuid}/remove-users")
+def removeUser(request, body: removeUser, uuid: uuidLib.UUID):
+    error = ""
+    for id in body.id:
+        user  = get_object_or_404(models.CustomUser, id=id)
+        team = get_object_or_404(models.Team, uuid=uuid)
+        if user == team.owner:
+            error = "You can't remove the owner of the team"
+        else:
+            team.users.remove(user)
+    return JsonResponse({'error': error, "message": "User(s) removed"})
+  
 
+class addUser(Schema):
+    users_email: list[str]
 
 @router.post('/{uuid}/add-users')
-def addUser(request, uuid):
+def addUser(request, body: addUser, uuid : uuidLib.UUID):
     request = json.loads(request.body.decode('utf-8'))
-    print(request)
     error = False
 
-    for email in request['emails']:
-        if email == '':
-            return JsonResponse({'error': True})
-        user = models.CustomUser.objects.get(email=email)
-        team = models.Team.objects.get(uuid=uuid)
-        team.users.add(user)
+    for email in body.users_email:
+        try:
+            user = get_object_or_404(models.CustomUser, email=email)
+            team = get_object_or_404(models.Team, uuid=uuid)
+            team.users.add(user, clear = False)
+        except:
+            error = True
 
     return JsonResponse({'error': error})
+
+
 
 
 @router.get("/{uuid}/courses/")
 def get_courses_by_team(request, uuid: uuidLib.UUID):
     """get all the courses of one team"""
     team = get_object_or_404(models.Team, uuid=uuid)
-    print(team)
     courses = models.Course.objects.filter(team=team)
 
     result = []

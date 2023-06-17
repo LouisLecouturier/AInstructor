@@ -413,3 +413,11 @@ def update_course_text(request, body: UpdateCourseText):
     course.text = body.text
     course.save()
     return {'uuid': course.uuid, 'text': course.text}
+
+
+
+@router.get("/course/{uuid}/rawtext")
+def get_rawtext(request, uuid: uuidLib.UUID):
+    course = get_object_or_404(models.Course, uuid=uuid)
+    return {'uuid': course.uuid, 'text': course.text}
+

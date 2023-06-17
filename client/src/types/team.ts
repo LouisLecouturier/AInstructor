@@ -1,10 +1,11 @@
 export type Team = {
-  users: User[];
   uuid: number;
   name: string;
   description?: string;
   color: string;
 };
+<<<<<<< HEAD
+=======
 
 export type User = {
   id: string;
@@ -32,3 +33,4 @@ export type Course = {
   creationDate: string;
 }
 
+>>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d

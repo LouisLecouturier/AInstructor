@@ -44,10 +44,10 @@ export default function AddObjectModelMenu({
 }) {
   const [isError, setIsError] = React.useState(false);
 
-  const setDisplay = addUserMenu((state) => state.setDisplay);
-
-  const { data: session } = useSession();
-  const token = String(session?.user["accessToken"]);
+  const setDisplay = addUserMenu(state => state.setDisplay)
+  
+  const {data : session} = useSession()
+  const token = String(session?.user["accessToken"])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
