@@ -67,7 +67,7 @@ const Courses = () => {
 
 
   const { data, isLoading, isError } = useQuery<Course[]>({
-    queryKey: ["teams"],
+    queryKey: ["courses"],
     queryFn: () => getCourses(String(token), String(id) ),
     enabled: (token && id )!== undefined,
   });

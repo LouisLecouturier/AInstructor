@@ -45,15 +45,11 @@ class Team(models.Model):
                                    null=True, blank=True)
 
 
-def upload_to_course(instance, filename):
-    return f'cours/{instance.uuid}/{filename}.md'
-
-
 class Course(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
     name = models.CharField(max_length=127, validators=[AlphanumericValidator], default="New Course", blank=True)
     subject = models.CharField(max_length=127, validators=[AlphanumericValidator], default="Theme", blank=True)
-    uploadedFile = models.FileField(upload_to=upload_to_course, storage=None, max_length=100)
+    filePath = models.TextField(blank=False)
     text = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True, default="desc")
     uploadedBy = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True, blank=True)
