@@ -16,12 +16,10 @@ type Course = {
   status: "pending" | "in-progress" | "done";
 };
 
-
 const MyCourses = () => {
-  const { data : session } = useSession();
+  const { data: session } = useSession();
   const token = session?.user.accessToken;
   const id = session?.user.id;
-
 
   const { data, isLoading, isError } = useQuery<Course[]>({
     queryKey: ["courses", id],
@@ -29,9 +27,9 @@ const MyCourses = () => {
     enabled: (token || id) !== undefined,
   });
 
-  if (isLoading || isError) { return <div>Loading...</div>;}
-    
-
+  if (isLoading || isError) {
+    return <div>Loading...</div>;
+  }
 
   // Group courses by team
   const sections = data.reduce((acc, course) => {
@@ -46,10 +44,9 @@ const MyCourses = () => {
     return acc;
   }, new Map());
 
-
   return (
     <div>
-      <Header>My courses</Header>
+      <Header title={"My courses"}/>
 
       <main>
         <div className={"flex flex-col gap-6"}>
@@ -68,8 +65,7 @@ const MyCourses = () => {
 
                   return (
                     <ListItem
-                      href={"/dashboard/students/courses/"}
-                      query={course.uuid}
+                      href={`/dashboard/students/courses/${course.uuid}`}
                       status={course.status}
                       key={course.name}
                       properties={properties}
@@ -83,7 +79,6 @@ const MyCourses = () => {
           })}
         </div>
       </main>
-
     </div>
   );
 };

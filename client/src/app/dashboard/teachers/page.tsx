@@ -38,7 +38,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <Header>Dashboard</Header>
+      <Header title={"Dashboard"}/>
       <div className="flex flex-col gap-4 my-20px">
         <Container>
           <Table columns={columns} data={TableData} firstIsKey />

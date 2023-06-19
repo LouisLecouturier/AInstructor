@@ -84,10 +84,6 @@ console.log(course)
 
   return (
     <div>
-      {/* <CourseHeader
-        title={"Preview"}
-        teacher={"This is what your students will see"}
-      /> */}
       <CourseHeader
         title={course.name}
         teacher={course.teacher}

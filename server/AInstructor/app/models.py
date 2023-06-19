@@ -52,16 +52,6 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
-
-class Team(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
-    name = models.CharField(max_length=30, validators=[AlphanumericValidator])
-    users = models.ManyToManyField(CustomUser)
-    color = models.CharField(max_length=7, default="#000000", blank=True)
-    description = models.CharField(max_length=254, validators=[AlphanumericValidator], default="description : ",
-                                   null=True, blank=True)
-
-
 class Course(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
     name = models.CharField(max_length=127, validators=[AlphanumericValidator], default="New Course", blank=True)

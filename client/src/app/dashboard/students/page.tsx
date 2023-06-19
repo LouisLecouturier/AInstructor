@@ -35,12 +35,6 @@ const homeworks = [
   },
 ];
 
-const infos = [
-  {
-    classe: "CSI 3",
-    profref: "M. Lecouturier",
-  },
-];
 
 const progress = [
   {
@@ -68,12 +62,10 @@ const progress = [
 const Dashboard = () => {
   const { data } = useSession();
   const firstname = data?.user.first_name;
-  const lastname = data?.user.last_name;
-
 
   return (
     <div className="flex flex-1 w-full flex-col">
-      <Header>Dashboard</Header>
+      <Header title={"Dashboard"}/>
       <div className="flex-col flex gap-8">
         <h1 className="text-4xl font-bold">
           Bon retour parmi nous {firstname} !

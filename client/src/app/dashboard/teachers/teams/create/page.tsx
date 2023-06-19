@@ -1,15 +1,10 @@
 "use client";
 
-import { Button } from "@/components/Interactions/Button";
-import Input from "@/components/Interactions/Forms/Input";
-import TeamMainInformation, {
-  TeamInformations,
-} from "@/components/dashboard/Teams/MainInformation";
+import { TeamInformations } from "@/components/dashboard/Teams/MainInformation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import newTeam from "./hook";
-import Container from "@components/layout/Container";
 import Header from "@components/dashboard/Layout/Header";
 
 export default function AddTeam() {
@@ -27,7 +22,7 @@ export default function AddTeam() {
 
     const error = await newTeam(name, description, color, token);
 
-    if (!error){
+    if (!error) {
       console.log("redirect");
       router.push("/dashboard/teachers/teams");
     }
@@ -35,7 +30,7 @@ export default function AddTeam() {
 
   return (
     <>
-      <Header>Create a new team</Header>
+      <Header title={"Create a new team"} />
       <TeamInformations onSubmit={handleSubmit} />
     </>
   );

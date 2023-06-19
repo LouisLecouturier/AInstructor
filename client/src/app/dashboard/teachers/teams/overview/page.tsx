@@ -37,7 +37,7 @@ export default function TeamOverview({
   const { data, isLoading, isError } = useQuery<Team>({
     queryKey: ["team", uuid],
     queryFn: () => fetchTeam(String(token), searchParams.id),
-    enabled: (token || uuid) === undefined ? false : true,
+    enabled: [token, uuid].includes(undefined),
   });
 
   const mutation = useMutation({
@@ -116,8 +116,7 @@ export default function TeamOverview({
 
   return (
     <div>
-      <Header className={"justify-between"}>
-        <h1 className={"w-3/4"}>{data?.name}</h1>
+      <Header className={"justify-between"} title={data?.name}>
         <Button onClick={() => mutation.mutate()} variant="secondary">
           Delete
         </Button>

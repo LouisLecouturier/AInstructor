@@ -25,7 +25,6 @@ const Teams = () => {
   const { data: session } = useSession();
   console.log(session);
 
-
   const token = String(session?.user.accessToken);
 
   const { data, isLoading } = useQuery<Team[]>(["teams"], () =>
@@ -35,7 +34,7 @@ const Teams = () => {
   if (isLoading) {
     return (
       <div className={clsx("flex-1 h-full flex flex-col gap-6", styles.teams)}>
-        <Header>Teams</Header>
+        <Header title={"Teams"} />
 
         <div>Loading...</div>
       </div>
@@ -44,7 +43,7 @@ const Teams = () => {
 
   return (
     <div className={clsx("flex-1 h-full flex flex-col gap-6", styles.teams)}>
-      <Header>Teams</Header>
+      <Header title={"Teams"} />
 
       <div className="flex w-full flex-wrap pt-6 pb-16 gap-10">
         {data?.map((team) => (

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import Container from "@components/layout/Container";
 import Header from "@components/dashboard/Layout/Header";
 import Information from "@components/layout/Information";
@@ -70,9 +70,11 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
     mutationCourseTeams.mutate(selectedUUID);
   };
 
-  const handleUpdate = (e: HTMLFormElement) => {
-    const formData = new FormData(e);
+  const handleUpdate = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
+    console.log(data);
     setIsEditing(false);
   };
 
@@ -82,7 +84,7 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
 
   return (
     <div>
-      <Header>Manage course</Header>
+      <Header title={"Manage course"}/>
       <main className={"flex flex-col gap-8"}>
         <Container
           title={"Course informations"}
@@ -92,7 +94,7 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
               size={"sm"}
               onClick={() => {
                 if (isEditing && formRef.current) {
-                  handleUpdate(formRef.current);
+                  formRef.current.submit()
                   return;
                 }
                 setIsEditing(true);
@@ -112,7 +114,7 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
             </Button>
           }
         >
-          <form ref={formRef} className={"flex flex-col gap-4"}>
+          <form ref={formRef} onSubmit={handleUpdate} className={"flex flex-col gap-4"}>
             <div className={"flex gap-4"}>
               <div className={"flex flex-col gap-2 flex-1"}>
                 <Information

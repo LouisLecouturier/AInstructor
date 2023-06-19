@@ -81,7 +81,7 @@ const Create = () => {
 
   return (
     <div>
-      <Header>Create a new course</Header>
+      <Header title={"Create a new course"} />
 
       <div className={"flex flex-col gap-8"}>
         <Container

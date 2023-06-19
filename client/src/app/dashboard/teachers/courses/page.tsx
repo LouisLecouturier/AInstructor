@@ -59,28 +59,32 @@ const Courses = () => {
   const token = session?.user.accessToken;
   const id = session?.user.id;
 
-
   const goTo = (path: string) => {
     router.push(path);
   };
 
-
-  const { data, isLoading, isError } = useQuery<Course[]>({
-    queryKey: ["courses"],
-    queryFn: () => getCourses(String(token), String(id) ),
-    enabled: (token && id )!== undefined,
+  const { data, isLoading, isError } = useQuery<Course[]>(["courses"], {
+    queryFn: async () => {
+      const yee = await getCourses(String(token), String(id));
+      console.log(yee);
+      return yee;
+    },
+    enabled: ![token, id].includes(undefined),
   });
 
   if (isLoading || isError) {
     return <div>loading...</div>;
   }
 
+  if (!data) {
+    return <div>Error</div>;
+  }
 
   return (
     <div>
-      <Header>Courses</Header>
+      <Header title={"Courses"} />
       <main className={"flex flex-col gap-8"}>
-        <Container title={"Create a new course"}>
+        <Container title={"New course"} description={"Create a new course"}>
           <div className={"flex flex-col gap-1"}>
             <Button
               rounded={"full"}
@@ -92,31 +96,41 @@ const Courses = () => {
           </div>
         </Container>
 
-        <Container title={"Your courses"} description={"Preview, manage, delete your courses"}>
+        <Container
+          title={"Your courses"}
+          description={"Preview, manage, delete your courses"}
+        >
           <div className={"flex flex-col gap-2"}>
-            {data.map((course, index) => {
-              const properties = [
-                { label: "Creation date", value: course.creationDate },
-                { label: "Delivery date", value: course.deliveryDate },
-                { label: "Team", value: course.team },
-              ];
+            {data.length > 0 ? (
+              data.map((course) => {
+                const properties = [
+                  { label: "Creation date", value: course.creationDate },
+                  { label: "Delivery date", value: course.deliveryDate },
+                  { label: "Team", value: course.team },
+                ];
 
-              return (
-                <ListItem
-                  key={nanoid()}
-                  properties={properties}
-                  withUserActions
-                  onSee={() =>
-                    goTo(`/dashboard/teachers/courses/preview/${course.uuid}`)
-                  }
-                  onEdit={() =>
-                    goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
-                  }
-                >
-                  {course.name}
-                </ListItem>
-              );
-            })}
+                return (
+                  <ListItem
+                    key={nanoid()}
+                    properties={properties}
+                    withUserActions
+                    onSee={() =>
+                      goTo(`/dashboard/teachers/courses/preview/${course.uuid}`)
+                    }
+                    onEdit={() =>
+                      goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
+                    }
+                    onClick={() =>
+                      goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
+                    }
+                  >
+                    {course.name}
+                  </ListItem>
+                );
+              })
+            ) : (
+              <span>You don&apos;t have any course yet</span>
+            )}
           </div>
         </Container>
       </main>
