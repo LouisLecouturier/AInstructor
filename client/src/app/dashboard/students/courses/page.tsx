@@ -5,10 +5,10 @@ import ListItem from "@components/layout/ListItem";
 import Header from "@components/dashboard/Layout/Header";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCourses } from "@/requests/courses";
+import { fetchCourses } from "@requests/course";
 
 type Course = {
-  uuid : string;
+  uuid: string;
   name: string;
   creationDate: string;
   deliveryDate: string;

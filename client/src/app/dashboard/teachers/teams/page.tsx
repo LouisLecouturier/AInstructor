@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import SortbyButton from "@/components/button/sortbybutton";
 import styles from "./Teams.module.scss";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
@@ -38,8 +37,6 @@ const Teams = () => {
       <div className={clsx("flex-1 h-full flex flex-col gap-6", styles.teams)}>
         <Header>Teams</Header>
 
-        <SortbyButton />
-
         <div>Loading...</div>
       </div>
     );
@@ -48,8 +45,6 @@ const Teams = () => {
   return (
     <div className={clsx("flex-1 h-full flex flex-col gap-6", styles.teams)}>
       <Header>Teams</Header>
-
-      <SortbyButton />
 
       <div className="flex w-full flex-wrap pt-6 pb-16 gap-10">
         {data?.map((team) => (

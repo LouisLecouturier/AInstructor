@@ -25,7 +25,8 @@
       "@icons/*": ["./src/assets/svg/icons/*"],
       "@assets/*": ["./src/assets/*"],
       "@blob/*": ["./src/assets/svg/blob/*"],
-      "@requests/*" : ["./src/requests"]
+      "@requests/*" : ["./src/requests/*"],
+      "@types/*" : ["./src/types/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

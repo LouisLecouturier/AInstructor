@@ -13,8 +13,7 @@ import Stars from "@icons/Stars.svg";
 import QuestionElement from "@components/dashboard/Questions/Question";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import { getCourseText } from "@/requests/courses";
-import { data } from "autoprefixer";
+import { getCourseText } from "@requests/course";
 
 const config = {
   h1: ({ ...props }) => (

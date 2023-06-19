@@ -13,7 +13,7 @@ import QuestionsManager from "@components/dashboard/Teachers/QuestionsManager";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchTeamsUser } from "@/requests/team";
-import { updateCourseTeams } from "@/requests/courses";
+import { updateCourseTeams } from "@requests/course";
 
 const courseQuery = async (uuid: string, accessToken: string) => {
   const res = await fetch(`http://127.0.0.1:8000/api/course/byId/${uuid}`, {

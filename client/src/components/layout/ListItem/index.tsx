@@ -23,9 +23,9 @@ type Property = {
 type ListItemProps = {
   children?: React.ReactNode;
   properties: Property[];
-
   status?: "done" | "pending" | "in-progress";
   href?: string;
+  query?: string;
   withUserActions?: boolean;
   onDelete?: () => void;
   onEdit?: () => void;
@@ -49,12 +49,13 @@ const ListItem: FC<ListItemProps> = (props) => {
   return (
     <article
       onClick={() => {
-        if (props.href) {
-          router.push(props.href);
+        if (props.href && props.query) {
+          router.push(props.href + '/' + props.query);
         }
       }}
       className={clsx(
         "group",
+        "border-2 border-dark-50 hover:border-accent-200 transition",
         "flex flex-col gap-1",
         "p-4 py-3 w-full bg-white rounded-xl",
         "cursor-pointer"
@@ -80,7 +81,7 @@ const ListItem: FC<ListItemProps> = (props) => {
           >
             <Show onClick={props.onSee} />
             <Edit onClick={props.onEdit} />
-            <Delete onEdit={props.onDelete} />
+            <Delete onClick={props.onDelete} />
           </div>
         )}
       </header>
