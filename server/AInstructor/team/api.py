@@ -1,6 +1,9 @@
+import json
+import uuid as uuidLib
+
 import jwt
 from ninja import Router, Schema
-from app import models 
+from app import models
 import json, uuid as uuidLib
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -15,7 +18,7 @@ key = getattr(settings, "SECRET_KEY", None)
 
 @router.get('/')
 def main(request):
-   
+
     token = request.headers.get('Authorization')
     token = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=token)
@@ -44,9 +47,11 @@ def new(request, body: TeamSchema):
         user = get_object_or_404(models.CustomUser, accessToken=token)
         team = models.Team.objects.create(name=body.name, color=body.color, owner=user)
         team.users.add(user)
-        massage = "Team created"
+        team.save()
+        message = "Team created"
     except:
        message = "Error while creating the team"
+
 
     return JsonResponse({'error': message})
 
@@ -117,7 +122,7 @@ def removeUser(request, body: removeUser, uuid: uuidLib.UUID):
         else:
             team.users.remove(user)
     return JsonResponse({'error': error, "message": "User(s) removed"})
-  
+
 
 class addUser(Schema):
     users_email: list[str]
@@ -144,6 +149,7 @@ def addUser(request, body: addUser, uuid : uuidLib.UUID):
 def get_courses_by_team(request, uuid: uuidLib.UUID):
     """get all the courses of one team"""
     team = get_object_or_404(models.Team, uuid=uuid)
+    print(team)
     courses = models.Course.objects.filter(team=team)
 
     result = []

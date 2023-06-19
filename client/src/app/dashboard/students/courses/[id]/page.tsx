@@ -61,6 +61,7 @@ const Course = () => {
     <div>
       <CourseHeader
         title={"Regarder ses séries en VF"}
+        subject={"yess"}
         teacher={"Pascal Ricq"}
       />
       <main className={"flex flex-col gap-12"}>
