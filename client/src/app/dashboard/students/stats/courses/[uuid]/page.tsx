@@ -124,12 +124,12 @@ export default function coursesStats() {
       <div className="flex gap-10 items-center">
         <div className="flex flex-col gap-5">
           <div className="w-96 h-96">
-            <Container className="w-96 h-96 border-2 border-dark-50 hover:border-accent-300 transition">
+            <Container className="w-96 h-96 border-2 border-white hover:border-accent-300 transition">
               <Radar data={data3} />
             </Container>
           </div>
           <div className="w-96 h-96">
-            <Container className="w-96 h-96 border-2 border-dark-50 hover:border-accent-300 transition">
+            <Container className="w-96 h-96 border-2 border-white hover:border-accent-300 transition">
               <Doughnut data={data2} />
             </Container>
           </div>
@@ -138,7 +138,7 @@ export default function coursesStats() {
           <div className="w-full h-full">
             <Container
               title="Score de l'élève par cours"
-              className="w-full h-full border-2 border-dark-50 hover:border-accent-300 transition"
+              className="w-full h-full border-2 border-white hover:border-accent-300 transition"
             >
               <Line data={data4} />
             </Container>
