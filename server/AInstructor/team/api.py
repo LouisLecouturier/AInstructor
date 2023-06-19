@@ -41,6 +41,8 @@ def new(request):
     team = models.Team.objects.create(name=request['name'], color=request['color'])
     team.users.add(user)
 
+    team.save()
+
     return JsonResponse({'error': error})
 
 

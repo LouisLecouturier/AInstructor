@@ -4,58 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dffe6933-eb4d-499b-858d-ff102e252a9b" name="Changes" comment="">
+    <list default="true" id="dffe6933-eb4d-499b-858d-ff102e252a9b" name="Changes" comment="Cleared cours folder">
+      <change afterPath="$PROJECT_DIR$/../client/src/requests/team.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/.idea/shelf/Uncommitted_changes_before_Update_at_09_06_2023_19_20_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/.idea/shelf/Uncommitted_changes_before_Update_at_09_06_2023_19_20__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Interactions/Forms/AddUserMenu/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Interactions/Forms/AddUserMenu/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/dashboard/Table/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/AInstructor/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/AInstructor/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/5f0651a9-e642-4f64-b1ad-ff85edb941ee/lorem-ipsumtest.pdf.001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/5f0651a9-e642-4f64-b1ad-ff85edb941ee/lorem-ipsumtest.pdf.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/6be5d7bc-33fa-43a8-8f22-79999d28f559/4._Theorie_de_la_decision.docx.001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/6be5d7bc-33fa-43a8-8f22-79999d28f559/4._Theorie_de_la_decision.docx.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/7fc16cef-b57e-43f4-8623-f93988786f95/lorem-ipsumtest.pdf.001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/7fc16cef-b57e-43f4-8623-f93988786f95/lorem-ipsumtest.pdf.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/9ba5a15f-ae37-44f5-bedd-045b4a2d2979/lorem-ipsumtest.pdf.001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/9ba5a15f-ae37-44f5-bedd-045b4a2d2979/lorem-ipsumtest.pdf.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/a6ea5097-3635-4089-92f8-81d98c2bb667/lorem-ipsumtest.pdf.001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/a6ea5097-3635-4089-92f8-81d98c2bb667/lorem-ipsumtest.pdf.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/ae023ce3-4fcf-4ec2-8462-970307ea4cd6/lorem-ipsumtest.pdf.001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/ae023ce3-4fcf-4ec2-8462-970307ea4cd6/lorem-ipsumtest.pdf.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.002.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.003.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.004.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.005.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.006.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.007.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.008.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.009.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.010.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.011.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.012.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.013.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.014.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.015.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.016.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.017.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.018.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.019.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.020.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.021.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.022.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.023.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d12a4280-9d66-41b9-816c-daadda3e1420/5690-3d-temps-reel-avec-irrlicht.pdf.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d4f3dbf4-19f0-43ca-810c-861c9fffc033/lorem-ipsumtest.pdf.001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/d4f3dbf4-19f0-43ca-810c-861c9fffc033/lorem-ipsumtest.pdf.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/fdbf43dd-5eb7-49a8-81ca-d1ab1b43d2d1/lorem-ipsumtest.pdf.001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/cours/fdbf43dd-5eb7-49a8-81ca-d1ab1b43d2d1/lorem-ipsumtest.pdf.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/course/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/course/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AInstructor/team/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/team/api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,26 +36,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/PyCharm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Server" type="Python.DjangoServer" factoryName="Django server">
       <module name="server" />
@@ -132,10 +93,23 @@
       <updated>1686559372563</updated>
       <workItem from="1686559374334" duration="11855000" />
       <workItem from="1686926467758" duration="10386000" />
+      <workItem from="1687162800322" duration="749000" />
     </task>
+    <task id="LOCAL-00001" summary="Cleared cours folder">
+      <created>1686991900869</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1686991900869</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Cleared cours folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleared cours folder" />
   </component>
 </project>

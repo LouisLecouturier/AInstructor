@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import ListItem from "@components/layout/ListItem";
 
@@ -26,7 +26,7 @@ const MyCourses = () => {
   const { data, isLoading, isError } = useQuery<Course[]>({
     queryKey: ["courses", id],
     queryFn: () => fetchCourses(String(token), String(id)),
-    enabled: (token || id ) === undefined ? false : true,
+    enabled: (token || id) !== undefined,
   });
 
   if (isLoading || isError) { return <div>Loading...</div>;}

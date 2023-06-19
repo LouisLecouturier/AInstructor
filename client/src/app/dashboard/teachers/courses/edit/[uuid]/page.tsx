@@ -12,7 +12,7 @@ import Table from "@components/dashboard/Table";
 import QuestionsManager from "@components/dashboard/Teachers/QuestionsManager";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchTeamsUser } from "@/request";
+import { fetchTeamsUser } from "@/requests/team";
 import { updateCourseTeams } from "@/requests/courses";
 
 const courseQuery = async (uuid: string, accessToken: string) => {
