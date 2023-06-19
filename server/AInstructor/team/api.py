@@ -46,7 +46,7 @@ def new(request, body: TeamSchema):
         user = get_object_or_404(models.CustomUser, accessToken=token)
         team = models.Team.objects.create(name=body.name, color=body.color, owner=user)
         team.users.add(user)
-        massage = "Team created"
+        message = "Team created"
     except:
        message = "Error while creating the team"
 
