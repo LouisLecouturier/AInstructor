@@ -21,7 +21,7 @@ const Container: FC<ContainerProps> = (props) => {
     >
       {props.title && (
         <header className={"flex flex-wrap justify-between gap-4"}>
-          <div className={"flex flex-col"}>
+          <div>
             {(props.title || props.description) && (
               <h2 className={"flex items-center text-xl font-black"}>
                 {props.title}
