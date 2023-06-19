@@ -1,91 +1,116 @@
 "use client";
 
 import React from "react";
-import { Bar, Line, Doughnut, Pie, Radar } from "react-chartjs-2";
-import { CategoryScale } from "chart.js";
-import { Chart as ChartJS } from "chart.js/auto";
+import { Chart } from "chart.js";
+import { useEffect, useRef } from "react";
+import { registerables } from "chart.js";
 import Container from "@/components/layout/Container";
+import Header from "@/components/dashboard/Layout/Header";
 
-const teams = [
+Chart.register(...registerables);
+
+const classes = [
   {
     id: 1,
-    name: "Groupe 1",
-    score: 12,
-    moy: 50,
-    effectif: 12,
+    class: "Classe 1",
+    score: 20,
   },
   {
     id: 2,
-    name: "Groupe 2",
+    class: "Classe 2",
     score: 52,
-    moy: 32,
-    effectif: 12,
   },
   {
     id: 3,
-    name: "Groupe 3",
-    score: 69,
-    moy: 10,
-    effectif: 12,
+    class: "Classe 3",
+    score: 100,
+  },
+  {
+    id: 4,
+    class: "Classe 4",
+    score: 16,
   },
 ];
 
-const data = {
-  labels: ["Groupe 1", "Groupe 2", "Groupe 3"],
-  datasets: [
-    {
-      label: "Moyenne par team",
-      data: [12, 52, 69, 100],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.7)",
-        "rgba(255, 159, 64, 0.7)",
-        "rgba(255, 205, 86, 0.7)",
-      ],
-      borderColor: [
-        "rgb(255, 99, 132)",
-        "rgb(255, 159, 64)",
-        "rgb(255, 205, 86)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
+const moyenne = [
+  {
+    moy: 47,
+  },
+];
 
-const options = {
-  maintainAspectRatio: false,
-  lineTension: 0.3,
-};
+export default function MyTeams() {
+  const chartRef = useRef<HTMLCanvasElement | null>(null);
+  const chartInstance = useRef<Chart | null>(null);
 
-ChartJS.register(CategoryScale);
+  useEffect(() => {
+    if (chartRef.current) {
+      const ctx = chartRef.current.getContext("2d");
 
-export default function myTeams() {
+      if (ctx) {
+        // Détruire le graphique existant
+        if (chartInstance.current) {
+          chartInstance.current.destroy();
+        }
+
+        chartInstance.current = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: [
+              classes[0].class,
+              classes[1].class,
+              classes[2].class,
+              classes[3].class,
+            ],
+            datasets: [
+              {
+                type: "bar",
+                label: "Score élève",
+                data: [
+                  classes[0].score,
+                  classes[1].score,
+                  classes[2].score,
+                  classes[3].score,
+                ],
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderColor: "rgb(255, 99, 132)",
+                borderWidth: 1,
+              },
+              {
+                type: "line",
+                label: "Moyenne classe",
+                data: [
+                  moyenne[0].moy,
+                  moyenne[0].moy,
+                  moyenne[0].moy,
+                  moyenne[0].moy,
+                ],
+                fill: false,
+                borderColor: "rgb(54, 162, 235)",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      }
+    }
+  }, []);
+
   return (
-    <div className="flex flex-col gap-5">
-      <header>
-        <h1 className="flex items-center h-16 text-5xl font-black">
-          Stats de mes teams
-        </h1>
-      </header>
-      <div className="flex gap-40 items-center">
-        <Container className="w-1/2 h-1/2 border-2 border-dark-50 hover:border-accent-300 transition">
-          <Bar data={data} options={options} />
+    <div className="flex flex-col h-full gap-10">
+      <Header>My stats</Header>
+      <div className="flex flex-col flex-1 items-center">
+        <Container className="h-3/4 w-3/4 max-w-[700px] border-2 border-white hover:border-accent-300 transition">
+          <canvas ref={chartRef} height={400}></canvas>
         </Container>
       </div>
-      <Container className="w-full h-1/2 border-2 border-dark-50 hover:border-accent-300 transition text-center">
-        <div className="flex flex-col gap-5">
-          <h1 className="flex font-black text-4xl">Quelques chiffres</h1>
-          <div className="flex gap-40 text-center">
-            <div className="flex flex-col gap-5">
-              <h1>Nombre d'équipe : </h1>
-              <h1>Nombre d'élève : </h1>
-            </div>
-            <div className="flex flex-col gap-5">
-              <h1>Score le plus élevé : </h1>
-              <h1>Score le plus bas : </h1>
-            </div>
-          </div>
-        </div>
-      </Container>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React from "react";
-import CubeCourses from "@/components/dashboard/Students/Stats";
 import Link from "next/link";
 import CubeTeams from "@/components/dashboard/Teachers/Stats";
+import Header from "@/components/dashboard/Layout/Header";
 
 const teams = [
   {
@@ -30,9 +30,7 @@ const teams = [
 export default function Teams() {
   return (
     <div className="flex flex-col gap-5">
-      <header>
-        <h1 className={"flex items-center h-16 text-5xl font-black"}>Stats</h1>
-      </header>
+      <Header>Stats</Header>
       <div className="flex flex-col gap-10">
         <h2 className={"text-3xl font-bold"}>My teams</h2>
         <div className="flex gap-8 ">

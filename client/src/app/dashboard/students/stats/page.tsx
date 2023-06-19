@@ -1,6 +1,7 @@
 import React from "react";
 import CubeCourses from "@/components/dashboard/Students/Stats";
 import Link from "next/link";
+import Header from "@/components/dashboard/Layout/Header";
 
 const courses = [
   {
@@ -32,7 +33,7 @@ const courses = [
 const Stats = () => {
   return (
     <div className="flex flex-col gap-5">
-      <h1 className={"flex items-center h-16 text-4xl font-black"}>My stats</h1>
+      <Header>Stats</Header>
       <div className="flex flex-col gap-20">
         <div className="flex gap-8 ">
           {courses.map((course) => (
