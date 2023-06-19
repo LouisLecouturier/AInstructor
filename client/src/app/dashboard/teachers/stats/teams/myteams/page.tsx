@@ -4,6 +4,7 @@ import React from "react";
 import { Chart } from "chart.js";
 import { useEffect, useRef } from "react";
 import { registerables } from "chart.js";
+import { Bar, Line } from "react-chartjs-2";
 import Container from "@/components/layout/Container";
 import Header from "@/components/dashboard/Layout/Header";
 
@@ -35,6 +36,12 @@ const classes = [
 const moyenne = [
   {
     moy: 47,
+  },
+];
+
+const mediane = [
+  {
+    med: 50,
   },
 ];
 
@@ -86,6 +93,19 @@ export default function MyTeams() {
                 ],
                 fill: false,
                 borderColor: "rgb(54, 162, 235)",
+                borderWidth: 1,
+              },
+              {
+                type: "line",
+                label: "Médiane classe",
+                data: [
+                  mediane[0].med,
+                  mediane[0].med,
+                  mediane[0].med,
+                  mediane[0].med,
+                ],
+                fill: false,
+                borderColor: "rgb(75, 192, 192)",
                 borderWidth: 1,
               },
             ],

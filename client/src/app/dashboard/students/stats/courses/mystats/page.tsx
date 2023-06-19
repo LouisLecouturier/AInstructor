@@ -14,24 +14,39 @@ const courses = [
     id: 1,
     course: "ASN",
     score: 12,
-    moy: 50,
   },
   {
     id: 2,
     course: "Meca Q",
     score: 52,
-    moy: 32,
   },
   {
     id: 3,
     course: "Electronique",
     score: 69,
-    moy: 10,
   },
   {
     id: 4,
     course: "Physique",
     score: 100,
+  },
+];
+
+const moyenne = [
+  {
+    id: 1,
+    moy: 50,
+  },
+  {
+    id: 2,
+    moy: 32,
+  },
+  {
+    id: 3,
+    moy: 10,
+  },
+  {
+    id: 4,
     moy: 80,
   },
 ];
@@ -72,10 +87,10 @@ export default function MyStats() {
                 type: "line",
                 label: "Moyenne classe",
                 data: [
-                  courses[0].moy,
-                  courses[1].moy,
-                  courses[2].moy,
-                  courses[3].moy,
+                  moyenne[0].moy,
+                  moyenne[1].moy,
+                  moyenne[2].moy,
+                  moyenne[3].moy,
                 ],
                 fill: false,
                 borderColor: "rgb(54, 162, 235)",

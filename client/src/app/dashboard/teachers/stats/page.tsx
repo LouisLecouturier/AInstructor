@@ -38,7 +38,6 @@ export default function Teams() {
             <CubeTeams uuid={teams.id} key={teams.name} name={teams.name} />
           ))}
         </div>
-
         <Link
           className="rounded-xl w-1/3 h-15 "
           href={`/dashboard/teachers/stats/teams/myteams`}
