@@ -4,7 +4,7 @@ import { Bar, Doughnut } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import Container from "@/components/layout/Container";
-import Header from "@/components/dashboard/Layout/Header";
+import Header from "@components/dashboard/Layout/Header";
 
 const data = {
   labels: [
@@ -108,7 +108,7 @@ ChartJS.register(CategoryScale);
 const teamStats = () => {
   return (
     <div className="flex h-full flex-col gap-10">
-      <Header>Stats</Header>
+      <Header title="Stats" />
       <div className="flex flex-col flex-1 gap-10 items-center">
         <div className="h-full w-full flex gap-10 justify-center flex-wrap pb-12">
           <Container className="h-3/4 max-w-[700px] max-h-[500px] w-full flex-1 border-2 border-white hover:border-accent-300 transition flex justify-center items-center">

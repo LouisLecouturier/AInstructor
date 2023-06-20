@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import CubeTeams from "@/components/dashboard/Teachers/Stats";
@@ -31,7 +33,7 @@ const teams = [
 export default function Teams() {
   return (
     <div className="flex flex-col gap-5">
-      <Header>Stats</Header>
+      <Header title="Stats" />
       <div className="flex flex-col gap-10">
         <Container title="My teams">
           <div className="flex gap-8 ">
