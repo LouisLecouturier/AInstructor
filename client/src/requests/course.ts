@@ -10,8 +10,7 @@ export const fetchCourses = async (token: string, user_id: string) => {
       },
     }
   );
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const updateCourse = async (token: string, course: Course) => {
@@ -27,8 +26,7 @@ export const updateCourse = async (token: string, course: Course) => {
       body: JSON.stringify(courseExceptUUID),
     }
   );
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const newCourse = async (
@@ -81,8 +79,7 @@ export const getCourses = async (token: string, user_id: string) => {
       },
     }
   );
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const updateCourseTeams = async (
@@ -101,12 +98,10 @@ export const updateCourseTeams = async (
       body: JSON.stringify(teamsUUID),
     }
   );
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const getCourseText = async (uuid: string, token: string) => {
-  console.log("fetctext");
   const response = await fetch(
     `http://localhost:8000/api/course/${uuid}/text`,
     {
@@ -115,6 +110,5 @@ export const getCourseText = async (uuid: string, token: string) => {
       },
     }
   );
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
