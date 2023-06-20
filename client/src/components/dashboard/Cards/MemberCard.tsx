@@ -31,10 +31,10 @@ const fetchData = async (
 };
 
 export default function Line({
-  modelFieldLine,
-  modelPrimaryKey,
-  urlDeleteLine,
-}: {
+                               modelFieldLine,
+                               modelPrimaryKey,
+                               urlDeleteLine,
+                             }: {
   modelFieldLine: Record<string, string | boolean>;
   modelPrimaryKey: string;
   urlDeleteLine: string;

@@ -1,14 +1,14 @@
-
-
-**/db.sqlite3
-**/migrations/
-**/courses-for-IA/
+db.sqlite3
+migrations/
+storage/
 
 ### Python template
 # Byte-compiled / optimized / DLL files
-**/__pycache__/
+__pycache__/
 *.py[cod]
 *$py.class
+
+.idea/
 
 # C extensions
 *.so

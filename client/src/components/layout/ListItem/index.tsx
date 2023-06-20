@@ -10,10 +10,9 @@ import Check from "@icons/Checkmark.svg";
 import Pending from "@icons/Pending.svg";
 import InProgress from "@icons/Pencil.svg";
 
-import { useRouter } from "next/navigation";
-
 import clsx from "clsx";
 import styles from "./ListItem.module.scss";
+import { useRouter } from "next/navigation";
 
 type Property = {
   label: string;
@@ -23,11 +22,10 @@ type Property = {
 type ListItemProps = {
   children?: React.ReactNode;
   properties: Property[];
-
   status?: "done" | "pending" | "in-progress";
   href?: string;
-  query?: string;
   withUserActions?: boolean;
+  onClick?: () => void;
   onDelete?: () => void;
   onEdit?: () => void;
   onSee?: () => void;
@@ -45,15 +43,11 @@ const statusIcon = (status?: "done" | "pending" | "in-progress") => {
 };
 
 const ListItem: FC<ListItemProps> = (props) => {
-  const router = useRouter();
+
+  const router = useRouter()
 
   return (
     <article
-      onClick={() => {
-        if (props.href && props.query) {
-          router.push(props.href + '/' + props.query);
-        }
-      }}
       className={clsx(
         "group",
         "border-2 border-dark-50 hover:border-accent-200 transition",
@@ -61,9 +55,12 @@ const ListItem: FC<ListItemProps> = (props) => {
         "p-4 py-3 w-full bg-white rounded-xl",
         "cursor-pointer"
       )}
+      onClick={() => {
+        props.href && router.push(props.href)
+      }}
     >
       <header className={"flex justify-between w-full"}>
-        <div className={"flex items-center gap-2"}>
+        <div className={"flex items-center flex-1 gap-2"} onClick={props.onClick}>
           {props.status && statusIcon(props.status)}
           <span
             className={clsx(

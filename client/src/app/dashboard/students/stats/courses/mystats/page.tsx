@@ -1,12 +1,11 @@
 "use client";
 
 import React from "react";
-import { Chart as ChartJS } from "chart.js/auto";
-import { CategoryScale, Chart, ChartData } from "chart.js";
-import { Bar, Line, Doughnut, Pie } from "react-chartjs-2";
-import { useEffect, useRef, useCallback } from "react";
+import { Chart } from "chart.js";
+import { useEffect, useRef } from "react";
 import { registerables } from "chart.js";
 import Container from "@/components/layout/Container";
+import Header from "@/components/dashboard/Layout/Header";
 
 Chart.register(...registerables);
 
@@ -15,24 +14,39 @@ const courses = [
     id: 1,
     course: "ASN",
     score: 12,
-    moy: 50,
   },
   {
     id: 2,
     course: "Meca Q",
     score: 52,
-    moy: 32,
   },
   {
     id: 3,
     course: "Electronique",
     score: 69,
-    moy: 10,
   },
   {
     id: 4,
     course: "Physique",
     score: 100,
+  },
+];
+
+const moyenne = [
+  {
+    id: 1,
+    moy: 50,
+  },
+  {
+    id: 2,
+    moy: 32,
+  },
+  {
+    id: 3,
+    moy: 10,
+  },
+  {
+    id: 4,
     moy: 80,
   },
 ];
@@ -71,12 +85,12 @@ export default function MyStats() {
               },
               {
                 type: "line",
-                label: "Moyenne cours",
+                label: "Moyenne classe",
                 data: [
-                  courses[0].moy,
-                  courses[1].moy,
-                  courses[2].moy,
-                  courses[3].moy,
+                  moyenne[0].moy,
+                  moyenne[1].moy,
+                  moyenne[2].moy,
+                  moyenne[3].moy,
                 ],
                 fill: false,
                 borderColor: "rgb(54, 162, 235)",
@@ -98,11 +112,11 @@ export default function MyStats() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-10">
-      <div className="flex text-4xl font-black">MyStats</div>
-      <div className="flex flex-col items-center">
-        <Container className="max-h-xl max-w-xl">
-          <canvas ref={chartRef} width={400} height={400}></canvas>
+    <div className="flex flex-col h-full gap-10">
+      <Header>My stats</Header>
+      <div className="flex flex-col flex-1 items-center">
+        <Container className="h-3/4 w-3/4 max-w-[700px] border-2 border-white hover:border-accent-300 transition">
+          <canvas ref={chartRef} height={400}></canvas>
         </Container>
       </div>
     </div>

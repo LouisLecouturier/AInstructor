@@ -16,7 +16,7 @@ function Provider({ children }: Props) {
         {children}
       </QueryClientProvider>
     </SessionProvider>
-  )
+  );
 }
 
 export default Provider;

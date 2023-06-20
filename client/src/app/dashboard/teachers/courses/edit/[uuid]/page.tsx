@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import Container from "@components/layout/Container";
 import Header from "@components/dashboard/Layout/Header";
 import Information from "@components/layout/Information";
@@ -12,9 +12,8 @@ import Table from "@components/dashboard/Table";
 import QuestionsManager from "@components/dashboard/Teachers/QuestionsManager";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchTeamsUser } from "@/request";
-import { get } from "http";
-import { updateCourseTeams } from "@/requests/courses";
+import { fetchTeamsUser } from "@/requests/team";
+import { updateCourseTeams } from "@requests/course";
 
 const courseQuery = async (uuid: string, accessToken: string) => {
   const res = await fetch(`http://127.0.0.1:8000/api/course/byId/${uuid}`, {
@@ -24,102 +23,68 @@ const courseQuery = async (uuid: string, accessToken: string) => {
   });
 
   const data = await res.json();
+
+  console.log("data", data);
   return data;
 };
 
-// const getCourseQuestions = async (uuid: string, accessToken?: string) => {
-//   if (!accessToken) return null;
-
-//   const res = await fetch(
-//     "http://127.0.0.1:8000/api/quizz/by-course/" + uuid + "/questions",
-//     {
-//       method: "GET",
-//       headers: {
-//         authorization: "Bearer " + accessToken,
-//       },
-//     }
-//   );
-
-//   const data = await res.json();
-//   return data;
-// };
-
-
-
-
-
-
-
-// const teams = [
-//   { name: "CSI3_2022_2023" },
-//   { name: "CIR3_2022_2023" },
-//   { name: "CNB3_2022_2023" },
-// ];
-
-
 const ManageCourse = ({ params }: { params: { uuid: string } }) => {
-    const { data: session } = useSession();
-    const token = session?.user.accessToken;
+  const { data: session } = useSession();
+  const accessToken = session?.user.accessToken;
+  const [isEditing, setIsEditing] = useState(false);
+  const queryClient = useQueryClient();
 
-    const [isEditing, setIsEditing] = useState(false);
-    const formRef = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const COURSE_UUID = params.uuid;
 
-    const queryClient = useQueryClient();
+  const {
+    data: courseData,
+    isLoading: courseLoading,
+    isError: courseError,
+  } = useQuery({
+    queryKey: ["course", COURSE_UUID],
+    queryFn: () => courseQuery(COURSE_UUID, String(accessToken)),
+    enabled: ![COURSE_UUID, accessToken].includes(undefined),
+  });
 
-    //   const [questions, setQuestions] = useState([]);
+  const {
+    data: teamsData,
+    isLoading: teamsLoading,
+    isError: teamsError,
+  } = useQuery({
+    queryKey: ["teams"],
+    queryFn: () => fetchTeamsUser(String(accessToken)),
+    enabled: !!accessToken,
+  });
 
-    //   const { data: courseQuestions, isLoading: questionsLoading } = useQuery({
-        //     queryKey: ["courseQuestions", accessToken],
-        //     queryFn: () => getCourseQuestions(params.uuid, session?.user.accessToken),
-        //     enabled: ![params.uuid, accessToken].includes(undefined),
-        //   });
-        
-    const { data: courseData, isLoading: courseLoading, isError : courseError } = useQuery({
-        queryKey: ["course", params.uuid],
-        queryFn: () => courseQuery(params.uuid, String(token)),
-        enabled: ![params.uuid, token].includes(undefined),
-    });
+  const mutationCourseTeams = useMutation({
+    mutationFn: (teamUUID: string[]) =>
+      updateCourseTeams(COURSE_UUID, String(accessToken), teamUUID),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["course", COURSE_UUID]);
+    },
+  });
 
+  const getTeamsUUID = (selected: { uuid: string }[]) => {
+    const selectedUUID = selected.map((obj) => obj.uuid);
+    mutationCourseTeams.mutate(selectedUUID);
+  };
 
-    const { data : teamsData, isLoading: teamsLoading, isError : teamsError } = useQuery({
-        queryKey: ["teams"],
-        queryFn: () => fetchTeamsUser(String(token)),
-        enabled: token !== undefined,
-    });
-
-    const mutationCourseTeams = useMutation({
-        mutationFn: (teamUUID : string[]) => updateCourseTeams(params.uuid, String(token), teamUUID),
-        onSuccess: () => {
-        queryClient.invalidateQueries(["course", params.uuid]);
-        }
-    });
-
-    const getTeamsUUID = (selected : {uuid :string}[]) => {
-        const selectedUUID = selected.map((obj) => obj.uuid);
-        mutationCourseTeams.mutate(selectedUUID);
-
-    }
-        
-
-
-
-  const handleUpdate = (e: HTMLFormElement) => {
-    const formData = new FormData(e);
+  const handleUpdate = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
     console.log(data);
     setIsEditing(false);
   };
 
-
-
   if (courseLoading || courseError || teamsLoading || teamsError) {
     return <div>Loading...</div>;
   }
- 
 
   return (
     <div>
-      <Header>Manage course</Header>
+      <Header title={"Manage course"}/>
       <main className={"flex flex-col gap-8"}>
         <Container
           title={"Course informations"}
@@ -129,7 +94,7 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
               size={"sm"}
               onClick={() => {
                 if (isEditing && formRef.current) {
-                  handleUpdate(formRef.current);
+                  formRef.current.submit()
                   return;
                 }
                 setIsEditing(true);
@@ -149,19 +114,21 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
             </Button>
           }
         >
-          <form ref={formRef} className={"flex flex-col gap-4"}>
+          <form ref={formRef} onSubmit={handleUpdate} className={"flex flex-col gap-4"}>
             <div className={"flex gap-4"}>
               <div className={"flex flex-col gap-2 flex-1"}>
                 <Information
                   label={"Name"}
                   name={"name"}
-                  value={courseData.name}
+                  value={courseData?.name}
+                  isLoading={courseLoading}
                   editable={isEditing}
                 />
                 <Information
                   label={"Description"}
                   name={"description"}
-                  value={courseData.description}
+                  value={courseData?.description}
+                  isLoading={courseLoading}
                   editable={isEditing}
                   isTextArea
                 />
@@ -170,13 +137,15 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
                 <Information
                   label={"Subject"}
                   name={"subject"}
-                  value={courseData.subject}
+                  value={courseData?.subject}
+                  isLoading={courseLoading}
                   editable={isEditing}
                 />
                 <Information
                   label={"File uploaded"}
                   name={"file"}
-                  value={courseData.file}
+                  value={courseData?.file.split("/").at(-1).replace(".md", "")}
+                  isLoading={courseLoading}
                   editable={isEditing}
                 />
               </div>
@@ -184,20 +153,22 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
           </form>
         </Container>
 
-        <Container title={"Manage team access"} description={"Assign this course to your teams"}>
-            <Table
-                columns={[{ key: "name", label: "Name" }]}
-                data={teamsData}
-                ordered
-                selectable
-                selectedRows={courseData.teams}
-                Submit={(selected) => getTeamsUUID(selected)}
-                // inlineActions={false}
-            />
+        <Container
+          title={"Manage team access"}
+          description={"Assign this course to your teams"}
+        >
+          <Table
+            columns={[{ key: "name", label: "Name" }]}
+            data={teamsData}
+            ordered
+            selectable
+            selectedRows={courseData.teams}
+            Submit={(selected) => getTeamsUUID(selected)}
+            // inlineActions={false}
+          />
         </Container>
 
-
-        {/* <QuestionsManager questions={questions} setQuestions={setQuestions} /> */}
+        <QuestionsManager courseUuid={COURSE_UUID} />
       </main>
     </div>
   );

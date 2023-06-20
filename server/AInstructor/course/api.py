@@ -1,23 +1,26 @@
 import datetime
 import os
+import tempfile
 import uuid as uuidLib
+from pathlib import Path
 
-import aspose.words as pdf2md
-import openai
 import pdfplumber
+import pypandoc
+
+import openai
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.db import models
 from django.shortcuts import get_object_or_404
-from docx import Document
 from ninja import Router, Schema, File, UploadedFile
 from pydantic import Field
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
+from django.conf import settings
 
 import json
-
 from app import models
 
+pypandoc.download_pandoc()
 router = Router(tags=["Course"])
 
 """________________________________________request conserning the courses__________________________________________________"""
@@ -28,64 +31,65 @@ class UploadTheme(Schema):
     name: str
     color: str
 
-@router.post("/{user_id}")
-def create_course(request, user_id: int, file : UploadedFile = File(...)):
-    print(file.name)
-    print(user_id)
 
+@router.post("/{user_id}")
+def create_course(request, user_id: int, file: UploadedFile = File(...)):
     user = get_object_or_404(models.CustomUser, id=user_id)
 
     # Vérifier l'extension du fichier
     file_extension = os.path.splitext(file.name)[1].lower()
 
-    if file_extension == '.pdf':
-        # Convertir le fichier PDF en texte
+    # chemin du fichier
+    storage_path = Path(f"{user.id}/{file.name}")
+    absolute_file_path = Path(settings.MEDIA_ROOT).joinpath(storage_path)
+    # chemin avec l'extension changée en .md
+    absolute_file_path_md = absolute_file_path.with_suffix('.md')
+    absolute_file_path_txt = absolute_file_path.with_suffix('.txt')
+
+    if (".pdf", ".docx", ".doc").count(file_extension) == 0:
+        print('Unsupported file format.')
+        return HttpResponse("Invalid file format", status=400)
+
+    if file_extension == ".pdf":
         text_content = ""
+        # Open the pdf file in read binary mode.
         with pdfplumber.open(file) as pdf:
             for page in pdf.pages:
                 text_content += page.extract_text()
 
-    elif file_extension == '.docx':
-        # Convertir le fichier Word en texte
-        document = Document(file)
-        paragraphs = document.paragraphs
-        text_content = "\n".join([p.text for p in paragraphs])
+        # Create a ContentFile object from the text
+        txt_file = ContentFile(text_content)
+
+        default_storage.save(storage_path.with_suffix('.txt'), txt_file)
+
+        temp_file_path = tempfile.mktemp(suffix='.md')
+        pypandoc.convert_text(text_content, 'md', format='plain', outputfile=temp_file_path, extra_args=['--preserve-tabs'])
+        md_file = ContentFile(open(temp_file_path, 'rb').read())
+        default_storage.save(storage_path.with_suffix('.md'), md_file)
 
     else:
-        # Gérer d'autres extensions de fichiers ou afficher une erreur
-        print('Unsupported file format.')
-        return {'error': 'Unsupported file format.'}
+        default_storage.save(storage_path, file)
 
+        pypandoc.convert_file(absolute_file_path, 'md',
+                              outputfile=absolute_file_path_md, extra_args=['--preserve-tabs'])
+        pypandoc.convert_file(absolute_file_path, 'plain',
+                              outputfile=absolute_file_path_txt, extra_args=['--preserve-tabs'])
 
-    # print(text_content)
-
-    # Enregistrer le contenu texte dans un fichier .txt
-    txt_file_name = file.name.replace(file_extension, '.txt')
-    txt_file_path = f"courses-for-IA/{txt_file_name}"  # Spécifiez le chemin de stockage souhaité
-
-    # Convertir le texte en encodage UTF-8
-    text_content_utf8 = text_content.encode('utf-8')
-
-    txt_file = ContentFile(text_content_utf8)
-    default_storage.save(txt_file_path, txt_file)
-
-    # Sauvegarder le fichier .md
     course = models.Course.objects.create(
         name=file.name,
-        uploadedFile=file, 
-        textPath=txt_file_path,
         uploadedBy=user,
+        filePath=absolute_file_path_md,
+        textPath=absolute_file_path_txt,
     )
 
+    quizz = models.Quizz.objects.create(
+        owner=user
+    )
 
-    # Enregistrer le fichier .md en utilisant pdf2md.Document
-    doc = pdf2md.Document(course.uploadedFile.path)
-    doc.save(course.uploadedFile.path)
+    quizz.course.add(course)
+    quizz.save()
 
-    print(course.uuid)
     return {'uuid': course.uuid}
-
-
 
 
 @router.get("/teachers/{user_id}")
@@ -94,8 +98,6 @@ def get_my_courses(request, user_id: int):
 
     # teams = user.team_set.all()
     # courses = models.Course.objects.filter(team__in=teams)
-
-    
 
     courses = models.Course.objects.filter(uploadedBy=user)
 
@@ -108,7 +110,8 @@ def get_my_courses(request, user_id: int):
 
         if course.team.all().first() is not None:
             teamName = course.team.all().first().name
-        else :  teamName = None
+        else:
+            teamName = None
 
         course_info = {
             'uuid': course.uuid,
@@ -125,15 +128,12 @@ def get_my_courses(request, user_id: int):
     return result
 
 
-
 @router.get("/students/{user_id}")
 def get_my_courses(request, user_id: int):
     user = get_object_or_404(models.CustomUser, id=user_id)
 
     teams = user.team_set.all()
     courses = models.Course.objects.filter(team__in=teams)
-
-    
 
     # courses = models.Course.objects.filter(uploadedBy=user)
 
@@ -146,8 +146,8 @@ def get_my_courses(request, user_id: int):
 
         if course.team.all().first() is not None:
             teamName = course.team.all().first().name
-        else :  teamName = None
-
+        else:
+            teamName = None
 
         if quizz.exists():
             status = quizz.first().status
@@ -170,9 +170,6 @@ def get_my_courses(request, user_id: int):
 
 
 # class teamsList(Schema):
-    
-    
-
 
 @router.put("/{uuid}/updateTeams")
 def update_teams(request, uuid: str):
@@ -189,97 +186,54 @@ def update_teams(request, uuid: str):
     return {"error": False}
 
 
-    
-
 @router.get("/{uuid}/text")
 def get_rawtext(request, uuid: uuidLib.UUID):
     course = get_object_or_404(models.Course, uuid=uuid)
-    with open(course.uploadedFile.path, 'r', encoding='utf-8') as file:
-        lines = file.readlines()
-
-    # Supprimer les trois premières lignes
-    lines = lines[3:]
-
-    # Supprimer la dernière ligne
-    lines = lines[:-1]
-
-    # Récupérer le contenu restant
-    content = ''.join(lines)
-
-    print(content)
-
-
+    # with open(course.uploadedFile.path, 'r', encoding="utf-8", errors="ignore") as file:
+    #     lines = file.readlines()
+    #
+    # # Récupérer le contenu restant
+    # content = ''.join(lines)
     # text = cours.read()
     # # print(text)
+    content = ""
+
+    if default_storage.exists(course.filePath):
+        with default_storage.open(course.filePath, 'rb') as file:
+            content = file.read().decode('utf-8')
+    else:
+        return HttpResponseNotFound("File not found")
+
     return {
-        "text": content,
+        "course": content,
         "name": course.name,
         "subject": course.subject,
-        "teacher" : course.uploadedBy.first_name + " " + course.uploadedBy.last_name,
-        }
-   
+        "teacher": course.uploadedBy.first_name + " " + course.uploadedBy.last_name,
+        "text": content
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@router.get("/course/{uuid}/generate-questions", )
+@router.get("/{uuid}/generate-questions", )
 def generate_questions(request, uuid: str):
     """generate questions from the course"""
     course = get_object_or_404(models.Course, uuid=uuid)
-    path = course.textPath
     # Ouvrez le fichier en mode lecture
-    with open(path, "r", encoding="utf-8") as fichier:
-        # Lisez le contenu du fichier
-        texte = fichier.read()
+
+    content = ""
+    if default_storage.exists(course.textPath):
+        with default_storage.open(course.textPath, 'rb') as file:
+            content = file.read().decode('utf-8')
+    else:
+        return HttpResponseNotFound("File not found")
+
+
     openai.api_key = "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"
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "assistant", "content": texte},
+            {"role": "assistant", "content": content},
             {"role": "user",
              "content": "Ecrit moi 10 questions sur ce texte pour tester mes connaisances mais tu ecris seulement les questions et pas les réponses"},
         ]
@@ -304,22 +258,15 @@ def get_courses_by_id(request, uuid: str):
         }
         teams.append(teamInfo)
 
-        
-
-
     return {
         'uuid': course.uuid,
         'name': course.name,
         'subject': course.subject,
         'description': course.description,
-        'file': course.uploadedFile.name,
-        'teams' : teams,
+        'uploadedBy': course.uploadedBy.username,
+        'file': os.path.basename(course.filePath),
+        'teams': teams,
     }
-
-
-
-
-
 
 
 class AssignCourse(Schema):
@@ -341,9 +288,9 @@ def assign_course(request, body: AssignCourse):
 
 
 # à mettre dans Team api
-@router.get("/{uuid}")
+@router.get("/team/{uuid}")
 def get_courses_by_team(request, uuid: uuidLib.UUID):
-    """get all the courses of the user"""
+    """get all the courses of the team"""
     team = get_object_or_404(models.Team, uuid=uuid)
     courses = models.Course.objects.filter(team=team)
 
@@ -355,7 +302,7 @@ def get_courses_by_team(request, uuid: uuidLib.UUID):
             'theme': course.theme,
             'uploadedBy': course.uploadedBy.username,
             'color': course.color,
-            'file': course.uploaded_file.name,
+            'file': os.path.basename(course.filePath),
             # 'text': course.text,
         }
         result.append(course_info)
@@ -394,20 +341,11 @@ def get_courses_by_group(request, group_id: uuidLib.UUID):
             'theme': course.theme,
             'uploaded_by': course.uploaded_by.username,
             'color': course.color,
-            'file': course.uploaded_file.name,
+            'file': os.path.basename(course.filePath),
             # 'text': course.text,
         }
         result.append(course_info)
     return result
-
-
-
-
-
-
-
-
-
 
 
 class UpdateCourse(Schema):
@@ -418,7 +356,7 @@ class UpdateCourse(Schema):
 
 
 @router.put("/put/{uuid}")
-def update_meta_data_from_course(request, uuid,  courseInfo: UpdateCourse):
+def update_meta_data_from_course(request, uuid, courseInfo: UpdateCourse):
     """update the course metadata : name, theme, color"""
     course = get_object_or_404(models.Course, uuid=uuid)
     print(courseInfo)
@@ -430,25 +368,12 @@ def update_meta_data_from_course(request, uuid,  courseInfo: UpdateCourse):
     course.save()
 
     return {
-        'uuid': course.uuid, 
-        'subject': course.subject, 
+        'uuid': course.uuid,
+        'subject': course.subject,
         'name': course.name,
         'description': course.description,
         # 'color': course.color
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 class UpdateCourseFile(Schema):
@@ -456,6 +381,7 @@ class UpdateCourseFile(Schema):
 
 
 @router.put("/update-course-file")
+# TODO : modify the file
 def update_course_file(request, body: UpdateCourseFile, file: UploadedFile = File(...)):
     """update the course file"""
     course = get_object_or_404(models.Course, uuid=body.uuid)
@@ -469,6 +395,7 @@ def update_course_file(request, body: UpdateCourseFile, file: UploadedFile = Fil
 
 @router.delete("/course/{uuid}")
 def delete_data(request, uuid: str):
+    # TODO : delete the file
     course = models.Course.objects.get(uuid=uuid)
     course.delete()
     return {'uuid': uuid}
@@ -486,3 +413,11 @@ def update_course_text(request, body: UpdateCourseText):
     course.text = body.text
     course.save()
     return {'uuid': course.uuid, 'text': course.text}
+
+
+
+@router.get("/course/{uuid}/rawtext")
+def get_rawtext(request, uuid: uuidLib.UUID):
+    course = get_object_or_404(models.Course, uuid=uuid)
+    return {'uuid': course.uuid, 'text': course.text}
+

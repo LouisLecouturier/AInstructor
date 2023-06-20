@@ -34,9 +34,9 @@ function checkUUIDExistence(toto: any[], popo:any[]) {
 
 const Table: FC<TableProps> = (props) => {
   const [selectedRows, setSelectedRows] = useState<boolean[]>(
-    props.selectedRows !== undefined 
-    ? checkUUIDExistence(props.selectedRows, props.data)
-    : Array(props.data.length).fill(false)
+    props.selectedRows !== undefined
+      ? checkUUIDExistence(props.selectedRows, props.data)
+      : Array(props.data.length).fill(false)
   );
 
 
@@ -52,8 +52,8 @@ const Table: FC<TableProps> = (props) => {
     });
     return filteredData;
   }
-  
-  
+
+
 
 
 
@@ -93,84 +93,84 @@ const Table: FC<TableProps> = (props) => {
       </header>
       <table className={props.className}>
         <thead>
-          <tr className={"border-b-2 border-accent-200"}>
-            {props.selectable && <th className={clsx("text-start px-4 py-2")}></th>}
-            {props.ordered && <th className={clsx("text-start px-4 py-2")}>#</th>}
-            {props.columns.map((column, index) => (
-              <th
-                key={column.key + index}
-                className={clsx("text-start px-4 py-2")}
-              >
-                {column.label}
-              </th>
-            ))}
-          </tr>
+        <tr className={"border-b-2 border-accent-200"}>
+          {props.selectable && <th className={clsx("text-start px-4 py-2")}></th>}
+          {props.ordered && <th className={clsx("text-start px-4 py-2")}>#</th>}
+          {props.columns.map((column, index) => (
+            <th
+              key={column.key + index}
+              className={clsx("text-start px-4 py-2")}
+            >
+              {column.label}
+            </th>
+          ))}
+        </tr>
         </thead>
         <tbody>
-          {props.data.map((row, index) => {
+        {props.data.map((row, index) => {
 
 
-            return (
-              <tr
-                key={index}
-                className={clsx(
-                  "h-8 font-medium",
-                  (index + 1) % 2 === 0 && "bg-accent-50"
-                )}
-              >
-                {props.selectable && (
-                  <td
-                    className={clsx(
-                      "px-4 py-2",
-                      "text-dark-200/50",
-                      "border-r-2 border-dark-500/5 last:border-none"
-                    )}
-                  >
-                    <input
+          return (
+            <tr
+              key={index}
+              className={clsx(
+                "h-8 font-medium",
+                (index + 1) % 2 === 0 && "bg-accent-50"
+              )}
+            >
+              {props.selectable && (
+                <td
+                  className={clsx(
+                    "px-4 py-2",
+                    "text-dark-200/50",
+                    "border-r-2 border-dark-500/5 last:border-none"
+                  )}
+                >
+                  <input
                     checked={selectedRows[index]}
                     onChange={() => {setSelectedRows(selectedRows.map((value, i) => i === index ? !value : value))}}
-                      type="checkbox"
-                    />
-                  </td>
-                )}
-                {props.ordered && (
-                  <td
-                    className={clsx(
-                      "px-4 py-2",
-                      "text-dark-200/50",
-                      "border-r-2 border-dark-500/5 last:border-none"
-                    )}
-                  >
-                    {index + 1}
-                  </td>
-                )}
-                {props.columns.map((column, index) => (
-                  <td
-                    key={column.key + index}
-                    className={clsx(
-                      "px-4 py-2",
-                      props.firstIsKey && "first:text-dark-200/50",
-                      "border-r-2 border-dark-500/5 last:border-none"
-                    )}
-                  >
-                    {String(row[column.key])}
-                  </td>
-                ))}
+                    type="checkbox"
+                  />
+                </td>
+              )}
+              {props.ordered && (
+                <td
+                  className={clsx(
+                    "px-4 py-2",
+                    "text-dark-200/50",
+                    "border-r-2 border-dark-500/5 last:border-none"
+                  )}
+                >
+                  {index + 1}
+                </td>
+              )}
+              {props.columns.map((column, index) => (
+                <td
+                  key={column.key + index}
+                  className={clsx(
+                    "px-4 py-2",
+                    props.firstIsKey && "first:text-dark-200/50",
+                    "border-r-2 border-dark-500/5 last:border-none"
+                  )}
+                >
+                  {String(row[column.key])}
+                </td>
+              ))}
 
-                {props.actions?.length !== 0 && (
-                  <td
-                    className={clsx(
-                      "px-4 py-2",
-                      "border-r-2 border-dark-500/5 last:border-none",
-                      "flex items-center justify-center"
-                    )}
-                  >
-                    <Options className="h-6 w-4 text-dark-500" />
-                  </td>
-                )}
-              </tr>
-            );
-          })}
+              {props.actions?.length !== 0 && (
+                <td
+                  className={clsx(
+                    "px-4 py-2",
+                    "border-r-2 border-dark-500/5 last:border-none",
+                    "flex items-center justify-center"
+                  )}
+                >
+                  <Options className="h-6 w-4 text-dark-500" />
+                </td>
+              )}
+            </tr>
+          );
+        })}
         </tbody>
       </table>
 

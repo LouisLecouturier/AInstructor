@@ -9,9 +9,9 @@ import FileInput from "@components/Interactions/Forms/FileInput";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import { newCourse, updateCourse } from "@/requests/courses";
+import { newCourse, updateCourse } from "@requests/course";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Course } from "@/types/team";
+import { Course } from "@/types/course";
 
 import Cards from "@icons/Cards.svg";
 import clsx from "clsx";
@@ -81,7 +81,7 @@ const Create = () => {
 
   return (
     <div>
-      <Header>Create a new course</Header>
+      <Header title={"Create a new course"} />
 
       <div className={"flex flex-col gap-8"}>
         <Container
@@ -105,7 +105,10 @@ const Create = () => {
                 <span className={"font-semibold text-sm"}>{nameFile}</span>
                 <div
                   style={{ width: String(loadingPourcentage) + "%" }}
-                  className={clsx("h-1 rounded transition", loadingPourcentage == 100 ? "bg-green-500" : "bg-accent-500")}
+                  className={clsx(
+                    "h-1 rounded transition",
+                    loadingPourcentage == 100 ? "bg-green-500" : "bg-accent-500"
+                  )}
                 />
               </div>
 

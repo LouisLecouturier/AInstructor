@@ -93,6 +93,10 @@ DATABASES = {
     }
 }
 
+# Medias
+MEDIA_ROOT = BASE_DIR / 'storage'
+MEDIA_URL = '/storage/'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

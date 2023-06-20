@@ -1,14 +1,14 @@
-"use client"
+"use client";
 import React from "react";
 import ListItem from "@components/layout/ListItem";
 
 import Header from "@components/dashboard/Layout/Header";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCourses } from "@/requests/courses";
+import { fetchCourses } from "@requests/course";
 
 type Course = {
-  uuid : string;
+  uuid: string;
   name: string;
   creationDate: string;
   deliveryDate: string;
@@ -16,22 +16,20 @@ type Course = {
   status: "pending" | "in-progress" | "done";
 };
 
-
 const MyCourses = () => {
-  const { data : session } = useSession();
+  const { data: session } = useSession();
   const token = session?.user.accessToken;
   const id = session?.user.id;
-
 
   const { data, isLoading, isError } = useQuery<Course[]>({
     queryKey: ["courses", id],
     queryFn: () => fetchCourses(String(token), String(id)),
-    enabled: (token || id ) === undefined ? false : true,
+    enabled: (token || id) !== undefined,
   });
 
-  if (isLoading || isError) { return <div>Loading...</div>;}
-    
-
+  if (isLoading || isError) {
+    return <div>Loading...</div>;
+  }
 
   // Group courses by team
   const sections = data.reduce((acc, course) => {
@@ -46,10 +44,9 @@ const MyCourses = () => {
     return acc;
   }, new Map());
 
-
   return (
     <div>
-      <Header>My courses</Header>
+      <Header title={"My courses"}/>
 
       <main>
         <div className={"flex flex-col gap-6"}>
@@ -68,8 +65,7 @@ const MyCourses = () => {
 
                   return (
                     <ListItem
-                      href={"/dashboard/students/courses/"}
-                      query={course.uuid}
+                      href={`/dashboard/students/courses/${course.uuid}`}
                       status={course.status}
                       key={course.name}
                       properties={properties}
@@ -83,7 +79,6 @@ const MyCourses = () => {
           })}
         </div>
       </main>
-
     </div>
   );
 };

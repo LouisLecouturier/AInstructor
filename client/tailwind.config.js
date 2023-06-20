@@ -105,7 +105,6 @@ module.exports = {
         full: "9999px",
       },
 
-
       boxShadow: {
         sm: "0 0 10px 0px rgba(0, 0, 0, 0.05)",
         md: "0 0 20px 5px rgba(0, 0, 0, 0.05)",

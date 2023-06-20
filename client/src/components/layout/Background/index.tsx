@@ -11,6 +11,18 @@ type BackgroundProps = {
   rounded?: boolean;
 };
 
+const Shapes = () => {
+  return (
+    <Image
+      src={background}
+      alt={"background"}
+      className={
+        "absolute inset-0 w-full h-full pointer-events-none object-cover"
+      }
+    />
+  );
+};
+
 const Background: FC<BackgroundProps> = (props) => {
   return (
     <div
@@ -20,14 +32,7 @@ const Background: FC<BackgroundProps> = (props) => {
         props.className
       )}
     >
-      <Image
-        src={background}
-        alt={"background"}
-        priority={true}
-        className={
-          "absolute inset-0 w-full h-full pointer-events-none object-cover"
-        }
-      />
+      <Shapes />
       <div
         className={clsx(
           "relative min-h-full h-full min-w-full",

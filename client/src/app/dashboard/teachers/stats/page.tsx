@@ -1,88 +1,54 @@
-"use client";
+import React from "react";
+import Link from "next/link";
+import CubeTeams from "@/components/dashboard/Teachers/Stats";
+import Header from "@/components/dashboard/Layout/Header";
+import Container from "@/components/layout/Container";
 
-import { Bar, Line, Doughnut, Pie } from "react-chartjs-2";
-import { CategoryScale } from "chart.js";
-import { Chart as ChartJS } from "chart.js/auto";
+const teams = [
+  {
+    id: 1,
+    name: "Groupe 1",
+    score: 12,
+    moy: 50,
+    effectif: 12,
+  },
+  {
+    id: 2,
+    name: "Groupe 2",
+    score: 52,
+    moy: 32,
+    effectif: 12,
+  },
+  {
+    id: 3,
+    name: "Groupe 3",
+    score: 69,
+    moy: 10,
+    effectif: 12,
+  },
+];
 
-const data = {
-  labels: [
-    "Maths",
-    "English",
-    "French",
-    "History",
-    "Geography",
-    "Physics",
-    "Chemistry",
-  ],
-  datasets: [
-    {
-      label: "Average",
-      data: [12, 19, 3, 5, 2, 3, 15],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.7)",
-        "rgba(255, 159, 64, 0.7)",
-        "rgba(255, 205, 86, 0.7)",
-        "rgba(75, 192, 192, 0.7)",
-        "rgba(54, 162, 235, 0.7)",
-        "rgba(153, 102, 255, 0.7)",
-        "rgba(201, 203, 207, 0.7)",
-      ],
-      borderColor: [
-        "rgb(255, 99, 132)",
-        "rgb(255, 159, 64)",
-        "rgb(255, 205, 86)",
-        "rgb(75, 192, 192)",
-        "rgb(54, 162, 235)",
-        "rgb(153, 102, 255)",
-        "rgb(201, 203, 207)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
-
-const options = {
-  maintainAspectRatio: false,
-  lineTension: 0.3,
-};
-
-const data2 = {
-  labels: ["IQ Nico", "IQ Antoine", "IQ Louis", "IQ Maël", "IQ Jules"],
-  datasets: [
-    {
-      label: "IQ AInstructor",
-      /* IQ */
-      data: [90, 80, 70, 100, 120],
-      backgroundColor: [
-        "rgb(255, 99, 132)",
-        "rgb(54, 162, 235)",
-        "rgb(255, 205, 86)",
-        "rgb(75, 192, 192)",
-        "rgb(153, 102, 255)",
-      ],
-      hoverOffset: 4,
-    },
-  ],
-};
-
-ChartJS.register(CategoryScale);
-
-const Stats = () => {
+export default function Teams() {
   return (
-    <>
-      <header>
-        <h1 className={"flex items-center h-16 text-5xl font-black"}>Stats</h1>
-      </header>
-      <div className="w-96 h-96 flex gap-40">
-        <Bar data={data} options={options} />
-        <Doughnut data={data2} />
+    <div className="flex flex-col gap-5">
+      <Header>Stats</Header>
+      <div className="flex flex-col gap-10">
+        <Container title="My teams">
+          <div className="flex gap-8 ">
+            {teams.map((teams) => (
+              <CubeTeams uuid={teams.id} key={teams.name} name={teams.name} />
+            ))}
+          </div>
+          <Link
+            className="rounded-xl w-1/3 h-15 "
+            href={`/dashboard/teachers/stats/teams/myteams`}
+          >
+            <div className="flex flex-col gap-5 p-4 py-3 bg-white rounded-xl font-bold text-accent-500 text-xl text-center border-2 border-dark-50 hover:border-accent-300 transition">
+              Accéder à toutes mes stats de team
+            </div>
+          </Link>
+        </Container>
       </div>
-      <div className="flex gap-40 w-96 h-96 ">
-        <Line data={data} options={options} />
-        <Pie data={data} />
-      </div>
-    </>
+    </div>
   );
-};
-
-export default Stats;
+}

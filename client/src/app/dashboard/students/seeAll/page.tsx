@@ -1,6 +1,7 @@
 import Header from "@/components/dashboard/Layout/Header";
 import React from "react";
 import QuestionCube from "@/components/dashboard/Courses";
+import Container from "@/components/layout/Container";
 
 const courses = [
   {
@@ -50,18 +51,20 @@ export default function seeAll() {
       <Header className={"flex items-center h-16 text-4xl font-black"}>
         All my courses
       </Header>
-      <div className="flex flex-wrap gap-8">
-        {courses.map((course, index) => (
-          <QuestionCube
-            key={course.course}
-            index={index}
-            course={course.course}
-            date={course.date}
-            progress={progress[index].progress}
-            // image={course.image}
-          />
-        ))}
-      </div>
+      <Container>
+        <div className="flex flex-wrap gap-8">
+          {courses.map((course, index) => (
+            <QuestionCube
+              key={course.course}
+              index={index}
+              course={course.course}
+              date={course.date}
+              progress={progress[index].progress}
+              // image={course.image}
+            />
+          ))}
+        </div>
+      </Container>
     </div>
   );
 }

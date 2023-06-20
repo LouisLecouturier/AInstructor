@@ -10,11 +10,10 @@ import Container from "@components/layout/Container";
 import { Button } from "@components/Interactions/Button";
 
 import Stars from "@icons/Stars.svg";
-import Question from "@components/dashboard/Questions/Question";
+import QuestionElement from "@components/dashboard/Questions/Question";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import { getCourseText } from "@/requests/courses";
-import { data } from "autoprefixer";
+import { getCourseText } from "@requests/course";
 
 const config = {
   h1: ({ ...props }) => (
@@ -46,7 +45,7 @@ const Questions = () => {
   return (
     <div className={"flex flex-col gap-4"}>
       {q.map((_, i) => (
-        <Question
+        <QuestionElement
           key={i}
           isLoading={i === 0}
           feedback={i === 1 ? undefined : i === 2 ? "correct" : "incorrect"}
@@ -85,10 +84,6 @@ console.log(course)
 
   return (
     <div>
-      {/* <CourseHeader
-        title={"Preview"}
-        teacher={"This is what your students will see"}
-      /> */}
       <CourseHeader
         title={course.name}
         teacher={course.teacher}

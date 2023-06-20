@@ -5,21 +5,6 @@ import Header from "@components/dashboard/Layout/Header";
 import Container from "@components/layout/Container";
 import Table from "@components/dashboard/Table";
 
-const questions = [
-  {
-    id: 1,
-    question: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-  },
-  {
-    id: 2,
-    question: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-  },
-  {
-    id: 3,
-    question: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-  },
-];
-
 const columns = [
   { key: "id", label: "Id" },
   { key: "name", label: "Name" },
@@ -53,7 +38,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <Header>Dashboard</Header>
+      <Header title={"Dashboard"}/>
       <div className="flex flex-col gap-4 my-20px">
         <Container>
           <Table columns={columns} data={TableData} firstIsKey />
