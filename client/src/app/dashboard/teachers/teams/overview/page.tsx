@@ -37,7 +37,7 @@ export default function TeamOverview({
   const { data, isLoading, isError } = useQuery<Team>({
     queryKey: ["team", uuid],
     queryFn: () => fetchTeam(String(token), searchParams.id),
-    enabled: [token, uuid].includes(undefined),
+    enabled: !!token && !!uuid,
   });
 
   const mutation = useMutation({
