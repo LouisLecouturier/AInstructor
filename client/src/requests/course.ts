@@ -10,8 +10,7 @@ export const fetchCourses = async (token: string, user_id: string) => {
       },
     }
   );
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const updateCourse = async (token: string, course: Course) => {
@@ -27,8 +26,7 @@ export const updateCourse = async (token: string, course: Course) => {
       body: JSON.stringify(courseExceptUUID),
     }
   );
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const deleteCourse = async (uuid: string, token: string) => {
@@ -93,8 +91,7 @@ export const getCourses = async (token: string, user_id: string) => {
       },
     }
   );
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const updateCourseTeams = async (
