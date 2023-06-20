@@ -136,7 +136,7 @@ const QuestionElement: FC<QuestionProps> = (props) => {
           Your answer :
         </label>
         <Input
-          name={"question"}
+          name={props.uuid}
           placeholder={"Write your answer..."}
           textarea
           borders

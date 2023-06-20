@@ -113,8 +113,7 @@ export const updateCourseTeams = async (
       body: JSON.stringify(teamsUUID),
     }
   );
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const getCourse = async (uuid: string, token: string) => {
@@ -126,7 +125,5 @@ export const getCourse = async (uuid: string, token: string) => {
       },
     }
   );
-  const data = await response.json();
-  console.log("getCourse", data);
-  return data;
+  return await response.json();
 };

@@ -49,10 +49,9 @@ const Questions = () => {
           key={i}
           isLoading={i === 0}
           feedback={i === 1 ? undefined : i === 2 ? "correct" : "incorrect"}
-          uuid={i + 1}
+          uuid={String(i + 1)}
           questionNumber={i + 1}
-          title={"Hey I'm a nice question"}
-          description={"answer me and you'll get a good grade !"}
+          statement={"answer me and you'll get a good grade !"}
           type={"text"}
         />
       ))}
