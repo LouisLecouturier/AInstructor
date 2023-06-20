@@ -97,7 +97,11 @@ export const updateTeam = async (uuid : string, team : Omit<Team, "users"|"uuid"
       "Content-Type": "application/json",
       authorization : `bearer ${token}`
     },
-    body: JSON.stringify({team}),
+    body: JSON.stringify({
+      name : team.name,
+      description : team.description,
+      color : team.color
+    }),
   });
 
   const responseData = await response.json();

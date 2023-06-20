@@ -108,23 +108,26 @@ def overview(request, uuid: uuidLib.UUID):
 
 
 class removeUser(Schema):
-    id: list[int]
+    emails: list[str]
 
 @router.post("/{uuid}/remove-users")
 def removeUser(request, body: removeUser, uuid: uuidLib.UUID):
     error = ""
-    for id in body.id:
-        user = get_object_or_404(models.CustomUser, id=id)
+    for email in body.emails:
+        user = get_object_or_404(models.CustomUser, email=email)
         team = get_object_or_404(models.Team, uuid=uuid)
         if user == team.owner:
             error = "You can't remove the owner of the team"
         else:
             team.users.remove(user)
+
+
+    print(error)
     return JsonResponse({'error': error, "message": "User(s) removed"})
 
 
 class addUser(Schema):
-    users_email: list[str]
+    emails: list[str]
 
 
 @router.post('/{uuid}/add-users')
@@ -132,13 +135,15 @@ def addUser(request, body: addUser, uuid: uuidLib.UUID):
     request = json.loads(request.body.decode('utf-8'))
     error = False
 
-    for email in body.users_email:
+    for email in body.emails:
         try:
             user = get_object_or_404(models.CustomUser, email=email)
             team = get_object_or_404(models.Team, uuid=uuid)
-            team.users.add(user, clear=False)
+            team.users.add(user)
         except:
             error = True
+
+    print(error)
 
     return JsonResponse({'error': error})
 

@@ -45,13 +45,16 @@ def create_course(request, user_id: int, file: UploadedFile = File(...)):
     # chemin avec l'extension changée en .md
     absolute_file_path_md = absolute_file_path.with_suffix('.md')
     absolute_file_path_txt = absolute_file_path.with_suffix('.txt')
+    print('test')
 
     if (".pdf", ".docx", ".doc").count(file_extension) == 0:
         print('Unsupported file format.')
+        print("AAHAHAHAHAHAHAHAHAH")
         return HttpResponse("Invalid file format", status=400)
 
     if file_extension == ".pdf":
         text_content = ""
+        print("PDF file detected.")
         # Open the pdf file in read binary mode.
         with pdfplumber.open(file) as pdf:
             for page in pdf.pages:
@@ -64,6 +67,7 @@ def create_course(request, user_id: int, file: UploadedFile = File(...)):
 
         temp_file_path = tempfile.mktemp(suffix='.md')
         pypandoc.convert_text(text_content, 'md', format='plain', outputfile=temp_file_path, extra_args=['--preserve-tabs'])
+        print("File content read.")
         md_file = ContentFile(open(temp_file_path, 'rb').read())
         default_storage.save(storage_path.with_suffix('.md'), md_file)
 
@@ -74,6 +78,9 @@ def create_course(request, user_id: int, file: UploadedFile = File(...)):
                               outputfile=absolute_file_path_md, extra_args=['--preserve-tabs'])
         pypandoc.convert_file(absolute_file_path, 'plain',
                               outputfile=absolute_file_path_txt, extra_args=['--preserve-tabs'])
+
+
+    print("File saved")
 
     course = models.Course.objects.create(
         name=file.name,

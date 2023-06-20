@@ -205,7 +205,7 @@ def create_user_statistics(sender, instance, **kwargs):
     try:
         team_stat = TeamStatistiques.objects.get(team=team, course=course)
     except TeamStatistiques.DoesNotExist:
-        team_stat = TeamStatistiques.objects.create(team=team, course=course)<<<<<<< Back-End_mael
+        team_stat = TeamStatistiques.objects.create(team=team, course=course)
     
     team_stat.mean = UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).aggregate(Avg('score'))['score__avg']
     team_stat.min = UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).aggregate(Min('score'))['score__min']
