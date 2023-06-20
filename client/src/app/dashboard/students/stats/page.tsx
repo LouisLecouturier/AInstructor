@@ -1,8 +1,8 @@
 import React from "react";
-import CubeCourses from "@/components/dashboard/Students/Stats";
+import CubeCourses from "@components/dashboard/Students/Stats";
 import Link from "next/link";
-import Header from "@/components/dashboard/Layout/Header";
-import Container from "@/components/layout/Container";
+import Header from "@components/dashboard/Layout/Header";
+import Container from "@components/layout/Container";
 
 const courses = [
   {
@@ -33,8 +33,9 @@ const courses = [
 
 const Stats = () => {
   return (
+    <>
+      <Header title={"My stats"} />;
     <div className="flex flex-col gap-5">
-      <Header>Stats</Header>
       <div className="flex flex-col gap-20">
         <Container>
           <div className="flex gap-8 ">
@@ -57,6 +58,7 @@ const Stats = () => {
         </Container>
       </div>
     </div>
+  </>
   );
 };
 

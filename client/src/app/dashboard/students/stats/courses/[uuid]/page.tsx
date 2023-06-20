@@ -120,7 +120,7 @@ const data4 = {
 export default function coursesStats() {
   return (
     <div className="flex flex-col gap-5">
-      <Header>Stats</Header>
+      <Header title={"Stats"}/>
       <div className="flex gap-10 items-center">
         <div className="flex flex-col gap-5">
           <div className="w-96 h-96">

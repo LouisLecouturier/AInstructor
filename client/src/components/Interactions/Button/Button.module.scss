@@ -1,8 +1,8 @@
 .magic-button {
   background-image: radial-gradient(
-                  circle at bottom,
-                  theme("colors.accent.300") 0%,
-                  theme("colors.accent.700") 100%
+    circle at bottom,
+    theme("colors.accent.300") 0%,
+    theme("colors.accent.700") 100%
   );
   background-size: 200% 100%;
   background-position: right;
@@ -10,6 +10,5 @@
 
   &:hover {
     background-position: left;
-
   }
 }

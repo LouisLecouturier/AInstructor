@@ -111,7 +111,7 @@ def get_token(request, body: Login):
             "refreshToken": user.refreshToken,
             "message": "Authentification successfull",
         }
-  
+
 
 class CreateUser(Schema):
     email: str = Field(...)

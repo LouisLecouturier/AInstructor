@@ -28,12 +28,12 @@ const StudentNavigation = () => {
         label={"My teams"}
         link={"/dashboard/students/teams"}
       />
-      {/* <NavigationElement
+      <NavigationElement
 
         icon={<Upload />}
         label={"Upload"}
         link={"/dashboard/students/upload"}
-      /> */}
+      />
       <NavigationElement
 
         icon={<Stats />}

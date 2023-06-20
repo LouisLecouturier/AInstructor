@@ -1,8 +1,5 @@
 "use client";
 
-
-
-import Avatar from "@icons/Avatar.svg";
 import Logout from "@icons/Logout.svg";
 import { signOut, useSession } from "next-auth/react";
 
@@ -12,11 +9,10 @@ import NavigationElement from "@components/dashboard/Navigation/NavigationElemen
 import StudentNavigation from "@components/dashboard/Navigation/StudentNavigation";
 import UserInfo from "../../layout/User/Userinfo";
 
-
 interface Students {
   Homeworks: string;
   Teams: string;
-  // Import: string;
+  Import: string;
   Stats: string;
   Settings: string;
 }
@@ -31,7 +27,7 @@ interface Teachers {
 const Students: Students = {
   Homeworks: "",
   Teams: "",
-  // Import: "",
+  Import: "",
   Stats: "",
   Settings: "",
 };
@@ -44,12 +40,11 @@ const Teachers: Teachers = {
 };
 
 export default function DashboardNavigation() {
+  const { data: session } = useSession();
 
-  const { data : session } = useSession()
-
-  const lastname = session?.user.last_name
-  const firstname = session?.user.first_name
-
+  const lastname = session?.user.last_name;
+  const firstname = session?.user.first_name;
+  const isTeacher = session?.user.isTeacher;
 
   return (
     <div className={clsx("flex flex-col justify-between", "w-64 relative")}>
@@ -61,16 +56,10 @@ export default function DashboardNavigation() {
           "w-full h-full py-12 px-4"
         )}
       >
-        <div className="flex gap-5">
-          <Avatar className="w-16 h-16 rounded-full"/>
-
-          <div className="h-full flex justify-center flex-col">
-            <span className="text-dark-500 text-lg font-bold">
-              {firstname + " " + lastname}
-            </span>
-            <span className="text-dark-500 italic text-sm">{session?.user.isTeacher ? "Teacher" : "Student"}</span>
-          </div>
-        </div>
+        <UserInfo
+          name={`${firstname} ${lastname}`}
+          type={isTeacher ? "Teacher" : "Student"}
+        />
 
         <div className="flex flex-col gap-4">
           {session?.user.isTeacher ? (

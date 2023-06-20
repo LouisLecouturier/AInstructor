@@ -4,7 +4,9 @@ from app import models
 import uuid as uuidLib
 from typing import List
 from pydantic import Field
-
+import datetime
+from django.db.models import Count, Sum, Avg, Min, Max
+import random
 
 router = Router(tags=["answer"])
 
@@ -14,7 +16,7 @@ class Answer(Schema):
     question_uuid: uuidLib.UUID = Field(...)
     answer: str = Field(...)
 
-
+#utliser answer-quizz pour repondre a toutes les questions d'un quizz
 @router.post("/create")
 def answer_a_question(request, body: Answer):
     token = request.headers.get('Authorization')
@@ -25,8 +27,8 @@ def answer_a_question(request, body: Answer):
     if user and question:
         answer = models.Answer.objects.create(user=user)
         answer.question = question
-        answer.save()
         answer.givenAnswer = body.answer
+        answer.save()
         return {'message': "successfully created the answer", "uuid": answer.uuid, "question": question.uuid, "user": user.id}
     else:
         return {'message': "user or question does not exist"}
@@ -45,18 +47,48 @@ def answer_all_questions(request, body: AnswerList):
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
+    try:
+
+        teams = user.team_set.all()
+    except ObjectDoesNotExist:
+        return {'message': "user is not in a team"}
     quizz = get_object_or_404(models.Quizz, uuid=body.quizz)
     if user and quizz:
-        for user_answer in body.answer:
-            question = get_object_or_404(models.Question, uuid=user_answer.question_uuid)
-            if question:
+        for i in body.answer:
+            question = get_object_or_404(models.Question, uuid=i.question_uuid)
+            if question:    
+                try:
+                    answer = models.Answer.objects.get(user=user, question=question)
+                    return {'message': "user has already answered the question"}
+                except ObjectDoesNotExist:
+                    pass
                 answer = models.Answer.objects.create(user=user)
                 answer.question = question
-                answer.givenAnswer = user_answer.answer
+                answer.givenAnswer = i.answer
+                answer.isCorrect = random.choice([True, False])
+                #call the ai correction function
+                # response = AIcorrection(question, i.answer) 
+                #answer.isCorrect = response[0]
+                #answer.correctedAnswer = response[1]
+                #penser à return les reponses de l'IA
+                random 
                 answer.save()
             else:
                 return {'message': " one of the question does not exist"}
-        return {'message': "successfully created the answer", "uuid": answer.uuid, "question": question.uuid, "user": user.id}
+        #check if the quizz is already answered
+        try:
+            user_quizz_result = models.UserQuizzResult.objects.get(user=user, quizz=quizz)
+            return {'message': "user has already answered the quizz"}
+        except ObjectDoesNotExist:
+            pass
+
+        
+        user_quizz_result = models.UserQuizzResult.objects.create(user=user, quizz=quizz)
+        score = models.Answer.objects.filter(user=user, question__quizz=quizz, isCorrect=True).count()
+        user_quizz_result.score = models.Answer.objects.filter(user=user, question__quizz=quizz, isCorrect=True).count()
+        user_quizz_result.save()
+
+        return {'message': "successfully answered the quizz","score" : user_quizz_result.score, "quizz": quizz.uuid, "user": user.id}
     else:
         return {'message': "user or quizz does not exist"}
 
@@ -76,8 +108,8 @@ def get_answers_to_one_quiz_for_one_user(request, quiz_uuid: uuidLib.UUID):
         return {'message': "user or quiz does not exist"}
     answer_dict = {}
     for answer in answers:
-       associatedQuestion = get_object_or_404(models.Question, uuid=answer.question.uuid)
-       if associatedQuestion:
+        associatedQuestion = get_object_or_404(models.Question, uuid=answer.question.uuid)
+    if associatedQuestion:
             answer_dict[str(answer.uuid)] = str(associatedQuestion.uuid)
     return {'message': "successfully got the answers", "format" : "answer_uuid : question_uuid","answers": answer_dict}
 
@@ -118,3 +150,29 @@ def get_answer_to_one_question_by_id(request, uuid_answer: uuidLib.UUID):
     answer = get_object_or_404(models.Answer, uuid=uuid_answer)
     return {"message": "successfully got the answer", "answer": answer.givenAnswer, "answer_uuid": answer.uuid, "question_uuid": answer.question.uuid, "is_correct": answer.is_correct, "aiCorrection": answer.aiCorrection, "user" : answer.user.uuid}
     
+class newAnswer(Schema):    
+    answer: str = Field(...)
+
+@router.put("/{uuid_answer}/update")
+def update_answer(request, uuid_answer: uuidLib.UUID, new_answer : newAnswer):
+    answer = get_object_or_404(models.Answer, uuid=uuid_answer)
+    answer.givenAnswer = new_answer.answer
+    answer.save()
+    return {"message": "successfully updated the answer", "answer": answer.givenAnswer, "answer_uuid": answer.uuid, "question_uuid": answer.question.uuid}
+
+
+@router.delete("/{uuid_answer}/delete")
+def delete_answer(request, uuid_answer: uuidLib.UUID):
+    answer = get_object_or_404(models.Answer, uuid=uuid_answer)
+    answer.delete()
+    return {"message": "successfully deleted the answer", "answer_uuid": uuid_answer}
+
+
+
+
+# #debug purpose : delete all answers
+# @router.delete("/delete/all")
+# def delete_all_answers(request):
+#     models.Answer.objects.all().delete()
+#     models.UserQuizzResult.objects.all().delete()
+#     return {"message": "successfully deleted all answers"}

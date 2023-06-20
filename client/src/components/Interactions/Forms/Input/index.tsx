@@ -14,7 +14,6 @@ type InputProps = {
   textarea?: boolean;
   size?: "sm" | "md" | "lg";
   className?: string;
-  readonly?: boolean;
 };
 
 const sizesClassNames = {
@@ -24,7 +23,6 @@ const sizesClassNames = {
 };
 
 export const Input: FC<InputProps> = (props) => {
-
   if (props.textarea) {
     return (
       <textarea
@@ -41,7 +39,6 @@ export const Input: FC<InputProps> = (props) => {
         placeholder={props.placeholder}
         name={props.name}
         defaultValue={props.defaultValue}
-        readOnly={props.readonly}
       />
     );
   }
@@ -62,8 +59,6 @@ export const Input: FC<InputProps> = (props) => {
       placeholder={props.placeholder}
       name={props.name}
       defaultValue={props.defaultValue}
-      readOnly={props.readonly}
-
     />
   );
 };
