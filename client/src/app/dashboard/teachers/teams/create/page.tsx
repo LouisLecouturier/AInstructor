@@ -1,21 +1,29 @@
 "use client";
 
-import { Button } from "@/components/Interactions/Button";
-import Input from "@/components/Interactions/Forms/Input";
-import TeamMainInformation, {
-  TeamInformations,
-} from "@/components/dashboard/Teams/MainInformation";
+import { TeamInformations } from "@/components/dashboard/Teams/MainInformation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React from "react";
-import newTeam from "./hook";
-import Container from "@components/layout/Container";
+import React, { use } from "react";
+// import newTeam from "./hook";
 import Header from "@components/dashboard/Layout/Header";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createTeam } from "@requests/team";
 
 export default function AddTeam() {
   const { data: session } = useSession();
   const token = String(session?.user.accessToken);
   const router = useRouter();
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (team : {name : string, description : string, color : string}) => createTeam(team, String(token)),
+    onSuccess: () => {
+      router.push("/dashboard/teachers/teams");
+      queryClient.invalidateQueries(["teams"]);
+    }
+  });
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,17 +33,19 @@ export default function AddTeam() {
     const description = formData.get("description") as string;
     const color = formData.get("color") as string;
 
-    const error = await newTeam(name, description, color, token);
+    const team = {
+      name,
+      description,
+      color,
+    } as {name : string, description : string, color : string};
 
-    if (!error){
-      console.log("redirect");
-      router.push("/dashboard/teachers/teams");
-    }
+
+    mutation.mutate(team);
   };
 
   return (
     <>
-      <Header>Create a new team</Header>
+      <Header title={"Create a new team"} />
       <TeamInformations onSubmit={handleSubmit} />
     </>
   );

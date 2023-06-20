@@ -4,42 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Course management Pages + Bg fix + various fixes/changes&#10;&#10;Made add course page, edit course&#10;InputFile component&#10;Label Component&#10;Added Header Action on Container component&#10;Added redirects after login/register&#10;Changed username to email key for api&#10;Added nanoId lib to fix unique key issue&#10;Added @assets path to tsconfig.json&#10;Added underline-primary class">
-      <change afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/images/background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/images/background.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/FileInput/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/Label/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/dashboard/Teachers/QuestionsManager/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/AInstructor/app/migrations/0001_initial.py" afterDir="false" />
+    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Merge from Nicolayyyyyy">
+      <change afterPath="$PROJECT_DIR$/src/app/dashboard/students/stats/courses/[uuid]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/dashboard/students/stats/courses/mystats/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/[uuid]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/myteams/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dashboard/Students/Stats/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dashboard/Teachers/Stats/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/auth/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/login/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/auth/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/register/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/upload/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/upload/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/settings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/settings/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Interactions/Forms/Input/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Interactions/Forms/Input/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Questions/Question/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Questions/Question/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Questions/QuestionEditor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Questions/QuestionEditor/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Table/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Teams/MainInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Teams/MainInformation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Background/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Background/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Container/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Container/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Information/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Information/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/auth/[...nextauth].ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/[...nextauth].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/stats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/stats/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Courses/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Courses/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/requests/course.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/requests/course.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
     </list>
-=======
-    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Fixed Login Redirect" />
->>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,7 +36,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="Front-End" />
+        <entry key="$PROJECT_DIR$/.." value="Front-End-Louis" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -70,7 +49,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2QH84EwRGota6604sy6sGLLZkOj" />
   <component name="ProjectLevelVcsManager">
@@ -83,30 +62,6 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-<<<<<<< HEAD
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Front-End-Louis&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/src/components/dashboard/Navigation/StudentNavigation&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;SCSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/louislecouturier/.nvm/versions/node/v18.14.2/lib/node_modules/prettier&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.updates&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-=======
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
@@ -114,23 +69,24 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Merging app",
+    "js.linters.configure.manually.selectedeslint": "true",
     "last_opened_file_path": "/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/src/components/dashboard/Navigation/StudentNavigation",
     "list.type.of.created.stylesheet": "SCSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.eslint": "/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/node_modules/eslint",
     "node.js.selected.package.standard": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "pnpm",
-    "prettierjs.PrettierConfiguration.Package": "/Users/louislecouturier/.nvm/versions/node/v18.14.2/lib/node_modules/prettier",
+    "prettierjs.PrettierConfiguration.Package": "/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/node_modules/prettier",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.updates",
+    "settings.editor.selected.configurable": "settings.javascript.prettier",
     "ts.external.directory.path": "/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
->>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/dashboard/Navigation/StudentNavigation" />
@@ -138,19 +94,11 @@
       <recent name="$PROJECT_DIR$/src/app/auth/signup" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-<<<<<<< HEAD
-      <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/Edit" />
-      <recent name="$PROJECT_DIR$/src/components/dashboard/Table" />
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src/components/dashboard/Questions" />
-=======
       <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[id]" />
       <recent name="$PROJECT_DIR$/src/app" />
       <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/preview/[id]" />
       <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/Edit" />
       <recent name="$PROJECT_DIR$/src/components/dashboard/Table" />
->>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
     </key>
   </component>
   <component name="RunManager">
@@ -176,10 +124,18 @@
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
+        <item itemvalue="npm.dev" />
+        <item itemvalue="npm.dev" />
       </list>
     </recent_temporary>
   </component>
+  <component name="ShelveChangesManager">
+    <option name="remove_strategy" value="true" />
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="" />
@@ -198,14 +154,17 @@
       <workItem from="1686342266331" duration="4057000" />
       <workItem from="1686657132016" duration="843000" />
       <workItem from="1686660044826" duration="2302000" />
-<<<<<<< HEAD
-=======
       <workItem from="1686676008908" duration="956000" />
       <workItem from="1686733870435" duration="3368000" />
       <workItem from="1686743396911" duration="11179000" />
       <workItem from="1686819311190" duration="8224000" />
       <workItem from="1686835896532" duration="1757000" />
->>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
+      <workItem from="1686922290511" duration="4281000" />
+      <workItem from="1687162799961" duration="653000" />
+      <workItem from="1687166674720" duration="3962000" />
+      <workItem from="1687172299455" duration="597000" />
+      <workItem from="1687172921746" duration="2817000" />
+      <workItem from="1687252882139" duration="920000" />
     </task>
     <task id="LOCAL-00001" summary="Config + landing&#10;&#10;Added Satoshi Font&#10;Added TS paths for icons and components&#10;Started header (not responsive)">
       <created>1685096667428</created>
@@ -291,9 +250,6 @@
       <option name="project" value="LOCAL" />
       <updated>1686559436945</updated>
     </task>
-<<<<<<< HEAD
-    <option name="localTasksCounter" value="13" />
-=======
     <task id="LOCAL-00013" summary="Fixed merge conflicts">
       <created>1686733907790</created>
       <option name="number" value="00013" />
@@ -315,8 +271,35 @@
       <option name="project" value="LOCAL" />
       <updated>1686756391753</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
->>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
+    <task id="LOCAL-00016" summary=".idea">
+      <created>1686922386849</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1686922386849</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Idk why this is unversioned">
+      <created>1686922433024</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1686922433024</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Fixed merge issues ?">
+      <created>1687169001485</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1687169001485</updated>
+    </task>
+    <task id="LOCAL-00019" summary="fixed merge">
+      <created>1687171748833</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1687171748833</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -361,13 +344,14 @@
     <MESSAGE value="Idk too" />
     <MESSAGE value="Updated gitignore" />
     <MESSAGE value="Course management Pages + Bg fix + various fixes/changes&#10;&#10;Made add course page, edit course&#10;InputFile component&#10;Label Component&#10;Added Header Action on Container component&#10;Added redirects after login/register&#10;Changed username to email key for api&#10;Added nanoId lib to fix unique key issue&#10;Added @assets path to tsconfig.json&#10;Added underline-primary class" />
-<<<<<<< HEAD
-    <option name="LAST_COMMIT_MESSAGE" value="Course management Pages + Bg fix + various fixes/changes&#10;&#10;Made add course page, edit course&#10;InputFile component&#10;Label Component&#10;Added Header Action on Container component&#10;Added redirects after login/register&#10;Changed username to email key for api&#10;Added nanoId lib to fix unique key issue&#10;Added @assets path to tsconfig.json&#10;Added underline-primary class" />
-=======
     <MESSAGE value="Fixed merge conflicts" />
     <MESSAGE value="Fixed Login Redirect" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed Login Redirect" />
->>>>>>> 3644213141a2c8eba3455065b2c95fa5f5f9b33d
+    <MESSAGE value=".idea" />
+    <MESSAGE value="Idk why this is unversioned" />
+    <MESSAGE value="Fixed merge issues ?" />
+    <MESSAGE value="fixed merge" />
+    <MESSAGE value="Merge from Nicolayyyyyy" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge from Nicolayyyyyy" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

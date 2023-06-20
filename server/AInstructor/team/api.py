@@ -1,10 +1,12 @@
+import json
+import uuid as uuidLib
+
 import jwt
 from ninja import Router, Schema
-from app import models 
+from app import models
 import json, uuid as uuidLib
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from ninja import Router
 
 from AInstructor import settings
 from app import models
@@ -15,7 +17,6 @@ key = getattr(settings, "SECRET_KEY", None)
 
 @router.get('/')
 def main(request):
-   
     token = request.headers.get('Authorization')
     token = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=token)
@@ -26,34 +27,38 @@ def main(request):
 
     return JsonResponse({'teams': team_data})
 
+
 class TeamSchema(Schema):
     name: str
     color: str
+    description: str
+
 
 @router.post('/')
 def new(request, body: TeamSchema):
     """Create a new team"""
     auth_header = request.headers.get('Authorization')
     token = auth_header.split(' ')[1]
-    content = jwt.decode(token, key, algorithms=['HS256'])
+    user = get_object_or_404(models.CustomUser, accessToken=token)
 
     request = json.loads(request.body.decode('utf-8'))
     message = ""
+    
 
     try:
         user = get_object_or_404(models.CustomUser, accessToken=token)
-        team = models.Team.objects.create(name=body.name, color=body.color, owner=user)
+        team = models.Team.objects.create(name=body.name, color=body.color, description=body.description, owner=user)
         team.users.add(user)
-        massage = "Team created"
+        team.save()
+        message = "Team created"
     except:
-       message = "Error while creating the team"
+        message = "Error while creating the team"
 
     return JsonResponse({'error': message})
 
 
 @router.delete('/{uuid}')
-def delete(request, uuid : uuidLib.UUID):
-
+def delete(request, uuid: uuidLib.UUID):
     try:
         team = get_object_or_404(models.Team, uuid=uuid)
         team.delete()
@@ -68,9 +73,9 @@ class UpdateTeam(Schema):
     color: str
     description: str
 
-@router.put('/{uuid}')
-def update(request, body : UpdateTeam, uuid : uuidLib.UUID):
 
+@router.put('/{uuid}')
+def update(request, body: UpdateTeam, uuid: uuidLib.UUID):
     error = False
     team = get_object_or_404(models.Team, uuid=uuid)
     team.name = body.name
@@ -82,7 +87,7 @@ def update(request, body : UpdateTeam, uuid : uuidLib.UUID):
 
 
 @router.get('/{uuid}')
-def overview(request, uuid : uuidLib.UUID):
+def overview(request, uuid: uuidLib.UUID):
     """Get the overview of a team"""
     team = get_object_or_404(models.Team, uuid=uuid)
     users = team.users.all()
@@ -99,8 +104,7 @@ def overview(request, uuid : uuidLib.UUID):
         'color': team.color,
         'description': team.description,
         'users': users_data
-    }
-    )
+    })
 
 
 class removeUser(Schema):
@@ -110,20 +114,21 @@ class removeUser(Schema):
 def removeUser(request, body: removeUser, uuid: uuidLib.UUID):
     error = ""
     for id in body.id:
-        user  = get_object_or_404(models.CustomUser, id=id)
+        user = get_object_or_404(models.CustomUser, id=id)
         team = get_object_or_404(models.Team, uuid=uuid)
         if user == team.owner:
             error = "You can't remove the owner of the team"
         else:
             team.users.remove(user)
     return JsonResponse({'error': error, "message": "User(s) removed"})
-  
+
 
 class addUser(Schema):
     users_email: list[str]
 
+
 @router.post('/{uuid}/add-users')
-def addUser(request, body: addUser, uuid : uuidLib.UUID):
+def addUser(request, body: addUser, uuid: uuidLib.UUID):
     request = json.loads(request.body.decode('utf-8'))
     error = False
 
@@ -131,13 +136,11 @@ def addUser(request, body: addUser, uuid : uuidLib.UUID):
         try:
             user = get_object_or_404(models.CustomUser, email=email)
             team = get_object_or_404(models.Team, uuid=uuid)
-            team.users.add(user, clear = False)
+            team.users.add(user, clear=False)
         except:
             error = True
 
     return JsonResponse({'error': error})
-
-
 
 
 @router.get("/{uuid}/courses/")

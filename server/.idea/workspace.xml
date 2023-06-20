@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dffe6933-eb4d-499b-858d-ff102e252a9b" name="Changes" comment="Cleared cours folder">
+      <change afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/stats/teams/[uuid]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/stats/teams/myteams/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/dashboard/Teachers/Stats/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/stats/courses/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/stats/courses/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/stats/courses/mystats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/stats/courses/mystats/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/stats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/stats/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/stats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/stats/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Courses/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/dashboard/Courses/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Students/Stats/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/dashboard/Students/Stats/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AInstructor/AInstructor/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/AInstructor/api.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2R68rZVFsF2kOMYUvCG6kzAY2YL" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/PyCharm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
+    ]
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="Server" type="Python.DjangoServer" factoryName="Django server">
+      <module name="server" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="AInstructor.settings" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AInstructor" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="http://127.0.0.1:8000/api/docs" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dffe6933-eb4d-499b-858d-ff102e252a9b" name="Changes" comment="" />
+      <created>1686559372563</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1686559372563</updated>
+      <workItem from="1686559374334" duration="11855000" />
+      <workItem from="1686926467758" duration="10386000" />
+      <workItem from="1687162800322" duration="749000" />
+      <workItem from="1687169143318" duration="2961000" />
+    </task>
+    <task id="LOCAL-00001" summary="Cleared cours folder">
+      <created>1686991900869</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1686991900869</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Cleared cours folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleared cours folder" />
+  </component>
+</project>

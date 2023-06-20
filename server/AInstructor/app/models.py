@@ -9,11 +9,11 @@ from django.core.validators import validate_image_file_extension, RegexValidator
 import os, datetime, uuid as uuidLib
 from django.dispatch import receiver
 from django.shortcuts import get_object_or_404
+
 # Create your models here.
 
 AlphanumericValidator = RegexValidator(r'^[^\';"]*$',
                                        'Only alphanumeric characters are allowed')
-
 
 
 def user_picture_path(instance, filename):
@@ -39,27 +39,28 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
-   
-class Team(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False) 
-    name = models.CharField(max_length=30, validators= [AlphanumericValidator])
-    users = models.ManyToManyField(CustomUser)
-    color = models.CharField(max_length=7, default ="#000000",  blank = True)
-    description = models.CharField(max_length=254, validators= [AlphanumericValidator], default = "description ", null = True,  blank = True)
-    owner = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True, blank=True, related_name='owned_teams')
-    def __str__(self):
-        return self.name
 
     
 def upload_to_course(instance, filename):
     return f'cours/{instance.uuid}/{filename}.md'
 
+class Team(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
+    name = models.CharField(max_length=30, validators=[AlphanumericValidator])
+    users = models.ManyToManyField(CustomUser)
+    color = models.CharField(max_length=7, default="#000000", blank=True)
+    description = models.CharField(max_length=254, validators=[AlphanumericValidator], default="description ",
+                                   null=True, blank=True)
+    owner = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True, blank=True, related_name='owned_teams')
+
+    def __str__(self):
+        return self.name
 
 class Course(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
     name = models.CharField(max_length=127, validators=[AlphanumericValidator], default="New Course", blank=True)
     subject = models.CharField(max_length=127, validators=[AlphanumericValidator], default="Theme", blank=True)
-    uploadedFile = models.FileField(upload_to=upload_to_course, storage=None, max_length=100)
+    filePath = models.TextField(blank=False)
     text = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True, default="desc")
     uploadedBy = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True, blank=True)
@@ -75,20 +76,16 @@ class Course(models.Model):
 
 class TeamStatistiques(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
-    team = models.ForeignKey(Team, on_delete = models.CASCADE)
-    course = models.ForeignKey(Course, on_delete = models.CASCADE)
-    mean = models.SmallIntegerField(default = 0, null= True)
-    median = models.SmallIntegerField(default = 0 , null= True)
-    Variance = models.SmallIntegerField(default = 0, null= True)
-    min = models.SmallIntegerField(default = 0, null= True)
-    max = models.SmallIntegerField(default = 0, null= True)
-
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    mean = models.SmallIntegerField(default=0, null=True)
+    median = models.SmallIntegerField(default=0, null=True)
+    Variance = models.SmallIntegerField(default=0, null=True)
+    min = models.SmallIntegerField(default=0, null=True)
+    max = models.SmallIntegerField(default=0, null=True)
 
     def __str__(self):
         return self.team.name + " " + self.course.name
-
-
-
 
 
 class Quizz(models.Model):
@@ -117,9 +114,7 @@ class UserQuizzResult(models.Model):
 
     def __str__(self):
         return self.user.username + " " + self.quizz.title
-    
-    
-    
+
 
 class UserStatistiques(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
@@ -131,14 +126,14 @@ class UserStatistiques(models.Model):
     mean = models.SmallIntegerField(default =0)
     min = models.SmallIntegerField(default = 0)
     max = models.SmallIntegerField(default = 0)
-
+    
+    def autoincrementNbQuestion(self):
+        nbquiz = UserQuizzResult.objects.filter(user=self.user, quizz=self.course__quizz).count()
+        return nbquiz
 
     def __str__(self):
         return self.user.username + " " + self.course.name
     
-
-
-
 
 class Question(models.Model):
     openQuestion = "QO"
@@ -176,7 +171,6 @@ class Answer(models.Model):
         return self.givenAnswer
 
 
-
 @receiver(post_save, sender=UserQuizzResult)
 def create_user_statistics(sender, instance, **kwargs):
     """create or add to the user and the team statistics when a user submit a quizz"""
@@ -187,14 +181,15 @@ def create_user_statistics(sender, instance, **kwargs):
     #___student part___
     #mean sorted by course
     mean= UserQuizzResult.objects.filter(user=user, quizz__course=course).aggregate(Avg('score'))['score__avg']
+
     min = UserQuizzResult.objects.filter(user=user, quizz__course=course).aggregate(Min('score'))['score__min']
     max = UserQuizzResult.objects.filter(user=user, quizz__course=course).aggregate(Max('score'))['score__max']
     nbQuizz = Quizz.objects.filter(course=course).count()
     nbQuizzDone = UserQuizzResult.objects.filter(user=user, quizz__course=course).count()
     progress = nbQuizzDone / nbQuizz * 100
 
-    try : 
-        user_statistics= UserStatistiques.objects.get(user=user, course=course)
+    try:
+        user_statistics = UserStatistiques.objects.get(user=user, course=course)
 
     except UserStatistiques.DoesNotExist:
         user_statistics = UserStatistiques.objects.create(user=user, course=course)
@@ -205,20 +200,24 @@ def create_user_statistics(sender, instance, **kwargs):
     user_statistics.progress = progress
     user_statistics.save()
 
-    #___team part___
-    team =Team.objects.filter(users=user).first()
-    try :
+    # ___team part___
+    team = Team.objects.filter(users=user).first()
+    try:
         team_stat = TeamStatistiques.objects.get(team=team, course=course)
     except TeamStatistiques.DoesNotExist:
-        team_stat = TeamStatistiques.objects.create(team=team, course=course)
+        team_stat = TeamStatistiques.objects.create(team=team, course=course)<<<<<<< Back-End_mael
     
     team_stat.mean = UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).aggregate(Avg('score'))['score__avg']
     team_stat.min = UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).aggregate(Min('score'))['score__min']
     team_stat.max = UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).aggregate(Max('score'))['score__max']
 
-    medianPlace = UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).aggregate(Count('score'))['score__count'] /2 
+
+    medianPlace = \
+        UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).aggregate(Count('score'))[
+            'score__count'] / 2
     if medianPlace == 0:
         medianPlace += 1
-    team_stat.median = UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).order_by('score')[int(medianPlace)].score
+    team_stat.median = \
+        UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).order_by('score')[
+            int(medianPlace)].score
     team_stat.save()
-

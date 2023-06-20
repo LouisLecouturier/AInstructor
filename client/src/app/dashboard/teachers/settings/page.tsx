@@ -9,7 +9,7 @@ import Information from "@components/layout/Information";
 const Settings = () => {
   return (
     <>
-      <Header>Settings</Header>
+      <Header title={"Settings"} />
       <section className={"flex flex-col gap-8"}>
         <Container title="Personal informations">
           <UserInfo name="Johana Doetek" type="Teacher" />
@@ -62,18 +62,27 @@ const Settings = () => {
                 editable
                 name={"address"}
               />
-              <Information label="Post Code" value="59800" name={"post_code"} editable />
+              <Information
+                label="Post Code"
+                value="59800"
+                name={"post_code"}
+                editable
+              />
             </div>
             <div className={"flex flex-col gap-4 w-full"}>
               <Information label="City" value="Lille" name={"city"} editable />
-              <Information label="Country" value="🇫🇷 France" name={"country"} editable />
+              <Information
+                label="Country"
+                value="🇫🇷 France"
+                name={"country"}
+                editable
+              />
             </div>
           </div>
         </Container>
       </section>
     </>
   );
-
 };
 
 export default Settings;

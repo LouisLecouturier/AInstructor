@@ -1,9 +1,14 @@
+"use client";
 import React from "react";
 import ListItem from "@components/layout/ListItem";
 
 import Header from "@components/dashboard/Layout/Header";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCourses } from "@requests/course";
 
 type Course = {
+  uuid: string;
   name: string;
   creationDate: string;
   deliveryDate: string;
@@ -11,47 +16,23 @@ type Course = {
   status: "pending" | "in-progress" | "done";
 };
 
-const courses: Course[] = [
-  {
-    name: "Homework 1",
-    creationDate: "12/12/2021",
-    deliveryDate: "12/12/2023",
-    team: "English - 4B",
-    status: "pending",
-  },
-  {
-    name: "Homework 2",
-    creationDate: "12/12/2021",
-    deliveryDate: "12/12/2023",
-    team: "English - 4B",
-    status: "in-progress",
-  },
-  {
-    name: "Homework 1",
-    creationDate: "12/12/2021",
-    deliveryDate: "12/12/2023",
-    team: "5g - French",
-    status: "done",
-  },
-  {
-    name: "Conjugation - Present perfect",
-    creationDate: "12/12/2021",
-    deliveryDate: "12/12/2023",
-    team: "Mathematics",
-    status: "done",
-  },
-  {
-    name: "Python - Function",
-    creationDate: "12/12/2021",
-    deliveryDate: "12/12/2023",
-    team: "English - 4B",
-    status: "done",
-  },
-];
-
 const MyCourses = () => {
+  const { data: session } = useSession();
+  const token = session?.user.accessToken;
+  const id = session?.user.id;
+
+  const { data, isLoading, isError } = useQuery<Course[]>({
+    queryKey: ["courses", id],
+    queryFn: () => fetchCourses(String(token), String(id)),
+    enabled: (token || id) !== undefined,
+  });
+
+  if (isLoading || isError) {
+    return <div>Loading...</div>;
+  }
+
   // Group courses by team
-  const sections = courses.reduce((acc, course) => {
+  const sections = data.reduce((acc, course) => {
     const team = course.team;
 
     if (acc.has(team)) {
@@ -63,11 +44,9 @@ const MyCourses = () => {
     return acc;
   }, new Map());
 
-  console.log(sections);
-
   return (
     <div>
-      <Header>My courses</Header>
+      <Header title={"My courses"}/>
 
       <main>
         <div className={"flex flex-col gap-6"}>
@@ -86,7 +65,7 @@ const MyCourses = () => {
 
                   return (
                     <ListItem
-                      href={"/dashboard/students/courses/1"}
+                      href={`/dashboard/students/courses/${course.uuid}`}
                       status={course.status}
                       key={course.name}
                       properties={properties}
@@ -100,7 +79,6 @@ const MyCourses = () => {
           })}
         </div>
       </main>
-
     </div>
   );
 };

@@ -31,16 +31,16 @@ const fetchData = async (
 };
 
 export default function Line({
-  modelFieldLine,
-  modelPrimaryKey,
-  urlDeleteLine,
-}: {
+                               modelFieldLine,
+                               modelPrimaryKey,
+                               urlDeleteLine,
+                             }: {
   modelFieldLine: Record<string, string | boolean>;
   modelPrimaryKey: string;
   urlDeleteLine: string;
 }) {
   const { data: session } = useSession();
-  const token = String(session?.user["acces token"]);
+  const token = String(session?.user["accessToken"]);
 
   const [Display, setDisplay] = React.useState("");
 
