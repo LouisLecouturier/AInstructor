@@ -4,6 +4,7 @@ import { Bar, Doughnut } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import Container from "@/components/layout/Container";
+import Header from "@/components/dashboard/Layout/Header";
 
 const data = {
   labels: [
@@ -106,27 +107,17 @@ ChartJS.register(CategoryScale);
 
 const teamStats = () => {
   return (
-    <div className="flex flex-col gap-5">
-      <header>
-        <h1 className={"flex items-center h-16 text-5xl font-black"}>Stats</h1>
-      </header>
-      <div className="flex flex-col w-full h-full gap-10 items-center">
-        <div className="max-w max-h flex gap-40 items-center">
-          <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
+    <div className="flex h-full flex-col gap-10">
+      <Header>Stats</Header>
+      <div className="flex flex-col flex-1 gap-10 items-center">
+        <div className="h-full w-full flex gap-10 justify-center flex-wrap pb-12">
+          <Container className="h-3/4 max-w-[700px] max-h-[500px] w-full flex-1 border-2 border-white hover:border-accent-300 transition flex justify-center items-center">
             <Bar data={data} options={options} />
           </Container>
-          <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
+          <Container className="h-3/4 max-w-[700px] max-h-[500px] w-full flex-1 border-2 border-white hover:border-accent-300 transition flex justify-center items-center">
             <Doughnut data={data2} />
           </Container>
         </div>
-        {/* <div className="flex gap-40 max-w max-h ">
-          <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
-            <Line data={data} options={options} />
-          </Container>
-          <Container className="h-full w-full border-2 border-dark-50 hover:border-accent-300 transition">
-            <Pie data={data} />
-          </Container>
-        </div> */}
       </div>
     </div>
   );

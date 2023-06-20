@@ -36,6 +36,13 @@ const homeworks = [
   },
 ];
 
+const infos = [
+  {
+    classe: "CSI 3",
+    profref: "M. Lecouturier",
+  },
+];
+
 const progress = [
   {
     course: "ASN",
@@ -71,21 +78,26 @@ const Dashboard = () => {
           Bon retour parmi nous {firstname} !
         </h1>
 
-        <Container title="Reprendre mon parcours">
-          <div className="flex gap-8">
-            {courses.map((course, index) => (
-              <QuestionCube
-                key={course.course}
-                index={index}
-                course={course.course}
-                date={course.date}
-                progress={progress[index].progress}
-                // image={course.image}
-              />
-            ))}
+        <Container
+          title="Reprendre mon parcours"
+          description="Quickly access your current courses"
+        >
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-8 ">
+              {courses.map((course, index) => (
+                <QuestionCube
+                  key={course.course}
+                  index={index}
+                  course={course.course}
+                  date={course.date}
+                  progress={progress[index].progress}
+                  // image={course.image}
+                />
+              ))}
 
-            <QuestionCube isSeeAll />
-        </div>
+              <QuestionCube isSeeAll />
+            </div>
+          </div>
         </Container>
 
         <div className="flex flex-col gap-2">
