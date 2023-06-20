@@ -79,27 +79,27 @@ const Dashboard = () => {
           Bon retour parmi nous {firstname} !
         </h1>
 
-        {/* <Container title="Reprendre mon parcours"> */}
-        <div className="flex flex-col gap-2">
-          <h2 className="flex items-center h-16 text-3xl">
-            Reprendre mon parcours
-          </h2>
-          <div className="flex gap-8 ">
-            {courses.map((course, index) => (
-              <QuestionCube
-                key={course.course}
-                index={index}
-                course={course.course}
-                date={course.date}
-                progress={progress[index].progress}
-                // image={course.image}
-              />
-            ))}
+        <Container
+          title="Reprendre mon parcours"
+          description="Quickly access your current courses"
+        >
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-8 ">
+              {courses.map((course, index) => (
+                <QuestionCube
+                  key={course.course}
+                  index={index}
+                  course={course.course}
+                  date={course.date}
+                  progress={progress[index].progress}
+                  // image={course.image}
+                />
+              ))}
 
-            <QuestionCube isSeeAll />
+              <QuestionCube isSeeAll />
+            </div>
           </div>
-        </div>
-        {/* </Container> */}
+        </Container>
 
         <div className="flex flex-col gap-2">
           <Container title="Mes formations" description={"Access your courses"}>
