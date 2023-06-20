@@ -1,9 +1,9 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import Header from "@components/dashboard/Layout/Header";
-import Container from "@components/layout/Container";
-import Table from "@components/dashboard/Table";
+import Header from "@components/Dashboard/Layout/Header";
+import Container from "@components/Layout/Container";
+import Table from "@components/Dashboard/Layout/Table";
 
 const columns = [
   { key: "id", label: "Id" },

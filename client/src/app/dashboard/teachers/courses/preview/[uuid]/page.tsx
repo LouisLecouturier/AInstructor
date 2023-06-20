@@ -2,18 +2,18 @@
 
 import React, { useState } from "react";
 
-import CourseHeader from "@components/layout/Course/CourseHeader";
+import CourseHeader from "@components/Layout/Course/CourseHeader";
 import ReactMarkdown from "react-markdown";
 
 import { course } from "@assets/testData/course";
-import Container from "@components/layout/Container";
-import { Button } from "@components/Interactions/Button";
+import Container from "@components/Layout/Container";
+import { Button } from "@components/Layout/Interactions/Button";
 
 import Stars from "@icons/Stars.svg";
-import QuestionElement from "@components/dashboard/Questions/Question";
+import QuestionElement from "@components/Dashboard/Questions/Question";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import { getCourseText } from "@requests/course";
+import { getCourse } from "@requests/course";
 
 const config = {
   h1: ({ ...props }) => (
@@ -49,7 +49,7 @@ const Questions = () => {
           key={i}
           isLoading={i === 0}
           feedback={i === 1 ? undefined : i === 2 ? "correct" : "incorrect"}
-          questionId={i + 1}
+          uuid={i + 1}
           questionNumber={i + 1}
           title={"Hey I'm a nice question"}
           description={"answer me and you'll get a good grade !"}
@@ -63,23 +63,21 @@ const Questions = () => {
 const Course = ({ params }: { params: { uuid: string } }) => {
   const [isTraining, setIsTraining] = useState(false);
 
-  const { data : session } = useSession()
+  const { data: session } = useSession();
   const token = session?.user?.accessToken;
   const uuid = params.uuid;
 
-  console.log(uuid)
-
-  const { data: course, isLoading, isError} = useQuery({
+  const {
+    data: course,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["course", params.uuid, "text"],
-    queryFn: () => getCourseText(uuid, String(token)),
+    queryFn: () => getCourse(uuid, String(token)),
     enabled: ![params.uuid, token].includes(undefined),
-});
+  });
 
-if (isLoading || isError) return <div>loading...</div>;
-
-console.log(course)
-
-
+  if (isLoading || isError) return <div>loading...</div>;
 
 
   return (

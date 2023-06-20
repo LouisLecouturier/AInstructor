@@ -189,14 +189,10 @@ def update_teams(request, uuid: str):
 @router.get("/{uuid}/text")
 def get_rawtext(request, uuid: uuidLib.UUID):
     course = get_object_or_404(models.Course, uuid=uuid)
-    # with open(course.uploadedFile.path, 'r', encoding="utf-8", errors="ignore") as file:
-    #     lines = file.readlines()
-    #
-    # # Récupérer le contenu restant
-    # content = ''.join(lines)
-    # text = cours.read()
-    # # print(text)
+    quizz = get_object_or_404(models.Quizz, course=course)
     content = ""
+
+    print(quizz.uuid)
 
     if default_storage.exists(course.filePath):
         with default_storage.open(course.filePath, 'rb') as file:
@@ -206,6 +202,7 @@ def get_rawtext(request, uuid: uuidLib.UUID):
 
     return {
         "course": content,
+        "quizz": quizz.uuid,
         "name": course.name,
         "subject": course.subject,
         "teacher": course.uploadedBy.first_name + " " + course.uploadedBy.last_name,
@@ -393,10 +390,10 @@ def update_course_file(request, body: UpdateCourseFile, file: UploadedFile = Fil
         return {'error': 'File is not a PDF or MD.'}
 
 
-@router.delete("/course/{uuid}")
+@router.delete("/delete/{uuid}")
 def delete_data(request, uuid: str):
     # TODO : delete the file
-    course = models.Course.objects.get(uuid=uuid)
+    course = get_object_or_404(models.Course, uuid=uuid)
     course.delete()
     return {'uuid': uuid}
 

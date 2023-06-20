@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import Header from "@components/dashboard/Layout/Header";
-import Container from "@components/layout/Container";
-import Input from "@components/Interactions/Forms/Input";
-import Label from "@components/Interactions/Forms/Label";
-import { Button } from "@components/Interactions/Button";
-import FileInput from "@components/Interactions/Forms/FileInput";
+import Header from "@components/Dashboard/Layout/Header";
+import Container from "@components/Layout/Container";
+import Input from "@components/Layout/Interactions/Forms/Input";
+import Label from "@components/Layout/Interactions/Forms/Label";
+import { Button } from "@components/Layout/Interactions/Button";
+import FileInput from "@components/Layout/Interactions/Forms/FileInput";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 

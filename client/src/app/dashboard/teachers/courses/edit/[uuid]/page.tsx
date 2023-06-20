@@ -1,15 +1,15 @@
 "use client";
 
 import React, { FormEvent, useRef, useState } from "react";
-import Container from "@components/layout/Container";
-import Header from "@components/dashboard/Layout/Header";
-import Information from "@components/layout/Information";
-import { Button } from "@components/Interactions/Button";
+import Container from "@components/Layout/Container";
+import Header from "@components/Dashboard/Layout/Header";
+import Information from "@components/Layout/Information";
+import { Button } from "@components/Layout/Interactions/Button";
 
 import EditIcon from "@icons/Edit.svg";
 import CheckIcon from "@icons/Checkmark.svg";
-import Table from "@components/dashboard/Table";
-import QuestionsManager from "@components/dashboard/Teachers/QuestionsManager";
+import Table from "@components/Dashboard/Layout/Table";
+import QuestionsManager from "@components/Dashboard/Teachers/QuestionsManager";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchTeamsUser } from "@/requests/team";

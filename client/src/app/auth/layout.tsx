@@ -2,7 +2,7 @@
 
 import React, { ReactNode } from "react";
 import clsx from "clsx";
-import Background from "@components/layout/Background";
+import Background from "@components/Layout/Background";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 

@@ -1,11 +1,11 @@
 "use client";
 
-import { TeamInformations } from "@/components/dashboard/Teams/MainInformation";
+import { TeamInformations } from "@components/Dashboard/Teams/MainInformation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import newTeam from "./hook";
-import Header from "@components/dashboard/Layout/Header";
+import Header from "@components/Dashboard/Layout/Header";
 
 export default function AddTeam() {
   const { data: session } = useSession();

@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "@components/dashboard/Layout/Header";
+import Header from "@components/Dashboard/Layout/Header";
 
 const Stats = () => {
   return <Header title={"My stats"} />;

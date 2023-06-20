@@ -5,21 +5,78 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dffe6933-eb4d-499b-858d-ff102e252a9b" name="Changes" comment="Cleared cours folder">
-      <change afterPath="$PROJECT_DIR$/../client/src/assets/svg/icons/Down.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/assets/svg/icons/Loading.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/assets/svg/icons/Options.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/QuestionForm/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/requests/question.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/Home.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/Home.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/auth/forgot-password/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/auth/forgot-password/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/auth/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/auth/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/auth/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/auth/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/auth/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/auth/register/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/settings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/settings/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/stats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/stats/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/teams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/teams/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/assets/svg/blob/purple.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/assets/svg/blob/yellow.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/assets/svg/icons/Plus.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/assets/svg/icons/Plus.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Interactions/Button/Button.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Interactions/Button/Button.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Interactions/Button/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Interactions/Button/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/layout/ListItem/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/layout/ListItem/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/tailwind.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/preview/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/preview/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/settings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/settings/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/teams/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/teams/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/teams/overview/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/teams/overview/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/teams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/teams/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Interactions/Button/Button.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Interactions/Button/Button.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Interactions/Button/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Interactions/Button/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Interactions/Forms/AddUserMenu/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Interactions/Forms/AddUserMenu/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Interactions/Forms/FileInput/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Interactions/Forms/FileInput/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Interactions/Forms/Input/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Interactions/Forms/Input/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Interactions/Forms/Label/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Interactions/Forms/Label/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Interactions/Forms/RadioGroup/Radio/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Interactions/Forms/RadioGroup/Radio/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Interactions/Forms/RadioGroup/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Interactions/Forms/RadioGroup/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Cards/MemberCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Common/Cards/MemberCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Cards/TeamCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Common/Cards/TeamCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Courses/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Courses/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Layout/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Layout/ProgressBar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/ProgressBar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Layout/SectionTitle/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/SectionTitle/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Navigation/NavigationElement/NavigationElement.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/Navigation/NavigationElement/NavigationElement.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Navigation/NavigationElement/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/Navigation/NavigationElement/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Navigation/StudentNavigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/Navigation/StudentNavigation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Navigation/TeacherNavigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/Navigation/TeacherNavigation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Navigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/Navigation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Questions/Question/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Questions/Question/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Questions/QuestionAdd/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Questions/QuestionAdd/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Questions/QuestionEditor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Questions/QuestionEditor/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Table/TableRow/header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/Table/TableRow/header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Table/TableRow/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/Table/TableRow/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/Table/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Table/legacy.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Layout/Table/legacy.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Teachers/QuestionsManager/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Teachers/QuestionsManager/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/dashboard/Teams/MainInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Teams/MainInformation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/layout/Background/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Background/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/layout/Container/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Container/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/layout/Course/CourseHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Course/CourseHeader/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/layout/Information/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Information/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/layout/ListItem/ListItem.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/ListItem/ListItem.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/layout/ListItem/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/ListItem/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/layout/Skeleton/Skeleton.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Skeleton/Skeleton.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/layout/Skeleton/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Skeleton/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/layout/User/Avatar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/User/Avatar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/layout/User/Userinfo/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/User/Userinfo/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/menu/dashboardmenu.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/middleware.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/requests/course.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/requests/course.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/requests/team.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/requests/team.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/types/question.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/types/question.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AInstructor/course/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/course/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AInstructor/question/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/question/api.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AInstructor/team/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/team/api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -100,6 +157,8 @@
       <workItem from="1686926467758" duration="10386000" />
       <workItem from="1687162800322" duration="749000" />
       <workItem from="1687169143318" duration="2961000" />
+      <workItem from="1687249907673" duration="1133000" />
+      <workItem from="1687251379408" duration="319000" />
     </task>
     <task id="LOCAL-00001" summary="Cleared cours folder">
       <created>1686991900869</created>

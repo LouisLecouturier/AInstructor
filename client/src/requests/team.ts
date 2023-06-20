@@ -1,7 +1,6 @@
 import { Team } from "@/types/team";
 
 export const fetchTeamsUser = async (token: string) => {
-  console.log("fetch");
   const response = await fetch("http://127.0.0.1:8000/api/team/", {
     headers: {
       authorization: `bearer ${token}`,
@@ -59,9 +58,7 @@ export const addUsers = async (uuid : string, emails : string[], token: string )
       "Content-Type": "application/json",
       authorization : `bearer ${token}`
     },
-    body: JSON.stringify({'emails' : emails}),
-
-
+    body: JSON.stringify({'users_email' : emails}),
   });
 
   const responseData = await response.json();
@@ -69,9 +66,6 @@ export const addUsers = async (uuid : string, emails : string[], token: string )
 };
 
 export const removeUsers = async (uuid : string, emails : string[], token: string ) => {
-  console.log(emails);
-  console.log(uuid);
-  console.log(token);
   const response = await fetch(`http://localhost:8000/api/team/${uuid}/remove-users`, {
     method: "POST",
     headers: {

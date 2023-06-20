@@ -2,11 +2,11 @@
 
 import { signIn, useSession } from "next-auth/react";
 import { FormEvent, useState } from "react";
-import { Button } from "@components/Interactions/Button";
+import { Button } from "@components/Layout/Interactions/Button";
 import LoginIcon from "@icons/Login.svg";
 
 import Link from "next/link";
-import Input from "@components/Interactions/Forms/Input";
+import Input from "@components/Layout/Interactions/Forms/Input";
 import { useRouter } from "next/navigation";
 
 function Login() {
@@ -38,13 +38,11 @@ function Login() {
         console.error(error);
         setError("An error occurred during sign in.");
       });
-
   }
 
   return (
     <form className={"flex flex-col gap-4 max-w-[480px]"} onSubmit={onSubmit}>
       <div>
-
         <Input placeholder="Email" name="email" />
       </div>
       <div className={"flex flex-col gap-2 items-end"}>
@@ -62,7 +60,6 @@ function Login() {
         <LoginIcon className={"w-5"} />
       </Button>
       {error && <p className="text-red-500 mt-2">{error}</p>}
-
     </form>
   );
 }

@@ -1,10 +1,10 @@
 "use client";
-import QuestionCube from "@components/dashboard/Courses";
+import QuestionCube from "@components/Dashboard/Courses";
 
 import React from "react";
 import { useSession } from "next-auth/react";
-import Header from "@components/dashboard/Layout/Header";
-import ListItem from "@components/layout/ListItem";
+import Header from "@components/Dashboard/Layout/Header";
+import ListItem from "@components/Layout/ListItem";
 
 const courses = [
   {

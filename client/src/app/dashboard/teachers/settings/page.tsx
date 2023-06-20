@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import Header from "@components/dashboard/Layout/Header";
-import Container from "@components/layout/Container";
-import UserInfo from "../../../../components/layout/User/Userinfo";
-import Information from "@components/layout/Information";
+import Header from "@components/Dashboard/Layout/Header";
+import Container from "@components/Layout/Container";
+import UserInfo from "@components/Layout/User/Userinfo";
+import Information from "@components/Layout/Information";
 
 const Settings = () => {
   return (

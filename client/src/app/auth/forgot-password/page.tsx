@@ -1,12 +1,12 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useRef, useState } from "react";
-import { Button } from "@components/Interactions/Button";
+import { useRef } from "react";
+import { Button } from "@components/Layout/Interactions/Button";
 
 import KeyIcon from "@icons/Key.svg";
 
-import Input from "@/components/Interactions/Forms/Input";
+import Input from "@components/Layout/Interactions/Forms/Input";
 
 export default function ForgotPass() {
   async function onSubmit() {

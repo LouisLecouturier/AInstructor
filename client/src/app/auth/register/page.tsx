@@ -1,10 +1,10 @@
 "use client";
 
-import Input from "@components/Interactions/Forms/Input";
-import { Button } from "@components/Interactions/Button";
+import Input from "@components/Layout/Interactions/Forms/Input";
+import { Button } from "@components/Layout/Interactions/Button";
 
 import LoginIcon from "@icons/Login.svg";
-import MyRadioGroup from "@components/Interactions/Forms/RadioGroup";
+import MyRadioGroup from "@components/Layout/Interactions/Forms/RadioGroup";
 import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";

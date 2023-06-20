@@ -1,3 +1,5 @@
+import random
+
 from ninja import Schema, Field, Router
 import uuid as uuidLib
 from django.shortcuts import get_object_or_404
@@ -6,6 +8,7 @@ from app import models
 router = Router(tags=["Question"])
 
 """_______________________________________requests consergning the questions_________________________________________________________"""
+NUMBER_OF_QUESTIONS = 5
 
 
 class CreateQuestion(Schema):
@@ -19,26 +22,6 @@ def create_question(request, question: CreateQuestion):
     """Create a new question"""
 
     quizz = models.Quizz.objects.get(uuid=question.QuizzUUID)  # recuperer le quizz uuid
-    #     course = quizz.course.first() #recuperer le cours du quizz
-    #     path = course.textPath#recuperer le chemin du fichier texte du cours
-    #     # Ouvrez le fichier en mode lecture
-    #     with open(path, "r",encoding="utf-8") as fichier:
-    #     # Lisez le contenu du fichier
-    #         texte = fichier.read()
-    #     openai.api_key = "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"
-
-    #     response = openai.ChatCompletion.create(
-    #     model="gpt-3.5-turbo",
-    #     messages=[
-    #         {"role": "system", "content": "You are a helpful assistant."},
-    #         {"role": "assistant", "content": texte},
-    #         {"role": "user", "content": "Ecrit moi 10 questions sur ce texte pour tester mes connaisances mais tu ecris seulement les questions et pas les réponses"},
-    #     ]
-    # )
-
-    #     print(response.choices[0].message.content)
-
-    #     print("done")
 
     new_question = models.Question.objects.create(
         questionType=question.questionType,
@@ -74,6 +57,32 @@ def delete_question(request, question: DeleteQuestion):
     """Delete a question"""
     models.Question.objects.filter(uuid=question.uuid).delete()
     return {"uuid": question.uuid}
+
+
+@router.get("/training/{uuid}", )
+def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
+    """Get all questions belonging to a quizz"""
+    questions = models.Question.objects.filter(quizz=uuid)
+    question_list = []
+
+    indexes = []
+
+    for i in range(NUMBER_OF_QUESTIONS):
+
+        index = random.randrange(0, len(questions), 1)
+        while index in indexes:
+            index = random.randrange(0, len(questions), 1)
+        indexes.append(index)
+        question = questions[index]
+        question_info = {
+            "uuid": question.uuid,
+            "quizzUuid": question.quizz.uuid,
+            "questionType": question.questionType,
+            "statement": question.statement,
+        }
+        question_list.append(question_info)
+
+    return question_list
 
 
 @router.get("/questions/{uuid}", )
