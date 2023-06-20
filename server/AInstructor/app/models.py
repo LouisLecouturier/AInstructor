@@ -11,8 +11,8 @@ from django.dispatch import receiver
 from django.shortcuts import get_object_or_404
 # Create your models here.
 
-AlphanumericValidator = RegexValidator(r"^[a-zA-Z0-9 !\"$%&'()*+,\-./:;<=>?@[\\]^_`{|}~À-ÖØ-öø-ÿ]+$",
-                                       'Only alphanumeric characters are allowed and parenthesis.')
+AlphanumericValidator = RegexValidator(r'^[^\';"]*$',
+                                       'Only alphanumeric characters are allowed')
 
 
 
@@ -50,15 +50,7 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
-class Team(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
-    name = models.CharField(max_length=30, validators=[AlphanumericValidator])
-    users = models.ManyToManyField(CustomUser)
-    color = models.CharField(max_length=7, default="#000000", blank=True)
-    description = models.CharField(max_length=254, validators=[AlphanumericValidator], default="description : ",
-                                   null=True, blank=True)
-
-
+    
 def upload_to_course(instance, filename):
     return f'cours/{instance.uuid}/{filename}.md'
 
@@ -133,21 +125,17 @@ class UserStatistiques(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
     course = models.ForeignKey(Course, on_delete = models.CASCADE)
+    theme = models.CharField(max_length=127, validators=[AlphanumericValidator], null=True, blank=True)
     progress = models.SmallIntegerField(default = 0)
     lastConnexion = models.DateField(auto_now=True, auto_now_add=False, null = True)
     mean = models.SmallIntegerField(default =0)
-
     min = models.SmallIntegerField(default = 0)
     max = models.SmallIntegerField(default = 0)
 
-    def autoincrementnbquestion(self):
-        nbquiz = UserQuizzResult.objects.filter(user = self.user, quizz = self.course__quizz).count()
-        print(nbquiz)
-        return nbquiz
 
     def __str__(self):
         return self.user.username + " " + self.course.name
-
+    
 
 
 
@@ -195,8 +183,9 @@ def create_user_statistics(sender, instance, **kwargs):
     user = instance.user
     quizz = instance.quizz
     course = quizz.course.all().first() #uniquement si un quizz se refere a un seul cours(modiefier la fonction pour scalabilité)
-    
+    theme = quizz.theme
     #___student part___
+    #mean sorted by course
     mean= UserQuizzResult.objects.filter(user=user, quizz__course=course).aggregate(Avg('score'))['score__avg']
     min = UserQuizzResult.objects.filter(user=user, quizz__course=course).aggregate(Min('score'))['score__min']
     max = UserQuizzResult.objects.filter(user=user, quizz__course=course).aggregate(Max('score'))['score__max']
@@ -209,9 +198,9 @@ def create_user_statistics(sender, instance, **kwargs):
 
     except UserStatistiques.DoesNotExist:
         user_statistics = UserStatistiques.objects.create(user=user, course=course)
-    
+    user_statistics.theme = theme
     user_statistics.mean = mean
-    user_statistics.min = min
+    user_statistics.min = min   
     user_statistics.max = max
     user_statistics.progress = progress
     user_statistics.save()
@@ -223,9 +212,7 @@ def create_user_statistics(sender, instance, **kwargs):
     except TeamStatistiques.DoesNotExist:
         team_stat = TeamStatistiques.objects.create(team=team, course=course)
     
-
     team_stat.mean = UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).aggregate(Avg('score'))['score__avg']
-
     team_stat.min = UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).aggregate(Min('score'))['score__min']
     team_stat.max = UserQuizzResult.objects.filter(quizz__course=course, user__in=team.users.all()).aggregate(Max('score'))['score__max']
 
