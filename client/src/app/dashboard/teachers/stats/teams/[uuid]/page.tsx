@@ -4,7 +4,7 @@ import { Bar, Doughnut } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import Container from "@/components/layout/Container";
-import Header from "@components/dashboard/Layout/Header";
+import Header from "@/components/dashboard/Layout/Header";
 
 const data = {
   labels: [
