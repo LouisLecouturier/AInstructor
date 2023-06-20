@@ -3,8 +3,9 @@ import QuestionCube from "@components/dashboard/Courses";
 
 import React from "react";
 import { useSession } from "next-auth/react";
-import Header from "@components/dashboard/Layout/Header";
-import ListItem from "@components/layout/ListItem";
+import Header from "@/components/dashboard/Layout/Header";
+import ListItem from "@/components/layout/ListItem";
+import Container from "@/components/layout/Container";
 
 const courses = [
   {
@@ -34,7 +35,6 @@ const homeworks = [
     course: "Maths",
   },
 ];
-
 
 const progress = [
   {
@@ -71,10 +71,7 @@ const Dashboard = () => {
           Bon retour parmi nous {firstname} !
         </h1>
 
-        <div className="flex flex-col gap-2">
-          <h2 className="flex items-center h-16 text-3xl">
-            Reprendre mon parcours
-          </h2>
+        <Container title="Reprendre mon parcours">
           <div className="flex gap-8">
             {courses.map((course, index) => (
               <QuestionCube
@@ -88,32 +85,30 @@ const Dashboard = () => {
             ))}
 
             <QuestionCube isSeeAll />
-
-          </div>
         </div>
+        </Container>
 
         <div className="flex flex-col gap-2">
-          <h2 className="flex items-center h-16 text-3xl">Mes formations</h2>
-          <div className="flex flex-col gap-2 w-full">
+          <Container title="Mes formations" description={"Access your courses"}>
+            <div className="flex flex-col gap-2 w-full">
+              {homeworks.map((homework: any) => {
+                const properties = [
+                  { label: "Creation date", value: homework.creationDate },
+                  { label: "Delivery date", value: homework.deliveryDate },
+                ];
 
-
-            {homeworks.map((homework: any) => {
-              const properties = [
-                { label: "Creation date", value: homework.creationDate },
-                { label: "Delivery date", value: homework.deliveryDate },
-              ];
-
-              return (
-                <ListItem
-                  href={"/dashboard/students/courses/1"}
-                  key={homework.name}
-                  properties={properties}
-                >
-                  {homework.course}
-                </ListItem>
-              );
-            })}
-          </div>
+                return (
+                  <ListItem
+                    href={"/dashboard/students/courses/1"}
+                    key={homework.name}
+                    properties={properties}
+                  >
+                    {homework.course}
+                  </ListItem>
+                );
+              })}
+            </div>
+          </Container>
         </div>
       </div>
     </div>
@@ -121,56 +116,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-/* <div className="flex w-1/3 bg-white rounded-xl">
-        <div className="flex flex-col gap-4 py-5 p-4 w-full ">
-          <h3 className="flex font-semibold px-10 text-4xl">Mon profil</h3>
-          <h2 className="flex font-semibold px-5 text-3xl">Informations</h2>
-          <div>
-            {infos.map((info) => (
-              <div className="flex flex-col gap-1 px-10 w-full">
-                <h3 className="flex font-semibold">
-                  <span className="font-black">Nom :&nbsp;</span>
-                  {lastname}
-                </h3>
-                <h3 className="flex font-semibold">
-                  <span className="font-black">Prénom :&nbsp;</span>
-                  {firstname}
-                </h3>
-                <h3 className="flex font-semibold">
-                  <span className="font-black">Classe :&nbsp;</span>
-                  {info.classe}
-                </h3>
-                <h3 className="flex font-semibold">
-                  <span className="font-black">
-                    Professeur référent :&nbsp;
-                  </span>
-                  {info.profref}
-                </h3>
-              </div>
-            ))}
-          </div>
-          <h2 className="flex font-semibold px-5 text-3xl">Mon parcours</h2>
-          <Link
-            className="flex text-accent-500 text-md font-bold px-10"
-            href="dashboard/students/stats"
-          >
-            Accéder à mes statistiques -{">"}
-          </Link>
-          <div className="flex flex-col gap-1 px-10 w-full">
-            {progress.map((progress) => (
-              <div className="flex flex-col gap-1 px-10 w-full">
-                <h3 className="flex font-semibold">
-                  <span className="font-black">{progress.course} :&nbsp;</span>
-                  {progress.progress}%
-                </h3>
-              </div>
-            ))}
-          </div>
-          <h2 className="flex font-semibold px-5 text-3xl">Contact</h2>
-          <h1 className="flex font-semibold px-10">
-            <span className="font-black">Mail contact : &nbsp;</span>{" "}
-            prof@acad.me
-          </h1>
-        </div>
-      </div> */
