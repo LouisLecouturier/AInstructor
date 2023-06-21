@@ -16,7 +16,7 @@ class Stat(Schema):
 
     
 
-@router.get("/stats/user/{course}")
+@router.get("/user/{course}")
 def get_user_stats_by_course(request, course: uuidLib.UUID):
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
@@ -27,7 +27,7 @@ def get_user_stats_by_course(request, course: uuidLib.UUID):
         return {'message': "successfully got the stats by course", "course": stat.course.uuid , "mean" :stat.mean,"min" :stat.min,"max" :stat.max, "progress" :stat.progress}
 
 
-@router.post("/stats/user")
+@router.get("/user")
 def get_user_stats_by_theme(request, theme:str):
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
@@ -39,16 +39,6 @@ def get_user_stats_by_theme(request, theme:str):
             mean = stats['mean__avg']
             max = stats['max__max']
             min = stats['min__min']
-            # medianPosition = models.UserStatistiques.objects.filter(user=user, theme=theme).order_by('mean').count()//2
-            # print(medianPosition)
-            # #
-            # medians = models.UserStatistiques.objects.filter(user=user, theme=theme).order_by('mean').values_list('mean', flat=True)
-            # print(medians)
-            # median = medians[medianPosition]
-
-
-            # print(median)
-            # median = median[medianPosition]
             progress = models.UserStatistiques.objects.filter(user=user, theme=theme).aggregate(Avg('progress'))['progress__avg']
             return {'message': "successfully got the stats by subject", "theme": theme, "mean" :mean,
                     "min" :min,"max" :max, "progress" :progress}
@@ -62,13 +52,13 @@ class TeamStat(Schema):
     team_uuid: uuidLib.UUID
     theme :str = "theme"
 
-@router.post("/stats/team/course")
-def get_team_stats_by_course(request, body: TeamStat):
+@router.get("/{team}/{course}")
+def get_team_stats_by_course(request, course: uuidLib.UUID, team: uuidLib.UUID):
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
-    course = get_object_or_404(models.Course, uuid=body.course_uuid)
-    team = get_object_or_404(models.Team, uuid=body.team_uuid)
+    course = get_object_or_404(models.Course, uuid=course)
+    team = get_object_or_404(models.Team, uuid=team)
     if user and team and course:
         if user in team.users.all():
             stat = get_object_or_404(models.TeamStatistiques, team=team, course=course)
@@ -88,23 +78,23 @@ def median_value(queryset, term):
     else:
         return sum(values[count/2-1:count/2+1])/2.0
 
-@router.post("/stats/team/theme")
-def get_team_stats_by_theme(request, body: TeamStat):
+@router.post("/{team_uuid}/{course_uuid}/theme")
+def get_team_stats_by_theme(request,course_uuid : uuidLib.UUID,team_uuid : uuidLib.UUID, theme: str):
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
-    course = get_object_or_404(models.Course, uuid=body.course_uuid)
-    team = get_object_or_404(models.Team,uuid=body.team_uuid)
-    if user and team and course and body.theme:
+    course = get_object_or_404(models.Course, uuid=course_uuid)
+    team = get_object_or_404(models.Team,uuid=team_uuid)
+    if user and team and course and theme:
         if user in team.users.all():
-            stat = models.TeamStatistiques.objects.filter(team=team,course = course,course__subject=body.theme).aggregate(Avg('mean'), Max('max'), Min('min'))
+            stat = models.TeamStatistiques.objects.filter(team=team,course = course,course__subject=theme).aggregate(Avg('mean'), Max('max'), Min('min'))
             mean = stat['mean__avg']
             max = stat['max__max']
             min = stat['min__min']
-            medianQuery = models.TeamStatistiques.objects.filter(team=team,course = course,course__subject=body.theme)
+            medianQuery = models.TeamStatistiques.objects.filter(team=team,course = course,course__subject=theme)
             median = median_value(medianQuery, 'mean')
 
-            return{'message': "successfully got the stats by subject", "theme": body.theme, "mean" :mean,"min" : min,"max" :max, "median" :median}
+            return{'message': "successfully got the stats by subject", "theme": theme, "mean" :mean,"min" : min,"max" :max, "median" :median}
         else:
             return {'message': "user is not in the team"}
     else:
