@@ -3,19 +3,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.underline-primary {
-  position: relative;
-  width: fit-content;
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 100%;
-    height: 3px;
-    border-radius: 100px;
-    background-color: theme("colors.primary.500");
-  }
-}

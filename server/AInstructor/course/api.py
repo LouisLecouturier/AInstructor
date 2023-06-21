@@ -191,8 +191,6 @@ def get_rawtext(request, uuid: uuidLib.UUID):
     quizz = get_object_or_404(models.Quizz, course=course)
     content = ""
 
-    print(quizz.uuid)
-
     if default_storage.exists(course.filePath):
         with default_storage.open(course.filePath, 'rb') as file:
             content = file.read().decode('utf-8')

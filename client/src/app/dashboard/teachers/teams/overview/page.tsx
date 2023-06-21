@@ -37,7 +37,7 @@ export default function TeamOverview({
   const { data, isLoading, isError } = useQuery<Team>({
     queryKey: ["team", uuid],
     queryFn: () => fetchTeam(String(token), searchParams.id),
-    enabled: [token, uuid].includes(undefined),
+    enabled: ![token, uuid].includes(undefined),
   });
 
   const mutation = useMutation({
@@ -123,6 +123,8 @@ export default function TeamOverview({
       </Header>
 
       <div className={"flex flex-col gap-4"}>
+        <h2 className="text-2xl font-bold">Overview</h2>
+
         <TeamMainInformation onSubmit={handleUpdate} team={data} />
 
         <Container>

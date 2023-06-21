@@ -31,6 +31,7 @@ def main(request):
 class TeamSchema(Schema):
     name: str
     color: str
+    description: str
 
 
 @router.post('/')
@@ -38,14 +39,14 @@ def new(request, body: TeamSchema):
     """Create a new team"""
     auth_header = request.headers.get('Authorization')
     token = auth_header.split(' ')[1]
-    content = jwt.decode(token, key, algorithms=['HS256'])
+    user = get_object_or_404(models.CustomUser, accessToken=token)
 
     request = json.loads(request.body.decode('utf-8'))
     message = ""
 
     try:
         user = get_object_or_404(models.CustomUser, accessToken=token)
-        team = models.Team.objects.create(name=body.name, color=body.color, owner=user)
+        team = models.Team.objects.create(name=body.name, color=body.color, description=body.description, owner=user)
         team.users.add(user)
         team.save()
         message = "Team created"
@@ -106,13 +107,13 @@ def overview(request, uuid: uuidLib.UUID):
 
 
 class removeUser(Schema):
-    id: list[int]
+    emails: list[str]
 
 @router.post("/{uuid}/remove-users")
 def removeUser(request, body: removeUser, uuid: uuidLib.UUID):
     error = ""
-    for id in body.id:
-        user = get_object_or_404(models.CustomUser, id=id)
+    for email in body.emails:
+        user = get_object_or_404(models.CustomUser, email=email)
         team = get_object_or_404(models.Team, uuid=uuid)
         if user == team.owner:
             error = "You can't remove the owner of the team"
@@ -122,24 +123,21 @@ def removeUser(request, body: removeUser, uuid: uuidLib.UUID):
 
 
 class addUser(Schema):
-    users_email: list[str]
+    emails: list[str]
 
 
 @router.post('/{uuid}/add-users')
 def addUser(request, body: addUser, uuid: uuidLib.UUID):
+    request = json.loads(request.body.decode('utf-8'))
     error = False
-    print(body.users_email)
 
-    for email in body.users_email:
+    for email in body.emails:
         try:
             user = get_object_or_404(models.CustomUser, email=email)
-            print("user", user)
             team = get_object_or_404(models.Team, uuid=uuid)
-            print("team", team)
             team.users.add(user)
-        except Exception as e:
+        except:
             error = True
-            print(e)
 
     return JsonResponse({'error': error})
 
