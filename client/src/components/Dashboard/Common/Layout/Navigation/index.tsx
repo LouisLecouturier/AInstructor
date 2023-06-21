@@ -12,7 +12,6 @@ import UserInfo from "@components/Layout/User/Userinfo";
 interface Students {
   Homeworks: string;
   Teams: string;
-  Import: string;
   Stats: string;
   Settings: string;
 }
@@ -27,7 +26,6 @@ interface Teachers {
 const Students: Students = {
   Homeworks: "",
   Teams: "",
-  Import: "",
   Stats: "",
   Settings: "",
 };
