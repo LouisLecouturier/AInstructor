@@ -8,6 +8,7 @@ type Team = {
   score?: number;
   moy?: number;
   effectif?: number;
+  color?: string;
 };
 
 export default function CubeTeams(props: Team) {

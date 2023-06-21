@@ -5,40 +5,41 @@ import Link from "next/link";
 import CubeTeams from "@/components/dashboard/Teachers/Stats";
 import Header from "@/components/dashboard/Layout/Header";
 import Container from "@/components/layout/Container";
-
-const teams = [
-  {
-    id: 1,
-    name: "Groupe 1",
-    score: 12,
-    moy: 50,
-    effectif: 12,
-  },
-  {
-    id: 2,
-    name: "Groupe 2",
-    score: 52,
-    moy: 32,
-    effectif: 12,
-  },
-  {
-    id: 3,
-    name: "Groupe 3",
-    score: 69,
-    moy: 10,
-    effectif: 12,
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { fetchTeamsUser } from "@/requests/team";
+import { useSession } from "next-auth/react";
+import { Team } from "@/types/team";
+import { nanoid } from "nanoid";
 
 export default function Teams() {
+  const { data: session } = useSession();
+  const token = session?.user.accessToken;
+
+  const {
+    data: teams,
+    isLoading,
+    isError,
+  } = useQuery<Team[]>({
+    queryKey: ["teams"],
+    queryFn: () => fetchTeamsUser(String(token)),
+    enabled: !!token,
+  });
+
+  if (isLoading || isError) return <div>Loading...</div>;
+
   return (
     <div className="flex flex-col gap-5">
       <Header title="Stats" />
       <div className="flex flex-col gap-10">
-        <Container title="My teams">
-          <div className="flex gap-8 ">
-            {teams.map((teams) => (
-              <CubeTeams uuid={teams.id} key={teams.name} name={teams.name} />
+        <Container title="My teams" className=" w-full">
+          <div className="flex gap-8 flex-wrap ">
+            {teams.map((team) => (
+              <CubeTeams
+                uuid={team.uuid}
+                key={nanoid()}
+                color={team.color}
+                name={team.name}
+              />
             ))}
           </div>
           <Link

@@ -91,7 +91,6 @@ const Dashboard = () => {
                   course={course.course}
                   date={course.date}
                   progress={progress[index].progress}
-                  // image={course.image}
                 />
               ))}
 

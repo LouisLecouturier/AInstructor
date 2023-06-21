@@ -1,3 +1,5 @@
+"use client";
+
 import Header from "@/components/dashboard/Layout/Header";
 import React from "react";
 import QuestionCube from "@/components/dashboard/Courses";
@@ -48,9 +50,10 @@ const progress = [
 export default function seeAll() {
   return (
     <div className="flex flex-col gap-5">
-      <Header className={"flex items-center h-16 text-4xl font-black"}>
-        All my courses
-      </Header>
+      <Header
+        className={"flex items-center h-16 text-4xl font-black"}
+        title="All my courses"
+      ></Header>
       <Container>
         <div className="flex flex-wrap gap-8">
           {courses.map((course, index) => (
