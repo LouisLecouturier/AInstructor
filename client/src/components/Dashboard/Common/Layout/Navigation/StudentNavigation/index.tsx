@@ -7,8 +7,6 @@ import Teams from "@icons/Teams.svg";
 import Stats from "@icons/Stats.svg";
 import Settings from "@icons/Settings.svg";
 
-import Upload from "@icons/Upload.svg";
-
 const StudentNavigation = () => {
   return (
     <nav className={"flex flex-col gap-2"}>

@@ -5,7 +5,7 @@ import clsx from "clsx";
 import BreadCrumbs from "@components/Dashboard/Common/Layout/BreadCrumbs";
 
 type ReplaceItem = {
-  current: number;
+  current: string;
   value: string;
 };
 

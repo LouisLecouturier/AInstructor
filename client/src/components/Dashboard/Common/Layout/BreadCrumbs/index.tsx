@@ -8,7 +8,7 @@ import clsx from "clsx";
 import Arrow from "@icons/Arrow.svg";
 
 type ReplaceItem = {
-  current: number;
+  current: string;
   value: string;
 };
 

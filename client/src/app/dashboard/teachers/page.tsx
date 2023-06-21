@@ -1,8 +1,8 @@
 "use client";
 
+import Table from "@components/Dashboard/Common/Layout/Table";
 import Header from "@components/Dashboard/Common/Layout/Header";
 import Container from "@components/Layout/Container";
-import Table from "@components/Dashboard/Common/Layout/Table";
 
 const columns = [
   { key: "id", label: "Id" },

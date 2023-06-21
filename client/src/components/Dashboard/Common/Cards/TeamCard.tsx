@@ -23,10 +23,12 @@ export const TeamCard: FC<TeamCardProps> = (props) => {
     props.className
   );
 
+  const role = session?.user.isTeacher ? "teachers" : "students";
+
   const href =
     props.isAddCard && session?.user.isTeacher
-      ? "/dashboard/teachers/teams/addTeam"
-      : "/dashboard/teachers/teams/overview";
+      ? `/dashboard/teachers/teams/addTeam`
+      : `/dashboard/${role}/teams/overview`;
 
   if (!props.team)
     return (

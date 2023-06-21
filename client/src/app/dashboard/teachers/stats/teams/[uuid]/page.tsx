@@ -1,8 +1,8 @@
 "use client";
-import Header from '@/components/dashboard/Layout/Header';
-import Container from '@/components/layout/Container';
-import ListItem from '@/components/layout/ListItem';
-import { getCourses } from '@/requests/course';
+import Header from '@/components/Dashboard/Common/Layout/Header';
+import Container from '@/components/Layout/Container';
+import ListItem from '@/components/Layout/ListItem';
+import { fetchTeam, getCoursesTeam } from '@/requests/team';
 import { Course } from '@/types/course';
 import { useQuery } from '@tanstack/react-query';
 import { nanoid } from 'nanoid';
@@ -12,14 +12,22 @@ import React from 'react'
 
 export default function CourseList() {
     const { data: session } = useSession();
+
     const pathname = usePathname();
+    const uuid = pathname?.split("/")[5];
+
     const token = session?.user.accessToken;
     const id = session?.user.id;
 
-    const { data, isLoading, isError } = useQuery<Course[]>(["courses"], {
-        queryFn: () => getCourses(String(token), String(id)),
-        enabled: !!token && !!id,
+    const { data, isLoading, isError } = useQuery<Course[]>(["team", "uuid", "courses"], {
+        queryFn: () => getCoursesTeam(String(uuid), String(token)),
+        enabled: !!token && !!uuid,
       });
+
+    const { data : team } = useQuery(["team", uuid], {
+        queryFn: () => fetchTeam(String(token), String(uuid)),
+        enabled: !!token && !!uuid,
+    });
 
 
 
@@ -29,7 +37,7 @@ export default function CourseList() {
 
     return (
         <>
-            <Header title={"Choose a course"} />
+            <Header breadcrumbsReplace={[{current : String(uuid), value : team.name}]} title={"Choose a course"} />
 
             <Container
                 title={"Your courses"}

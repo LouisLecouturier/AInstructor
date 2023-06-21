@@ -21,10 +21,10 @@ import {
 import AddIcon from "@icons/Plus.svg";
 import Input from "@components/Layout/Interactions/Forms/Input";
 import Header from "@components/Dashboard/Common/Layout/Header";
-import { Course } from "@/types/course";
 import ListItem from "@/components/Layout/ListItem";
+import { Course } from "@/types/course";
+import { getCourses } from "@/requests/course";
 import { nanoid } from "nanoid";
-import { deleteCourse } from "@/requests/course";
 
 export default function TeamOverview({
   searchParams,
@@ -32,19 +32,24 @@ export default function TeamOverview({
   searchParams: { id: string };
 }) {
   const { data: session } = useSession();
+  const token = session?.user.accessToken;
+  const id = session?.user.id;
+
   const router = useRouter();
+  const pathname = usePathname();
 
 
   const queryClient = useQueryClient();
 
-  const token = session?.user.accessToken;
   const uuid = searchParams.id;
+
 
   const { data, isLoading, isError } = useQuery<Team>({
     queryKey: ["team", uuid],
     queryFn: () => fetchTeam(String(token), searchParams.id),
     enabled: ![token, uuid].includes(undefined),
   });
+
 
   const { data : courses, isLoading : isCoursesLoading, isError : isCoursesError } = useQuery<Course[]>(["team", uuid, "courses"], {
     queryFn: () => getCoursesTeam(String(uuid), String(token)),
@@ -123,39 +128,22 @@ export default function TeamOverview({
 
 
 
-
-  const handleDelete = async (uuid: string) => {
-    if (token) {
-      deleteCourse(uuid, token);
-      // location.reload();
-    }
-  };
-
-  const goTo = (path: string) => {
-    router.push(path);
-  };
-
-
-
-  if (isLoading || isError|| isCoursesLoading || isCoursesError) {
+  if (isLoading || isError || isCoursesLoading || isCoursesError) {
     return <div>Loading...</div>;
   }
 
+  console.log(courses);
+
   return (
     <div>
-      <Header className={"justify-between"} title={data?.name}>
-        <Button onClick={() => mutation.mutate()} variant="secondary">
-          Delete
-        </Button>
+      <Header className={"justify-between"} title={data.name}>
       </Header>
 
-
       <div className="flex flex-col gap-10">
-      <div className={"flex flex-col gap-4"}>
+        <div className={"flex flex-col gap-4"}>
           <h2 className="text-2xl font-bold">Courses</h2>
           <Container
                 title={"Your courses"}
-                description={"Preview, manage, delete your courses"}
             >
         <div className={"flex flex-col gap-2"}>
           {courses.length > 0 ? (
@@ -170,15 +158,7 @@ export default function TeamOverview({
                 <ListItem
                   key={nanoid()}
                   properties={properties}
-                  withUserActions
-                    onSee={() =>
-                      goTo(`/dashboard/teachers/courses/preview/${course.uuid}`)
-                    }
-                    onEdit={() =>
-                      goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
-                    }
-                    onDelete={() => handleDelete(course.uuid)}
-                    
+                  href={`${pathname}/${course.uuid}`}
                 >
                   {course.name}
                 </ListItem>
@@ -190,62 +170,27 @@ export default function TeamOverview({
         </div>
       </Container>
         </div>
+        <div className={"flex flex-col gap-4"}>
+          <h2 className="text-2xl font-bold">Overview</h2>
 
-      <div className={"flex flex-col gap-4"}>
-        <h2 className="text-2xl font-bold">Overview</h2>
+          <TeamMainInformation onSubmit={handleUpdate} team={data} editable={false} />
 
-        <TeamMainInformation onSubmit={handleUpdate} team={data} />
+          <Container>
+            <Table
+              columns={[
+                { key: "first_name", label: "Firstname" },
+                { key: "last_name", label: "Lastname" },
+                { key: "email", label: "Email" },
+                { key: "isTeacher", label: "Teacher" },
+              ]}
+              ordered
+              data={data.users || []}
+            />
 
-        <Container>
-          <Table
-            columns={[
-              { key: "first_name", label: "Firstname" },
-              { key: "last_name", label: "Lastname" },
-              { key: "email", label: "Email" },
-              { key: "isTeacher", label: "Teacher" },
-            ]}
-            ordered
-            selectable
-            actions={["edit", "delete"]}
-            data={data.users || []}
-            Delete={(filteredData: { email: string }[]) =>
-              getEmailList(filteredData)
-            }
-          />
+          </Container>
 
-          <form onSubmit={handleSubmitAddUser}>
-            <footer className={"flex gap-4"}>
-              <Button size={"sm"} rounded={"full"} type="submit">
-                <AddIcon className="w-5 h-5" />
-                <span>Add user</span>
-              </Button>
-
-              <Input
-                type="email"
-                placeholder="Enter user's email"
-                className={"flex-1 w-1/2"}
-                size={"sm"}
-                name="email"
-                borders
-              />
-            </footer>
-          </form>
-        </Container>
-
-        {/* <ListFieldMapping
-          users={userData}
-          nameField="Members"
-          modelPrimaryKey={searchParams.id}
-          modelFieldList={[
-            { name: "name", email: "email" },
-            { is_teacher: "is_teacher", id: "id" },
-          ]}
-          urlDeleteLine="http://localhost:8000/api/group/removeUser"
-          urlAddLine="http://localhost:8000/api/group/addUser"
-          placeholderPrimaryKeyElementAdd="Email"
-        /> */}
+        </div>
       </div>
-    </div>
     </div>
   );
 }
