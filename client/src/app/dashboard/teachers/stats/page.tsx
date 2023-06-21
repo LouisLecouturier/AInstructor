@@ -1,57 +1,51 @@
-"use client";
+'use client';
 
 import React from "react";
-import CubeTeams from "@/components/Dashboard/Teachers/Stats";
-import Header from "@components/Dashboard/Common/Layout/Header";
-import { Button } from "@components/Layout/Interactions/Button";
-import { useRouter } from "next/navigation";
-import Container from "@components/Layout/Container";
+import Link from "next/link";
+import CubeTeams from "@/components/dashboard/Teachers/Stats";
+import Header from "@/components/dashboard/Layout/Header";
+import Container from "@/components/layout/Container";
+import { useQuery } from "@tanstack/react-query";
+import { fetchTeamsUser } from "@/requests/team";
+import { useSession } from "next-auth/react";
+import { Team } from "@/types/team";
+import { nanoid } from "nanoid";
 
-const teams = [
-  {
-    id: 1,
-    name: "Groupe 1",
-    score: 12,
-    moy: 50,
-    effectif: 12,
-  },
-  {
-    id: 2,
-    name: "Groupe 2",
-    score: 52,
-    moy: 32,
-    effectif: 12,
-  },
-  {
-    id: 3,
-    name: "Groupe 3",
-    score: 69,
-    moy: 10,
-    effectif: 12,
-  },
-];
+
 
 export default function Teams() {
-  const router = useRouter();
+  const {data : session} = useSession();
+  const token = session?.user.accessToken;
+
+  const { data : teams, isLoading, isError } = useQuery<Team[]>({
+    queryKey: ["teams"],
+    queryFn: () => fetchTeamsUser(String(token)),
+    enabled: !!token,
+  });
+
+  if (isLoading || isError) return <div>Loading...</div>;
+
+
 
   return (
     <div className="flex flex-col gap-5">
-      <Header title={"Stats"} />
+      <Header title="Stats" />
       <div className="flex flex-col gap-10">
-        <Container title="My teams">
-          <div className="flex gap-4 flex-wrap">
-            {teams.map((teams) => (
-              <CubeTeams uuid={teams.id} key={teams.name} name={teams.name} />
+        <Container title="My teams" className=" w-full">
+          <div className="flex gap-8 flex-wrap ">
+            {teams.map((team) => (
+              <CubeTeams uuid={team.uuid} key={nanoid()} color={team.color} name={team.name} />
             ))}
           </div>
-          <Button
-            rounded={"full"}
-            onClick={() =>
-              router.push("/dashboard/teachers/stats/teams/myteams")
-            }
+          <Link
+            className="rounded-xl w-fit h-15 "
+            href={`/dashboard/teachers/stats/teams/myteams`}
           >
-            Accéder à toutes mes stats de team
-          </Button>
+            <div className="px-4 py-3 rounded-xl font-bold text-accent-500 text-lg border-2 border-dark-50 hover:border-accent-300 transition">
+            View global statistics
+
+            </div>
+          </Link>
         </Container>
       </div>
     </div>

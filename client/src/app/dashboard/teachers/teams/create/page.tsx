@@ -4,8 +4,7 @@ import { TeamInformations } from "@components/Dashboard/Teams/MainInformation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { use } from "react";
-// import newTeam from "./hook";
-import Header from "@components/Dashboard/Layout/Header";
+import Header from "@components/Dashboard/Common/Layout/Header";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTeam } from "@requests/team";
 

@@ -43,7 +43,6 @@ def new(request, body: TeamSchema):
 
     request = json.loads(request.body.decode('utf-8'))
     message = ""
-    
 
     try:
         user = get_object_or_404(models.CustomUser, accessToken=token)
@@ -108,13 +107,13 @@ def overview(request, uuid: uuidLib.UUID):
 
 
 class removeUser(Schema):
-    id: list[int]
+    emails: list[str]
 
 @router.post("/{uuid}/remove-users")
 def removeUser(request, body: removeUser, uuid: uuidLib.UUID):
     error = ""
-    for id in body.id:
-        user = get_object_or_404(models.CustomUser, id=id)
+    for email in body.emails:
+        user = get_object_or_404(models.CustomUser, email=email)
         team = get_object_or_404(models.Team, uuid=uuid)
         if user == team.owner:
             error = "You can't remove the owner of the team"
@@ -124,24 +123,21 @@ def removeUser(request, body: removeUser, uuid: uuidLib.UUID):
 
 
 class addUser(Schema):
-    users_email: list[str]
+    emails: list[str]
 
 
 @router.post('/{uuid}/add-users')
 def addUser(request, body: addUser, uuid: uuidLib.UUID):
+    request = json.loads(request.body.decode('utf-8'))
     error = False
-    print(body.users_email)
 
-    for email in body.users_email:
+    for email in body.emails:
         try:
             user = get_object_or_404(models.CustomUser, email=email)
-            print("user", user)
             team = get_object_or_404(models.Team, uuid=uuid)
-            print("team", team)
             team.users.add(user)
-        except Exception as e:
+        except:
             error = True
-            print(e)
 
     return JsonResponse({'error': error})
 
