@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, use, useEffect, useState } from "react";
 import clsx from "clsx";
 import Options from "@icons/Options.svg";
 import Delete from "@icons/Delete.svg";
@@ -50,8 +50,20 @@ const Table: FC<TableProps> = (props) => {
         filteredData.push(props.data[index]);
       }
     });
+    
     return filteredData;
   }
+
+  useEffect(() => {
+    console.log(props.data);
+    if (props.selectedRows !== undefined) {
+      setSelectedRows(checkUUIDExistence(props.selectedRows, props.data));
+    }
+    else setSelectedRows(Array(props.data.length).fill(false));
+
+    console.log(selectedRows);
+    
+  }, [props.data]);
 
 
 
@@ -127,7 +139,7 @@ const Table: FC<TableProps> = (props) => {
                   )}
                 >
                   <input
-                    checked={selectedRows[index]}
+                    checked={selectedRows[index] || false}
                     onChange={() => {setSelectedRows(selectedRows.map((value, i) => i === index ? !value : value))}}
                     type="checkbox"
                   />

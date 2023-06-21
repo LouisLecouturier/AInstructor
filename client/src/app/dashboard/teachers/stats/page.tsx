@@ -42,7 +42,8 @@ export default function Teams() {
             href={`/dashboard/teachers/stats/teams/myteams`}
           >
             <div className="px-4 py-3 rounded-xl font-bold text-accent-500 text-lg border-2 border-dark-50 hover:border-accent-300 transition">
-              Accéder à toutes mes stats de team
+            View global statistics
+
             </div>
           </Link>
         </Container>
