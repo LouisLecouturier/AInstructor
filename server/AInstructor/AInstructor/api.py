@@ -12,6 +12,7 @@ from quizz.api import router as quizz_router
 from answer.api import router as answer_router
 from user.api import router as user_router
 from team.api import router as team_router
+from statistic.api import router as stats_router
 from django.shortcuts import get_object_or_404
 
 key = getattr(settings, "SECRET_KEY", None)
@@ -76,6 +77,7 @@ api.add_router("/course", course_router)
 api.add_router("/answer", answer_router)
 api.add_router("/team", team_router)
 api.add_router("/user", user_router)
+api.add_router("/stats", stats_router)
 
 
 # @api.post("/chatbot", )

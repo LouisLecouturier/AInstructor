@@ -16,7 +16,7 @@ class Stat(Schema):
 
     
 
-@router.get("/stats/user/{course}")
+@router.get("/user/{course}")
 def get_user_stats_by_course(request, course: uuidLib.UUID):
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
@@ -27,7 +27,7 @@ def get_user_stats_by_course(request, course: uuidLib.UUID):
         return {'message': "successfully got the stats by course", "course": stat.course.uuid , "mean" :stat.mean,"min" :stat.min,"max" :stat.max, "progress" :stat.progress}
 
 
-@router.post("/stats/user")
+@router.post("/user")
 def get_user_stats_by_theme(request, theme:str):
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
@@ -60,25 +60,52 @@ def get_user_stats_by_theme(request, theme:str):
 class TeamStat(Schema):
     course_uuid: uuidLib.UUID
     team_uuid: uuidLib.UUID
-    theme :str = "theme"
 
-@router.post("/stats/team/course")
-def get_team_stats_by_course(request, body: TeamStat):
+@router.get("/team/{teamUUID}/course/{courseUUID}")
+def get_team_stats_by_course(request, teamUUID: uuidLib.UUID, courseUUID: uuidLib.UUID):
+    print("get_team_stats_by_course")
+    print(teamUUID)
+    print(courseUUID)
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
-    course = get_object_or_404(models.Course, uuid=body.course_uuid)
-    team = get_object_or_404(models.Team, uuid=body.team_uuid)
+
+    course = get_object_or_404(models.Course, uuid=courseUUID)
+    team = get_object_or_404(models.Team, uuid=teamUUID)
+
     if user and team and course:
         if user in team.users.all():
-            stat = get_object_or_404(models.TeamStatistiques, team=team, course=course)
-            return {'message': "successfully got the stats by course", 
-                    "course": stat.course.uuid, "mean" :stat.mean,
-                    "median" :stat.median,"min" :stat.min,"max" :stat.max}
+            try : 
+                stat = get_object_or_404(models.TeamStatistiques, team=team, course=course)
+                return {
+                    'error' : False,
+                    'message': "successfully got the stats by course", 
+                    "course": stat.course.uuid,
+                    "mean" :stat.mean,
+                    "median" :stat.median,
+                    "min" :stat.min,
+                    "max" :stat.max
+                }
+            except :
+                return {
+                    'error' : True,
+                    'message': "team has no stats for this course"
+                    }
+
         else:
-            return {'message': "user is not in the team"}
+            return {
+                'error' : True,
+                'message': "user is not in the team"
+                }
     else:
-        return {'message': "user or team or course does not exist"}
+        return {
+            'error' : True,
+            'message': "user or team or course does not exist"
+            }
+
+    
+
+
 
 def median_value(queryset, term):
     count = queryset.count()
@@ -88,7 +115,8 @@ def median_value(queryset, term):
     else:
         return sum(values[count/2-1:count/2+1])/2.0
 
-@router.post("/stats/team/theme")
+
+@router.post("/team/theme")
 def get_team_stats_by_theme(request, body: TeamStat):
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
