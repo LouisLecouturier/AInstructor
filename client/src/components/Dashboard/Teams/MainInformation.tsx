@@ -1,6 +1,6 @@
 import { Button } from "@components/Layout/Interactions/Button";
 import Input from "@components/Layout/Interactions/Forms/Input";
-import React, { FC, FormEvent, useState } from "react";
+import React, { FC, FormEvent, useRef, useState } from "react";
 import Container from "@components/Layout/Container";
 import { Team } from "@/types/team";
 import clsx from "clsx";
@@ -13,9 +13,21 @@ type TeamMainInformationProps = {
 export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
   const [color, setColor] = useState(props.team?.color ?? "#000000");
 
+  const formRef = useRef<HTMLFormElement>(null);
+
   return (
-    <Container title={"Team informations"}>
+    <Container
+      title={"Team informations"}
+      action={
+        props.team && (
+          <Button variant="accent" size="sm" rounded="full" type="submit">
+            Update Team
+          </Button>
+        )
+      }
+    >
       <form
+        ref={formRef}
         onSubmit={props.onSubmit}
         className="flex flex-col gap-8 w-full max-w-[800px]"
       >
@@ -28,7 +40,7 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
               />
             </div>
             <Input
-              defaultValue={props.team?.color}
+              defaultValue={props.team?.color ?? "#000"}
               onChange={(e) => setColor(e.target.value)}
               placeholder="#color"
               borders
@@ -62,17 +74,11 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
             </div>
           </div>
         </div>
-
-        <div className="flex w-full gap-4">
-          <Button
-            variant="accent"
-            size="sm"
-            rounded="full"
-            type="submit"
-          >
-            {props.team ? "Update Team":"Create Team"}
+        {!props.team && (
+          <Button variant="accent" size="sm" rounded="full" type="submit">
+            Create Team
           </Button>
-        </div>
+        )}
       </form>
     </Container>
   );

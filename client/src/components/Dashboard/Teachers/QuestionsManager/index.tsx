@@ -90,7 +90,7 @@ const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
 
   const generateQuestions = async () => {
     const newQuestions = questions.concat(
-      Array.from({ length: 10 }, () => ({ question: "", isLoading: true }))
+      Array.from({ length: 5 }, () => ({ question: "", isLoading: true }))
     );
     setQuestions(newQuestions);
 

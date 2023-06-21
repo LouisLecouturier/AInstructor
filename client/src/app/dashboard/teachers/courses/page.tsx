@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import Header from "@components/Dashboard/Layout/Header";
+import Header from "@components/Dashboard/Common/Layout/Header";
 import ListItem from "@components/Layout/ListItem";
 import { useRouter } from "next/navigation";
 import Container from "@components/Layout/Container";
@@ -12,6 +12,8 @@ import { Course } from "@/types/course";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { deleteCourse, getCourses } from "@requests/course";
+import clsx from "clsx";
+import Link from "next/link";
 
 const Courses = () => {
   const router = useRouter();
@@ -40,14 +42,6 @@ const Courses = () => {
     }
   };
 
-  if (isLoading || isError) {
-    return <div>loading...</div>;
-  }
-
-  if (!data) {
-    return <div>Error</div>;
-  }
-
   return (
     <div>
       <Header title={"Courses"} />
@@ -69,7 +63,11 @@ const Courses = () => {
           description={"Preview, manage, delete your courses"}
         >
           <div className={"flex flex-col gap-2"}>
-            {data.length > 0 ? (
+            {isLoading || isError ? (
+              Array.from({ length: 2 }).map(() => (
+                <ListItem properties={[]} key={nanoid()} isLoading />
+              ))
+            ) : data.length > 0 ? (
               data.map((course) => {
                 const properties = [
                   { label: "Creation date", value: course.creationDate },
@@ -98,11 +96,21 @@ const Courses = () => {
                 );
               })
             ) : (
-              <span
-                className={"text-center text-dark-200 text-sm font-bold py-4"}
+              <div
+                className={clsx(
+                  "flex flex-col gap-2",
+                  "py-8",
+                  "text-sm font-bold text-center text-dark-200 bg-dark-10 rounded-md"
+                )}
               >
-                You don&apos;t have any course
-              </span>
+                <span>You don&apos;t have any course</span>
+                <Link
+                  className={"text-accent-500 underline"}
+                  href={"/dashboard/teachers/courses/create"}
+                >
+                  Create one
+                </Link>
+              </div>
             )}
           </div>
         </Container>

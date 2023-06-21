@@ -78,23 +78,27 @@ const Table: FC<TableProps> = (props) => {
           </div>
         )}
       </header>
-      <table className={clsx("table-auto", props.className)}>
+      <table className={clsx("table-fixed", props.className)}>
         <thead>
           <tr className={"border-b-2 border-accent-200"}>
             {props.selectable && (
-              <th className={clsx("text-start px-4 py-2")}></th>
+              <th className={clsx("w-0 text-start px-4 py-2")}></th>
             )}
             {props.ordered && (
-              <th className={clsx("text-start px-4 py-2")}>#</th>
+              <th className={clsx("w-min text-start px-4 py-2")}>#</th>
             )}
             {props.columns.map((column, index) => (
               <th
                 key={column.key + index}
-                className={clsx("text-start px-4 py-2")}
+                className={clsx("text-start px-4 py-2",
+                props.firstIsKey && index === 0 && "w-0")}
               >
                 {column.label}
               </th>
             ))}
+            {props.actions?.length !== 0 && (
+              <th className={clsx("w-0 text-start px-4 py-2")}></th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -108,9 +112,9 @@ const Table: FC<TableProps> = (props) => {
                 )}
               >
                 {props.selectable && (
-                  <th
+                  <td
                     className={clsx(
-                      "px-4 py-2",
+                      "w-fit px-4 py-2",
                       "text-dark-200/50",
                       "border-r-2 border-dark-500/5 last:border-none"
                     )}
@@ -126,12 +130,12 @@ const Table: FC<TableProps> = (props) => {
                       }}
                       type="checkbox"
                     />
-                  </th>
+                  </td>
                 )}
                 {props.ordered && (
                   <td
                     className={clsx(
-                      "px-4 py-2",
+                      "w-fit px-4 py-2",
                       "text-dark-200/50",
                       "border-r-2 border-dark-500/5 last:border-none"
                     )}
@@ -144,7 +148,9 @@ const Table: FC<TableProps> = (props) => {
                     key={column.key + index}
                     className={clsx(
                       "px-4 py-2",
-                      props.firstIsKey && "first:text-dark-200/50",
+                      props.firstIsKey && index === 0
+                        ? "w-fit text-dark-200/50"
+                        : "w-auto",
                       "border-r-2 border-dark-500/5 last:border-none"
                     )}
                   >
@@ -155,8 +161,8 @@ const Table: FC<TableProps> = (props) => {
                 {props.actions?.length !== 0 && (
                   <td
                     className={clsx(
-                      "px-4 py-2",
-                      "border-r-2 border-dark-500/5 last:border-none",
+                      "w-fit px-4 py-2",
+                      "last:border-none",
                       "flex items-center justify-center"
                     )}
                   >

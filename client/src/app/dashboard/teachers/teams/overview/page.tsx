@@ -6,7 +6,7 @@ import { Button } from "@components/Layout/Interactions/Button";
 import TeamMainInformation from "@components/Dashboard/Teams/MainInformation";
 import { useRouter } from "next/navigation";
 import Container from "@components/Layout/Container";
-import Table from "@components/Dashboard/Layout/Table";
+import Table from "@components/Dashboard/Common/Layout/Table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Team } from "@/types/team";
 import {
@@ -19,7 +19,7 @@ import {
 
 import AddIcon from "@icons/Plus.svg";
 import Input from "@components/Layout/Interactions/Forms/Input";
-import Header from "@components/Dashboard/Layout/Header";
+import Header from "@components/Dashboard/Common/Layout/Header";
 
 export default function TeamOverview({
   searchParams,
@@ -123,8 +123,6 @@ export default function TeamOverview({
       </Header>
 
       <div className={"flex flex-col gap-4"}>
-        <h2 className="text-2xl font-bold">Overview</h2>
-
         <TeamMainInformation onSubmit={handleUpdate} team={data} />
 
         <Container>

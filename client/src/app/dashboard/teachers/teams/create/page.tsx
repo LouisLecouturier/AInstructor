@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import newTeam from "./hook";
-import Header from "@components/Dashboard/Layout/Header";
+import Header from "@components/Dashboard/Common/Layout/Header";
 
 export default function AddTeam() {
   const { data: session } = useSession();

@@ -4,9 +4,9 @@ import Logout from "@icons/Logout.svg";
 import { signOut, useSession } from "next-auth/react";
 
 import clsx from "clsx";
-import TeacherNavigation from "@components/Dashboard/Layout/Navigation/TeacherNavigation";
-import NavigationElement from "@components/Dashboard/Layout/Navigation/NavigationElement";
-import StudentNavigation from "@components/Dashboard/Layout/Navigation/StudentNavigation";
+import TeacherNavigation from "@components/Dashboard/Common/Layout/Navigation/TeacherNavigation";
+import NavigationElement from "@components/Dashboard/Common/Layout/Navigation/NavigationElement";
+import StudentNavigation from "@components/Dashboard/Common/Layout/Navigation/StudentNavigation";
 import UserInfo from "@components/Layout/User/Userinfo";
 
 interface Students {
@@ -28,13 +28,6 @@ const Students: Students = {
   Homeworks: "",
   Teams: "",
   Import: "",
-  Stats: "",
-  Settings: "",
-};
-
-const Teachers: Teachers = {
-  quizzs: "",
-  Teams: "",
   Stats: "",
   Settings: "",
 };

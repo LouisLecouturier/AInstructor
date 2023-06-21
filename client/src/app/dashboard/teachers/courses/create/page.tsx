@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Header from "@components/Dashboard/Layout/Header";
+import Header from "@components/Dashboard/Common/Layout/Header";
 import Container from "@components/Layout/Container";
 import Input from "@components/Layout/Interactions/Forms/Input";
 import Label from "@components/Layout/Interactions/Forms/Label";
@@ -86,13 +86,12 @@ const Create = () => {
       <div className={"flex flex-col gap-8"}>
         <Container
           title={"Course file"}
-          description={"Import your course in md"}
-          className="max-w-5xl"
+          description={"Import your course in pdf, docx or md format"}
         >
           <FileInput
             type={getLoadingStatus()}
             id={"file"}
-            accept={".pdf"}
+            accept={".pdf, .doc, .docx, .md"}
             name={"course_file"}
             sendFile={handleFileSubmit}
           />
@@ -122,7 +121,7 @@ const Create = () => {
           <Container
             title={"Course informations"}
             description={"Fill the informations of your course"}
-            className={clsx(!uuid && "pointer-events-none", "max-w-5xl")}
+            className={clsx(!uuid && "pointer-events-none")}
           >
             <div className={clsx("flex flex-col gap-1", !uuid && "opacity-50")}>
               <Label htmlFor="name">Name</Label>
@@ -155,7 +154,7 @@ const Create = () => {
               type={"submit"}
               className={`${!uuid && "opacity-50"}`}
             >
-              Confirm
+              Create this course
             </Button>
           </Container>
         </form>

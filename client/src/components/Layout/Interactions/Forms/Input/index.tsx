@@ -1,8 +1,9 @@
 import clsx from "clsx";
-import { FC } from "react";
+import React, { FC } from "react";
 
 type InputProps = {
   id?: string;
+  inputRef?: React.Ref<HTMLTextAreaElement>;
   placeholder?: string;
   name?: string;
   borders?: boolean;
@@ -26,6 +27,7 @@ export const Input: FC<InputProps> = (props) => {
   if (props.textarea) {
     return (
       <textarea
+        ref={props.inputRef}
         id={props.id}
         className={clsx(
           props.className,

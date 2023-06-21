@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Header from "@components/Dashboard/Layout/Header";
+import Header from "@components/Dashboard/Common/Layout/Header";
 import Container from "@components/Layout/Container";
 import UserInfo from "@components/Layout/User/Userinfo";
 import Information from "@components/Layout/Information";

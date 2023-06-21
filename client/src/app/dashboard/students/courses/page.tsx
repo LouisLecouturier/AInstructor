@@ -2,7 +2,7 @@
 import React from "react";
 import ListItem from "@components/Layout/ListItem";
 
-import Header from "@components/Dashboard/Layout/Header";
+import Header from "@components/Dashboard/Common/Layout/Header";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCourses } from "@requests/course";

@@ -44,7 +44,6 @@ const Course = ({ params }: { params: { uuid: string } }) => {
   const {
     data: course,
     isLoading,
-    isError,
   } = useQuery({
     queryKey: ["course"],
     queryFn: () => getCourse(uuid, String(token)),
@@ -65,7 +64,7 @@ const Course = ({ params }: { params: { uuid: string } }) => {
             teacher={course.teacher}
           />
           {course && (
-            <div className={"max-w-2xl"}>
+            <div className={"max-w-2xl text-justify"}>
               <ReactMarkdown components={config}>{course.text}</ReactMarkdown>
             </div>
           )}

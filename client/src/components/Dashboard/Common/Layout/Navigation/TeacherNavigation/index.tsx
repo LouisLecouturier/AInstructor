@@ -1,5 +1,5 @@
 import React from "react";
-import NavigationElement from "@components/Dashboard/Layout/Navigation/NavigationElement";
+import NavigationElement from "@components/Dashboard/Common/Layout/Navigation/NavigationElement";
 
 import Home from "@icons/Home.svg";
 import Courses from "@icons/Cards.svg";
@@ -7,43 +7,36 @@ import Teams from "@icons/Teams.svg";
 import Stats from "@icons/Stats.svg";
 import Settings from "@icons/Settings.svg";
 
-import Upload from "@icons/Upload.svg";
-
-const StudentNavigation = () => {
+const TeacherNavigation = () => {
   return (
     <nav className={"flex flex-col gap-2"}>
       <NavigationElement
         icon={<Home />}
         label={"Home"}
-        link={"/dashboard/students"}
+        link={"/dashboard/teachers"}
       />
       <NavigationElement
         icon={<Courses />}
-        label={"My courses"}
-        link={"/dashboard/students/courses"}
+        label={"Courses"}
+        link={"/dashboard/teachers/courses"}
       />
       <NavigationElement
         icon={<Teams />}
-        label={"My teams"}
-        link={"/dashboard/students/teams"}
-      />
-      <NavigationElement
-        icon={<Upload />}
-        label={"Upload"}
-        link={"/dashboard/students/upload"}
+        label={"Teams"}
+        link={"/dashboard/teachers/teams"}
       />
       <NavigationElement
         icon={<Stats />}
-        label={"My stats"}
-        link={"/dashboard/students/stats"}
+        label={"Stats"}
+        link={"/dashboard/teachers/stats"}
       />
       <NavigationElement
         icon={<Settings />}
         label={"Settings"}
-        link={"/dashboard/students/settings"}
+        link={"/dashboard/teachers/settings"}
       />
     </nav>
   );
 };
 
-export default StudentNavigation;
+export default TeacherNavigation;

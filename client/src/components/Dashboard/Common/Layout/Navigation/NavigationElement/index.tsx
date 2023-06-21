@@ -14,7 +14,7 @@ type NavigationElementProps = {
 };
 
 const NavigationElement: FC<NavigationElementProps> = (props) => {
-  const active = usePathname() === props.link;
+  const active = String(usePathname()).split("/").slice(3).includes(props.label.toLowerCase());
 
   if (!props.link) {
     return (

@@ -61,11 +61,10 @@ def create_course(request, user_id: int, file: UploadedFile = File(...)):
         txt_file = ContentFile(text_content)
 
         default_storage.save(storage_path.with_suffix('.txt'), txt_file)
-
-        temp_file_path = tempfile.mktemp(suffix='.md')
-        pypandoc.convert_text(text_content, 'md', format='plain', outputfile=temp_file_path, extra_args=['--preserve-tabs'])
-        md_file = ContentFile(open(temp_file_path, 'rb').read())
-        default_storage.save(storage_path.with_suffix('.md'), md_file)
+        #
+        # temp_file_path = tempfile.mktemp(suffix='.md')
+        # md_file = ContentFile(open(temp_file_path, 'rb').read())
+        default_storage.save(storage_path.with_suffix('.md'), txt_file)
 
     else:
         default_storage.save(storage_path, file)
@@ -223,16 +222,15 @@ def generate_questions(request, uuid: str):
     else:
         return HttpResponseNotFound("File not found")
 
-
     openai.api_key = "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"
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": "You are a helpful teacher."},
             {"role": "assistant", "content": content},
             {"role": "user",
-             "content": "Ecrit moi 10 questions sur ce texte pour tester mes connaisances mais tu ecris seulement les questions et pas les réponses"},
+             "content": "Écris-moi 5 questions sur ce texte pour tester mes connaisances mais tu écris seulement les questions et pas les réponses"},
         ]
     )
 
@@ -412,9 +410,7 @@ def update_course_text(request, body: UpdateCourseText):
     return {'uuid': course.uuid, 'text': course.text}
 
 
-
 @router.get("/course/{uuid}/rawtext")
 def get_rawtext(request, uuid: uuidLib.UUID):
     course = get_object_or_404(models.Course, uuid=uuid)
     return {'uuid': course.uuid, 'text': course.text}
-

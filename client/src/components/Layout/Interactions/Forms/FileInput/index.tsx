@@ -53,14 +53,14 @@ const MyComponent: FC<FileInputProps> = (props) => {
         id={props.id}
         className={clsx(
           "flex-1 flex flex-col gap-8",
-          "p-6",
+          "p-6 py-8",
+          "text-center",
           "rounded-lg",
           "border-dashed border-spacing-60 border-2 border-accent-200",
           "transition cursor-pointer",
-          "bg-accent-100",
+          "bg-accent-100"
         )}
         onClick={handleClick}
-
         onDrop={(e: React.DragEvent<HTMLDivElement>) => {
           e.preventDefault();
           handleDrop(e);
@@ -86,7 +86,7 @@ const MyComponent: FC<FileInputProps> = (props) => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   if (props.type === "uploaded") {
@@ -95,14 +95,15 @@ const MyComponent: FC<FileInputProps> = (props) => {
         id={props.id}
         className={clsx(
           "flex-1 flex flex-col gap-8",
-          "p-6",
+          "p-6 py-8",
+          "text-center",
+
           "rounded-lg",
           "border-dashed border-spacing-60 border-2 border-green-200",
           "transition cursor-pointer",
-          "bg-green-10",
+          "bg-green-10"
         )}
         onClick={handleClick}
-
         onDrop={(e: React.DragEvent<HTMLDivElement>) => {
           e.preventDefault();
           handleDrop(e);
@@ -123,22 +124,24 @@ const MyComponent: FC<FileInputProps> = (props) => {
               <Checkmark className="w-3/5 h-3/5 text-white" />
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-lg font-bold">File uploaded successfully !</span>
+              <span className="text-lg font-bold">
+                File uploaded successfully !
+              </span>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
-
-
 
   return (
     <div
       id={props.id}
       className={clsx(
         "flex-1 flex flex-col gap-8",
-        "p-6",
+        "p-6 py-8",
+        "text-center",
+
         "rounded-lg",
         "border-dashed border-spacing-60 border-2 border-dark-50 hover:border-accent-200 focus:border-accent-200",
         "hover:bg-accent-50 focus:bg-accent-50",

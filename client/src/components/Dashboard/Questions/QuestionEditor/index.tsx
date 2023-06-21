@@ -23,6 +23,7 @@ export default function QuestionEdit(props: QuestionEditProps) {
   const [question, setQuestion] = useState<Question>(props.question); // [value, setValue
   const [isEditing, setIsEditing] = useState(false);
   const containerRef = useRef(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleClickOutside = () => {
     if (!isEditing) return;
@@ -61,37 +62,41 @@ export default function QuestionEdit(props: QuestionEditProps) {
           <h3 className={clsx("font-black text-lg text-accent-500")}>
             Question {props.index}
           </h3>
-          {isEditing ? (
-            <Input
-              textarea
-              borders
-              onChange={(e) => setQuestion({ question: e.target.value })}
-              className={"italic text-sm px-2"}
-              placeholder={"Write your question here..."}
-              size={"sm"}
-              defaultValue={question?.question}
-            />
-          ) : (
-            <div
-              onClick={() => {
-                setIsEditing(true);
-              }}
-              className={clsx(
-                "w-full min-h-[4rem] p-2",
-                "text-sm font-semibold italic",
-                "bg-accent-50 text-dark-300 rounded-md",
-                "cursor-text"
-              )}
-            >
-              {question?.question?.length > 0 ? (
-                question.question
-              ) : (
-                <span className={"text-dark-100"}>
-                  Write your question here...
-                </span>
-              )}
-            </div>
-          )}
+
+          <Input
+            inputRef={inputRef}
+            textarea
+            borders
+            onChange={(e) => setQuestion({ question: e.target.value })}
+            className={clsx("italic text-sm px-2", !isEditing && "hidden")}
+            placeholder={"Write your question here..."}
+            size={"sm"}
+            defaultValue={question?.question}
+          />
+
+          <div
+            onClick={() => {
+              setIsEditing(true);
+              setTimeout(() => {
+                inputRef.current?.focus();
+              }, 10);
+            }}
+            className={clsx(
+              "w-full min-h-[4rem] p-2",
+              "text-sm font-semibold italic",
+              "bg-accent-50 text-dark-300 rounded-md",
+              "cursor-text",
+              isEditing && "hidden"
+            )}
+          >
+            {question?.question?.length > 0 ? (
+              question.question
+            ) : (
+              <span className={"text-dark-100"}>
+                Write your question here...
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex gap-2 w-1/2">

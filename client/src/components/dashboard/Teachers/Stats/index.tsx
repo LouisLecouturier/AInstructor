@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import clsx from "clsx";
 
 type Team = {
   uuid?: number;
@@ -12,12 +13,20 @@ type Team = {
 
 export default function CubeTeams(props: Team) {
   return (
-    <Link href={`/dashboard/teachers/stats/teams/${props.uuid}`}>
-      <div className="flex flex-col gap-5 p-4 py-3 w-64 h-64 bg-white rounded-xl border-2 border-dark-50 hover:border-accent-300 transition">
-        <div className="flex bg-dark-50 rounded-md h-40 w-full"></div>
-        <h3 className="font-semibold">Equipe : {props.name}</h3>
-        <h2 className="text-accent-500 text-md font-bold">Voir les stats</h2>
-      </div>
+    <Link
+      href={`/dashboard/teachers/stats/teams/${props.uuid}`}
+      className={clsx(
+        "flex flex-col gap-4",
+        "w-56 h-56 p-4",
+        "bg-white",
+        "rounded-xl border-2 border-dark-50",
+        "hover:border-accent-200",
+        "transition"
+      )}
+    >
+      <div className="bg-dark-50 rounded-md w-full aspect-square"></div>
+      <h3 className="font-semibold">{props.name}</h3>
+      <h2 className="text-accent-500 text-md font-bold">See stats</h2>
     </Link>
   );
 }

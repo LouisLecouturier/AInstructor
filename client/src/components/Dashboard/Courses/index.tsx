@@ -1,5 +1,5 @@
 import React from "react";
-import ProgressBar from "@components/Dashboard/Layout/ProgressBar";
+import ProgressBar from "@components/Dashboard/Common/Layout/ProgressBar";
 import Link from "next/link";
 
 type Course = {

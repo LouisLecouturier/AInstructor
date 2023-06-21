@@ -13,6 +13,7 @@ import InProgress from "@icons/Pencil.svg";
 import clsx from "clsx";
 import styles from "./ListItem.module.scss";
 import { useRouter } from "next/navigation";
+import Skeleton from "@components/Layout/Skeleton";
 
 type Property = {
   label: string;
@@ -25,6 +26,7 @@ type ListItemProps = {
   status?: "done" | "pending" | "in-progress";
   href?: string;
   withUserActions?: boolean;
+  isLoading?: boolean;
   onClick?: () => void;
   onDelete?: () => void;
   onEdit?: () => void;
@@ -43,8 +45,29 @@ const statusIcon = (status?: "done" | "pending" | "in-progress") => {
 };
 
 const ListItem: FC<ListItemProps> = (props) => {
+  const router = useRouter();
 
-  const router = useRouter()
+  if (props.isLoading) {
+    return (
+      <article
+        className={clsx(
+          "group",
+          "border-2 border-dark-50",
+          "flex flex-col gap-4",
+          "p-4 py-3 w-full bg-white rounded-xl",
+          "cursor-pointer"
+        )}
+      >
+        <header>
+          <Skeleton className={"w-1/3 h-6"} />
+        </header>
+        <div className={"flex flex-col gap-1"}>
+          <Skeleton className={"w-1/2 h-4"} rounded={"sm"}/>
+          <Skeleton className={"w-1/2 h-4"} rounded={"sm"}/>
+        </div>
+      </article>
+    );
+  }
 
   return (
     <article
@@ -56,11 +79,14 @@ const ListItem: FC<ListItemProps> = (props) => {
         "cursor-pointer"
       )}
       onClick={() => {
-        props.href && router.push(props.href)
+        props.href && router.push(props.href);
       }}
     >
       <header className={"flex justify-between w-full"}>
-        <div className={"flex items-center flex-1 gap-2"} onClick={props.onClick}>
+        <div
+          className={"flex items-center flex-1 gap-2"}
+          onClick={props.onClick}
+        >
           {props.status && statusIcon(props.status)}
           <span
             className={clsx(

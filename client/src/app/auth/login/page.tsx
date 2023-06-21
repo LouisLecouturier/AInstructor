@@ -46,7 +46,7 @@ function Login() {
         <Input placeholder="Email" name="email" />
       </div>
       <div className={"flex flex-col gap-2 items-end"}>
-        <Input placeholder="Password" name="password" />
+        <Input placeholder="Password" type={"password"} name="password" />
         <Link
           href="/auth/forgot-password"
           className="text-accent-500 text-sm font-bold"
