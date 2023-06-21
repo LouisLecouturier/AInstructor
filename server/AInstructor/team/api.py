@@ -129,16 +129,19 @@ class addUser(Schema):
 
 @router.post('/{uuid}/add-users')
 def addUser(request, body: addUser, uuid: uuidLib.UUID):
-    request = json.loads(request.body.decode('utf-8'))
     error = False
+    print(body.users_email)
 
     for email in body.users_email:
         try:
             user = get_object_or_404(models.CustomUser, email=email)
+            print("user", user)
             team = get_object_or_404(models.Team, uuid=uuid)
-            team.users.add(user, clear=False)
-        except:
+            print("team", team)
+            team.users.add(user)
+        except Exception as e:
             error = True
+            print(e)
 
     return JsonResponse({'error': error})
 

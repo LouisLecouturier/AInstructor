@@ -1,12 +1,11 @@
 "use client";
 
-import Input from "@components/Interactions/Forms/Input";
-import { Button } from "@components/Interactions/Button";
+import Input from "@components/Layout/Interactions/Forms/Input";
+import { Button } from "@components/Layout/Interactions/Button";
 
 import LoginIcon from "@icons/Login.svg";
-import MyRadioGroup from "@components/Interactions/Forms/RadioGroup";
+import MyRadioGroup from "@components/Layout/Interactions/Forms/RadioGroup";
 import { FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 const options = [
@@ -15,7 +14,6 @@ const options = [
 ];
 
 function Register() {
-  const router = useRouter();
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -70,8 +68,8 @@ function Register() {
       <Input placeholder="Firstname" name={"firstname"} />
       <Input placeholder="Lastname" name={"lastname"} />
       <Input placeholder="Email" name={"email"} />
-      <Input placeholder="Password" name={"password"} />
-      <Input placeholder="Confirm password" name={"confirm_password"} />
+      <Input placeholder="Password" type={"password"} name={"password"} />
+      <Input placeholder="Confirm password" type={"password"} name={"confirm_password"} />
 
       <Button responsive className={"mt-4"} type={"submit"}>
         <span>Sign Up</span>

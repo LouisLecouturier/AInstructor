@@ -2,57 +2,20 @@
 
 import React from "react";
 
-import Header from "@components/dashboard/Layout/Header";
-import ListItem from "@components/layout/ListItem";
+import Header from "@components/Dashboard/Common/Layout/Header";
+import ListItem from "@components/Layout/ListItem";
 import { useRouter } from "next/navigation";
-import Container from "@components/layout/Container";
-import { Button } from "@components/Interactions/Button";
+import Container from "@components/Layout/Container";
+import { Button } from "@components/Layout/Interactions/Button";
 import { nanoid } from "nanoid";
 import { Course } from "@/types/course";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { getCourses } from "@requests/course";
-
-const courses = [
-  {
-    name: "Homework 1",
-    creationDate: "12/12/2021",
-    deliveryDate: "12/12/2023",
-    team: "English - 4B",
-    status: "pending",
-  },
-  {
-    name: "Homework 2",
-    creationDate: "12/12/2021",
-    deliveryDate: "12/12/2023",
-    team: "English - 4B",
-    status: "in-progress",
-  },
-  {
-    name: "Homework 1",
-    creationDate: "12/12/2021",
-    deliveryDate: "12/12/2023",
-    team: "5g - French",
-    status: "done",
-  },
-  {
-    name: "Conjugation - Present perfect",
-    creationDate: "12/12/2021",
-    deliveryDate: "12/12/2023",
-    team: "Mathematics",
-    status: "done",
-  },
-  {
-    name: "Python - Function",
-    creationDate: "12/12/2021",
-    deliveryDate: "12/12/2023",
-    team: "English - 4B",
-    status: "done",
-  },
-] as Course[];
+import { deleteCourse, getCourses } from "@requests/course";
+import clsx from "clsx";
+import Link from "next/link";
 
 const Courses = () => {
-  const pastCourses = courses.filter((course) => course.status === "done");
   const router = useRouter();
 
   const { data: session } = useSession();
@@ -72,13 +35,12 @@ const Courses = () => {
     enabled: ![token, id].includes(undefined),
   });
 
-  if (isLoading || isError) {
-    return <div>loading...</div>;
-  }
-
-  if (!data) {
-    return <div>Error</div>;
-  }
+  const handleDelete = async (uuid: string) => {
+    if (token) {
+      deleteCourse(uuid, token);
+      // location.reload();
+    }
+  };
 
   return (
     <div>
@@ -101,7 +63,11 @@ const Courses = () => {
           description={"Preview, manage, delete your courses"}
         >
           <div className={"flex flex-col gap-2"}>
-            {data.length > 0 ? (
+            {isLoading || isError ? (
+              Array.from({ length: 2 }).map(() => (
+                <ListItem properties={[]} key={nanoid()} isLoading />
+              ))
+            ) : data.length > 0 ? (
               data.map((course) => {
                 const properties = [
                   { label: "Creation date", value: course.creationDate },
@@ -120,6 +86,7 @@ const Courses = () => {
                     onEdit={() =>
                       goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
                     }
+                    onDelete={() => handleDelete(course.uuid)}
                     onClick={() =>
                       goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
                     }
@@ -129,7 +96,21 @@ const Courses = () => {
                 );
               })
             ) : (
-              <span>You don&apos;t have any course yet</span>
+              <div
+                className={clsx(
+                  "flex flex-col gap-2",
+                  "py-8",
+                  "text-sm font-bold text-center text-dark-200 bg-dark-10 rounded-md"
+                )}
+              >
+                <span>You don&apos;t have any course</span>
+                <Link
+                  className={"text-accent-500 underline"}
+                  href={"/dashboard/teachers/courses/create"}
+                >
+                  Create one
+                </Link>
+              </div>
             )}
           </div>
         </Container>

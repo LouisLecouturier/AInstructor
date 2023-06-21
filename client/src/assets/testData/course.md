@@ -166,5 +166,5 @@ communistes au gouvernement => Guerre de Corée (1950 -1953)
 => Est : Doctrine Jdanov (anti- : division du pays en deux parties
 impérialisme) (Corée du nord et Corée du sud)
 => Coup de Prague (février => Crise des fusées à Cuba
-1948) : démocratie populaire (1962)
-      tchèque
+1) : démocratie populaire (1962)
+   tchèque

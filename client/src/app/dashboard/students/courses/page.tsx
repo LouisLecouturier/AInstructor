@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
-import ListItem from "@components/layout/ListItem";
+import ListItem from "@components/Layout/ListItem";
 
-import Header from "@components/dashboard/Layout/Header";
+import Header from "@components/Dashboard/Common/Layout/Header";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCourses } from "@requests/course";
+import Container from "@components/Layout/Container";
 
 type Course = {
   uuid: string;
@@ -46,20 +47,17 @@ const MyCourses = () => {
 
   return (
     <div>
-      <Header title={"My courses"}/>
+      <Header title={"My courses"} />
 
       <main>
         <div className={"flex flex-col gap-6"}>
           {Array.from(sections).map(([team, courses]) => {
             return (
-              <div key={team} className={"flex flex-col gap-2"}>
-                <h2 className={"text-2xl font-black mt-6 first:mt-0 mb-2"}>
-                  {team}
-                </h2>
+              <Container title={team} key={team}>
                 {courses.map((course: any) => {
                   const properties = [
                     { label: "Creation date", value: course.creationDate },
-                    { label: "Delivery date", value: course.deliveryDate },
+                    // { label: "Delivery date", value: course.deliveryDate },
                     { label: "Team", value: course.team },
                   ];
 
@@ -74,7 +72,7 @@ const MyCourses = () => {
                     </ListItem>
                   );
                 })}
-              </div>
+              </Container>
             );
           })}
         </div>

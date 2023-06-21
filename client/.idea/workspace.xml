@@ -4,20 +4,61 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Merge from Nicolayyyyyy">
-      <change afterPath="$PROJECT_DIR$/src/app/dashboard/students/stats/courses/[uuid]/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/dashboard/students/stats/courses/mystats/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/[uuid]/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/myteams/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/dashboard/Students/Stats/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/dashboard/Teachers/Stats/index.tsx" afterDir="false" />
+    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Reorganized component tree&#10;Added on click focus textarea on QUestion Editor&#10;Set input type to password on auth pages">
+      <change afterPath="$PROJECT_DIR$/src/assets/svg/icons/Arrow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/BreadCrumbs/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/register/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/courses/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/courses/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/courses/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/seeAll/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/seeAll/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/settings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/settings/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/stats/courses/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/stats/courses/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/stats/courses/mystats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/stats/courses/mystats/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/stats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/stats/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/teams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/teams/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/preview/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/preview/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/settings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/settings/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Courses/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Courses/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/requests/course.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/requests/course.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/myteams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/myteams/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/overview/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/overview/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/testData/course.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/testData/course.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Courses/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Courses/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/Navigation/NavigationElement/NavigationElement.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Navigation/NavigationElement/NavigationElement.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/Navigation/NavigationElement/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Navigation/NavigationElement/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/Navigation/StudentNavigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Navigation/StudentNavigation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/Navigation/TeacherNavigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Navigation/TeacherNavigation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/Navigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Navigation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/ProgressBar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/ProgressBar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/SectionTitle/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/SectionTitle/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/Table/TableRow/header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Table/TableRow/header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/Table/TableRow/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Table/TableRow/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Table/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Layout/Table/legacy.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Table/legacy.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Questions/QuestionEditor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Questions/QuestionEditor/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Students/TrainingSection/QuestionForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Students/TrainingSection/QuestionForm/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Teachers/QuestionsManager/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Teachers/QuestionsManager/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Teams/MainInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Teams/MainInformation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Background/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Background/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Interactions/Forms/FileInput/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Interactions/Forms/FileInput/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Interactions/Forms/Input/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Interactions/Forms/Input/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/ListItem/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/ListItem/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Students/Stats/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Students/Stats/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/Teachers/Stats/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Teachers/Stats/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/answer/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/answer/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/course/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/course/api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +69,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="SCSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -55,13 +96,6 @@
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="ProjectViewState">
-    <option name="autoscrollFromSource" value="true" />
-    <option name="autoscrollToSource" value="true" />
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-    <option name="showMembers" value="true" />
-  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
@@ -69,7 +103,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Merging app",
+    "git-widget-placeholder": "Front-End-Louis",
     "js.linters.configure.manually.selectedeslint": "true",
     "last_opened_file_path": "/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/src/components/dashboard/Navigation/StudentNavigation",
     "list.type.of.created.stylesheet": "SCSS",
@@ -94,11 +128,11 @@
       <recent name="$PROJECT_DIR$/src/app/auth/signup" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/Dashboard/Common" />
       <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[id]" />
       <recent name="$PROJECT_DIR$/src/app" />
       <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/preview/[id]" />
       <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/Edit" />
-      <recent name="$PROJECT_DIR$/src/components/dashboard/Table" />
     </key>
   </component>
   <component name="RunManager">
@@ -351,7 +385,8 @@
     <MESSAGE value="Fixed merge issues ?" />
     <MESSAGE value="fixed merge" />
     <MESSAGE value="Merge from Nicolayyyyyy" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge from Nicolayyyyyy" />
+    <MESSAGE value="Reorganized component tree&#10;Added on click focus textarea on QUestion Editor&#10;Set input type to password on auth pages" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reorganized component tree&#10;Added on click focus textarea on QUestion Editor&#10;Set input type to password on auth pages" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

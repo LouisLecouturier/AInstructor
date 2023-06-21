@@ -29,6 +29,18 @@ export const updateCourse = async (token: string, course: Course) => {
   return await response.json();
 };
 
+export const deleteCourse = async (uuid: string, token: string) => {
+  const res = await fetch(`http://localhost:8000/api/course/delete/${uuid}`, {
+    method: "DELETE",
+    headers: {
+      authorization: `bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+  return data;
+};
+
 export const newCourse = async (
   id: string,
   token: string,
@@ -101,7 +113,7 @@ export const updateCourseTeams = async (
   return await response.json();
 };
 
-export const getCourseText = async (uuid: string, token: string) => {
+export const getCourse = async (uuid: string, token: string) => {
   const response = await fetch(
     `http://localhost:8000/api/course/${uuid}/text`,
     {
