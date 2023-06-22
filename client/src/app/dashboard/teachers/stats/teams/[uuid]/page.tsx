@@ -1,4 +1,5 @@
 "use client";
+
 import Header from '@/components/Dashboard/Common/Layout/Header';
 import Container from '@/components/Layout/Container';
 import ListItem from '@/components/Layout/ListItem';
@@ -67,6 +68,6 @@ export default function CourseList() {
           )}
         </div>
       </Container>
-      </>
-    )
+    </>
+  );
 }

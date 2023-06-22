@@ -1,5 +1,6 @@
 "use client";
 
+
 import React from "react";
 import { Chart } from "chart.js";
 import { useEffect, useRef } from "react";
@@ -7,6 +8,7 @@ import { registerables } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
 import Header from "@/components/Dashboard/Common/Layout/Header";
 import Container from "@/components/Layout/Container";
+
 
 Chart.register(...registerables);
 

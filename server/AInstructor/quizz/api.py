@@ -1,5 +1,5 @@
-from ninja import NinjaAPI, Schema, Field, Router
-import uuid as uuidLib, os, json
+from ninja import Schema, Field, Router
+import uuid as uuidLib, json
 from django.shortcuts import get_object_or_404
 from app import models
 from datetime import date

@@ -1,8 +1,10 @@
-'use client';
+"use client";
 
 import React from "react";
 import Link from "next/link";
+
 import CubeTeams from "@/components/dashboard/Teachers/Stats";
+
 import { useQuery } from "@tanstack/react-query";
 import { fetchTeamsUser } from "@/requests/team";
 import { useSession } from "next-auth/react";
@@ -11,21 +13,21 @@ import { nanoid } from "nanoid";
 import Container from "@/components/Layout/Container";
 import Header from "@/components/Dashboard/Common/Layout/Header";
 
-
-
 export default function Teams() {
-  const {data : session} = useSession();
+  const { data: session } = useSession();
   const token = session?.user.accessToken;
 
-  const { data : teams, isLoading, isError } = useQuery<Team[]>({
+  const {
+    data: teams,
+    isLoading,
+    isError,
+  } = useQuery<Team[]>({
     queryKey: ["teams"],
     queryFn: () => fetchTeamsUser(String(token)),
     enabled: !!token,
   });
 
   if (isLoading || isError) return <div>Loading...</div>;
-
-
 
   return (
     <div className="flex flex-col gap-5">
@@ -34,7 +36,12 @@ export default function Teams() {
         <Container title="My teams" className=" w-full">
           <div className="flex gap-8 flex-wrap ">
             {teams.map((team) => (
-              <CubeTeams uuid={team.uuid} key={nanoid()} color={team.color} name={team.name} />
+              <CubeTeams
+                uuid={team.uuid}
+                key={nanoid()}
+                color={team.color}
+                name={team.name}
+              />
             ))}
           </div>
           <Link
@@ -42,8 +49,7 @@ export default function Teams() {
             href={`/dashboard/teachers/stats/teams/myteams`}
           >
             <div className="px-4 py-3 rounded-xl font-bold text-accent-500 text-lg border-2 border-dark-50 hover:border-accent-300 transition">
-            View global statistics
-
+              View global statistics
             </div>
           </Link>
         </Container>
