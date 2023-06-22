@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import { fetchQuestionsTrainingBatch } from "@requests/question";
 import clsx from "clsx";
 import { Button } from "@components/Layout/Interactions/Button";
+import { useSession } from "next-auth/react";
 
 type QuestionFormProps = {
   quizzUuid: string;
@@ -17,12 +18,21 @@ type Question = {
   type: "text" | "qcm";
 };
 
-const answerQuestions = (
+type QuestionCorrection = {
+  question: string;
+  answer: string;
+  AICorrection: string;
+  isCorrect: boolean;
+  givenAnswer: string;
+};
+
+const answerQuestions = async (
   quizzUuid: string,
   answers: any,
   accessToken: string
 ) => {
-  const res = fetch("http://localhost:8000/answer/answer-quizz", {
+  console.log("yee");
+  const res = await fetch("http://localhost:8000/api/answer/answer-quizz", {
     method: "POST",
     headers: {
       authorization: `Bearer ${accessToken}`,
@@ -32,40 +42,49 @@ const answerQuestions = (
       answers,
     }),
   });
+
+  return await res.json();
 };
 
 const QuestionForm: FC<QuestionFormProps> = (props) => {
-  const [correction, setCorrection] = useState([]);
+  const [correction, setCorrection] = useState<QuestionCorrection[]>([]);
+  const { data: session } = useSession();
 
   const { data, isLoading } = useQuery<Question[]>(["questions"], {
     queryFn: () =>
       fetchQuestionsTrainingBatch(props.quizzUuid, props.accessToken),
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = Object.fromEntries(
       new FormData(e.currentTarget).entries()
     );
 
-    const answer: { question_uuid: string; answer: string }[] = [];
+    const answers: { question_uuid: string; answer: string }[] = [];
 
     Object.keys(formData).map((key, index) => {
-      answer.push({
+      answers.push({
         question_uuid: key,
         answer: String(formData[key]),
       });
     });
 
-    console.log(answer);
+    if (session?.user.accessToken) {
+      const data = await answerQuestions(
+        props.quizzUuid,
+        answers,
+        session.user.accessToken
+      );
+      setCorrection(data.answers);
+    }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={clsx("flex flex-col gap-8", "max-w-lg")}
-    >
-      <div className={"flex flex-col gap-4"}>
+    <form onSubmit={handleSubmit} className={clsx("flex flex-col gap-8")}>
+      <div
+        className={"grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4"}
+      >
         {isLoading
           ? Array.from({ length: 5 }, (_, i) => i + 1).map((_, i) => (
               <QuestionElement
@@ -77,15 +96,31 @@ const QuestionForm: FC<QuestionFormProps> = (props) => {
                 type={"text"}
               />
             ))
-          : data?.map((question, i) => (
-              <QuestionElement
-                key={nanoid()}
-                uuid={question.uuid}
-                questionNumber={i + 1}
-                statement={question.statement}
-                type={question.type}
-              />
-            ))}
+          : data?.map((question, i) => {
+              const questionCorrection: QuestionCorrection | undefined =
+                correction?.find((q) => {
+                  return q.question === question.uuid;
+                });
+
+              return (
+                <QuestionElement
+                  key={nanoid()}
+                  uuid={question.uuid}
+                  correction={questionCorrection?.AICorrection}
+                  feedback={
+                    !!questionCorrection
+                      ? questionCorrection.isCorrect
+                        ? "correct"
+                        : "incorrect"
+                      : undefined
+                  }
+                  givenAnswer={questionCorrection?.givenAnswer}
+                  questionNumber={i + 1}
+                  statement={question.statement}
+                  type={question.type}
+                />
+              );
+            })}
       </div>
       <Button type={"submit"} rounded={"full"}>
         Valider mes réponses

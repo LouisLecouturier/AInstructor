@@ -23,13 +23,12 @@ export const fetchTeam = async (token: string, uuid: string) => {
   return data;
 };
 
-
-export const deleteTeam = async (uuid : string, token:string) => {
+export const deleteTeam = async (uuid: string, token: string) => {
   const response = await fetch(`http://localhost:8000/api/team/${uuid}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      authorization : `bearer ${token}`
+      authorization: `bearer ${token}`,
     },
   });
 
@@ -37,70 +36,86 @@ export const deleteTeam = async (uuid : string, token:string) => {
   return res;
 };
 
-export const createTeam = async (team : {name : string, description : string, color : string}, token: string ) => {
+export const createTeam = async (
+  team: { name: string; description: string; color: string },
+  token: string
+) => {
   const response = await fetch("http://localhost:8000/api/team/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      authorization : `bearer ${token}`
+      authorization: `bearer ${token}`,
     },
     body: JSON.stringify({
-      "name" : team.name,
-      "description" : team.description,
-      "color" : team.color
+      name: team.name,
+      description: team.description,
+      color: team.color,
     }),
   });
 
+  const responseData = await response.json();
+  return responseData;
+};
+
+export const addUsers = async (
+  uuid: string,
+  emails: string[],
+  token: string
+) => {
+  const response = await fetch(
+    `http://localhost:8000/api/team/${uuid}/add-users`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${token}`,
+      },
+      body: JSON.stringify({ emails : emails }),
+    }
+  );
 
   const responseData = await response.json();
   return responseData;
 };
 
-export const addUsers = async (uuid : string, emails : string[], token: string ) => {
-  const response = await fetch(`http://localhost:8000/api/team/${uuid}/add-users`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      authorization : `bearer ${token}`
-    },
-    body: JSON.stringify({'users_email' : emails}),
-  });
-
+export const removeUsers = async (
+  uuid: string,
+  emails: string[],
+  token: string
+) => {
+  const response = await fetch(
+    `http://localhost:8000/api/team/${uuid}/remove-users`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${token}`,
+      },
+      body: JSON.stringify({ emails: emails }),
+    }
+  );
   const responseData = await response.json();
   return responseData;
 };
 
-export const removeUsers = async (uuid : string, emails : string[], token: string ) => {
-  const response = await fetch(`http://localhost:8000/api/team/${uuid}/remove-users`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      authorization : `bearer ${token}`
-    },
-    body: JSON.stringify({'emails' : emails}),
-  });
-  const responseData = await response.json();
-  return responseData;
-};
-
-
-export const updateTeam = async (uuid : string, team : Omit<Team, "users"|"uuid">, token: string ) => {
+export const updateTeam = async (
+  uuid: string,
+  team: Omit<Team, "users" | "uuid">,
+  token: string
+) => {
   const response = await fetch(`http://localhost:8000/api/team/${uuid}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      authorization : `bearer ${token}`
+      authorization: `bearer ${token}`,
     },
     body: JSON.stringify({
-      name : team.name,
-      description : team.description,
-      color : team.color
+      name: team.name,
+      description: team.description,
+      color: team.color,
     }),
   });
 
   const responseData = await response.json();
   return responseData;
-}
-
-
-
+};

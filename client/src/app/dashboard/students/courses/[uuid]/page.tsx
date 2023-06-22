@@ -41,10 +41,7 @@ const Course = ({ params }: { params: { uuid: string } }) => {
   const token = session?.user.accessToken;
   const uuid = params.uuid;
 
-  const {
-    data: course,
-    isLoading,
-  } = useQuery({
+  const { data: course, isLoading } = useQuery({
     queryKey: ["course"],
     queryFn: () => getCourse(uuid, String(token)),
     enabled: ![params.uuid, token].includes(undefined),
@@ -55,23 +52,21 @@ const Course = ({ params }: { params: { uuid: string } }) => {
   }
 
   return (
-    <div>
-      <main className={"flex flex-col gap-8"}>
-        <Container>
-          <CourseHeader
-            title={course.name}
-            subject={course.subject}
-            teacher={course.teacher}
-          />
-          {course && (
-            <div className={"max-w-2xl text-justify"}>
-              <ReactMarkdown components={config}>{course.text}</ReactMarkdown>
-            </div>
-          )}
-        </Container>
-        <TrainingSection quizzUuid={course.quizz} accessToken={token!} />
-      </main>
-    </div>
+    <main className={"flex flex-col gap-8"}>
+      <Container>
+        <CourseHeader
+          title={course.name}
+          subject={course.subject}
+          teacher={course.teacher}
+        />
+        {course && (
+          <div className={"max-w-2xl text-justify"}>
+            <ReactMarkdown components={config}>{course.text}</ReactMarkdown>
+          </div>
+        )}
+      </Container>
+      <TrainingSection quizzUuid={course.quizz} accessToken={token!} />
+    </main>
   );
 };
 

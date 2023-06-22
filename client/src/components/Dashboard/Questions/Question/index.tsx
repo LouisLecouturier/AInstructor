@@ -22,7 +22,8 @@ type QuestionProps = {
 const containerClassNames = clsx(
   "flex flex-col gap-4",
   "border-2 border-dark-50",
-  "rounded-xl"
+  "rounded-xl",
+  "h-fit"
 );
 
 const correctionContainerClassNames = clsx(
@@ -69,7 +70,7 @@ const QuestionElement: FC<QuestionProps> = (props) => {
         <div
           className={clsx(
             correctionContainerClassNames,
-            "p-4",
+            "p-4 h-fit",
             props.feedback && feedbackClassNames[props.feedback]
           )}
         >
@@ -104,7 +105,7 @@ const QuestionElement: FC<QuestionProps> = (props) => {
                 "border-2 border-dark-50"
               )}
             >
-              {props.statement}
+              {props.givenAnswer}
             </div>
           </div>
         </div>
@@ -112,7 +113,7 @@ const QuestionElement: FC<QuestionProps> = (props) => {
           <div className={"flex flex-col gap-1 px-4 pb-4"}>
             <label className={"font-black text-accent-500"}>Correction :</label>
             <div className={clsx("font-semibold italic text-dark-300")}>
-              mqkfjbqmzfjbqmzfn
+              {props.correction}
             </div>
           </div>
         )}
