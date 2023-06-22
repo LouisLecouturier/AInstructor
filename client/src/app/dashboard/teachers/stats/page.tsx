@@ -2,14 +2,16 @@
 
 import React from "react";
 import Link from "next/link";
-import CubeTeams from "@components/Dashboard/Teachers/Stats";
-import Header from "@components/Dashboard/Common/Layout/Header";
-import Container from "@components/Layout/Container";
+
+import CubeTeams from "@/components/dashboard/Teachers/Stats";
+
 import { useQuery } from "@tanstack/react-query";
 import { fetchTeamsUser } from "@/requests/team";
 import { useSession } from "next-auth/react";
 import { Team } from "@/types/team";
 import { nanoid } from "nanoid";
+import Container from "@/components/Layout/Container";
+import Header from "@/components/Dashboard/Common/Layout/Header";
 
 export default function Teams() {
   const { data: session } = useSession();

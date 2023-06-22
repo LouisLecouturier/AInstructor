@@ -4,7 +4,7 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@components/Layout/Interactions/Button";
 import TeamMainInformation from "@components/Dashboard/Teams/MainInformation";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Container from "@components/Layout/Container";
 import Table from "@components/Dashboard/Common/Layout/Table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -13,6 +13,7 @@ import {
   addUsers,
   deleteTeam,
   fetchTeam,
+  getCoursesTeam,
   removeUsers,
   updateTeam,
 } from "@requests/team";
@@ -20,6 +21,10 @@ import {
 import AddIcon from "@icons/Plus.svg";
 import Input from "@components/Layout/Interactions/Forms/Input";
 import Header from "@components/Dashboard/Common/Layout/Header";
+import { Course } from "@/types/course";
+import ListItem from "@/components/Layout/ListItem";
+import { nanoid } from "nanoid";
+import { deleteCourse } from "@/requests/course";
 
 export default function TeamOverview({
   searchParams,
@@ -28,6 +33,7 @@ export default function TeamOverview({
 }) {
   const { data: session } = useSession();
   const router = useRouter();
+
 
   const queryClient = useQueryClient();
 
@@ -38,6 +44,11 @@ export default function TeamOverview({
     queryKey: ["team", uuid],
     queryFn: () => fetchTeam(String(token), searchParams.id),
     enabled: ![token, uuid].includes(undefined),
+  });
+
+  const { data : courses, isLoading : isCoursesLoading, isError : isCoursesError } = useQuery<Course[]>(["team", uuid, "courses"], {
+    queryFn: () => getCoursesTeam(String(uuid), String(token)),
+    enabled: !!token && !!uuid,
   });
 
   const mutation = useMutation({
@@ -110,7 +121,23 @@ export default function TeamOverview({
     mutationRemoveUsers.mutate(emails);
   };
 
-  if (isLoading || isError) {
+
+
+
+  const handleDelete = async (uuid: string) => {
+    if (token) {
+      deleteCourse(uuid, token);
+      // location.reload();
+    }
+  };
+
+  const goTo = (path: string) => {
+    router.push(path);
+  };
+
+
+
+  if (isLoading || isError|| isCoursesLoading || isCoursesError) {
     return <div>Loading...</div>;
   }
 
@@ -121,6 +148,48 @@ export default function TeamOverview({
           Delete
         </Button>
       </Header>
+
+
+      <div className="flex flex-col gap-10">
+      <div className={"flex flex-col gap-4"}>
+          <h2 className="text-2xl font-bold">Courses</h2>
+          <Container
+                title={"Your courses"}
+                description={"Preview, manage, delete your courses"}
+            >
+        <div className={"flex flex-col gap-2"}>
+          {courses.length > 0 ? (
+            courses.map((course) => {
+              const properties = [
+                { label: "Creation date", value: course.creationDate },
+                { label: "Delivery date", value: course.deliveryDate },
+                { label: "Subject", value: course.subject}
+              ];
+
+              return (
+                <ListItem
+                  key={nanoid()}
+                  properties={properties}
+                  withUserActions
+                    onSee={() =>
+                      goTo(`/dashboard/teachers/courses/preview/${course.uuid}`)
+                    }
+                    onEdit={() =>
+                      goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
+                    }
+                    onDelete={() => handleDelete(course.uuid)}
+                    
+                >
+                  {course.name}
+                </ListItem>
+              );
+            })
+          ) : (
+            <span>You don&apos;t have any course yet</span>
+          )}
+        </div>
+      </Container>
+        </div>
 
       <div className={"flex flex-col gap-4"}>
         <h2 className="text-2xl font-bold">Overview</h2>
@@ -176,6 +245,7 @@ export default function TeamOverview({
           placeholderPrimaryKeyElementAdd="Email"
         /> */}
       </div>
+    </div>
     </div>
   );
 }

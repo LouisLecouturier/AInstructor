@@ -1,14 +1,15 @@
 "use client";
 
-import Container from "@components/Layout/Container";
-import UserInfo from "@components/Layout/User/Userinfo";
-import Information from "@components/Layout/Information";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { fetchUser, updateUser } from "@/requests/user";
-import { Button } from "@components/Layout/Interactions/Button";
-import Header from "@components/Dashboard/Common/Layout/Header";
 import { User } from "@/types/user";
+import Header from "@/components/Dashboard/Common/Layout/Header";
+import { Button } from "@/components/Layout/Interactions/Button";
+import Information from "@/components/Layout/Information";
+import UserInfo from "@/components/Layout/User/Userinfo";
+import Container from "@/components/Layout/Container";
 
 const Settings = () => {
   const { data: session } = useSession();

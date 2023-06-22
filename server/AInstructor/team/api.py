@@ -153,10 +153,7 @@ def get_courses_by_team(request, uuid: uuidLib.UUID):
         course_info = {
             'uuid': course.uuid,
             'name': course.name,
-            'theme': course.theme,
-            'color': course.color,
-            'file': course.uploadedFile.path,
-            # 'text': course.text,
+            'subject': course.subject,
         }
         result.append(course_info)
     return result

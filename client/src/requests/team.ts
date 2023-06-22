@@ -118,4 +118,19 @@ export const updateTeam = async (
 
   const responseData = await response.json();
   return responseData;
-};
+
+}
+
+
+export const getCoursesTeam = async (uuid : string, token: string ) => {
+  const response = await fetch(`http://localhost:8000/api/team/${uuid}/courses`, {
+    headers: {
+      "Content-Type": "application/json",
+      authorization : `bearer ${token}`
+    },
+  });
+
+  const responseData = await response.json();
+  return responseData;
+}
+

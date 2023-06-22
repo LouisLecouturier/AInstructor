@@ -8,6 +8,7 @@ import clsx from "clsx";
 type TeamMainInformationProps = {
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   team?: Team;
+  editable? : boolean;
 };
 
 export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
@@ -19,7 +20,7 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
     <Container
       title={"Team informations"}
       action={
-        props.team && (
+        props.team && props.editable && (
           <Button variant="accent" size="sm" rounded="full" type="submit">
             Update Team
           </Button>
@@ -46,6 +47,7 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
               borders
               size={"sm"}
               name={"color"}
+              frozen={!props.editable}
             />
           </div>
 
@@ -58,6 +60,8 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
                 borders
                 size={"sm"}
                 name={"name"}
+                frozen={!props.editable}
+
               />
             </div>
             <div className={"flex flex-col gap-2"}>
@@ -70,6 +74,8 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
                 className={"flex flex-1"}
                 textarea
                 name={"description"}
+                frozen={!props.editable}
+
               />
             </div>
           </div>

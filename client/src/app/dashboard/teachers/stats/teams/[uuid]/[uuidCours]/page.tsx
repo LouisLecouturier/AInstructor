@@ -3,12 +3,14 @@
 import { Bar, Doughnut } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { Chart as ChartJS } from "chart.js/auto";
-import Container from "@/components/layout/Container";
-import Header from "@/components/dashboard/Layout/Header";
 import { getCourseStats } from "@/requests/stats";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import Header from "@/components/Dashboard/Common/Layout/Header";
+import Container from "@/components/Layout/Container";
+import { fetchTeam } from "@/requests/team";
+import { getCourse } from "@/requests/course";
 
 const data = {
   labels: [
@@ -101,25 +103,38 @@ const teamStats = () => {
   const token = session?.user?.accessToken;
 
   const pathname = usePathname();
-  const uuid = pathname.split("/");
+  
+  const uuid = (pathname ?? "").split("/");
   const teamUUID = uuid[uuid.length - 2];
   const courseUUID = uuid[uuid.length - 1];
-  console.log(courseUUID);
+
 
 
   const { data : stats, isLoading, isError } = useQuery<any>({
     queryKey: ["team", uuid , "stats"],
     queryFn: () => getCourseStats(String(teamUUID), String(courseUUID), String(token)),
-    enabled: !!token && !!teamUUID && !!courseUUID,
+    enabled: !!token && !!teamUUID && !!courseUUID && !!uuid,
   });
 
-  if (isLoading || isError) return <div>Loading...</div>;
 
+
+  const { data : team, isError : isTeamError, isLoading : isTeamLoading} = useQuery(["team", uuid], {
+    queryFn: () => fetchTeam(String(token), String(teamUUID)),
+    enabled: !!token && !!teamUUID,
+});
+
+  const {data : course,isError: isCourseError , isLoading : isCourseLoading} = useQuery(["course", uuid], {
+    queryFn: () => getCourse(String(courseUUID), String(token)),
+    enabled: !!token && !!courseUUID,
+  });
+
+  if (isLoading || isError || isCourseError || isCourseLoading || isTeamError || isTeamLoading) return <div>Loading...</div>;
+  console.log(team);
   
 
   return (
     <div className="flex h-full flex-col gap-10">
-      <Header title="Stats" />
+      <Header title="Stats" breadcrumbsReplace={[{current : String(teamUUID), value : team.name},{current: String(courseUUID), value : course.name}]} />
         {!stats.error 
 
         ?  <div className="flex flex-col flex-1 gap-10 items-center">

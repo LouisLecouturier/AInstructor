@@ -3,11 +3,11 @@ import React from "react";
 import styles from "./Teams.module.scss";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
-import TeamCard from "@components/Dashboard/Common/Cards/TeamCard";
 import Header from "@components/Dashboard/Common/Layout/Header";
 import { Team } from "@/types/team";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTeamsUser } from "@/requests/team";
+import TeamCard from "@/components/Dashboard/Common/Cards/TeamCard";
 
 const Teams = () => {
   const { data: session } = useSession();

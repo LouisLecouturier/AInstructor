@@ -15,6 +15,7 @@ type InputProps = {
   textarea?: boolean;
   size?: "sm" | "md" | "lg";
   className?: string;
+  frozen?: boolean;
 };
 
 const sizesClassNames = {
@@ -42,6 +43,7 @@ export const Input: FC<InputProps> = (props) => {
         placeholder={props.placeholder}
         name={props.name}
         defaultValue={props.defaultValue}
+        disabled={props.frozen}
       />
     );
   }
@@ -62,6 +64,7 @@ export const Input: FC<InputProps> = (props) => {
       placeholder={props.placeholder}
       name={props.name}
       defaultValue={props.defaultValue}
+      disabled={props.frozen}
     />
   );
 };

@@ -1,6 +1,6 @@
+import DashboardNavigation from "@/components/dashboard/Common/Layout/Navigation";
 import Background from "@components/Layout/Background";
 
-import DashboardNavigation from "@components/Dashboard/Common/Layout/Navigation";
 
 export default function DashboardLayout({
   children,
