@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCourses } from "@requests/course";
 import Container from "@components/Layout/Container";
+import { nanoid } from "nanoid";
 
 type Course = {
   uuid: string;
@@ -32,9 +33,12 @@ const MyCourses = () => {
     return <div>Loading...</div>;
   }
 
+
+
   // Group courses by team
   const sections = data.reduce((acc, course) => {
     const team = course.team;
+
 
     if (acc.has(team)) {
       acc.get(team).push(course);
@@ -53,8 +57,9 @@ const MyCourses = () => {
         <div className={"flex flex-col gap-6"}>
           {Array.from(sections).map(([team, courses]) => {
             return (
-              <Container title={team} key={team}>
+              <Container title={team} key={nanoid()}>
                 {courses.map((course: any) => {
+                  console.log(course.team);
                   const properties = [
                     { label: "Creation date", value: course.creationDate },
                     // { label: "Delivery date", value: course.deliveryDate },

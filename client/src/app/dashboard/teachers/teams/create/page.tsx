@@ -45,7 +45,7 @@ export default function AddTeam() {
   return (
     <>
       <Header title={"Create a new team"} />
-      <TeamInformations onSubmit={handleSubmit} />
+      <TeamInformations editable onSubmit={handleSubmit} />
     </>
   );
 }

@@ -3,7 +3,7 @@
 import { Bar, Doughnut } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { Chart as ChartJS } from "chart.js/auto";
-import { getCourseStats } from "@/requests/stats";
+import { getCourseStats, getCourseStatsGlobal } from "@/requests/stats";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
@@ -166,86 +166,69 @@ const teamStats = () => {
   const pathname = usePathname();
   
   const uuid = (pathname ?? "").split("/");
-  const teamUUID = uuid[uuid.length - 2];
-  const courseUUID = uuid[uuid.length - 1];
+  const courseUUID = uuid[uuid.length - 2];
+
+  console.log(courseUUID);
 
 
 
   const { data : stats, isLoading, isError } = useQuery<any>({
-    queryKey: ["team", uuid , "stats"],
-    queryFn: () => getCourseStats(String(teamUUID), String(courseUUID), String(token)),
-    enabled: !!token && !!teamUUID && !!courseUUID && !!uuid,
+    queryKey: ["course", uuid , "stats"],
+    queryFn: () => getCourseStatsGlobal(String(courseUUID), String(token)),
+    enabled: !!token && !!courseUUID && !!uuid,
   });
 
 
 
-  const { data : team, isError : isTeamError, isLoading : isTeamLoading} = useQuery(["team", uuid], {
-    queryFn: () => fetchTeam(String(token), String(teamUUID)),
-    enabled: !!token && !!teamUUID,
-});
+
 
   const {data : course,isError: isCourseError , isLoading : isCourseLoading} = useQuery(["course", uuid], {
     queryFn: () => getCourse(String(courseUUID), String(token)),
     enabled: !!token && !!courseUUID,
   });
 
-  if (isLoading || isError || isCourseError || isCourseLoading || isTeamError || isTeamLoading) return <div>Loading...</div>;
+  if (isLoading || isError || isCourseError || isCourseLoading) return <div>Loading...</div>;
+  console.log(stats);
 
 
-  mean.datasets[0].data = stats.usersStats.map((e : any) => e.stats.mean);
+  mean.datasets[0].data = stats.teamsStats.map((e : any) => e.mean);
   mean.datasets[0].label = "Mean";
-  mean.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
+  mean.labels = stats.teamsStats.map((e : any) => e.team.name);
 
-  min.datasets[0].data = stats.usersStats.map((e : any) => e.stats.min);
+  min.datasets[0].data = stats.teamsStats.map((e : any) => e.min);
   min.datasets[0].label = "Min";
-  min.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
+  min.labels = stats.teamsStats.map((e : any) => e.team.name);
 
-  max.datasets[0].data = stats.usersStats.map((e : any) => e.stats.max);
+  max.datasets[0].data = stats.teamsStats.map((e : any) => e.max);
   max.datasets[0].label = "Max";
-  max.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
+  max.labels = stats.teamsStats.map((e : any) => e.team.name);
 
-  progress.datasets[0].data = stats.usersStats.map((e : any) => e.stats.progress);
-  progress.datasets[0].label = "Progress";
-  progress.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
+
+ 
+
 
   return (
     <div className="flex flex-col gap-10">
-      <Header title="Stats" breadcrumbsReplace={[{current : String(teamUUID), value : team.name},{current: String(courseUUID), value : course.name}]} />
-        {!stats.error 
+      <Header title="Stats" breadcrumbsReplace={[{current: String(courseUUID), value : course.name}]} />
 
-        ?  <div className="flex flex-col flex-1 gap-10 items-center">
-              <Container title="Mean" description="represents the mean of each student" className="w-full border-2 border-white hover:border-accent-300 transition">
-                <div className=" w-full min-h-[400px] max-h-[400px]  flex justify-center items-center">
-                  <Bar data={mean} options={options} />
-                </div>
-              </Container>
-              <Container title="Minimum score" description="represents the minimum score of each student" className="w-full border-2 border-white hover:border-accent-300 transition">
-                <div className=" w-full min-h-[400px] max-h-[400px] flex justify-center items-center">
-                  <Bar data={min} options={options} />
-                </div>
-              </Container>
-              <Container title="Maximum score" description="represents the maximum score of each student" className="w-full border-2 border-white hover:border-accent-300 transition">
-                <div className=" w-full min-h-[400px] max-h-[400px] flex justify-center items-center">
-                  <Bar data={max} options={options} />
-                </div>
-              </Container>
-              <Container title="Total progress" description="represents the total progress of each student" className="w-full border-2 border-white hover:border-accent-300 transition">
-                <div className=" w-full min-h-[400px] max-h-[400px] flex justify-center items-center">
-                  <Bar data={progress} options={options} />
-                </div>
-              </Container>
-             
-              {/* <Container className=" w-full min-h-[400px] max-h-[400px] border-2 border-white hover:border-accent-300 transition flex justify-center items-center">
-                <Doughnut data={data2} />
-              </Container> */}
-          </div>
+      <Container title="Mean" description="represents the mean of each team" className="w-full border-2 border-white hover:border-accent-300 transition">
+        <div className=" w-full min-h-[400px] max-h-[400px]  flex justify-center items-center">
+          <Bar data={mean} options={options} />
+        </div>
+      </Container>
 
-        : <div className="flex flex-1">
-            <div className="text-xl font-bold text-secondary-500">
-              {stats.message}
-            </div>
-          </div>
-        }
+      <Container title="Min" description="represents the min of each team" className="w-full border-2 border-white hover:border-accent-300 transition">
+        <div className=" w-full min-h-[400px] max-h-[400px]  flex justify-center items-center">
+          <Bar data={min} options={options} />
+        </div>
+      </Container>
+
+      <Container title="Max" description="represents the max of each team" className="w-full border-2 border-white hover:border-accent-300 transition">
+        <div className=" w-full min-h-[400px] max-h-[400px]  flex justify-center items-center">
+          <Bar data={max} options={options} />
+        </div>
+      </Container>
+        
     </div>
   );
 };

@@ -61,47 +61,49 @@ class TeamStat(Schema):
     course_uuid: uuidLib.UUID
     team_uuid: uuidLib.UUID
 
-@router.get("/team/{teamUUID}/course/{courseUUID}")
-def get_team_stats_by_course(request, teamUUID: uuidLib.UUID, courseUUID: uuidLib.UUID):
-    print("get_team_stats_by_course")
-    print(teamUUID)
-    print(courseUUID)
-    token = request.headers.get('Authorization')
-    accessToken = token.split(' ')[1]
-    user = get_object_or_404(models.CustomUser, accessToken=accessToken)
+# @router.get("/team/{teamUUID}/course/{courseUUID}")
+# def get_team_stats_by_course(request, teamUUID: uuidLib.UUID, courseUUID: uuidLib.UUID):
+#     print("get_team_stats_by_course")
+#     print(teamUUID)
+#     print(courseUUID)
+#     token = request.headers.get('Authorization')
+#     accessToken = token.split(' ')[1]
+#     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
 
-    course = get_object_or_404(models.Course, uuid=courseUUID)
-    team = get_object_or_404(models.Team, uuid=teamUUID)
+#     course = get_object_or_404(models.Course, uuid=courseUUID)
+#     team = get_object_or_404(models.Team, uuid=teamUUID)
 
-    if user and team and course:
-        if user in team.users.all():
-            try : 
-                stat = get_object_or_404(models.TeamStatistiques, team=team, course=course)
-                return {
-                    'error' : False,
-                    'message': "successfully got the stats by course", 
-                    "course": stat.course.uuid,
-                    "mean" :stat.mean,
-                    "median" :stat.median,
-                    "min" :stat.min,
-                    "max" :stat.max
-                }
-            except :
-                return {
-                    'error' : True,
-                    'message': "team has no stats for this course"
-                    }
 
-        else:
-            return {
-                'error' : True,
-                'message': "user is not in the team"
-                }
-    else:
-        return {
-            'error' : True,
-            'message': "user or team or course does not exist"
-            }
+
+#     if user and team and course:
+#         if user in team.users.all():
+#             try : 
+#                 stat = get_object_or_404(models.TeamStatistiques, team=team, course=course)
+#                 return {
+#                     'error' : False,
+#                     'message': "successfully got the stats by course", 
+#                     "course": stat.course.uuid,
+#                     "mean" :stat.mean,
+#                     "median" :stat.median,
+#                     "min" :stat.min,
+#                     "max" :stat.max
+#                 }
+#             except :
+#                 return {
+#                     'error' : True,
+#                     'message': "team has no stats for this course"
+#                     }
+
+#         else:
+#             return {
+#                 'error' : True,
+#                 'message': "user is not in the team"
+#                 }
+#     else:
+#         return {
+#             'error' : True,
+#             'message': "user or team or course does not exist"
+#             }
 
     
 
@@ -138,3 +140,106 @@ def get_team_stats_by_theme(request, body: TeamStat):
     else:
         return {'message': "user or team or course does not exist"}
 
+
+
+@router.get("/course/{course}")
+def getTeamsCOmparaison(request, course : uuidLib.UUID):
+    print("getTeamsCOmparaison")
+    course = get_object_or_404(models.Course, uuid=course)
+    if course:
+        teams = course.team.all()
+        if teams:
+            teamsStats = []
+            for team in teams:
+                teamStats = models.TeamStatistiques.objects.filter(team=team,course=course).aggregate(Avg('mean'), Max('max'), Min('min'))
+                mean = teamStats['mean__avg']
+                max = teamStats['max__max']
+                min = teamStats['min__min']
+                teamInfos = {
+                    "uuid": team.uuid,
+                    "name": team.name,
+                }
+                teamsStats.append({"team":teamInfos,"mean":mean,"max":max,"min":min})
+            return {'message': "successfully got the stats by course", "course": course.uuid, "teamsStats":teamsStats}
+        else:
+            return {'message': "course has no teams", 'error' : True}
+
+
+
+@router.get("/team/{teamUUID}/course/{courseUUID}")
+def get_team_stats_by_course(request, teamUUID: uuidLib.UUID, courseUUID: uuidLib.UUID):
+    token = request.headers.get('Authorization')
+    accessToken = token.split(' ')[1]
+    user = get_object_or_404(models.CustomUser, accessToken=accessToken)
+
+    course = get_object_or_404(models.Course, uuid=courseUUID)
+    team = get_object_or_404(models.Team, uuid=teamUUID)
+
+    usersStats = []
+    users = team.users.all()
+
+    print(users)
+
+    for student in users:
+        if not student.isTeacher:
+            userInfos = {
+                "id": student.id,
+                "firstName": student.first_name,
+                "lastName": student.last_name,
+            }
+            try : 
+                stat = get_object_or_404(models.UserStatistiques, user=student, course=course)
+                print(stat)
+                userstat = {
+                    "mean": stat.mean,
+                    "min": stat.min,
+                    "max": stat.max,
+                    "progress": stat.progress,
+                }
+                data = {
+                    "user": userInfos,
+                    "stats": userstat
+                }
+            except :
+                data = {
+                    "user": userInfos,
+                    "stats": null
+                }
+                
+            usersStats.append(data)
+
+
+    
+
+    if user and team and course:
+        if user in team.users.all():
+            try : 
+                stat = get_object_or_404(models.TeamStatistiques, team=team, course=course)
+                return {
+                    'error' : False,
+                    'message': "successfully got the stats by course", 
+                    "course": stat.course.uuid,
+                    "mean" :stat.mean,
+                    "median" :stat.median,
+                    "min" :stat.min,
+                    "max" :stat.max,
+                    "usersStats": usersStats,
+                }
+            except :
+                return {
+                    'error' : True,
+                    'message': "team has no stats for this course"
+                    }
+
+        else:
+            return {
+                'error' : True,
+                'message': "user is not in the team"
+                }
+    else:
+        return {
+            'error' : True,
+            'message': "user or team or course does not exist"
+            }
+
+    

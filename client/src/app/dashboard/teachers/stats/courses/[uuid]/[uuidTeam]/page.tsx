@@ -166,8 +166,8 @@ const teamStats = () => {
   const pathname = usePathname();
   
   const uuid = (pathname ?? "").split("/");
-  const teamUUID = uuid[uuid.length - 2];
-  const courseUUID = uuid[uuid.length - 1];
+  const courseUUID = uuid[uuid.length - 2];
+  const teamUUID = uuid[uuid.length - 1];
 
 
 
