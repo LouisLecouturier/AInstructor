@@ -32,7 +32,7 @@ export default NextAuth({
 
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
-          return user;
+          return user.accessToken ? user : {message : "Invalid credentials"};
         }
         throw new Error("Invalid credentials");
 

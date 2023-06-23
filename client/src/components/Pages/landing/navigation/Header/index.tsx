@@ -7,10 +7,8 @@ import styles from "./Header.module.scss";
 import clsx from "clsx";
 
 import LoginIcon from "@icons/User.svg";
-<<<<<<< HEAD
-=======
+
 import { signIn } from "next-auth/react";
->>>>>>> origin/FullStack
 
 const Header = () => {
   const pathname = usePathname();
@@ -20,7 +18,9 @@ const Header = () => {
   };
 
   return (
-    <div className={"fixed inset-0 w-full h-fit p-8 md:px-12 lg:px-20 font-bold"}>
+    <div
+      className={"fixed inset-0 w-full h-fit p-8 md:px-12 lg:px-20 font-bold"}
+    >
       <header
         className={
           "flex justify-between items-center gap-8 p-2 pl-8 bg-white rounded-full"
@@ -56,31 +56,18 @@ const Header = () => {
             Pricing
           </Link>
 
-<<<<<<< HEAD
-          <Link
+          <div
             className={clsx(
-=======
-          <div className={clsx(
->>>>>>> origin/FullStack
               "flex justify-center",
               "w-14 h-14 rounded-full",
               "bg-accent-500 text-white",
               "hover:bg-accent-600",
               "transition"
-<<<<<<< HEAD
             )}
-            href={"/auth/signin"}
-          >
-            <LoginIcon className={"w-2/3"} />
-          </Link>
-=======
-              )}
-              onClick={() => signIn()}
-            
+            onClick={() => signIn()}
           >
             <LoginIcon className={"w-2/3"} />
           </div>
->>>>>>> origin/FullStack
         </nav>
       </header>
     </div>

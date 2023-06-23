@@ -14,7 +14,7 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
     list_display = ["username", "email", "id"]
     fieldsets = UserAdmin.fieldsets + (
-        ("Custom Fields" , {"fields" : ("isTeacher", "profilePicture", "accessToken","refreshToken")}),
+        ("Custom Fields" , {"fields" : ("isTeacher", "profilePicture", "accessToken","refreshToken", "address", "city", "country", "postalCode", "bio", "phone")}),
     )
 
 

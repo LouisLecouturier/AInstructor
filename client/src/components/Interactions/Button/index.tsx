@@ -1,19 +1,11 @@
 import { FC, ReactNode } from "react";
 import clsx from "clsx";
-<<<<<<< HEAD
-=======
+
 import styles from "./Button.module.scss";
->>>>>>> origin/FullStack
 
 type ButtonProps = {
   children: ReactNode;
   className?: string;
-<<<<<<< HEAD
-  variant?: "accent" | "primary" | "secondary" | "tertiary";
-  size?: "sm" | "md" | "lg";
-  type?: "button" | "submit" | "reset";
-  fluid?: boolean;
-=======
   variant?: "accent" | "primary" | "secondary" | "tertiary" | "success";
   rounded?: "sm" | "md" | "lg" | "full";
   outlined?: boolean;
@@ -21,21 +13,12 @@ type ButtonProps = {
   type?: "button" | "submit" | "reset";
   fluid?: boolean;
   isMagic?: boolean;
->>>>>>> origin/FullStack
   responsive?: boolean;
   disabled?: boolean;
   onClick?: () => void;
 };
 
 const sizeClasses = {
-<<<<<<< HEAD
-  sm: "px-4 py-2 text-sm min-w-[120px]",
-  md: "px-6 py-3 text-lg min-h-[3rem] min-w-[120px]",
-  lg: "px-8 py-4 text-lg",
-};
-
-=======
-
   sm: "px-4 py-2 text-sm h-10 min-w-[96px] gap-2",
   md: "px-6 py-3 text-lg h-14 min-w-[96px] gap-4",
   lg: "px-8 py-4 text-lg h-16 gap-4",
@@ -48,8 +31,6 @@ const roundedClasses = {
   full: "rounded-full",
 };
 
-
->>>>>>> origin/FullStack
 const variantClasses = {
   accent: "bg-accent-500 hover:bg-accent-600 focus:bg-accent-700 text-white",
   primary:
@@ -57,11 +38,6 @@ const variantClasses = {
   secondary:
     "bg-secondary-500 hover:bg-secondary-600 focus:bg-secondary-700 text-white",
   tertiary: "bg-transparent text-primary-500",
-<<<<<<< HEAD
-};
-
-export const Button: FC<ButtonProps> = (props) => {
-=======
   success: "bg-green-500 hover:bg-green-600 focus:bg-green-700 text-white",
 };
 
@@ -104,21 +80,11 @@ export const Button: FC<ButtonProps> = (props) => {
     );
   }
 
->>>>>>> origin/FullStack
   return (
     <button
       type={props.type || "button"}
       onClick={props.onClick}
       className={clsx(
-<<<<<<< HEAD
-        "flex items-center justify-center gap-4",
-        "w-fit transition duration-200",
-        "font-bold rounded-lg",
-        sizeClasses[props.size || "md"],
-        props.fluid && "w-full",
-        props.responsive && "w-full md:w-fit",
-        variantClasses[props.variant || "accent"],
-=======
         "flex items-center justify-center",
         "w-fit transition duration-200",
         "font-bold cursor-pointer",
@@ -129,7 +95,6 @@ export const Button: FC<ButtonProps> = (props) => {
         props.outlined
           ? outlinedClasses[props.variant || "accent"]
           : variantClasses[props.variant || "accent"],
->>>>>>> origin/FullStack
         props.disabled && "opacity-50 cursor-not-allowed",
         props.className
       )}

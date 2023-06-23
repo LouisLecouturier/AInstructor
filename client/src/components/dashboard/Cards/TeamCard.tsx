@@ -24,7 +24,7 @@ export const TeamCard: FC<TeamCardProps> = (props) => {
   );
 
   const href =
-    props.isAddCard && session?.user.is_teacher
+    props.isAddCard && session?.user.isTeacher
       ? "/dashboard/teachers/teams/addTeam"
       : "/dashboard/teachers/teams/overview";
 
