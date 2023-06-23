@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 
-import CubeTeams from "@/components/Dashboard/Teachers/Stats";
+import CubeTeams from "@components/Dashboard/Teachers/Stats";
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchTeamsUser } from "@/requests/team";

@@ -15,11 +15,14 @@ import { Course } from "@/types/course";
 
 import Cards from "@icons/Cards.svg";
 import clsx from "clsx";
+import { toastStore } from "@components/Layout/Toast/toast.store";
 
 const Create = () => {
   const { data: session } = useSession();
   const token = session?.user.accessToken;
   const id = session?.user.id;
+
+  const { openToast } = toastStore();
 
   const [uuid, setUuid] = useState<string | null>(null);
   const [nameFile, setNameFile] = useState("");
@@ -36,16 +39,24 @@ const Create = () => {
     (formData: FormData) =>
       newCourse(String(id), String(token), formData, setPourcentage),
     {
+      onMutate: () => {
+        setLoadingPourcentage(0);
+        openToast("info", "Uploading file...");
+      },
       onSuccess: (response: { status: number; data: { uuid: string } }) => {
         setUuid(response.data.uuid);
         queryClient.invalidateQueries(["courses"]);
+        openToast("success", "File uploaded successfully");
       },
     }
   );
 
   const mutationUpdateCourse = useMutation({
-    mutationFn: (course: Course) => updateCourse(String(token), course),
+    mutationFn: async (course: Course) => {
+      return await updateCourse(String(token), course);
+    },
     onSuccess: () => {
+      openToast("success", "Course created !");
       queryClient.invalidateQueries(["courses"]);
       router.push("/dashboard/teachers/courses/edit/" + uuid);
     },

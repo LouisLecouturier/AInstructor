@@ -27,7 +27,9 @@ def get_user_stats_by_course(request, course: uuidLib.UUID):
         return {'message': "successfully got the stats by course", "course": stat.course.uuid , "mean" :stat.mean,"min" :stat.min,"max" :stat.max, "progress" :stat.progress}
 
 
+
 @router.post("/user")
+
 def get_user_stats_by_theme(request, theme:str):
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
@@ -39,16 +41,6 @@ def get_user_stats_by_theme(request, theme:str):
             mean = stats['mean__avg']
             max = stats['max__max']
             min = stats['min__min']
-            # medianPosition = models.UserStatistiques.objects.filter(user=user, theme=theme).order_by('mean').count()//2
-            # print(medianPosition)
-            # #
-            # medians = models.UserStatistiques.objects.filter(user=user, theme=theme).order_by('mean').values_list('mean', flat=True)
-            # print(medians)
-            # median = medians[medianPosition]
-
-
-            # print(median)
-            # median = median[medianPosition]
             progress = models.UserStatistiques.objects.filter(user=user, theme=theme).aggregate(Avg('progress'))['progress__avg']
             return {'message': "successfully got the stats by subject", "theme": theme, "mean" :mean,
                     "min" :min,"max" :max, "progress" :progress}
@@ -75,24 +67,26 @@ class TeamStat(Schema):
 
 
 
-#     if user and team and course:
-#         if user in team.users.all():
-#             try : 
-#                 stat = get_object_or_404(models.TeamStatistiques, team=team, course=course)
-#                 return {
-#                     'error' : False,
-#                     'message': "successfully got the stats by course", 
-#                     "course": stat.course.uuid,
-#                     "mean" :stat.mean,
-#                     "median" :stat.median,
-#                     "min" :stat.min,
-#                     "max" :stat.max
-#                 }
-#             except :
-#                 return {
-#                     'error' : True,
-#                     'message': "team has no stats for this course"
-#                     }
+    #if user and team and course:
+        #if user in team.users.all():
+        '''
+            try : 
+                stat = get_object_or_404(models.TeamStatistiques, team=team, course=course)
+                return {
+                    'error' : False,
+                    'message': "successfully got the stats by course", 
+                    "course": stat.course.uuid,
+                    "mean" :stat.mean,
+                    "median" :stat.median,
+                    "min" :stat.min,
+                    "max" :stat.max
+                }
+            except :
+                return {
+                    'error' : True,
+                    'message': "team has no stats for this course"
+                    }
+                    '''
 
 #         else:
 #             return {
@@ -117,30 +111,28 @@ def median_value(queryset, term):
     else:
         return sum(values[count/2-1:count/2+1])/2.0
 
-
 @router.post("/team/theme")
 def get_team_stats_by_theme(request, body: TeamStat):
+
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
-    course = get_object_or_404(models.Course, uuid=body.course_uuid)
-    team = get_object_or_404(models.Team,uuid=body.team_uuid)
-    if user and team and course and body.theme:
+    course = get_object_or_404(models.Course, uuid=course_uuid)
+    team = get_object_or_404(models.Team,uuid=team_uuid)
+    if user and team and course and theme:
         if user in team.users.all():
-            stat = models.TeamStatistiques.objects.filter(team=team,course = course,course__subject=body.theme).aggregate(Avg('mean'), Max('max'), Min('min'))
+            stat = models.TeamStatistiques.objects.filter(team=team,course = course,course__subject=theme).aggregate(Avg('mean'), Max('max'), Min('min'))
             mean = stat['mean__avg']
             max = stat['max__max']
             min = stat['min__min']
-            medianQuery = models.TeamStatistiques.objects.filter(team=team,course = course,course__subject=body.theme)
+            medianQuery = models.TeamStatistiques.objects.filter(team=team,course = course,course__subject=theme)
             median = median_value(medianQuery, 'mean')
 
-            return{'message': "successfully got the stats by subject", "theme": body.theme, "mean" :mean,"min" : min,"max" :max, "median" :median}
+            return{'message': "successfully got the stats by subject", "theme": theme, "mean" :mean,"min" : min,"max" :max, "median" :median}
         else:
             return {'message': "user is not in the team"}
     else:
         return {'message': "user or team or course does not exist"}
-
-
 
 @router.get("/course/{course}")
 def getTeamsCOmparaison(request, course : uuidLib.UUID):
@@ -172,8 +164,10 @@ def get_team_stats_by_course(request, teamUUID: uuidLib.UUID, courseUUID: uuidLi
     accessToken = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
 
-    course = get_object_or_404(models.Course, uuid=courseUUID)
-    team = get_object_or_404(models.Team, uuid=teamUUID)
+#     course = get_object_or_404(models.Course, uuid=courseUUID)
+#     team = get_object_or_404(models.Team, uuid=teamUUID)
+
+
 
     usersStats = []
     users = team.users.all()
@@ -241,5 +235,4 @@ def get_team_stats_by_course(request, teamUUID: uuidLib.UUID, courseUUID: uuidLi
             'error' : True,
             'message': "user or team or course does not exist"
             }
-
     

@@ -14,6 +14,7 @@ from user.api import router as user_router
 from team.api import router as team_router
 from statistic.api import router as stats_router
 from django.shortcuts import get_object_or_404
+from ninja.errors import HttpError
 
 key = getattr(settings, "SECRET_KEY", None)
 a_uuid = uuidLib.uuid4()
@@ -45,23 +46,35 @@ class GlobalAuth(HttpBearer):
     def authenticate(self, request, token):
         try:
             user = get_user_by_token(token)
-            if user.jwt_access == token:
+            if user is None:
+
+                return None
+            if user.accessToken == token:
+                try:
+
+                    payload = jwt.decode(token, key, algorithms=['HS256'])
+                    username: str = payload.get("user")
+                    if username is None:
+                        return None
+                except jwt.PyJWTError or jwt.InvalidTokenError:
+                    return None
+
                 return token, user.username
+            else:
+                return None
         except AttributeError:
-            return InvalidToken("Token supplied is invalid")
-        except models.CustomUser.DoesNotExist:
-            return InvalidToken("Token supplied is invalid")
-        return InvalidToken("Token supplied is invalid")
+            return None
+
 
     def create_tokens(self, user_id: str) -> dict:
         accessToken = jwt.encode({
             'user': str(user_id),
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=10),
             'iat': datetime.datetime.utcnow(),
         }, key, algorithm='HS256')
         refreshToken = jwt.encode({
             'user': str(user_id) + str(a_uuid),
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=7),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=70),
             'iat': datetime.datetime.utcnow(),
         }, key, algorithm='HS256')
 
@@ -84,6 +97,9 @@ api.add_router("/stats", stats_router)
 # def ask_chat_bot(request, course, question) : 
 #     return chat_bot_on_course(course, question)
 
+@api.get("/test")
+def test(request):
+    return {"message": "Hello world"}
 
 class Login(Schema):
     email: str
@@ -93,10 +109,8 @@ class Login(Schema):
 @api.post("/login", auth=None)
 def get_token(request, body: Login):
     body = body.dict()
-    print(body)
     user = get_object_or_404(models.CustomUser, email=body["email"])
     auth_perm = authenticate(request, username=body["email"], password=body["password"])
-    print(auth_perm)
     if auth_perm is not None:
         tokens = GlobalAuth().create_tokens(user.id)
         user.accessToken = tokens["accessToken"]

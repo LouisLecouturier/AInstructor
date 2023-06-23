@@ -15,12 +15,11 @@ export const fetchTeamsUser = async (token: string) => {
 export const fetchTeam = async (token: string, uuid: string) => {
   const response = await fetch(`http://localhost:8000/api/team/${uuid}`, {
     headers: {
-      authorization: `bearer ${token}`,
+      authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   });
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const deleteTeam = async (uuid: string, token: string) => {
@@ -28,12 +27,11 @@ export const deleteTeam = async (uuid: string, token: string) => {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      authorization: `bearer ${token}`,
+      authorization: `Bearer ${token}`,
     },
   });
 
-  const res = await response.json();
-  return res;
+  return await response.json();
 };
 
 export const createTeam = async (

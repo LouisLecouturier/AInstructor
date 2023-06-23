@@ -6,17 +6,23 @@ import Input from "@components/Layout/Interactions/Forms/Input";
 import SuccessIcon from "@icons/Checkmark.svg";
 import ErrorIcon from "@icons/Close.svg";
 
+import styles from "./Question.module.scss";
+import ReactMarkdown from "react-markdown";
+
 type QuestionProps = {
   uuid: string;
   questionNumber: number;
   statement: string;
   feedback?: "correct" | "incorrect";
   type: "text" | "qcm";
+  style?: React.CSSProperties;
   possibleAnswers?: string[];
   givenAnswer?: string;
   correction?: string;
   isLoading?: boolean;
+  isCorrectionLoading?: boolean;
   className?: string;
+  animate?: boolean;
 };
 
 const containerClassNames = clsx(
@@ -53,7 +59,10 @@ const FeedBackIcon = ({ feedback }: { feedback: "correct" | "incorrect" }) => {
 const QuestionElement: FC<QuestionProps> = (props) => {
   if (props.isLoading) {
     return (
-      <article className={clsx(containerClassNames, "p-4")}>
+      <article
+        className={clsx(containerClassNames, "p-4", props.className)}
+        style={props.style}
+      >
         <Skeleton className={"h-8 w-3/4"} />
         <div className={"flex flex-col gap-2 w-full"}>
           <Skeleton className={"w-1/2 h-4"} />
@@ -63,10 +72,45 @@ const QuestionElement: FC<QuestionProps> = (props) => {
       </article>
     );
   }
+  if (props.isCorrectionLoading) {
+    return (
+      <article
+        className={clsx(
+          containerClassNames,
+          "p-4",
+          "animate-pulse",
+          props.className
+        )}
+        style={props.style}
+      >
+        <header>
+          <div className={"flex justify-between"}>
+            <h2 className={clsx("font-black text-lg text-accent-500")}>
+              Question n°{props.questionNumber}
+            </h2>
+          </div>
+          <p className={"font-medium"}>{props.statement}</p>
+        </header>
+        <div
+          className={clsx(
+            "w-full min-h-[4rem] p-2",
+            "text-sm font-semibold italic",
+            "bg-accent-50 text-dark-300 rounded-md",
+            "cursor-text"
+          )}
+        >
+          {props.givenAnswer}
+        </div>
+      </article>
+    );
+  }
 
   if (props.feedback) {
     return (
-      <article className={containerClassNames}>
+      <article
+        className={clsx(containerClassNames, props.className)}
+        style={props.style}
+      >
         <div
           className={clsx(
             correctionContainerClassNames,
@@ -112,9 +156,11 @@ const QuestionElement: FC<QuestionProps> = (props) => {
         {props.feedback === "incorrect" && (
           <div className={"flex flex-col gap-1 px-4 pb-4"}>
             <label className={"font-black text-accent-500"}>Correction :</label>
-            <div className={clsx("font-semibold italic text-dark-300")}>
-              {props.correction}
-            </div>
+            <ReactMarkdown
+              className={clsx("font-semibold italic text-dark-300")}
+            >
+              {String(props.correction)}
+            </ReactMarkdown>
           </div>
         )}
       </article>
@@ -122,7 +168,15 @@ const QuestionElement: FC<QuestionProps> = (props) => {
   }
 
   return (
-    <article className={clsx(containerClassNames, "p-4")}>
+    <article
+      className={clsx(
+        containerClassNames,
+        "p-4",
+        props.animate && styles["animate"],
+        props.className
+      )}
+      style={props.style}
+    >
       <header>
         <div className={"flex justify-between"}>
           <h2 className={clsx("font-black text-lg text-accent-500")}>
@@ -132,17 +186,13 @@ const QuestionElement: FC<QuestionProps> = (props) => {
         <p className={"font-medium"}> {props.statement}</p>
       </header>
 
-      <div className={"flex flex-col gap-1"}>
-        <label className={"italic font-semibold text-dark-300"}>
-          Your answer :
-        </label>
-        <Input
-          name={props.uuid}
-          placeholder={"Write your answer..."}
-          textarea
-          borders
-        />
-      </div>
+      <Input
+        name={props.uuid}
+        placeholder={"Write your answer..."}
+        className={"placeholder:italic"}
+        textarea
+        borders
+      />
     </article>
   );
 };

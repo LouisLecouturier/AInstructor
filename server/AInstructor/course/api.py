@@ -285,6 +285,7 @@ def generate_questions(request, uuid: str):
     questions_with_numbers = response.choices[0].message.content.split('\n')
     questions = [q.split('.', 1)[1].strip() for q in questions_with_numbers if q.strip()]
 
+
     return {"questions": questions}
 
 

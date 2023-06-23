@@ -6,6 +6,10 @@ import { fetchQuestionsTrainingBatch } from "@requests/question";
 import clsx from "clsx";
 import { Button } from "@components/Layout/Interactions/Button";
 import { useSession } from "next-auth/react";
+import { useAnswerStore } from "@components/Dashboard/Students/TrainingSection/QuestionForm/answer.store";
+import { getAnswerFromQuestion } from "@components/Dashboard/Students/TrainingSection/QuestionForm/logic";
+import Spinner from "@icons/Loading.svg";
+import { toastStore } from "@components/Layout/Toast/toast.store";
 
 type QuestionFormProps = {
   quizzUuid: string;
@@ -26,7 +30,7 @@ type QuestionCorrection = {
   givenAnswer: string;
 };
 
-const answerQuestions = async (
+const fetchCorrection = async (
   quizzUuid: string,
   answers: any,
   accessToken: string
@@ -47,12 +51,33 @@ const answerQuestions = async (
 };
 
 const QuestionForm: FC<QuestionFormProps> = (props) => {
-  const [correction, setCorrection] = useState<QuestionCorrection[]>([]);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const { data: session } = useSession();
+  const { answers, answerQuestions } = useAnswerStore();
+
+  const { openToast } = toastStore();
 
   const { data, isLoading } = useQuery<Question[]>(["questions"], {
     queryFn: () =>
       fetchQuestionsTrainingBatch(props.quizzUuid, props.accessToken),
+  });
+
+  const { data: correction, isLoading: isCorrectionLoading } = useQuery<{
+    quizz: string;
+    answers: QuestionCorrection[];
+  }>(["correction"], {
+    queryFn: async () => {
+      openToast("info", "Loading correction...");
+      const data = await fetchCorrection(
+        props.quizzUuid,
+        answers,
+        props.accessToken
+      );
+      openToast("success", "Correction loaded !");
+
+      return data;
+    },
+    enabled: isSubmitted,
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -70,20 +95,72 @@ const QuestionForm: FC<QuestionFormProps> = (props) => {
       });
     });
 
+    answerQuestions(answers);
+
     if (session?.user.accessToken) {
-      const data = await answerQuestions(
-        props.quizzUuid,
-        answers,
-        session.user.accessToken
-      );
-      setCorrection(data.answers);
+      setIsSubmitted(true);
     }
   };
+
+  if (isSubmitted && data) {
+    return (
+      <div className={"flex flex-col gap-8"}>
+        <div
+          className={
+            "grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4"
+          }
+        >
+          {data.map((question, index) => {
+            const givenAnswer = getAnswerFromQuestion(answers, question.uuid);
+            const questionCorrection: QuestionCorrection | undefined =
+              correction?.answers.find((q) => {
+                return q.question === question.uuid;
+              });
+
+            return (
+              <QuestionElement
+                key={nanoid()}
+                uuid={question.uuid}
+                correction={questionCorrection?.AICorrection}
+                feedback={
+                  !!questionCorrection
+                    ? questionCorrection.isCorrect
+                      ? "correct"
+                      : "incorrect"
+                    : undefined
+                }
+                isCorrectionLoading={isCorrectionLoading}
+                givenAnswer={givenAnswer?.answer}
+                questionNumber={index + 1}
+                statement={question.statement}
+                type={question.type}
+              />
+            );
+          })}
+        </div>
+        {isCorrectionLoading && (
+          <div
+            className={clsx(
+              "flex items-center justify-center gap-8",
+              "bg-dark-10",
+              "p-8",
+              "text-lg text-dark-200 font-bold rounded-sm"
+            )}
+          >
+            <Spinner className={"w-12 h-12 animate-spin text-accent-500"} />
+            <span className={"w-1/2"}>
+              Please wait while the AI coach is correcting your answers...
+            </span>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className={clsx("flex flex-col gap-8")}>
       <div
-        className={"grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4"}
+        className={"grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid-flow-dense gap-4"}
       >
         {isLoading
           ? Array.from({ length: 5 }, (_, i) => i + 1).map((_, i) => (
@@ -96,31 +173,17 @@ const QuestionForm: FC<QuestionFormProps> = (props) => {
                 type={"text"}
               />
             ))
-          : data?.map((question, i) => {
-              const questionCorrection: QuestionCorrection | undefined =
-                correction?.find((q) => {
-                  return q.question === question.uuid;
-                });
-
-              return (
-                <QuestionElement
-                  key={nanoid()}
-                  uuid={question.uuid}
-                  correction={questionCorrection?.AICorrection}
-                  feedback={
-                    !!questionCorrection
-                      ? questionCorrection.isCorrect
-                        ? "correct"
-                        : "incorrect"
-                      : undefined
-                  }
-                  givenAnswer={questionCorrection?.givenAnswer}
-                  questionNumber={i + 1}
-                  statement={question.statement}
-                  type={question.type}
-                />
-              );
-            })}
+          : data?.map((question, i) => (
+              <QuestionElement
+                key={nanoid()}
+                style={{ animationDelay: `${i * 100}ms` } as any}
+                uuid={question.uuid}
+                questionNumber={i + 1}
+                statement={question.statement}
+                animate
+                type={question.type}
+              />
+            ))}
       </div>
       <Button type={"submit"} rounded={"full"}>
         Valider mes réponses

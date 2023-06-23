@@ -7,22 +7,28 @@ import Header from "@components/Dashboard/Common/Layout/Header";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTeam } from "@requests/team";
 import TeamInformations from "@/components/Dashboard/Teams/MainInformation";
+import { toastStore } from "@components/Layout/Toast/toast.store";
 
 export default function AddTeam() {
   const { data: session } = useSession();
   const token = String(session?.user.accessToken);
   const router = useRouter();
 
+  const { openToast } = toastStore();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (team : {name : string, description : string, color : string}) => createTeam(team, String(token)),
+    mutationFn: (team: { name: string; description: string; color: string }) =>
+      createTeam(team, String(token)),
+    onMutate: () => {
+      openToast("info", "Creating team...");
+    },
     onSuccess: () => {
+      openToast("success", "Team created successfully");
       router.push("/dashboard/teachers/teams");
       queryClient.invalidateQueries(["teams"]);
-    }
+    },
   });
-
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,8 +42,7 @@ export default function AddTeam() {
       name,
       description,
       color,
-    } as {name : string, description : string, color : string};
-
+    } as { name: string; description: string; color: string };
 
     mutation.mutate(team);
   };
@@ -46,6 +51,7 @@ export default function AddTeam() {
     <>
       <Header title={"Create a new team"} />
       <TeamInformations editable onSubmit={handleSubmit} />
+      <TeamInformations onSubmit={handleSubmit} editable={true} />
     </>
   );
 }

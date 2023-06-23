@@ -9,19 +9,22 @@ import Link from "next/link";
 import Input from "@components/Layout/Interactions/Forms/Input";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
+import { toastStore } from "@components/Layout/Toast/toast.store";
 
 function Login() {
   const { data: session } = useSession();
   const router = useRouter();
   const [error, setError] = useState("");
+  const { openToast } = toastStore();
 
   useEffect(() => {
-    console.log(session);
     if (!!session?.user.accessToken) {
-      console.log("redirecting");
-      router.push(`/dashboard/${session?.user.isTeacher ? "teachers" : "students"}`);
+      openToast("success", "Logged in");
+      router.push(
+        `/dashboard/${session?.user.isTeacher ? "teachers" : "students"}`
+      );
     }
-  }, [session, router]);
+  }, [session]);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -35,10 +38,10 @@ function Login() {
       password,
     })
       .then((res) => {
-        console.log(res);
+        openToast("success", "Logged in");
       })
       .catch((error) => {
-        console.error(error);
+        openToast("error", "An error occurred during sign in.");
         setError("An error occurred during sign in.");
       });
   }
@@ -46,24 +49,37 @@ function Login() {
   return (
     <form className={"flex flex-col gap-4 max-w-[480px]"} onSubmit={onSubmit}>
       <div>
-        <Input placeholder="Email" name="email" className={clsx(!!session?.user.message ? (session?.user.message == "Authentification successfull" ? "border-green-500 border-2" : "border-secondary-500 border-2") : null)} />
+        <Input
+          placeholder="Email"
+          name="email"
+          className={clsx(
+            !!session?.user.message
+              ? session?.user.message == "Authentification successfull"
+                ? "border-green-500 border-2"
+                : "border-secondary-500 border-2"
+              : null
+          )}
+        />
       </div>
       <div className={"flex flex-col gap-2 items-end"}>
-        <Input placeholder="Password" type={"password"} name="password" className={clsx(!!session?.user.message ? (session?.user.message == "Authentification successfull" ? "border-green-500 border-2" : "border-secondary-500 border-2") : null)} />
+        <Input
+          placeholder="Password"
+          type={"password"}
+          name="password"
+          className={clsx(
+            !!session?.user.message
+              ? session?.user.message == "Authentification successfull"
+                ? "border-green-500 border-2"
+                : "border-secondary-500 border-2"
+              : null
+          )}
+        />
         <div className="flex flex-row justify-between w-full">
-
-          {session?.user.message == "Authentification successfull"
-            ?
-            <span className="text-green-500">
-              {session?.user.message}
-            </span>
-
-            :
-            <span className="text-secondary-500">
-              {session?.user.message}
-            </span>
-
-          }
+          {session?.user.message == "Authentification successfull" ? (
+            <span className="text-green-500">{session?.user.message}</span>
+          ) : (
+            <span className="text-secondary-500">{session?.user.message}</span>
+          )}
 
           <Link
             href="/auth/forgot-password"
