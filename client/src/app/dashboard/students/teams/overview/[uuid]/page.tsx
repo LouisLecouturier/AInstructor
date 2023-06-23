@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useSession } from "next-auth/react";
 import { Button } from "@components/Layout/Interactions/Button";
@@ -21,39 +21,37 @@ import {
 import AddIcon from "@icons/Plus.svg";
 import Input from "@components/Layout/Interactions/Forms/Input";
 import Header from "@components/Dashboard/Common/Layout/Header";
-import ListItem from "@/components/Layout/ListItem";
+import ListItem from "@components/Layout/ListItem";
 import { Course } from "@/types/course";
-import { getCourses } from "@/requests/course";
+import { getCourses } from "@requests/course";
 import { nanoid } from "nanoid";
 
-export default function TeamOverview({
-  searchParams,
-}: {
-  searchParams: { id: string };
-}) {
+export default function TeamOverview({ params }: { params: { uuid: string } }) {
   const { data: session } = useSession();
   const token = session?.user.accessToken;
-  const id = session?.user.id;
 
   const router = useRouter();
   const pathname = usePathname();
 
-
   const queryClient = useQueryClient();
 
-  const uuid = searchParams.id;
+  const uuid = params.uuid;
 
+  console.log(uuid);
 
   const { data, isLoading, isError } = useQuery<Team>({
     queryKey: ["team", uuid],
-    queryFn: () => fetchTeam(String(token), searchParams.id),
+    queryFn: () => fetchTeam(String(token), uuid),
     enabled: ![token, uuid].includes(undefined),
   });
 
-
-  const { data : courses, isLoading : isCoursesLoading, isError : isCoursesError } = useQuery<Course[]>(["team", uuid, "courses"], {
+  const {
+    data: courses,
+    isLoading: isCoursesLoading,
+    isError: isCoursesError,
+  } = useQuery<Course[]>(["team", uuid, "courses"], {
     queryFn: () => getCoursesTeam(String(uuid), String(token)),
-    enabled: !!token && !!uuid,
+    enabled: ![token, uuid].includes(undefined),
   });
 
   const mutation = useMutation({
@@ -121,59 +119,50 @@ export default function TeamOverview({
 
   const getEmailList = (filteredData: { email: string }[]) => {
     const emails = filteredData.map((obj: { email: string }) => obj.email);
-    console.log(emails);
 
     mutationRemoveUsers.mutate(emails);
   };
-
-
 
   if (isLoading || isError || isCoursesLoading || isCoursesError) {
     return <div>Loading...</div>;
   }
 
-  console.log(courses);
-
   return (
     <div>
-      <Header className={"justify-between"} title={data.name}>
-      </Header>
+      <Header className={"justify-between"} title={data.name}></Header>
 
       <div className="flex flex-col gap-10">
         <div className={"flex flex-col gap-4"}>
-          <h2 className="text-2xl font-bold">Courses</h2>
-          <Container
-                title={"Your courses"}
-            >
-        <div className={"flex flex-col gap-2"}>
-          {courses.length > 0 ? (
-            courses.map((course) => {
-              const properties = [
-                { label: "Creation date", value: course.creationDate },
-                { label: "Delivery date", value: course.deliveryDate },
-                { label: "Subject", value: course.subject}
-              ];
+          <Container title={"Your courses"}>
+            <div className={"flex flex-col gap-2"}>
+              {courses.length > 0 ? (
+                courses.map((course) => {
+                  const properties = [
+                    { label: "Subject", value: course.subject },
+                  ];
 
-              return (
-                <ListItem
-                  key={nanoid()}
-                  properties={properties}
-                  href={`${pathname}/${course.uuid}`}
-                >
-                  {course.name}
-                </ListItem>
-              );
-            })
-          ) : (
-            <span>You don&apos;t have any course yet</span>
-          )}
-        </div>
-      </Container>
+                  return (
+                    <ListItem
+                      key={nanoid()}
+                      properties={properties}
+                      href={`${pathname}/${course.uuid}`}
+                    >
+                      {course.name}
+                    </ListItem>
+                  );
+                })
+              ) : (
+                <span>You don&apos;t have any course yet</span>
+              )}
+            </div>
+          </Container>
         </div>
         <div className={"flex flex-col gap-4"}>
-          <h2 className="text-2xl font-bold">Overview</h2>
-
-          <TeamMainInformation onSubmit={handleUpdate} team={data} editable={false} />
+          <TeamMainInformation
+            onSubmit={handleUpdate}
+            team={data}
+            editable={false}
+          />
 
           <Container>
             <Table
@@ -186,9 +175,7 @@ export default function TeamOverview({
               ordered
               data={data.users || []}
             />
-
           </Container>
-
         </div>
       </div>
     </div>

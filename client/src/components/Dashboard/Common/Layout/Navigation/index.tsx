@@ -8,30 +8,11 @@ import UserInfo from "@components/Layout/User/Userinfo";
 import TeacherNavigation from "./TeacherNavigation";
 import StudentNavigation from "./StudentNavigation";
 import NavigationElement from "./NavigationElement";
-
-interface Students {
-  Homeworks: string;
-  Teams: string;
-  Stats: string;
-  Settings: string;
-}
-
-interface Teachers {
-  quizzs: string;
-  Teams: string;
-  Stats: string;
-  Settings: string;
-}
-
-const Students: Students = {
-  Homeworks: "",
-  Teams: "",
-  Stats: "",
-  Settings: "",
-};
+import { toastStore } from "@components/Layout/Toast/toast.store";
 
 export default function DashboardNavigation() {
   const { data: session } = useSession();
+  const { openToast } = toastStore();
 
   const lastname = session?.user.last_name;
   const firstname = session?.user.first_name;
@@ -61,7 +42,11 @@ export default function DashboardNavigation() {
         <NavigationElement
           icon={<Logout />}
           label={"Log out"}
-          onClick={signOut}
+          onClick={() => {
+            signOut().then(() => {
+              openToast("success", "Logged out");
+            });
+          }}
         />
       </div>
     </div>

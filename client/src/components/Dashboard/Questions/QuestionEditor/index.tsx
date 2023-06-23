@@ -15,7 +15,7 @@ type QuestionEditProps = {
   index: number;
   question: Question;
   isLoading?: boolean;
-  onEdit?: (question: string) => void;
+  onEdit?: (statement: string) => void;
   onDelete?: () => void;
 };
 
@@ -29,7 +29,7 @@ export default function QuestionEdit(props: QuestionEditProps) {
     if (!isEditing) return;
 
     setIsEditing(false);
-    props.onEdit?.(question.question);
+    props.onEdit?.(question.statement);
   };
 
   useOnClickOutside(containerRef, handleClickOutside);
@@ -40,8 +40,10 @@ export default function QuestionEdit(props: QuestionEditProps) {
       return;
     }
     setIsEditing(false);
-    props.onEdit?.(question.question);
+    props.onEdit?.(question.statement);
   };
+
+  console.log(question);
 
   const computeContent = () => {
     if (question?.isLoading) {
@@ -67,11 +69,11 @@ export default function QuestionEdit(props: QuestionEditProps) {
             inputRef={inputRef}
             textarea
             borders
-            onChange={(e) => setQuestion({ question: e.target.value })}
+            onChange={(e) => setQuestion({ statement: e.target.value })}
             className={clsx("italic text-sm px-2", !isEditing && "hidden")}
             placeholder={"Write your question here..."}
             size={"sm"}
-            defaultValue={question?.question}
+            defaultValue={question?.statement}
           />
 
           <div
@@ -89,11 +91,11 @@ export default function QuestionEdit(props: QuestionEditProps) {
               isEditing && "hidden"
             )}
           >
-            {question?.question?.length > 0 ? (
-              question.question
+            {question?.statement?.length > 0 ? (
+              question.statement
             ) : (
               <span className={"text-dark-100"}>
-                Write your question here...
+                Write your statement here...
               </span>
             )}
           </div>
@@ -131,7 +133,7 @@ export default function QuestionEdit(props: QuestionEditProps) {
       )}
       ref={containerRef}
     >
-      <input type="hidden" name="question" value={question?.question ?? ""} />
+      <input type="hidden" name="question" value={question?.statement ?? ""} />
       {computeContent()}
     </article>
   );

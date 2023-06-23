@@ -11,6 +11,9 @@ import { useSession } from "next-auth/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import Check from "@icons/Checkmark.svg";
+import { useStore } from "zustand";
+import { toastStore } from "@components/Layout/Toast/toast.store";
+import { stat } from "fs";
 
 type QuestionsEditorProps = {
   courseUuid: string;
@@ -31,7 +34,7 @@ const quizzQuery = (uuid: string, accessToken?: string) => {
       const data = {
         uuid: res.uuid,
         questions: res.questions.map((question: any) => {
-          return { question: question.statement };
+          return { statement: question.statement };
         }),
       };
 
@@ -50,7 +53,7 @@ const sendQuestions = async (
       authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
-      questions: questions.map((question) => question.question),
+      questions: questions.map((question) => question.statement),
     }),
   });
 
@@ -60,6 +63,8 @@ const sendQuestions = async (
 const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
   const { data: session } = useSession();
   const accessToken = session?.user.accessToken;
+
+  const openToast = toastStore((state) => state.openToast);
 
   const [questions, setQuestions] = useState<Question[]>([]);
 
@@ -75,13 +80,26 @@ const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
     }
   );
 
-  const quizzMutation = useMutation(async (questions: Question[]) => {
-    if (quizzData) {
-      return sendQuestions(quizzData.uuid, questions, accessToken);
-    }
+  const quizzMutation = useMutation(
+    async (questions: Question[]) => {
+      if (quizzData) {
+        openToast("info", "Updating questions...");
+        const data = await sendQuestions(
+          quizzData.uuid,
+          questions,
+          accessToken
+        );
 
-    return Promise.resolve(questions);
-  });
+        return data;
+      }
+
+      return Promise.resolve(questions);
+    },
+    {
+      onSuccess: () => openToast("success", "Questions updated !"),
+      onError: () => openToast("error", "An error occurred"),
+    }
+  );
 
   const deleteQuestionAtIndex = (index: number) => {
     const updatedQuestions = [...questions].filter((_, i) => i !== index);
@@ -90,9 +108,10 @@ const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
 
   const generateQuestions = async () => {
     const newQuestions = questions.concat(
-      Array.from({ length: 5 }, () => ({ question: "", isLoading: true }))
+      Array.from({ length: 5 }, () => ({ statement: "", isLoading: true }))
     );
     setQuestions(newQuestions);
+    openToast("info", "Generating questions...");
 
     await fetch(
       `http://localhost:8000/api/course/${props.courseUuid}/generate-questions`,
@@ -110,20 +129,22 @@ const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
         );
         const updatedQuestions = trueQuestions.concat(
           res.questions.map((question: Question) => ({
-            question,
+            statement: question,
           }))
         );
         setQuestions(updatedQuestions);
+        openToast("success", "Questions generated !");
+      })
+      .catch((err) => {
+        openToast("error", "An error occurred");
       });
-
-    // TODO: Handle error
   };
 
   const addQuestion = () => {
     const newQuestions = [
       ...questions,
       {
-        question: "",
+        statement: "",
         isLoading: false,
       },
     ];
@@ -132,7 +153,7 @@ const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
 
   const editQuestion = (index: number, question: string) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[index].question = question;
+    updatedQuestions[index].statement = question;
     setQuestions(updatedQuestions);
   };
 
@@ -155,7 +176,7 @@ const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
             <QuestionEdit
               key={nanoid()}
               index={i + 1}
-              question={{ question: "", isLoading: true }}
+              question={{ statement: "", isLoading: true }}
             />
           ))}
         </div>

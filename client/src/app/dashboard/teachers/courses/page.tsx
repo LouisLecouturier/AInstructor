@@ -71,7 +71,6 @@ const Courses = () => {
               data.map((course) => {
                 const properties = [
                   { label: "Creation date", value: course.creationDate },
-                  { label: "Delivery date", value: course.deliveryDate },
                   { label: "Team", value: course.team },
                 ];
 

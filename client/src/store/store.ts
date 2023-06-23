@@ -15,8 +15,6 @@ interface UserStore {
 }
 
 
-
-
 export const UserStore = create<UserStore>((set) => ({   
     typeUser : "Student",
     firstname: "Johana",

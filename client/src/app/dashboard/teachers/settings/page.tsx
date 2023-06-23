@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { fetchUser, updateUser } from "@/requests/user";
@@ -10,23 +9,31 @@ import { Button } from "@/components/Layout/Interactions/Button";
 import Information from "@/components/Layout/Information";
 import UserInfo from "@/components/Layout/User/Userinfo";
 import Container from "@/components/Layout/Container";
+import { toastStore } from "@components/Layout/Toast/toast.store";
 
 const Settings = () => {
   const { data: session } = useSession();
   const token = session?.user.accessToken;
   const id = session?.user.id;
 
+  const { openToast } = toastStore();
+
   const queryClient = useQueryClient();
 
   const { data, isLoading, isError } = useQuery<User>({
     queryKey: ["user", id],
     queryFn: () => fetchUser(String(token), String(id)),
-    enabled: (token || id) === undefined ? false : true,
+
+    enabled: (token || id) !== undefined,
   });
 
   const mutationUpdateUser = useMutation({
     mutationFn: (user: User) => updateUser(user, String(token)),
+    onMutate: () => {
+      openToast("info", "Updating user...");
+    },
     onSuccess: () => {
+      openToast("success", "User updated");
       queryClient.invalidateQueries(["user", id]);
     },
   });

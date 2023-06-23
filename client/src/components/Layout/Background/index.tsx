@@ -3,6 +3,7 @@ import clsx from "clsx";
 import Image from "next/image";
 
 import background from "@assets/images/background.webp";
+import Toast from "@components/Layout/Toast";
 
 type BackgroundProps = {
   children: ReactNode;
@@ -10,7 +11,6 @@ type BackgroundProps = {
   innerClassName?: string;
   rounded?: boolean;
 };
-
 
 const Background: FC<BackgroundProps> = (props) => {
   return (
@@ -36,6 +36,7 @@ const Background: FC<BackgroundProps> = (props) => {
         )}
       >
         {props.children}
+        <Toast />
       </div>
     </div>
   );

@@ -110,10 +110,10 @@ const ListItem: FC<ListItemProps> = (props) => {
         )}
       </header>
       <div className={"flex items-center gap-8 flex-1"}>
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           {props.properties.map((property) => {
             return (
-              <div key={property.label} className="flex items-center gap-2">
+              <div key={property.label} className="flex items-center gap-1">
                 <span className="text-dark-300 text-sm font-semibold">
                   {property.label} :
                 </span>

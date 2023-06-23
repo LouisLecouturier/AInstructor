@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Background from "@components/Layout/Background";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Toast from "@components/Layout/Toast";
 
 const Aside = (props: { isLoggingIn?: boolean }) => {
   return (

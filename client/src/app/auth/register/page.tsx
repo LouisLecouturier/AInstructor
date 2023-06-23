@@ -7,6 +7,7 @@ import LoginIcon from "@icons/Login.svg";
 import MyRadioGroup from "@components/Layout/Interactions/Forms/RadioGroup";
 import { FormEvent } from "react";
 import { signIn } from "next-auth/react";
+import { toastStore } from "@components/Layout/Toast/toast.store";
 
 const options = [
   { value: "teacher", label: "Teacher" },
@@ -14,6 +15,7 @@ const options = [
 ];
 
 function Register() {
+  const { openToast } = toastStore();
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -40,6 +42,7 @@ function Register() {
     })
       .then((response) => {
         if (response.ok) {
+          openToast("success", "Account created");
           signIn("credentials", {
             email,
             password,
@@ -48,6 +51,7 @@ function Register() {
       })
       .catch((error) => {
         // Gérer les erreurs de la requête ici
+        openToast("error", "Something went wrong");
         console.error(error);
       });
   }
@@ -69,7 +73,11 @@ function Register() {
       <Input placeholder="Lastname" name={"lastname"} />
       <Input placeholder="Email" name={"email"} />
       <Input placeholder="Password" type={"password"} name={"password"} />
-      <Input placeholder="Confirm password" type={"password"} name={"confirm_password"} />
+      <Input
+        placeholder="Confirm password"
+        type={"password"}
+        name={"confirm_password"}
+      />
 
       <Button responsive className={"mt-4"} type={"submit"}>
         <span>Sign Up</span>

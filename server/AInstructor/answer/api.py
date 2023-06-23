@@ -4,9 +4,6 @@ from app import models
 import uuid as uuidLib
 from typing import List
 from pydantic import Field
-import datetime
-from django.db.models import Count, Sum, Avg, Min, Max
-import random
 import openai
 from django.core.files.storage import default_storage
 from django.http import HttpResponseNotFound
@@ -41,19 +38,23 @@ def iaquestion(quizz):
 
                 # Définir votre clé API OpenAI
                 openai.api_key = "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"
+                print(question.statement)
+                print(answer.givenAnswer)
 
                 # Utiliser OpenAI ChatCompletion pour obtenir une réponse corrigée pour chaque question-réponse
                 response = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
                     messages=[
-                        {"role": "system",
-                         "content": "You are a helpful assistant. You have the text: " + content + ". You have a question: " + question.statement + ". You have an answer: " + answer.givenAnswer + "."},
+                        {"role": "system", "content": "Toi, tu es un professeur exigeant. Moi, je suis ton élève."},
+
                         {"role": "user",
-                         "content": "Is this answer correct? " + answer.givenAnswer + ". Answer yes or no. Answer in french and justify."},
+                         "content": "J'ai ce texte pour trouver la réponse" + content + "La question posée est " + question.statement + "Ma réponse est " + answer.givenAnswer + ". Commence par me répondre si oui ou non la réponse donné est bonne. Si oui, réponds moi <Oui, Bonne réponse>. Si non, réponds-moi en me tutoyant en commençant par <non,> et en mettant la correction après la virgule."},
+
                     ]
                 )
             answer_dict = {}
             reponse = response.choices[0].message.content
+            print(reponse)
             reponse_avant_virgule = reponse.split(',')[0]
             reponse_apres_virgule = reponse.split(',')[1]
             if reponse_avant_virgule == "Oui":

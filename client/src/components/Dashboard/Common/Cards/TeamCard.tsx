@@ -41,13 +41,7 @@ export const TeamCard: FC<TeamCardProps> = (props) => {
     );
 
   return (
-    <Link
-      className={containerClassNames}
-      href={{
-        pathname: href,
-        query: { id: props.team.uuid },
-      }}
-    >
+    <Link className={containerClassNames} href={`${href}/${props.team.uuid}`}>
       <div
         style={{ backgroundColor: props.team.color }}
         className="w-28 h-28 rounded-lg"
