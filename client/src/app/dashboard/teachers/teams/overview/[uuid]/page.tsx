@@ -27,9 +27,9 @@ import { nanoid } from "nanoid";
 import { deleteCourse } from "@requests/course";
 
 export default function TeamOverview({
-  searchParams,
+  params,
 }: {
-  searchParams: { uuid: string };
+  params: { uuid: string };
 }) {
   const { data: session } = useSession();
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function TeamOverview({
   const queryClient = useQueryClient();
 
   const token = session?.user.accessToken;
-  const uuid = searchParams.uuid;
+  const uuid = params.uuid;
 
   const { data, isLoading, isError } = useQuery<Team>({
     queryKey: ["team", uuid],

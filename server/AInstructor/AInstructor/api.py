@@ -45,13 +45,21 @@ class GlobalAuth(HttpBearer):
     def authenticate(self, request, token):
         try:
             user = get_user_by_token(token)
-            if user.jwt_access == token:
+            if user is None:
+                return None
+            if user.accessToken == token:
+                try:
+                    payload = jwt.decode(token, key, algorithms=['HS256'])
+                    username: str = payload.get("user")
+                    if username is None:
+                        return None
+                except jwt.PyJWTError or jwt.InvalidTokenError:
+                    return None
                 return token, user.username
+            else:
+                return None
         except AttributeError:
-            return InvalidToken("Token supplied is invalid")
-        except models.CustomUser.DoesNotExist:
-            return InvalidToken("Token supplied is invalid")
-        return InvalidToken("Token supplied is invalid")
+            return None
 
     def create_tokens(self, user_id: str) -> dict:
         accessToken = jwt.encode({
