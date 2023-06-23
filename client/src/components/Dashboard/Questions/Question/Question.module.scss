@@ -1,0 +1,18 @@
+.animate {
+  opacity: 0;
+  transform: translateY(25%);
+  animation: spawn 0.4s ease forwards;
+}
+
+@keyframes spawn {
+  from {
+    opacity: 0;
+    transform: translateY(25%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+
+  }
+}
