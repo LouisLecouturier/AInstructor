@@ -47,6 +47,8 @@ def iaquestion(quizz):
                 openai.api_key = "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"
                 print(question.statement)
                 print(answer.givenAnswer)
+                if answer.givenAnswer == "":
+                    answer.givenAnswer = "Je ne sais pas"
 
                 # Utiliser OpenAI ChatCompletion pour obtenir une réponse corrigée pour chaque question-réponse
                 response = openai.ChatCompletion.create(
