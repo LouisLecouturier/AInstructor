@@ -11,6 +11,7 @@ import Header from "@/components/Dashboard/Common/Layout/Header";
 import Container from "@/components/Layout/Container";
 import { fetchTeam } from "@/requests/team";
 import { getCourse } from "@/requests/course";
+import { FC } from "react";
 
 const data = {
   labels: [
@@ -46,11 +47,9 @@ const data = {
         "rgba(75, 192, 192, 0.7)",
         "rgba(54, 162, 235, 0.7)",
       ],
-      
     },
   ],
 };
-
 
 const data2 = {
   labels: [
@@ -95,67 +94,87 @@ const options = {
   maintainAspectRatio: false,
 };
 
-
 ChartJS.register(CategoryScale);
 
-const teamStats = () => {
-  const {data : session} = useSession();
+const TeamStats: FC = () => {
+  const { data: session } = useSession();
   const token = session?.user?.accessToken;
 
   const pathname = usePathname();
-  
+
   const uuid = (pathname ?? "").split("/");
   const teamUUID = uuid[uuid.length - 2];
   const courseUUID = uuid[uuid.length - 1];
 
-
-
-  const { data : stats, isLoading, isError } = useQuery<any>({
-    queryKey: ["team", uuid , "stats"],
-    queryFn: () => getCourseStats(String(teamUUID), String(courseUUID), String(token)),
+  const {
+    data: stats,
+    isLoading,
+    isError,
+  } = useQuery<any>({
+    queryKey: ["team", uuid, "stats"],
+    queryFn: () =>
+      getCourseStats(String(teamUUID), String(courseUUID), String(token)),
     enabled: !!token && !!teamUUID && !!courseUUID && !!uuid,
   });
 
-
-
-  const { data : team, isError : isTeamError, isLoading : isTeamLoading} = useQuery(["team", uuid], {
+  const {
+    data: team,
+    isError: isTeamError,
+    isLoading: isTeamLoading,
+  } = useQuery(["team", uuid], {
     queryFn: () => fetchTeam(String(token), String(teamUUID)),
     enabled: !!token && !!teamUUID,
-});
+  });
 
-  const {data : course,isError: isCourseError , isLoading : isCourseLoading} = useQuery(["course", uuid], {
+  const {
+    data: course,
+    isError: isCourseError,
+    isLoading: isCourseLoading,
+  } = useQuery(["course", uuid], {
     queryFn: () => getCourse(String(courseUUID), String(token)),
     enabled: !!token && !!courseUUID,
   });
 
-  if (isLoading || isError || isCourseError || isCourseLoading || isTeamError || isTeamLoading) return <div>Loading...</div>;
+  if (
+    isLoading ||
+    isError ||
+    isCourseError ||
+    isCourseLoading ||
+    isTeamError ||
+    isTeamLoading
+  )
+    return <div>Loading...</div>;
   console.log(team);
-  
 
   return (
     <div className="flex h-full flex-col gap-10">
-      <Header title="Stats" breadcrumbsReplace={[{current : String(teamUUID), value : team.name},{current: String(courseUUID), value : course.name}]} />
-        {!stats.error 
-
-        ?  <div className="flex flex-col flex-1 gap-10 items-center">
-            <div className="h-full w-full flex gap-10 justify-center flex-wrap pb-12">
-              <Container className="max-w-[700px] max-h-[400px] w-full flex-1 border-2 border-white hover:border-accent-300 transition flex justify-center items-center">
-                <Bar data={data} options={options} />
-              </Container>
-              <Container className="max-w-[700px] max-h-[400px] w-full flex-1 border-2 border-white hover:border-accent-300 transition flex justify-center items-center">
-                <Doughnut data={data2} />
-              </Container>
-            </div>
+      <Header
+        title="Stats"
+        breadcrumbsReplace={[
+          { current: String(teamUUID), value: team.name },
+          { current: String(courseUUID), value: course.name },
+        ]}
+      />
+      {!stats.error ? (
+        <div className="flex flex-col flex-1 gap-10 items-center">
+          <div className="h-full w-full flex gap-10 justify-center flex-wrap pb-12">
+            <Container className="max-w-[700px] max-h-[400px] w-full flex-1 border-2 border-white hover:border-accent-300 transition flex justify-center items-center">
+              <Bar data={data} options={options} />
+            </Container>
+            <Container className="max-w-[700px] max-h-[400px] w-full flex-1 border-2 border-white hover:border-accent-300 transition flex justify-center items-center">
+              <Doughnut data={data2} />
+            </Container>
           </div>
-
-        : <div className="flex flex-1">
-            <div className="text-xl font-bold text-secondary-500">
-              {stats.message}
-            </div>
+        </div>
+      ) : (
+        <div className="flex flex-1">
+          <div className="text-xl font-bold text-secondary-500">
+            {stats.message}
           </div>
-        }
+        </div>
+      )}
     </div>
   );
 };
 
-export default teamStats;
+export default TeamStats;

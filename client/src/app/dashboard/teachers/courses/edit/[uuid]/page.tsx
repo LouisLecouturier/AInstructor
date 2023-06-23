@@ -35,7 +35,7 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
   const [isEditing, setIsEditing] = useState(false);
   const queryClient = useQueryClient();
 
-  const { openToast } = toastStore();
+  const openToast = toastStore(state => state.openToast);
 
   const formRef = useRef<HTMLFormElement>(null);
   const COURSE_UUID = params.uuid;

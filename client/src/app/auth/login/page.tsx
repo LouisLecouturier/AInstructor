@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn, useSession } from "next-auth/react";
-import { FormEvent, useState, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Button } from "@components/Layout/Interactions/Button";
 import LoginIcon from "@icons/Login.svg";
 
@@ -15,7 +15,7 @@ function Login() {
   const { data: session } = useSession();
   const router = useRouter();
   const [error, setError] = useState("");
-  const { openToast } = toastStore();
+  const openToast = toastStore((state) => state.openToast);
 
   useEffect(() => {
     if (!!session?.user.accessToken) {

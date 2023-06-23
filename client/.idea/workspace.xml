@@ -5,10 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Added answer correction&#10;&#10;fixed imports">
+      <change afterPath="$PROJECT_DIR$/src/assets/svg/icons/Reload.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Dashboard/Students/TrainingSection/FeedBack/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/overview/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/overview/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/register/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/courses/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/courses/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/teams/overview/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/teams/overview/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/settings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/settings/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/[uuid]/[uuidCours]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/[uuid]/[uuidCours]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/provider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Navigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Navigation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Questions/Question/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Questions/Question/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Students/TrainingSection/QuestionForm/answer.store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Students/TrainingSection/QuestionForm/answer.store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Students/TrainingSection/QuestionForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Students/TrainingSection/QuestionForm/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Toast/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Toast/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Toast/toast.store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Toast/toast.store.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/AInstructor/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/AInstructor/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/statistic/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/statistic/api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +35,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
         <option value="SCSS File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -40,7 +57,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2QH84EwRGota6604sy6sGLLZkOj" />
   <component name="ProjectLevelVcsManager">
@@ -158,7 +175,7 @@
       <workItem from="1687172921746" duration="2817000" />
       <workItem from="1687252882139" duration="920000" />
       <workItem from="1687346281948" duration="9986000" />
-      <workItem from="1687436201777" duration="25241000" />
+      <workItem from="1687436201777" duration="33883000" />
     </task>
     <task id="LOCAL-00001" summary="Config + landing&#10;&#10;Added Satoshi Font&#10;Added TS paths for icons and components&#10;Started header (not responsive)">
       <created>1685096667428</created>
