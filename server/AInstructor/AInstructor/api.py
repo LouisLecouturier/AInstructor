@@ -12,6 +12,7 @@ from quizz.api import router as quizz_router
 from answer.api import router as answer_router
 from user.api import router as user_router
 from team.api import router as team_router
+from statistic.api import router as stats_router
 from django.shortcuts import get_object_or_404
 from ninja.errors import HttpError
 
@@ -46,16 +47,18 @@ class GlobalAuth(HttpBearer):
         try:
             user = get_user_by_token(token)
             if user is None:
-                 return None
+
+                return None
             if user.accessToken == token:
-                try :
+                try:
+
                     payload = jwt.decode(token, key, algorithms=['HS256'])
                     username: str = payload.get("user")
                     if username is None:
                         return None
                 except jwt.PyJWTError or jwt.InvalidTokenError:
                     return None
-                
+
                 return token, user.username
             else:
                 return None
@@ -87,6 +90,7 @@ api.add_router("/course", course_router)
 api.add_router("/answer", answer_router)
 api.add_router("/team", team_router)
 api.add_router("/user", user_router)
+api.add_router("/stats", stats_router)
 
 
 # @api.post("/chatbot", )

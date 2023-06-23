@@ -1,19 +1,20 @@
 "use client";
 
 import React, { FormEvent, useRef, useState } from "react";
-import Container from "@components/layout/Container";
-import Header from "@components/dashboard/Layout/Header";
-import Information from "@components/layout/Information";
-import { Button } from "@components/Interactions/Button";
+import Container from "@components/Layout/Container";
+import Header from "@components/Dashboard/Common/Layout/Header";
+import Information from "@components/Layout/Information";
+import { Button } from "@components/Layout/Interactions/Button";
 
 import EditIcon from "@icons/Edit.svg";
 import CheckIcon from "@icons/Checkmark.svg";
-import Table from "@components/dashboard/Table";
-import QuestionsManager from "@components/dashboard/Teachers/QuestionsManager";
+import Table from "@components/Dashboard/Common/Layout/Table";
+import QuestionsManager from "@components/Dashboard/Teachers/QuestionsManager";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchTeamsUser } from "@/requests/team";
 import { updateCourseTeams } from "@requests/course";
+import { toastStore } from "@components/Layout/Toast/toast.store";
 
 const courseQuery = async (uuid: string, accessToken: string) => {
   const res = await fetch(`http://127.0.0.1:8000/api/course/byId/${uuid}`, {
@@ -33,6 +34,8 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
   const accessToken = session?.user.accessToken;
   const [isEditing, setIsEditing] = useState(false);
   const queryClient = useQueryClient();
+
+  const { openToast } = toastStore();
 
   const formRef = useRef<HTMLFormElement>(null);
   const COURSE_UUID = params.uuid;
@@ -61,6 +64,7 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
     mutationFn: (teamUUID: string[]) =>
       updateCourseTeams(COURSE_UUID, String(accessToken), teamUUID),
     onSuccess: () => {
+      openToast("success", "Teams updated");
       queryClient.invalidateQueries(["course", COURSE_UUID]);
     },
   });
@@ -71,7 +75,7 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
   };
 
   const handleUpdate = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
     console.log(data);
@@ -84,7 +88,12 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
 
   return (
     <div>
-      <Header title={"Manage course"}/>
+      <Header
+        title={"Manage course"}
+        breadcrumbsReplace={[
+          { current: courseData.uuid, value: courseData.name },
+        ]}
+      />
       <main className={"flex flex-col gap-8"}>
         <Container
           title={"Course informations"}
@@ -94,7 +103,7 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
               size={"sm"}
               onClick={() => {
                 if (isEditing && formRef.current) {
-                  formRef.current.submit()
+                  formRef.current.submit();
                   return;
                 }
                 setIsEditing(true);
@@ -114,7 +123,11 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
             </Button>
           }
         >
-          <form ref={formRef} onSubmit={handleUpdate} className={"flex flex-col gap-4"}>
+          <form
+            ref={formRef}
+            onSubmit={handleUpdate}
+            className={"flex flex-col gap-4"}
+          >
             <div className={"flex gap-4"}>
               <div className={"flex flex-col gap-2 flex-1"}>
                 <Information

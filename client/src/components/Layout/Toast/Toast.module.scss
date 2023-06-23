@@ -1,0 +1,13 @@
+.animateLoader {
+  animation: loaderAnimation 5s linear forwards;
+}
+
+@keyframes loaderAnimation {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0;
+  }
+}

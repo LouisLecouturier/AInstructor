@@ -1,63 +1,13 @@
 "use client";
 
 import React from "react";
-import { Line, Doughnut, Radar } from "react-chartjs-2";
+import { Doughnut, Line, Radar } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { Chart as ChartJS } from "chart.js/auto";
-import Container from "@/components/layout/Container";
-import Header from "@/components/dashboard/Layout/Header";
+import Container from "@components/Layout/Container";
+import Header from "@components/Dashboard/Common/Layout/Header";
 
 ChartJS.register(CategoryScale);
-
-const courses = [
-  {
-    id: 1,
-    course: "ASN",
-    score: 12,
-    moy: 50,
-  },
-  {
-    id: 2,
-    course: "Meca Q",
-    score: 52,
-    moy: 32,
-  },
-  {
-    id: 3,
-    course: "Electronique",
-    score: 69,
-    moy: 10,
-  },
-  {
-    id: 4,
-    course: "Physique",
-    score: 100,
-    moy: 80,
-  },
-];
-
-const data = {
-  labels: ["Chap 1", "Chap 2", "Chap 3", "Chap 4"],
-  datasets: [
-    {
-      label: "Average",
-      data: [12, 52, 69, 100],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.7)",
-        "rgba(255, 159, 64, 0.7)",
-        "rgba(255, 205, 86, 0.7)",
-        "rgba(75, 192, 192, 0.7)",
-      ],
-      borderColor: [
-        "rgb(255, 99, 132)",
-        "rgb(255, 159, 64)",
-        "rgb(255, 205, 86)",
-        "rgb(75, 192, 192)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
 
 const data2 = {
   labels: ["Chap 1", "Chap 2", "Chap 3", "Chap 4"],

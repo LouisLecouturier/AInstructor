@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import Header from "@components/Pages/landing/navigation/Header";
-import Background from "@components/layout/Background";
+import Background from "@components/Layout/Background";
 import clsx from "clsx";
 
-import { Button } from "@components/Interactions/Button";
+import { Button } from "@components/Layout/Interactions/Button";
 
 const Home = () => {
   return (

@@ -1,12 +1,14 @@
 "use client";
 
+
 import React from "react";
 import { Chart } from "chart.js";
 import { useEffect, useRef } from "react";
 import { registerables } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
-import Container from "@/components/layout/Container";
-import Header from "@/components/dashboard/Layout/Header";
+import Header from "@/components/Dashboard/Common/Layout/Header";
+import Container from "@/components/Layout/Container";
+
 
 Chart.register(...registerables);
 
@@ -125,27 +127,12 @@ export default function MyTeams() {
 
   return (
     <div className="flex flex-col h-full gap-10">
-      <Header>My stats</Header>
+      <Header title="Stats" />
       <div className="flex flex-col flex-1 items-center">
         <Container className="h-3/4 w-3/4 max-w-[700px] border-2 border-white hover:border-accent-300 transition">
           <canvas ref={chartRef} height={400}></canvas>
         </Container>
       </div>
-      <Container className="w-full h-1/2 border-2 border-dark-50 hover:border-accent-300 transition text-center">
-        <div className="flex flex-col gap-5">
-          <h1 className="flex font-black text-4xl">Quelques chiffres</h1>
-          <div className="flex gap-40 text-center">
-            <div className="flex flex-col gap-5">
-              <h1>Nombre d&apos;équipe : </h1>
-              <h1>Nombre d&apos;élève : </h1>
-            </div>
-            <div className="flex flex-col gap-5">
-              <h1>Score le plus élevé : </h1>
-              <h1>Score le plus bas : </h1>
-            </div>
-          </div>
-        </div>
-      </Container>
     </div>
   );
 }

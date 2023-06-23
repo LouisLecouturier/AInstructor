@@ -43,7 +43,6 @@ def new(request, body: TeamSchema):
 
     request = json.loads(request.body.decode('utf-8'))
     message = ""
-    
 
     try:
         user = get_object_or_404(models.CustomUser, accessToken=token)
@@ -108,13 +107,13 @@ def overview(request, uuid: uuidLib.UUID):
 
 
 class removeUser(Schema):
-    id: list[int]
+    emails: list[str]
 
 @router.post("/{uuid}/remove-users")
 def removeUser(request, body: removeUser, uuid: uuidLib.UUID):
     error = ""
-    for id in body.id:
-        user = get_object_or_404(models.CustomUser, id=id)
+    for email in body.emails:
+        user = get_object_or_404(models.CustomUser, email=email)
         team = get_object_or_404(models.Team, uuid=uuid)
         if user == team.owner:
             error = "You can't remove the owner of the team"
@@ -124,7 +123,7 @@ def removeUser(request, body: removeUser, uuid: uuidLib.UUID):
 
 
 class addUser(Schema):
-    users_email: list[str]
+    emails: list[str]
 
 
 @router.post('/{uuid}/add-users')
@@ -132,11 +131,11 @@ def addUser(request, body: addUser, uuid: uuidLib.UUID):
     request = json.loads(request.body.decode('utf-8'))
     error = False
 
-    for email in body.users_email:
+    for email in body.emails:
         try:
             user = get_object_or_404(models.CustomUser, email=email)
             team = get_object_or_404(models.Team, uuid=uuid)
-            team.users.add(user, clear=False)
+            team.users.add(user)
         except:
             error = True
 
@@ -154,10 +153,7 @@ def get_courses_by_team(request, uuid: uuidLib.UUID):
         course_info = {
             'uuid': course.uuid,
             'name': course.name,
-            'theme': course.theme,
-            'color': course.color,
-            'file': course.uploadedFile.path,
-            # 'text': course.text,
+            'subject': course.subject,
         }
         result.append(course_info)
     return result

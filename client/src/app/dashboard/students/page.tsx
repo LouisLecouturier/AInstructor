@@ -1,11 +1,11 @@
 "use client";
-import QuestionCube from "@components/dashboard/Courses";
+import QuestionCube from "@components/Dashboard/Courses";
 
 import React from "react";
 import { useSession } from "next-auth/react";
-import Header from "@/components/dashboard/Layout/Header";
-import ListItem from "@/components/layout/ListItem";
-import Container from "@/components/layout/Container";
+import Header from "@components/Dashboard/Common/Layout/Header";
+import ListItem from "@/components/Layout/ListItem";
+import Container from "@components/Layout/Container";
 
 const courses = [
   {
@@ -33,13 +33,6 @@ const homeworks = [
     creationDate: "06/06/2023",
     deliveryDate: "06/06/2023",
     course: "Maths",
-  },
-];
-
-const infos = [
-  {
-    classe: "CSI 3",
-    profref: "M. Lecouturier",
   },
 ];
 

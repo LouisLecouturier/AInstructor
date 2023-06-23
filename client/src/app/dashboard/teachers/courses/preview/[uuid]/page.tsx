@@ -2,18 +2,14 @@
 
 import React, { useState } from "react";
 
-import CourseHeader from "@components/layout/Course/CourseHeader";
+import CourseHeader from "@components/Layout/Course/CourseHeader";
 import ReactMarkdown from "react-markdown";
 
 import { course } from "@assets/testData/course";
-import Container from "@components/layout/Container";
-import { Button } from "@components/Interactions/Button";
-
-import Stars from "@icons/Stars.svg";
-import QuestionElement from "@components/dashboard/Questions/Question";
+import Container from "@components/Layout/Container";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import { getCourseText } from "@requests/course";
+import { getCourse } from "@requests/course";
 
 const config = {
   h1: ({ ...props }) => (
@@ -39,80 +35,39 @@ const config = {
   ),
 };
 
-const Questions = () => {
-  const q = Array.from({ length: 4 }, (_, i) => i + 1);
-
-  return (
-    <div className={"flex flex-col gap-4"}>
-      {q.map((_, i) => (
-        <QuestionElement
-          key={i}
-          isLoading={i === 0}
-          feedback={i === 1 ? undefined : i === 2 ? "correct" : "incorrect"}
-          questionId={i + 1}
-          questionNumber={i + 1}
-          title={"Hey I'm a nice question"}
-          description={"answer me and you'll get a good grade !"}
-          type={"text"}
-        />
-      ))}
-    </div>
-  );
-};
-
 const Course = ({ params }: { params: { uuid: string } }) => {
   const [isTraining, setIsTraining] = useState(false);
 
-  const { data : session } = useSession()
+  const { data: session } = useSession();
   const token = session?.user?.accessToken;
   const uuid = params.uuid;
 
-  console.log(uuid)
-
-  const { data: course, isLoading, isError} = useQuery({
+  const {
+    data: course,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["course", params.uuid, "text"],
-    queryFn: () => getCourseText(uuid, String(token)),
+    queryFn: () => getCourse(uuid, String(token)),
     enabled: ![params.uuid, token].includes(undefined),
-});
+  });
 
-if (isLoading || isError) return <div>loading...</div>;
-
-console.log(course)
-
-
+  if (isLoading || isError) return <div>loading...</div>;
 
 
   return (
     <div>
-      <CourseHeader
-        title={course.name}
-        teacher={course.teacher}
-        subject={course.subject}
-      />
       <main className={"flex flex-col gap-8"}>
-        <Container className={"max-w-2xl"}>
-          <div>
-            <ReactMarkdown components={config}>{course.text}</ReactMarkdown>
-          </div>
-        </Container>
-
-        <Container
-          title={"Let's train together !"}
-          description={"Learn your course using the AI coach"}
-          className={"max-w-2xl"}
-        >
-          {isTraining ? (
-            <Questions />
-          ) : (
-            <Button
-              isMagic
-              rounded={"full"}
-              size={"sm"}
-              onClick={() => setIsTraining(true)}
-            >
-              <Stars className={"w-5 h-5"} />
-              <span>Generate questions</span>
-            </Button>
+        <Container>
+          <CourseHeader
+            title={course.name}
+            subject={course.subject}
+            teacher={course.teacher}
+          />
+          {course && (
+            <div className={"max-w-2xl text-justify"}>
+              <ReactMarkdown components={config}>{course.text}</ReactMarkdown>
+            </div>
           )}
         </Container>
       </main>
