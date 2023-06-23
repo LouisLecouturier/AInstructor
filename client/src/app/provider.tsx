@@ -8,7 +8,13 @@ interface Props {
   children: ReactNode;
 }
 function Provider({ children }: Props) {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false, // default: true
+      },
+    },
+  });
 
   return (
     <SessionProvider>
