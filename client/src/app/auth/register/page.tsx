@@ -15,7 +15,7 @@ const options = [
 ];
 
 function Register() {
-  const { openToast } = toastStore();
+  const openToast = toastStore((state) => state.openToast);
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -40,10 +40,10 @@ function Register() {
         isTeacher,
       }),
     })
-      .then((response) => {
+      .then(async (response) => {
         if (response.ok) {
           openToast("success", "Account created");
-          signIn("credentials", {
+          await signIn("credentials", {
             email,
             password,
           });

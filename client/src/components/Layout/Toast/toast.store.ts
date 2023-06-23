@@ -33,16 +33,10 @@ export const toastStore = create<ToastStore>((set, get) => ({
 
     if (get().show) {
       get().setShow(false);
-      time = 100;
     }
 
-    setTimeout(() => {
-      set(() => {
-        return { type, title, show: true };
-      });
-      setTimeout(() => {
-        get().setShow(false);
-      }, TOAST_DURATION);
-    }, time);
+    set(() => {
+      return { type, title, show: true };
+    });
   },
 }));

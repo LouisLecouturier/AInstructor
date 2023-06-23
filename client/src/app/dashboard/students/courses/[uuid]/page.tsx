@@ -43,7 +43,10 @@ const Course = ({ params }: { params: { uuid: string } }) => {
 
   const { data: course, isLoading } = useQuery({
     queryKey: ["course"],
-    queryFn: () => getCourse(uuid, String(token)),
+    queryFn: () => {
+      console.log("fetching course");
+      return getCourse(uuid, String(token));
+    },
     enabled: ![params.uuid, token].includes(undefined),
   });
 

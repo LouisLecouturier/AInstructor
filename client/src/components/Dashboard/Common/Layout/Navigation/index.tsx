@@ -12,7 +12,7 @@ import { toastStore } from "@components/Layout/Toast/toast.store";
 
 export default function DashboardNavigation() {
   const { data: session } = useSession();
-  const { openToast } = toastStore();
+  const openToast = toastStore((state) => state.openToast);
 
   const lastname = session?.user.last_name;
   const firstname = session?.user.first_name;

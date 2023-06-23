@@ -1,8 +1,7 @@
 "use client";
 import { SessionProvider } from "next-auth/react";
 import React, { ReactNode } from "react";
-import {QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 interface Props {
   children: ReactNode;
@@ -14,7 +13,7 @@ function Provider({ children }: Props) {
         refetchOnWindowFocus: false, // default: true
       },
     },
-  });
+  })
 
   return (
     <SessionProvider>

@@ -1,15 +1,16 @@
 import React, { FC, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import QuestionElement from "@components/Dashboard/Questions/Question";
 import { nanoid } from "nanoid";
 import { fetchQuestionsTrainingBatch } from "@requests/question";
 import clsx from "clsx";
 import { Button } from "@components/Layout/Interactions/Button";
-import { useSession } from "next-auth/react";
 import { useAnswerStore } from "@components/Dashboard/Students/TrainingSection/QuestionForm/answer.store";
 import { getAnswerFromQuestion } from "@components/Dashboard/Students/TrainingSection/QuestionForm/logic";
-import Spinner from "@icons/Loading.svg";
 import { toastStore } from "@components/Layout/Toast/toast.store";
+import Feedback from "@components/Dashboard/Students/TrainingSection/FeedBack";
+import Spinner from "@icons/Loading.svg";
+import Reload from "@icons/Reload.svg";
 
 type QuestionFormProps = {
   quizzUuid: string;
@@ -35,7 +36,6 @@ const fetchCorrection = async (
   answers: any,
   accessToken: string
 ) => {
-  console.log("yee");
   const res = await fetch("http://localhost:8000/api/answer/answer-quizz", {
     method: "POST",
     headers: {
@@ -52,19 +52,25 @@ const fetchCorrection = async (
 
 const QuestionForm: FC<QuestionFormProps> = (props) => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const { data: session } = useSession();
   const { answers, answerQuestions } = useAnswerStore();
 
-  const { openToast } = toastStore();
+  const queryClient = useQueryClient();
+  const openToast = toastStore((state) => state.openToast);
 
-  const { data, isLoading } = useQuery<Question[]>(["questions"], {
+  const { data, isLoading, refetch } = useQuery<Question[]>(["questions"], {
     queryFn: () =>
       fetchQuestionsTrainingBatch(props.quizzUuid, props.accessToken),
   });
 
-  const { data: correction, isLoading: isCorrectionLoading } = useQuery<{
+  const {
+    data: correction,
+    isLoading: isCorrectionLoading,
+    isFetching: isCorrectionFetching,
+    refetch: getCorrection,
+  } = useQuery<{
     quizz: string;
     answers: QuestionCorrection[];
+    score: number;
   }>(["correction"], {
     queryFn: async () => {
       openToast("info", "Loading correction...");
@@ -74,14 +80,15 @@ const QuestionForm: FC<QuestionFormProps> = (props) => {
         props.accessToken
       );
       openToast("success", "Correction loaded !");
-
       return data;
     },
-    enabled: isSubmitted,
+    enabled: false,
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitted(true);
+
     const formData = Object.fromEntries(
       new FormData(e.currentTarget).entries()
     );
@@ -97,12 +104,21 @@ const QuestionForm: FC<QuestionFormProps> = (props) => {
 
     answerQuestions(answers);
 
-    if (session?.user.accessToken) {
-      setIsSubmitted(true);
+    if (props.accessToken) {
+      await queryClient.invalidateQueries(["correction"]);
+      await getCorrection();
     }
   };
 
-  if (isSubmitted && data) {
+  const handleReload = async () => {
+    openToast("info", "Good luck !");
+    answerQuestions([]);
+    queryClient.setQueryData(["correction"], null);
+    await refetch();
+    setIsSubmitted(false);
+  };
+
+  if (isSubmitted && data && correction) {
     return (
       <div className={"flex flex-col gap-8"}>
         <div
@@ -129,7 +145,40 @@ const QuestionForm: FC<QuestionFormProps> = (props) => {
                       : "incorrect"
                     : undefined
                 }
-                isCorrectionLoading={isCorrectionLoading}
+                givenAnswer={givenAnswer?.answer ?? "fo"}
+                questionNumber={index + 1}
+                statement={question.statement}
+                type={question.type}
+              />
+            );
+          })}
+        </div>
+        <div className={"flex flex-col gap-4"}>
+          <Feedback score={correction.score} />
+          <Button rounded={"full"} className={"group"} onClick={handleReload}>
+            <Reload className={"w-8 h-8 group-hover:animate-spin transition"} />
+            <span>Train again</span>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (isSubmitted && data && isCorrectionFetching) {
+    return (
+      <div className={"flex flex-col gap-8"}>
+        <div
+          className={
+            "grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4"
+          }
+        >
+          {data.map((question, index) => {
+            const givenAnswer = getAnswerFromQuestion(answers, question.uuid);
+            return (
+              <QuestionElement
+                key={nanoid()}
+                uuid={question.uuid}
+                isCorrectionLoading={isCorrectionFetching}
                 givenAnswer={givenAnswer?.answer}
                 questionNumber={index + 1}
                 statement={question.statement}
@@ -138,21 +187,19 @@ const QuestionForm: FC<QuestionFormProps> = (props) => {
             );
           })}
         </div>
-        {isCorrectionLoading && (
-          <div
-            className={clsx(
-              "flex items-center justify-center gap-8",
-              "bg-dark-10",
-              "p-8",
-              "text-lg text-dark-200 font-bold rounded-sm"
-            )}
-          >
-            <Spinner className={"w-12 h-12 animate-spin text-accent-500"} />
-            <span className={"w-1/2"}>
-              Please wait while the AI coach is correcting your answers...
-            </span>
-          </div>
-        )}
+        <div
+          className={clsx(
+            "flex items-center justify-center gap-8",
+            "bg-dark-10",
+            "p-8",
+            "text-lg text-dark-200 font-bold rounded-sm"
+          )}
+        >
+          <Spinner className={"w-12 h-12 animate-spin text-accent-500"} />
+          <span className={"w-max"}>
+            Please wait while the AI coach is correcting your answers...
+          </span>
+        </div>
       </div>
     );
   }
@@ -160,7 +207,9 @@ const QuestionForm: FC<QuestionFormProps> = (props) => {
   return (
     <form onSubmit={handleSubmit} className={clsx("flex flex-col gap-8")}>
       <div
-        className={"grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid-flow-dense gap-4"}
+        className={
+          "grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid-flow-dense gap-4"
+        }
       >
         {isLoading
           ? Array.from({ length: 5 }, (_, i) => i + 1).map((_, i) => (
@@ -180,7 +229,6 @@ const QuestionForm: FC<QuestionFormProps> = (props) => {
                 uuid={question.uuid}
                 questionNumber={i + 1}
                 statement={question.statement}
-                animate
                 type={question.type}
               />
             ))}

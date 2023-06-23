@@ -22,7 +22,7 @@ const Create = () => {
   const token = session?.user.accessToken;
   const id = session?.user.id;
 
-  const { openToast } = toastStore();
+  const openToast = toastStore((state) => state.openToast);
 
   const [uuid, setUuid] = useState<string | null>(null);
   const [nameFile, setNameFile] = useState("");
@@ -43,9 +43,12 @@ const Create = () => {
         setLoadingPourcentage(0);
         openToast("info", "Uploading file...");
       },
-      onSuccess: (response: { status: number; data: { uuid: string } }) => {
+      onSuccess: async (response: {
+        status: number;
+        data: { uuid: string };
+      }) => {
         setUuid(response.data.uuid);
-        queryClient.invalidateQueries(["courses"]);
+        await queryClient.invalidateQueries(["courses"]);
         openToast("success", "File uploaded successfully");
       },
     }
@@ -55,9 +58,9 @@ const Create = () => {
     mutationFn: async (course: Course) => {
       return await updateCourse(String(token), course);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       openToast("success", "Course created !");
-      queryClient.invalidateQueries(["courses"]);
+      await queryClient.invalidateQueries(["courses"]);
       router.push("/dashboard/teachers/courses/edit/" + uuid);
     },
   });
