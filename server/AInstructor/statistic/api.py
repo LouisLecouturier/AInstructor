@@ -69,24 +69,24 @@ class TeamStat(Schema):
 
     #if user and team and course:
         #if user in team.users.all():
-        '''
-            try : 
-                stat = get_object_or_404(models.TeamStatistiques, team=team, course=course)
-                return {
-                    'error' : False,
-                    'message': "successfully got the stats by course", 
-                    "course": stat.course.uuid,
-                    "mean" :stat.mean,
-                    "median" :stat.median,
-                    "min" :stat.min,
-                    "max" :stat.max
-                }
-            except :
-                return {
-                    'error' : True,
-                    'message': "team has no stats for this course"
-                    }
-                    '''
+        
+            # try : 
+            #     stat = get_object_or_404(models.TeamStatistiques, team=team, course=course)
+            #     return {
+            #         'error' : False,
+            #         'message': "successfully got the stats by course", 
+            #         "course": stat.course.uuid,
+            #         "mean" :stat.mean,
+            #         "median" :stat.median,
+            #         "min" :stat.min,
+            #         "max" :stat.max
+            #     }
+            # except :
+            #     return {
+            #         'error' : True,
+            #         'message': "team has no stats for this course"
+            #         }
+                    
 
 #         else:
 #             return {
