@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dffe6933-eb4d-499b-858d-ff102e252a9b" name="Changes" comment="Fixed Auth (Mael version now)&#10;Fixed &quot;SearchParams&quot; for teams">
-      <change afterPath="$PROJECT_DIR$/../client/src/assets/svg/icons/Reload.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/FeedBack/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/[uuid]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/teams/overview/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/teams/overview/[uuid]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/provider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/QuestionForm/answer.store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/QuestionForm/answer.store.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/QuestionForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/QuestionForm/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Layout/Toast/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Toast/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Layout/Toast/toast.store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Toast/toast.store.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AInstructor/statistic/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/statistic/api.py" afterDir="false" />
     </list>
