@@ -139,33 +139,59 @@ def get_my_courses(request, user_id: int):
     Quizz = models.Quizz.objects.filter(course__in=courses)
 
     result = []
-    for course in courses:
-        quizz = models.Quizz.objects.filter(course=course)
-        print(course.team.all().first())
+    for team in teams:
+        for course in models.Course.objects.filter(team=team):
+            quizz = models.Quizz.objects.filter(course=course)
 
-        if course.team.all().first() is not None:
-            teamName = course.team.all().first().name
-        else:
-            teamName = None
-
-        if quizz.exists():
-            status = quizz.first().status
-        else:
-            status = None
-
-        course_info = {
-            'uuid': course.uuid,
-            'name': course.name,
-            'team': teamName,
-            'description': course.description,
-            'subject': course.subject,
-            "status": status,
-            "deliveryDate": course.deliveryDate,
-            "creationDate": course.creationDate,
-        }
-        result.append(course_info)
-
+            if course.deliveryDate == None :
+                status = None
+            course_info = {
+                'uuid': course.uuid,
+                'name': course.name,
+                'team': team.name,
+                'description': course.description,
+                'subject': course.subject,
+                "status": status,
+                "deliveryDate": course.deliveryDate,
+                "creationDate": course.creationDate,
+            }
+            result.append(course_info)
+        
     return result
+
+    # result = []
+    # for course in courses:
+    #     quizz = models.Quizz.objects.filter(course=course)
+    #     print(course.team.all().first())
+
+    #     if course.team.all() is not None:
+    #         print("team exists")
+    #         teamNames = []
+    #         for team in course.team.all():
+    #             if user in team.users.all():
+    #                 teamNames.append(team.name)
+    #     else:
+    #         teamNames = None
+
+    #     if quizz.exists():
+    #         status = quizz.first().status
+    #     else:
+    #         status = None
+
+    #     for teamName in teamNames:
+    #         course_info = {
+    #             'uuid': course.uuid,
+    #             'name': course.name,
+    #             'team': teamName,
+    #             'description': course.description,
+    #             'subject': course.subject,
+    #             "status": status,
+    #             "deliveryDate": course.deliveryDate,
+    #             "creationDate": course.creationDate,
+    #         }
+    #         result.append(course_info)
+
+    # return result
 
 
 # class teamsList(Schema):
@@ -183,6 +209,30 @@ def update_teams(request, uuid: str):
         course.save()
 
     return {"error": False}
+
+@router.get("/{uuid}/teams")
+def get_teams(request, uuid:str):
+    course = get_object_or_404(models.Course, uuid=uuid)
+    teams = course.team.all()
+
+    result = []
+    for team in teams:
+        team_info = {
+            'uuid': team.uuid,
+            'name': team.name,
+            'color' : team.color,
+        }
+        result.append(team_info)
+
+    reponse = {
+        "name" : course.name,
+        "subject" : course.subject,
+        "description" : course.description,
+        "uuid" : course.uuid,
+        "teams": result
+    }
+
+    return reponse
 
 
 @router.get("/{uuid}/text")

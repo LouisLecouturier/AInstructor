@@ -11,7 +11,6 @@ import Header from "@/components/Dashboard/Common/Layout/Header";
 import Container from "@/components/Layout/Container";
 import { fetchTeam } from "@/requests/team";
 import { getCourse } from "@/requests/course";
-import { FC } from "react";
 
 const mean = {
   labels: [],
@@ -33,7 +32,7 @@ const mean = {
         "rgba(75, 192, 192, 0.7)",
         "rgba(54, 162, 235, 0.7)",
       ],
-
+      
     },
   ],
 };
@@ -58,7 +57,7 @@ const min = {
         "rgba(75, 192, 192, 0.7)",
         "rgba(54, 162, 235, 0.7)",
       ],
-
+      
     },
   ],
 };
@@ -83,7 +82,7 @@ const max = {
         "rgba(75, 192, 192, 0.7)",
         "rgba(54, 162, 235, 0.7)",
       ],
-
+      
     },
   ],
 };
@@ -108,9 +107,11 @@ const progress = {
         "rgba(75, 192, 192, 0.7)",
         "rgba(54, 162, 235, 0.7)",
       ],
+      
     },
   ],
 };
+
 
 const data2 = {
   labels: [
@@ -155,17 +156,18 @@ const options = {
   maintainAspectRatio: false,
 };
 
+
 ChartJS.register(CategoryScale);
 
-const TeamStats: FC = () => {
-  const { data: session } = useSession();
+const teamStats = () => {
+  const {data : session} = useSession();
   const token = session?.user?.accessToken;
 
   const pathname = usePathname();
-
+  
   const uuid = (pathname ?? "").split("/");
-  const teamUUID = uuid[uuid.length - 2];
-  const courseUUID = uuid[uuid.length - 1];
+  const courseUUID = uuid[uuid.length - 2];
+  const teamUUID = uuid[uuid.length - 1];
 
 
 
@@ -209,7 +211,7 @@ const TeamStats: FC = () => {
   return (
     <div className="flex flex-col gap-10">
       <Header title="Stats" breadcrumbsReplace={[{current : String(teamUUID), value : team.name},{current: String(courseUUID), value : course.name}]} />
-        {!stats.error
+        {!stats.error 
 
         ?  <div className="flex flex-col flex-1 gap-10 items-center">
               <Container title="Mean" description="represents the mean of each student" className="w-full border-2 border-white hover:border-accent-300 transition">
@@ -232,7 +234,7 @@ const TeamStats: FC = () => {
                   <Bar data={progress} options={options} />
                 </div>
               </Container>
-
+             
               {/* <Container className=" w-full min-h-[400px] max-h-[400px] border-2 border-white hover:border-accent-300 transition flex justify-center items-center">
                 <Doughnut data={data2} />
               </Container> */}
@@ -248,4 +250,4 @@ const TeamStats: FC = () => {
   );
 };
 
-export default TeamStats;
+export default teamStats;

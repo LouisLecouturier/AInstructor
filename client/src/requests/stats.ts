@@ -9,3 +9,15 @@ export const getCourseStats = async (teamUUID : string, courseUUID : string, tok
     const responseData = await response.json();
     return responseData;
   };
+
+export const getCourseStatsGlobal = async (courseUUID : string, token: string ) => {
+      
+      const response = await fetch(`http://localhost:8000/api/stats/course/${courseUUID}`, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization : `bearer ${token}`
+        },
+      });
+      const responseData = await response.json();
+      return responseData;
+}

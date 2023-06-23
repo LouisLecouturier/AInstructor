@@ -1,3 +1,5 @@
+import { Team } from "@/types/team";
+
 export type Course = {
   uuid: string;
   name: string;
@@ -7,4 +9,5 @@ export type Course = {
   status: string;
   deliveryDate: string;
   creationDate: string;
+  teams : Team[];
 };
