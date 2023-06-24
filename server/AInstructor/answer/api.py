@@ -34,20 +34,22 @@ def iaquestion(quizz : models.Quizz, question : str, answer : str):
     else:
         return None
 
+
+
     response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "Toi, tu es un professeur exigeant. Moi, je suis ton élève."},
 
                     {"role": "user",
-                        "content": "J'ai ce texte pour trouver la réponse" + coursetxt + "La question posée est " + question + "Ma réponse est " + answer + ". Commence par me répondre si oui ou non la réponse donné est bonne. Si oui, réponds moi <Oui, Bonne réponse>. Si non, réponds-moi en me tutoyant en commençant par <non,> et en mettant la correction après la virgule."},
+                        "content": "J'ai ce texte pour trouver la réponse : '" + coursetxt + "'. La question posée est " + question + "Ma réponse est : ' " + answer + " '. Commence par me répondre si oui ou non la réponse donné est bonne. Si la réponse est bonne, réponds moi 'Oui, Bonne réponse'. Sinon, réponds-moi en me tutoyant en commençant par 'Non,' et en mettant la correction de la question après la virgule."},
                 ]
             )
     correction = [False, ""]
     reponse = response.choices[0].message.content
     reponse_avant_virgule = reponse.split(',')[0]
     reponse_apres_virgule = reponse.split(',')[1]
-    if reponse_avant_virgule == "Oui":
+    if reponse_avant_virgule == "Oui" or "oui" or "Yes" or "yes":
         correction[0] = True    
     correction[1] = reponse_apres_virgule
     return correction
