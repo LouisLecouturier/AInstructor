@@ -21,7 +21,10 @@ from datetime import datetime
 import json
 from app import models
 
-pypandoc.download_pandoc()
+
+if not pypandoc.get_pandoc_version():
+    pypandoc.download_pandoc()
+
 router = Router(tags=["Course"])
 
 """________________________________________request conserning the courses__________________________________________________"""

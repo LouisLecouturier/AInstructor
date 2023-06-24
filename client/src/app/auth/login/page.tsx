@@ -52,7 +52,7 @@ function Login() {
           name="email"
           className={clsx(
             !!session?.user.message
-              ? session?.user.message == "Authentification successful"
+              ? session?.user.message == "User authenticated"
                 ? "border-green-500 border-2"
                 : "border-secondary-500 border-2"
               : null
@@ -73,7 +73,7 @@ function Login() {
           )}
         />
         <div className="flex flex-row justify-between w-full">
-          {session?.user.message == "Authentification successful" ? (
+          {session?.user.message == "User authenticated" ? (
             <span className="text-green-500 font-semibold">
               {session?.user.message}
             </span>
