@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn, useSession } from "next-auth/react";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Button } from "@components/Layout/Interactions/Button";
 import LoginIcon from "@icons/Login.svg";
 
@@ -15,6 +15,8 @@ function Login() {
   const { data: session } = useSession();
   const router = useRouter();
   const openToast = toastStore((state) => state.openToast);
+
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     if (!!session?.user.accessToken) {
@@ -32,16 +34,13 @@ function Login() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    signIn("credentials", {
+    const result = await signIn("credentials", {
       email,
       password,
+      redirect: false,
     })
-      .then(() => {
-        openToast("success", "Logged in");
-      })
-      .catch(() => {
-        openToast("error", "An error occurred during sign in.");
-      });
+      result?.error ? openToast("error", "An error occurred during sign in.") : openToast("success", "Logged in");
+      result?.error == null || undefined ? setError("") : setError(result?.error);
   }
 
   return (
@@ -51,11 +50,8 @@ function Login() {
           placeholder="Email"
           name="email"
           className={clsx(
-            !!session?.user.message
-              ? session?.user.message == "User authenticated"
-                ? "border-green-500 border-2"
-                : "border-secondary-500 border-2"
-              : null
+            error != "" ? "border-secondary-500 border-2" : null
+             
           )}
         />
       </div>
@@ -65,15 +61,13 @@ function Login() {
           type={"password"}
           name="password"
           className={clsx(
-            !!session?.user.message
-              ? session?.user.message == "Authentification successful"
-                ? "border-green-500 border-2"
-                : "border-secondary-500 border-2"
-              : null
+            error != "" ? "border-secondary-500 border-2" : null
+
+           
           )}
         />
         <div className="flex flex-row justify-between w-full">
-          {session?.user.message == "User authenticated" ? (
+          {/* {session?.user.message == "User authenticated" ? (
             <span className="text-green-500 font-semibold">
               {session?.user.message}
             </span>
@@ -81,7 +75,9 @@ function Login() {
             <span className="text-secondary-500 font-semibold">
               {session?.user.message}
             </span>
-          )}
+          )} */}
+
+          <span className="text-secondary-500 font-semibold">{error}</span>
 
           <Link
             href="/auth/forgot-password"
