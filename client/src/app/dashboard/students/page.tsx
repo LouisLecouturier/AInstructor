@@ -6,6 +6,9 @@ import { useSession } from "next-auth/react";
 import Header from "@components/Dashboard/Common/Layout/Header";
 import ListItem from "@/components/Layout/ListItem";
 import Container from "@components/Layout/Container";
+import { nanoid } from "nanoid";
+import { useQuery } from "@tanstack/react-query";
+import { getUserCoursesStats } from "@/requests/stats";
 
 const courses = [
   {
@@ -60,57 +63,89 @@ const progress = [
 ];
 
 const Dashboard = () => {
-  const { data } = useSession();
-  const firstname = data?.user.first_name;
+  const { data : session } = useSession();
+  const firstname = session?.user.first_name;
+  const token = session?.user.accessToken;
+  const id = session?.user.id;
+
+  const { data : coursesStats, isLoading, isError } = useQuery<any[]>({
+    queryKey: ["courses", id, "stats"],
+    queryFn: () => getUserCoursesStats(String(id), String(token)),
+    enabled: (token || id) !== undefined,
+  });
+
+  if (isLoading || isError) {
+    return <div>Loading...</div>;
+  }
+
+  console.log(coursesStats);
+
 
   return (
     <div className="flex flex-1 w-full flex-col">
       <Header title={"Dashboard"}/>
       <div className="flex-col flex gap-8">
-        <h1 className="text-4xl font-bold">
-          Bon retour parmi nous {firstname} !
+        <h1 className="text-3xl font-bold">
+          Welcome back to work {firstname} !
         </h1>
 
         <Container
-          title="Reprendre mon parcours"
+          title="Continue my courses"
           description="Quickly access your current courses"
         >
           <div className="flex flex-col gap-2">
             <div className="flex gap-8 ">
-              {courses.map((course, index) => (
-                <QuestionCube
-                  key={course.course}
-                  index={index}
-                  course={course.course}
-                  date={course.date}
-                  progress={progress[index].progress}
-                  // image={course.image}
-                />
-              ))}
+              {coursesStats.map((course, index) => {
+                if (index < 3 && course.progress < 100) {
+                  console.log(course);
+                  return (
+                    <>
+                      <QuestionCube
+                        key={nanoid()}
+                        index={index}
+                        course={course.course.name}
+                        deliveryDate={course.course.deliveryDate}
+                        creationDate={course.course.creationDate}
+                        progress={course.progress}
+                        href= {`/dashboard/students/courses/${course.course.uuid}`}
+                        status={course.course.status}
+                        // image={course.image}
+                      />
+                    </>
+                  );
+                }
+              })}
+              {coursesStats.length > 3 && (
+                <QuestionCube isSeeAll />
+              )}
+              {(coursesStats.length === 0 || coursesStats.every(item => item.progress >= 100)) && (<span>Good news ! You don't have any work for the moment </span>)}
 
-              <QuestionCube isSeeAll />
             </div>
           </div>
         </Container>
 
         <div className="flex flex-col gap-2">
-          <Container title="Mes formations" description={"Access your courses"}>
+          <Container title="Finished courses" description={"Access to your old courses"}>
             <div className="flex flex-col gap-2 w-full">
-              {homeworks.map((homework: any) => {
+              {coursesStats.map((course: any) => {
+                if (course.progress >= 100) {
                 const properties = [
-                  { label: "Creation date", value: homework.creationDate },
-                  { label: "Delivery date", value: homework.deliveryDate },
+                  { label: "Creation date", value: course.course.creationDate },
+                  { label: "Delivery date", value: course.course.deliveryDate },
+                  { label: "Progress", value: course.progress + "%" },
                 ];
 
                 return (
                   <ListItem
                     href={"/dashboard/students/courses/1"}
-                    key={homework.name}
+                    key={nanoid()}
                     properties={properties}
+                    status={course.course.status}
                   >
-                    {homework.course}
+                    {course.course.name}
                   </ListItem>
                 );
+                }
               })}
             </div>
           </Container>

@@ -2,6 +2,8 @@ import React, { FC, ReactNode } from "react";
 import clsx from "clsx";
 import Image from "next/image";
 
+import styles from "./styles.module.scss";
+
 import background from "@assets/images/background.webp";
 import Toast from "@components/Layout/Toast";
 
@@ -32,7 +34,8 @@ const Background: FC<BackgroundProps> = (props) => {
       <div
         className={clsx(
           "relative min-h-full h-full min-w-full",
-          props.innerClassName
+          props.innerClassName,
+          styles.Background
         )}
       >
         {props.children}

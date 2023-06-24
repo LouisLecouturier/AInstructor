@@ -69,7 +69,7 @@ const getTypeIcon = (type?: string) => {
 };
 
 const Toast = () => {
-  const { type, title, show } = toastStore();
+  const { type, title, show, setShow } = toastStore();
 
   return (
     <div className={computeContainerClassNames(type, show)}>
@@ -80,7 +80,10 @@ const Toast = () => {
         </div>
       </div>
       <div className={computeLoaderGutterClassNames(type)}>
-        <div className={computeLoaderBarClassNames(type, show)}></div>
+        <div
+          onAnimationEnd={() => setShow(false)}
+          className={computeLoaderBarClassNames(type, show)}
+        ></div>
       </div>
     </div>
   );

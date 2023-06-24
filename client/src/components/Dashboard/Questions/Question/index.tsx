@@ -149,7 +149,9 @@ const QuestionElement: FC<QuestionProps> = (props) => {
                 "border-2 border-dark-50"
               )}
             >
-              {props.givenAnswer}
+              {props.givenAnswer && props.givenAnswer.length > 0
+                ? props.givenAnswer
+                : "No answer given"}
             </div>
           </div>
         </div>

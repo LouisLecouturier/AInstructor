@@ -80,7 +80,7 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
           </div>
         </div>
         {!props.team && (
-          <Button variant="accent" size="sm" rounded="full" type="submit">
+          <Button variant="accent" size="md" rounded="full" type="submit">
             Create Team
           </Button>
         )}

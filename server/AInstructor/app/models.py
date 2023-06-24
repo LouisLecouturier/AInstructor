@@ -185,7 +185,7 @@ def create_user_statistics(sender, instance, **kwargs):
     min = UserQuizzResult.objects.filter(user=user, quizz__course=course).aggregate(Min('score'))['score__min']
     max = UserQuizzResult.objects.filter(user=user, quizz__course=course).aggregate(Max('score'))['score__max']
     nbQuizz = Quizz.objects.filter(course=course).count()
-    nbQuizzDone = UserQuizzResult.objects.filter(user=user, quizz__course=course).count()
+    nbQuizzDone = UserQuizzResult.objects.filter(user=user, quizz__course=course).values('quizz').annotate(lastname=Min('sumbitionDate')).count()
     progress = nbQuizzDone / nbQuizz * 100
 
     try:

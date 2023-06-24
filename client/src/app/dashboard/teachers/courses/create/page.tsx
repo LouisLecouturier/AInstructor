@@ -16,13 +16,22 @@ import { Course } from "@/types/course";
 import Cards from "@icons/Cards.svg";
 import clsx from "clsx";
 import { toastStore } from "@components/Layout/Toast/toast.store";
+import MyRadioGroup from "@/components/Layout/Interactions/Forms/RadioGroup";
+
+
+const options = [
+  { value: "false", label: "No" },
+  { value: "true", label: "Yes" },
+];
 
 const Create = () => {
+  const [isDeadline, setIsDeadline] = useState(false);
+
   const { data: session } = useSession();
   const token = session?.user.accessToken;
   const id = session?.user.id;
 
-  const { openToast } = toastStore();
+  const openToast = toastStore((state) => state.openToast);
 
   const [uuid, setUuid] = useState<string | null>(null);
   const [nameFile, setNameFile] = useState("");
@@ -43,9 +52,12 @@ const Create = () => {
         setLoadingPourcentage(0);
         openToast("info", "Uploading file...");
       },
-      onSuccess: (response: { status: number; data: { uuid: string } }) => {
+      onSuccess: async (response: {
+        status: number;
+        data: { uuid: string };
+      }) => {
         setUuid(response.data.uuid);
-        queryClient.invalidateQueries(["courses"]);
+        await queryClient.invalidateQueries(["courses"]);
         openToast("success", "File uploaded successfully");
       },
     }
@@ -55,9 +67,9 @@ const Create = () => {
     mutationFn: async (course: Course) => {
       return await updateCourse(String(token), course);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       openToast("success", "Course created !");
-      queryClient.invalidateQueries(["courses"]);
+      await queryClient.invalidateQueries(["courses"]);
       router.push("/dashboard/teachers/courses/edit/" + uuid);
     },
   });
@@ -76,6 +88,7 @@ const Create = () => {
       name: formData.get("name") as string,
       subject: formData.get("subject") as string,
       description: formData.get("description") as string,
+      deliveryDate: isDeadline ? formData.get("year") + "-" + formData.get("month") + "-" + formData.get("day") : null,
     };
     mutationUpdateCourse.mutate(course as Course);
   };
@@ -159,6 +172,41 @@ const Create = () => {
                 borders
               />
             </div>
+
+            <div className={clsx("flex flex-col gap-2", !uuid && "opacity-50")}>
+              <MyRadioGroup
+                defaultValue={options[0].value}
+                options={options}
+                name={"type"}
+                label={"Deadline"}
+                onChange={(value) => setIsDeadline(value == "true" ? true : false)}
+              />
+              {isDeadline && (
+                <div className="flex gap-2 max-w-[400px]">
+                  <Input
+                    id={"day"}
+                    placeholder="DD"
+                    name="day"
+                    borders
+                  />
+                  <Input
+                    id={"month"}
+                    placeholder="MM"
+                    name="month"
+                    borders
+                  />
+                  <Input
+                    id={"year"}
+                    placeholder="YYYY"
+                    name="year"
+                    borders
+                  />
+
+                </div>
+              )
+                }
+            </div>
+
 
             <Button
               rounded={"full"}

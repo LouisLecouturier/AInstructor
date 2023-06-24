@@ -23,7 +23,7 @@ type Property = {
 type ListItemProps = {
   children?: React.ReactNode;
   properties: Property[];
-  status?: "done" | "pending" | "in-progress";
+  status?: "finished" | "pending" | "late";
   href?: string;
   withUserActions?: boolean;
   isLoading?: boolean;
@@ -33,13 +33,13 @@ type ListItemProps = {
   onSee?: () => void;
 };
 
-const statusIcon = (status?: "done" | "pending" | "in-progress") => {
+const statusIcon = (status?: "finished" | "pending" | "late") => {
   switch (status) {
-    case "done":
+    case "finished":
       return <Check className={"w-6 h-6 text-green-500"} />;
     case "pending":
       return <Pending className={"w-6 h-6 text-primary-500"} />;
-    case "in-progress":
+    case "late":
       return <InProgress className={"w-6 h-6 text-accent-500"} />;
   }
 };

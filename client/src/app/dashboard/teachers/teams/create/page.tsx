@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { use } from "react";
+import React from "react";
 import Header from "@components/Dashboard/Common/Layout/Header";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTeam } from "@requests/team";
@@ -14,7 +14,7 @@ export default function AddTeam() {
   const token = String(session?.user.accessToken);
   const router = useRouter();
 
-  const { openToast } = toastStore();
+  const openToast = toastStore((state) => state.openToast);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({

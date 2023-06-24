@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCourses } from "@requests/course";
 import Container from "@components/Layout/Container";
+import { nanoid } from "nanoid";
 
 type Course = {
   uuid: string;
@@ -14,7 +15,8 @@ type Course = {
   creationDate: string;
   deliveryDate: string;
   team: string;
-  status: "pending" | "in-progress" | "done";
+  status: "pending" | "late" | "finished";
+  progress: number;
 };
 
 const MyCourses = () => {
@@ -53,13 +55,19 @@ const MyCourses = () => {
         <div className={"flex flex-col gap-6"}>
           {Array.from(sections).map(([team, courses]) => {
             return (
-              <Container title={team} key={team}>
+              <Container title={team} key={nanoid()}>
                 {courses.map((course: any) => {
                   const properties = [
                     { label: "Creation date", value: course.creationDate },
-                    // { label: "Delivery date", value: course.deliveryDate },
                     { label: "Team", value: course.team },
+                    { label: "Progress", value: course.progress + "%"}
                   ];
+                  if (course.deliveryDate !== null) {
+                    properties.push({
+                      label: "Delivery date",
+                      value: course.deliveryDate,
+                    });
+                  }
 
                   return (
                     <ListItem
