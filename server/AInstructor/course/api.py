@@ -424,6 +424,7 @@ def update_meta_data_from_course(request, uuid, courseInfo: UpdateCourse):
     course.description = courseInfo.description
     if courseInfo.deliveryDate != "":
         if is_valid_future_date(courseInfo.deliveryDate):
+            print("date valide")
             course.deliveryDate = courseInfo.deliveryDate
 
     # course.color = courseInfo.color

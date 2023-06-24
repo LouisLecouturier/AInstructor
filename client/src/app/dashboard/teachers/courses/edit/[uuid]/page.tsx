@@ -13,8 +13,9 @@ import QuestionsManager from "@components/Dashboard/Teachers/QuestionsManager";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchTeamsUser } from "@/requests/team";
-import { updateCourseTeams } from "@requests/course";
+import { updateCourse, updateCourseTeams } from "@requests/course";
 import { toastStore } from "@components/Layout/Toast/toast.store";
+import { Course } from "@/types/course";
 
 const courseQuery = async (uuid: string, accessToken: string) => {
   const res = await fetch(`http://127.0.0.1:8000/api/course/byId/${uuid}`, {
@@ -35,9 +36,11 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
   const [isEditing, setIsEditing] = useState(false);
   const queryClient = useQueryClient();
 
+
   const openToast = toastStore(state => state.openToast);
 
   const formRef = useRef<HTMLFormElement>(null);
+  const hiddenButtonRef = useRef<HTMLButtonElement>(null);
   const COURSE_UUID = params.uuid;
 
   const {
@@ -74,11 +77,42 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
     mutationCourseTeams.mutate(selectedUUID);
   };
 
+
+  const mutationUpdateCourse = useMutation({
+    mutationFn: async (course: Course) => {
+      return await updateCourse(String(accessToken), course);
+    },
+    onSuccess: async () => {
+      openToast("success", "Course updated !");
+      await queryClient.invalidateQueries(["course" , COURSE_UUID]);
+    },
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const handleUpdate = (e: FormEvent<HTMLFormElement>) => {
+    console.log("handleUpdate");
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
+    const course = {
+      uuid: params.uuid as string,
+      name: formData.get("name") as string,
+      subject: formData.get("subject") as string,
+      description: formData.get("description") as string,
+      deliveryDate: formData.get("deadline") as string,
+    };
+    mutationUpdateCourse.mutate(course as Course);
     setIsEditing(false);
   };
 
@@ -103,7 +137,7 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
               size={"sm"}
               onClick={() => {
                 if (isEditing && formRef.current) {
-                  formRef.current.submit();
+                  hiddenButtonRef.current?.click();
                   return;
                 }
                 setIsEditing(true);
@@ -128,6 +162,7 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
             onSubmit={handleUpdate}
             className={"flex flex-col gap-4"}
           >
+            <button type='submit' ref={hiddenButtonRef} hidden />
             <div className={"flex gap-4"}>
               <div className={"flex flex-col gap-2 flex-1"}>
                 <Information
