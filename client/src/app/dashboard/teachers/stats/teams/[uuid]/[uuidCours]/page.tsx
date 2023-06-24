@@ -11,27 +11,14 @@ import Header from "@/components/Dashboard/Common/Layout/Header";
 import Container from "@/components/Layout/Container";
 import { fetchTeam } from "@/requests/team";
 import { getCourse } from "@/requests/course";
+import { FC } from "react";
 
-const data = {
-  labels: [
-    /*effectif : 12*/
-    "Elève 1",
-    "Elève 2",
-    "Elève 3",
-    "Elève 4",
-    "Elève 5",
-    "Elève 6",
-    "Elève 7",
-    "Elève 8",
-    "Elève 9",
-    "Elève 10",
-    "Elève 11",
-    "Elève 12",
-  ],
+const mean = {
+  labels: [],
   datasets: [
     {
-      label: "Average",
-      data: [12, 19, 3, 5, 2, 3, 15, 3, 5, 2, 3, 15],
+      label: "",
+      data: [],
       backgroundColor: [
         "rgba(255, 99, 132, 0.7)",
         "rgba(255, 159, 64, 0.7)",
@@ -46,11 +33,84 @@ const data = {
         "rgba(75, 192, 192, 0.7)",
         "rgba(54, 162, 235, 0.7)",
       ],
-      
+
     },
   ],
 };
 
+const min = {
+  labels: [],
+  datasets: [
+    {
+      label: "",
+      data: [],
+      backgroundColor: [
+        "rgba(255, 99, 132, 0.7)",
+        "rgba(255, 159, 64, 0.7)",
+        "rgba(255, 205, 86, 0.7)",
+        "rgba(75, 192, 192, 0.7)",
+        "rgba(54, 162, 235, 0.7)",
+        "rgba(153, 102, 255, 0.7)",
+        "rgba(201, 203, 207, 0.7)",
+        "rgba(255, 99, 132, 0.7)",
+        "rgba(255, 159, 64, 0.7)",
+        "rgba(255, 205, 86, 0.7)",
+        "rgba(75, 192, 192, 0.7)",
+        "rgba(54, 162, 235, 0.7)",
+      ],
+
+    },
+  ],
+};
+
+const max = {
+  labels: [],
+  datasets: [
+    {
+      label: "",
+      data: [],
+      backgroundColor: [
+        "rgba(255, 99, 132, 0.7)",
+        "rgba(255, 159, 64, 0.7)",
+        "rgba(255, 205, 86, 0.7)",
+        "rgba(75, 192, 192, 0.7)",
+        "rgba(54, 162, 235, 0.7)",
+        "rgba(153, 102, 255, 0.7)",
+        "rgba(201, 203, 207, 0.7)",
+        "rgba(255, 99, 132, 0.7)",
+        "rgba(255, 159, 64, 0.7)",
+        "rgba(255, 205, 86, 0.7)",
+        "rgba(75, 192, 192, 0.7)",
+        "rgba(54, 162, 235, 0.7)",
+      ],
+
+    },
+  ],
+};
+
+const progress = {
+  labels: [],
+  datasets: [
+    {
+      label: "",
+      data: [],
+      backgroundColor: [
+        "rgba(255, 99, 132, 0.7)",
+        "rgba(255, 159, 64, 0.7)",
+        "rgba(255, 205, 86, 0.7)",
+        "rgba(75, 192, 192, 0.7)",
+        "rgba(54, 162, 235, 0.7)",
+        "rgba(153, 102, 255, 0.7)",
+        "rgba(201, 203, 207, 0.7)",
+        "rgba(255, 99, 132, 0.7)",
+        "rgba(255, 159, 64, 0.7)",
+        "rgba(255, 205, 86, 0.7)",
+        "rgba(75, 192, 192, 0.7)",
+        "rgba(54, 162, 235, 0.7)",
+      ],
+    },
+  ],
+};
 
 const data2 = {
   labels: [
@@ -95,15 +155,14 @@ const options = {
   maintainAspectRatio: false,
 };
 
-
 ChartJS.register(CategoryScale);
 
-const teamStats = () => {
-  const {data : session} = useSession();
+const TeamStats: FC = () => {
+  const { data: session } = useSession();
   const token = session?.user?.accessToken;
 
   const pathname = usePathname();
-  
+
   const uuid = (pathname ?? "").split("/");
   const teamUUID = uuid[uuid.length - 2];
   const courseUUID = uuid[uuid.length - 1];
@@ -129,23 +188,56 @@ const teamStats = () => {
   });
 
   if (isLoading || isError || isCourseError || isCourseLoading || isTeamError || isTeamLoading) return <div>Loading...</div>;
-  console.log(team);
-  
+
+
+  mean.datasets[0].data = stats.usersStats.map((e : any) => e.stats.mean);
+  mean.datasets[0].label = "Mean";
+  mean.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
+
+  min.datasets[0].data = stats.usersStats.map((e : any) => e.stats.min);
+  min.datasets[0].label = "Min";
+  min.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
+
+  max.datasets[0].data = stats.usersStats.map((e : any) => e.stats.max);
+  max.datasets[0].label = "Max";
+  max.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
+
+  progress.datasets[0].data = stats.usersStats.map((e : any) => e.stats.progress);
+  progress.datasets[0].label = "Progress";
+  progress.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
+
+  console.log(team)
 
   return (
-    <div className="flex h-full flex-col gap-10">
+    <div className="flex flex-col gap-10">
       <Header title="Stats" breadcrumbsReplace={[{current : String(teamUUID), value : team.name},{current: String(courseUUID), value : course.name}]} />
-        {!stats.error 
+        {!stats.error
 
         ?  <div className="flex flex-col flex-1 gap-10 items-center">
-            <div className="h-full w-full flex gap-10 justify-center flex-wrap pb-12">
-              <Container className="max-w-[700px] max-h-[400px] w-full flex-1 border-2 border-white hover:border-accent-300 transition flex justify-center items-center">
-                <Bar data={data} options={options} />
+              <Container title="Mean" description="represents the mean of each student" className="w-full border-2 border-white hover:border-accent-300 transition">
+                <div className=" w-full min-h-[400px] max-h-[400px]  flex justify-center items-center">
+                  <Bar data={mean} options={options} />
+                </div>
               </Container>
-              <Container className="max-w-[700px] max-h-[400px] w-full flex-1 border-2 border-white hover:border-accent-300 transition flex justify-center items-center">
+              <Container title="Minimum score" description="represents the minimum score of each student" className="w-full border-2 border-white hover:border-accent-300 transition">
+                <div className=" w-full min-h-[400px] max-h-[400px] flex justify-center items-center">
+                  <Bar data={min} options={options} />
+                </div>
+              </Container>
+              <Container title="Maximum score" description="represents the maximum score of each student" className="w-full border-2 border-white hover:border-accent-300 transition">
+                <div className=" w-full min-h-[400px] max-h-[400px] flex justify-center items-center">
+                  <Bar data={max} options={options} />
+                </div>
+              </Container>
+              <Container title="Total progress" description="represents the total progress of each student" className="w-full border-2 border-white hover:border-accent-300 transition">
+                <div className=" w-full min-h-[400px] max-h-[400px] flex justify-center items-center">
+                  <Bar data={progress} options={options} />
+                </div>
+              </Container>
+
+              {/* <Container className=" w-full min-h-[400px] max-h-[400px] border-2 border-white hover:border-accent-300 transition flex justify-center items-center">
                 <Doughnut data={data2} />
-              </Container>
-            </div>
+              </Container> */}
           </div>
 
         : <div className="flex flex-1">
@@ -158,4 +250,4 @@ const teamStats = () => {
   );
 };
 
-export default teamStats;
+export default TeamStats;

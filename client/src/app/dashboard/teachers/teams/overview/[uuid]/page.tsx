@@ -141,7 +141,7 @@ export default function TeamOverview({
 
   return (
     <div>
-      <Header className={"justify-between"} title={data?.name}>
+      <Header breadcrumbsReplace={[{current : uuid, value : data.name }]} className={"justify-between"} title={data?.name}>
         <Button onClick={() => mutation.mutate()} variant="secondary">
           Delete
         </Button>

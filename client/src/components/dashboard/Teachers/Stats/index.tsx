@@ -10,12 +10,13 @@ type Team = {
   moy?: number;
   effectif?: number;
   color?: string;
+  href: string;
 };
 
 export default function CubeTeams(props: Team) {
   return (
 
-    <Link href={`/dashboard/teachers/stats/teams/${props.uuid}`}>
+    <Link href={props.href}>
       <div className="flex flex-col gap-5 p-4 py-3 w-52 h-52 bg-white rounded-xl border-2 border-dark-50 hover:border-accent-300 transition">
         <div className="flex-[2] flex justify-center items-center">
           <div style={{"backgroundColor" : props.color}} className={clsx(

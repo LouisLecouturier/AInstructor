@@ -16,7 +16,7 @@ const Settings = () => {
   const token = session?.user.accessToken;
   const id = session?.user.id;
 
-  const { openToast } = toastStore();
+  const openToast = toastStore((state) => state.openToast);
 
   const queryClient = useQueryClient();
 

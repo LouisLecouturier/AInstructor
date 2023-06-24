@@ -4,45 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dffe6933-eb4d-499b-858d-ff102e252a9b" name="Changes" comment="ok ?">
-      <change afterPath="$PROJECT_DIR$/../client/src/assets/svg/icons/Error.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/assets/svg/icons/Info.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Questions/Question/Question.module.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/QuestionForm/answer.store.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/QuestionForm/logic.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/components/Layout/Toast/Toast.module.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/components/Layout/Toast/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/components/Layout/Toast/toast.store.ts" afterDir="false" />
+    <list default="true" id="dffe6933-eb4d-499b-858d-ff102e252a9b" name="Changes" comment="Fixed Auth (Mael version now)&#10;Fixed &quot;SearchParams&quot; for teams">
+      <change afterPath="$PROJECT_DIR$/AInstructor/pandoc-3.1.3-x86_64-macOS.pkg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/auth/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/auth/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/app/auth/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/auth/login/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/auth/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/auth/register/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/stats/courses/mystats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/stats/courses/mystats/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/teams/overview/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/teams/overview/[uuid]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/create/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/edit/[uuid]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/courses/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/settings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/settings/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/stats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/stats/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/teams/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/teams/create/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/teams/overview/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/teams/overview/[uuid]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Common/Cards/TeamCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Common/Cards/TeamCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Common/Layout/Navigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Common/Layout/Navigation/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Questions/Question/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Questions/Question/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Questions/QuestionEditor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Questions/QuestionEditor/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/QuestionForm/fake.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/QuestionForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/TrainingSection/QuestionForm/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Teachers/QuestionsManager/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Teachers/QuestionsManager/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Teams/MainInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Teams/MainInformation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Layout/Background/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Background/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Layout/ListItem/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/ListItem/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/requests/team.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/requests/team.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/store/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/store/store.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/types/question.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/types/question.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Common/Layout/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Common/Layout/Table/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AInstructor/answer/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/answer/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AInstructor/AInstructor/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/AInstructor/api.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AInstructor/course/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/course/api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="app" />
+        <entry key="$PROJECT_DIR$/.." value="Front-End-Louis" />
       </map>
     </option>
   </component>
@@ -148,7 +116,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687348613793</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed Auth (Mael version now)&#10;Fixed &quot;SearchParams&quot; for teams">
+      <created>1687528794118</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1687528794118</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -157,6 +132,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Cleared cours folder" />
     <MESSAGE value="ok ?" />
-    <option name="LAST_COMMIT_MESSAGE" value="ok ?" />
+    <MESSAGE value="Added toast feedback" />
+    <MESSAGE value="Fixed Auth (Mael version now)&#10;Fixed &quot;SearchParams&quot; for teams" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed Auth (Mael version now)&#10;Fixed &quot;SearchParams&quot; for teams" />
   </component>
 </project>

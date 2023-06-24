@@ -124,3 +124,16 @@ export const getCourse = async (uuid: string, token: string) => {
   );
   return await response.json();
 };
+
+
+export const getTeamsCourse = async (uuid: string, token: string) => {
+  const response = await fetch(
+    `http://localhost:8000/api/course/${uuid}/teams`,
+    {
+      headers: {
+        authorization: `bearer ${token}`,
+      },
+    }
+  );
+  return await response.json();
+}

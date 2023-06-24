@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
 import clsx from "clsx";
-import Options from "@icons/Options.svg";
 import Delete from "@icons/Delete.svg";
 import Edit from "@icons/Edit.svg";
 import { Button } from "@components/Layout/Interactions/Button";
@@ -25,8 +24,7 @@ type TableProps = {
 
 function checkUUIDExistence(toto: any[], popo: any[]) {
   const uuidList = toto.map((obj) => obj.uuid);
-  const result = popo.map((obj) => uuidList.includes(obj.uuid));
-  return result;
+  return popo.map((obj) => uuidList.includes(obj.uuid));
 }
 
 const Table: FC<TableProps> = (props) => {
@@ -46,6 +44,7 @@ const Table: FC<TableProps> = (props) => {
     });
     return filteredData;
   }
+
 
   return (
     <>
@@ -90,15 +89,17 @@ const Table: FC<TableProps> = (props) => {
             {props.columns.map((column, index) => (
               <th
                 key={column.key + index}
-                className={clsx("text-start px-4 py-2",
-                props.firstIsKey && index === 0 && "w-0")}
+                className={clsx(
+                  "text-start px-4 py-2",
+                  props.firstIsKey && index === 0 && "w-0"
+                )}
               >
                 {column.label}
               </th>
             ))}
-            {props.actions?.length !== 0 && (
-              <th className={clsx("w-0 text-start px-4 py-2")}></th>
-            )}
+            {/*{props.actions && props.actions.length > 0 &&  (*/}
+            {/*  <th className={clsx("w-0 text-start px-4 py-2")}></th>*/}
+            {/*)}*/}
           </tr>
         </thead>
         <tbody>
@@ -158,17 +159,17 @@ const Table: FC<TableProps> = (props) => {
                   </td>
                 ))}
 
-                {props.actions?.length !== 0 && (
-                  <td
-                    className={clsx(
-                      "w-fit px-4 py-2",
-                      "last:border-none",
-                      "flex items-center justify-center"
-                    )}
-                  >
-                    <Options className="h-6 w-4 text-dark-500" />
-                  </td>
-                )}
+                {/*{props.actions && props.actions.length > 0 && (*/}
+                {/*  <td*/}
+                {/*    className={clsx(*/}
+                {/*      "w-fit px-4 py-2",*/}
+                {/*      "last:border-none",*/}
+                {/*      "flex items-center justify-center"*/}
+                {/*    )}*/}
+                {/*  >*/}
+                {/*    <Options className="h-6 w-4 text-dark-500" />*/}
+                {/*  </td>*/}
+                {/*)}*/}
               </tr>
             );
           })}

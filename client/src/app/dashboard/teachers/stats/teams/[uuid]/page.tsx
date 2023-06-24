@@ -25,14 +25,14 @@ export default function CourseList() {
         enabled: !!token && !!uuid,
       });
 
-    const { data : team } = useQuery(["team", uuid], {
+    const { data : team , isLoading: isTeamLoading, isError: isTeamError} = useQuery(["team", uuid], {
         queryFn: () => fetchTeam(String(token), String(uuid)),
         enabled: !!token && !!uuid,
     });
 
 
 
-      if (isLoading || isError) {
+      if (isLoading || isError || isTeamLoading || isTeamError) {
         return <div>loading...</div>;
       }
 

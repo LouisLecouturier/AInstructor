@@ -1,10 +1,9 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 
 import { useSession } from "next-auth/react";
-import { Button } from "@components/Layout/Interactions/Button";
 import TeamMainInformation from "@components/Dashboard/Teams/MainInformation";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Container from "@components/Layout/Container";
 import Table from "@components/Dashboard/Common/Layout/Table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -17,13 +16,9 @@ import {
   removeUsers,
   updateTeam,
 } from "@requests/team";
-
-import AddIcon from "@icons/Plus.svg";
-import Input from "@components/Layout/Interactions/Forms/Input";
 import Header from "@components/Dashboard/Common/Layout/Header";
 import ListItem from "@components/Layout/ListItem";
 import { Course } from "@/types/course";
-import { getCourses } from "@requests/course";
 import { nanoid } from "nanoid";
 
 export default function TeamOverview({ params }: { params: { uuid: string } }) {
@@ -31,7 +26,6 @@ export default function TeamOverview({ params }: { params: { uuid: string } }) {
   const token = session?.user.accessToken;
 
   const router = useRouter();
-  const pathname = usePathname();
 
   const queryClient = useQueryClient();
 
@@ -145,7 +139,7 @@ export default function TeamOverview({ params }: { params: { uuid: string } }) {
                     <ListItem
                       key={nanoid()}
                       properties={properties}
-                      href={`${pathname}/${course.uuid}`}
+                      href={`http://localhost:3000/dashboard/students/courses/${course.uuid}`}
                     >
                       {course.name}
                     </ListItem>
