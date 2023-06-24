@@ -39,6 +39,7 @@ function Login() {
       password,
       redirect: false,
     })
+    console.log(result);
       result?.error ? openToast("error", "An error occurred during sign in.") : openToast("success", "Logged in");
       result?.error == null || undefined ? setError("") : setError(result?.error);
   }

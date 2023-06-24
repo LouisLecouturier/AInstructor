@@ -7,9 +7,19 @@ from app import models
 from AInstructor.utils import user_requirements
 from django.core.serializers.json import DjangoJSONEncoder
 
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+from app.models import CustomUser, Answer
+
+
+
+
 router = Router(tags=["User"])
 
 """__________________________________________________________request conserning the users_______________________________________________________"""
+@receiver(pre_delete, sender=CustomUser)
+def delete_related_answers(sender, instance, **kwargs):
+    instance.answer_set.all().delete()
 
 
 @router.get("/{id}")
@@ -193,8 +203,10 @@ def update_user(request, body: UpdateUser, user_id: int):
     return {'message': user.username + " updated"}
 
 
-@router.delete("/user/{user_id}")
+@router.delete("/{user_id}/delete")
 def delete_user(request, user_id: int):
     user = get_object_or_404(models.CustomUser, id=user_id)
     user.delete()
-    return {'status': 'ok', 'message': 'user' + user.username + 'deleted'}
+    #     return {"error": False}
+    # except:
+    #     return {"error": True, "message": "user not found"}

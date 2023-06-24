@@ -161,7 +161,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuidLib.uuid4, editable=False)
-    user = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     question = models.ForeignKey(Question, on_delete=models.RESTRICT, null=True)
     givenAnswer = models.TextField(null=True, blank=True)
     aiCorrection = models.TextField(null=True, blank=True)
