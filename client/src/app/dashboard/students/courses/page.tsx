@@ -33,12 +33,9 @@ const MyCourses = () => {
     return <div>Loading...</div>;
   }
 
-
-
   // Group courses by team
   const sections = data.reduce((acc, course) => {
     const team = course.team;
-
 
     if (acc.has(team)) {
       acc.get(team).push(course);
@@ -59,10 +56,8 @@ const MyCourses = () => {
             return (
               <Container title={team} key={nanoid()}>
                 {courses.map((course: any) => {
-                  console.log(course.team);
                   const properties = [
                     { label: "Creation date", value: course.creationDate },
-                    // { label: "Delivery date", value: course.deliveryDate },
                     { label: "Team", value: course.team },
                   ];
 

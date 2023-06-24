@@ -63,7 +63,7 @@ const Course = ({ params }: { params: { uuid: string } }) => {
           teacher={course.teacher}
         />
         {course && (
-          <div className={"max-w-2xl text-justify"}>
+          <div className={"max-w-2xl"}>
             <ReactMarkdown components={config}>{course.text}</ReactMarkdown>
           </div>
         )}

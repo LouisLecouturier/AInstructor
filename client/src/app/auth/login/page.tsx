@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn, useSession } from "next-auth/react";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect } from "react";
 import { Button } from "@components/Layout/Interactions/Button";
 import LoginIcon from "@icons/Login.svg";
 
@@ -14,7 +14,6 @@ import { toastStore } from "@components/Layout/Toast/toast.store";
 function Login() {
   const { data: session } = useSession();
   const router = useRouter();
-  const [error, setError] = useState("");
   const openToast = toastStore((state) => state.openToast);
 
   useEffect(() => {
@@ -37,12 +36,11 @@ function Login() {
       email,
       password,
     })
-      .then((res) => {
+      .then(() => {
         openToast("success", "Logged in");
       })
-      .catch((error) => {
+      .catch(() => {
         openToast("error", "An error occurred during sign in.");
-        setError("An error occurred during sign in.");
       });
   }
 
@@ -54,7 +52,7 @@ function Login() {
           name="email"
           className={clsx(
             !!session?.user.message
-              ? session?.user.message == "Authentification successfull"
+              ? session?.user.message == "User authenticated"
                 ? "border-green-500 border-2"
                 : "border-secondary-500 border-2"
               : null
@@ -68,17 +66,21 @@ function Login() {
           name="password"
           className={clsx(
             !!session?.user.message
-              ? session?.user.message == "Authentification successfull"
+              ? session?.user.message == "Authentification successful"
                 ? "border-green-500 border-2"
                 : "border-secondary-500 border-2"
               : null
           )}
         />
         <div className="flex flex-row justify-between w-full">
-          {session?.user.message == "Authentification successfull" ? (
-            <span className="text-green-500">{session?.user.message}</span>
+          {session?.user.message == "User authenticated" ? (
+            <span className="text-green-500 font-semibold">
+              {session?.user.message}
+            </span>
           ) : (
-            <span className="text-secondary-500">{session?.user.message}</span>
+            <span className="text-secondary-500 font-semibold">
+              {session?.user.message}
+            </span>
           )}
 
           <Link
@@ -94,7 +96,6 @@ function Login() {
         <span>Sign In</span>
         <LoginIcon className={"w-5"} />
       </Button>
-      {error && <p className="text-red-500 mt-2">{error}</p>}
     </form>
   );
 }

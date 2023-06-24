@@ -125,7 +125,7 @@ def get_token(request, body: Login):
             "isTeacher": user.isTeacher,
             "accessToken": user.accessToken,
             "refreshToken": user.refreshToken,
-            "message": "Authentification successfull",
+            "message": "User authenticated",
         }
 
 
