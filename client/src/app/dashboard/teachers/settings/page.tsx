@@ -38,6 +38,8 @@ const Settings = () => {
     },
   });
 
+
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const Form = new FormData(e.currentTarget);
@@ -72,7 +74,11 @@ const Settings = () => {
 
   return (
     <>
-      <Header title={"Settings"} />
+      <Header className={"justify-between"} title={"Settings"}>
+        <Button onClick={() => console.log("click")} variant="secondary">
+          Delete
+        </Button>
+      </Header>
       <section className={"flex flex-col gap-4"}>
         <Container title="Personal informations">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">

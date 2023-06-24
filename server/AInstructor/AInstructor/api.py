@@ -109,24 +109,28 @@ class Login(Schema):
 @api.post("/login", auth=None)
 def get_token(request, body: Login):
     body = body.dict()
-    user = get_object_or_404(models.CustomUser, email=body["email"])
-    auth_perm = authenticate(request, username=body["email"], password=body["password"])
-    if auth_perm is not None:
-        tokens = GlobalAuth().create_tokens(user.id)
-        user.accessToken = tokens["accessToken"]
-        user.refreshToken = tokens["refreshToken"]
-        user.save()
-        return 200, {
-            "id": user.id,
-            "email": user.email,
-            "username": user.username,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "isTeacher": user.isTeacher,
-            "accessToken": user.accessToken,
-            "refreshToken": user.refreshToken,
-            "message": "User authenticated",
-        }
+    try : 
+        user = get_object_or_404(models.CustomUser, email=body["email"])
+        auth_perm = authenticate(request, username=body["email"], password=body["password"])
+    
+        if auth_perm is not None:
+            tokens = GlobalAuth().create_tokens(user.id)
+            user.accessToken = tokens["accessToken"]
+            user.refreshToken = tokens["refreshToken"]
+            user.save()
+            return 200, {
+                "id": user.id,
+                "email": user.email,
+                "username": user.username,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "isTeacher": user.isTeacher,
+                "accessToken": user.accessToken,
+                "refreshToken": user.refreshToken,
+                "message": "User authenticated",
+            }
+    except :
+        pass
 
 
 class CreateUser(Schema):

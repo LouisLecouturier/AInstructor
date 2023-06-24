@@ -1,8 +1,8 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import { fetchUser, updateUser } from "@/requests/user";
+import { signOut, useSession } from "next-auth/react";
+import { deleteUser, fetchUser, updateUser } from "@/requests/user";
 import { User } from "@/types/user";
 import Header from "@/components/Dashboard/Common/Layout/Header";
 import { Button } from "@/components/Layout/Interactions/Button";
@@ -31,6 +31,14 @@ const Settings = () => {
     mutationFn: (user : User) => updateUser(user, String(token)),
     onSuccess: () => {
       queryClient.invalidateQueries(["user", id]);
+    }
+  });
+
+  const mutationDeleteUser = useMutation({
+    mutationFn: () => deleteUser(String(id), String(token)),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user", id]);
+      signOut();
     }
   });
 
@@ -65,7 +73,11 @@ const Settings = () => {
 
   return (
     <>
-      <Header title={"Settings"}/>
+      <Header title={"Settings"} className="justify-between">
+        <Button onClick={() => mutationDeleteUser.mutate()} variant="secondary">
+          Delete my account
+        </Button>
+      </Header>
       <section className={"flex flex-col gap-4"}>
         <Container title="Personal informations">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">

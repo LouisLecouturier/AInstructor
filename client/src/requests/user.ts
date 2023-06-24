@@ -24,3 +24,15 @@ export const updateUser = async (user :User, token : string) => {
   return data;
 
 };
+
+export const deleteUser = async (id: string, token: string) => {
+  const response = await fetch(`http://localhost:8000/api/user/${id}/delete`, {
+    method: "DELETE",
+    headers: {
+      authorization: `bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}

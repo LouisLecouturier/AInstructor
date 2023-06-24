@@ -30,6 +30,7 @@ export default NextAuth({
         const user = await res.json();
 
         if (user) {
+          console.log(user);
           // Any object returned will be saved in `user` property of the JWT
           return user.accessToken ? user : { message: "Invalid credentials" };
         }
