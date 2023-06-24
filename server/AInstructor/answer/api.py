@@ -12,6 +12,7 @@ import openai
 from django.core.files.storage import default_storage
 from django.http import HttpResponseNotFound
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 
 router = Router(tags=["answer"])
 
@@ -24,7 +25,8 @@ class Answer(Schema):
     
     
 def iaquestion(quizz : models.Quizz, question : str, answer : str):
-    openai.api_key = "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"
+    key = getattr(settings, "OPEN_AI_KEY", None)
+    openai.api_key = key
        
     course = quizz.course.first()
     coursetxt = ""
