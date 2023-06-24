@@ -167,8 +167,8 @@ def get_team_stats_by_course(request, teamUUID: uuidLib.UUID, courseUUID: uuidLi
     accessToken = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
 
-    #     course = get_object_or_404(models.Course, uuid=courseUUID)
-    #     team = get_object_or_404(models.Team, uuid=teamUUID)
+    course = get_object_or_404(models.Course, uuid=courseUUID)
+    team = get_object_or_404(models.Team, uuid=teamUUID)
 
     usersStats = []
     users = team.users.all()
@@ -233,3 +233,38 @@ def get_team_stats_by_course(request, teamUUID: uuidLib.UUID, courseUUID: uuidLi
             'error': True,
             'message': "user or team or course does not exist"
         }
+
+@router.get("/user/{userID}/courses")
+def get_user_stats_by_course(request, userID: int):
+    token = request.headers.get('Authorization')
+    accessToken = token.split(' ')[1]
+    user = get_object_or_404(models.CustomUser, accessToken=accessToken)
+    user = get_object_or_404(models.CustomUser, id=userID)
+
+    teams = models.Team.objects.filter(users = user)
+
+    courses = models.Course.objects.filter(team__in = teams)
+
+
+    stats = []
+    for course in courses : 
+        stat = get_object_or_404(models.UserStatistiques, user=user, course=course)
+        infoStats = {
+            'message': "successfully got the stats by course",
+            "course": {
+                "uuid": course.uuid,
+                "name": course.name,
+                "subject": course.subject,
+                "description": course.description,
+                "deliveryDate": course.deliveryDate,
+                "creationDate": course.creationDate,
+            }, 
+            "mean": stat.mean,
+            "min": stat.min, 
+            "max": stat.max, 
+            "progress": stat.progress
+        }
+        stats.append(infoStats)
+    
+    return stats
+   

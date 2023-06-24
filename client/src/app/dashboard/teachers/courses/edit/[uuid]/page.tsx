@@ -162,6 +162,19 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
                   editable={isEditing}
                 />
               </div>
+              {courseData?.deliveryDate && (
+                <div className={"flex flex-col gap-2 flex-1"}>
+                  <Information
+                    label={"Deadline"}
+                    name={"deadline"}
+                    value={courseData?.deliveryDate}
+                    isLoading={courseLoading}
+                    editable={isEditing}
+                  />
+                  </div>
+                )
+              }
+                
             </div>
           </form>
         </Container>

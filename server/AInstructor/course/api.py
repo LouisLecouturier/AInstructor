@@ -16,6 +16,7 @@ from ninja import Router, Schema, File, UploadedFile
 from pydantic import Field
 from django.http import HttpResponse, HttpResponseNotFound
 from django.conf import settings
+from datetime import datetime
 
 import json
 from app import models
@@ -25,6 +26,17 @@ router = Router(tags=["Course"])
 
 """________________________________________request conserning the courses__________________________________________________"""
 
+
+def is_valid_future_date(date_str):
+    try:
+        date = datetime.strptime(date_str, "%Y-%m-%d")
+        current_date = datetime.now().date()
+        if date.date() >= current_date:
+            return True
+        else:
+            return False
+    except ValueError:
+        return False
 
 class UploadTheme(Schema):
     theme: str = Field(...)
@@ -310,25 +322,26 @@ def get_courses_by_id(request, uuid: str):
         'uploadedBy': course.uploadedBy.username,
         'file': os.path.basename(course.filePath),
         'teams': teams,
+        "deliveryDate": course.deliveryDate,
     }
 
 
-class AssignCourse(Schema):
-    uuid: uuidLib.UUID = Field(...)
-    teamUUID: uuidLib.UUID = Field(...)
-    deadline: datetime.date = Field(...)
+# class AssignCourse(Schema):
+#     uuid: uuidLib.UUID = Field(...)
+#     teamUUID: uuidLib.UUID = Field(...)
+#     deadline: datetime.date = Field(...)
 
 
-@router.post("/assign-course")
-def assign_course(request, body: AssignCourse):
-    """assigne a course to a team"""
-    course = get_object_or_404(models.Course, uuid=body.uuid)
-    team = get_object_or_404(models.Team, uuid=body.teamUUID)
-    course.team.add(team)
-    course.dateEnd = body.deadline
-    course.save()
-    return {'uuid': course.uuid, 'name': course.name, 'teamName': team.name, 'teamUUID': team.uuid,
-            'deadline': course.dateEnd}
+# @router.post("/assign-course")
+# def assign_course(request, body: AssignCourse):
+#     """assigne a course to a team"""
+#     course = get_object_or_404(models.Course, uuid=body.uuid)
+#     team = get_object_or_404(models.Team, uuid=body.teamUUID)
+#     course.team.add(team)
+#     course.dateEnd = body.deadline
+#     course.save()
+#     return {'uuid': course.uuid, 'name': course.name, 'teamName': team.name, 'teamUUID': team.uuid,
+#             'deadline': course.dateEnd}
 
 
 # à mettre dans Team api
@@ -353,22 +366,22 @@ def get_courses_by_team(request, uuid: uuidLib.UUID):
     return result
 
 
-class AssignCourse(Schema):
-    course_id: uuidLib.UUID = Field(...)
-    group_id: str = Field(...)
-    deadline: datetime.date = Field(...)
+# class AssignCourse(Schema):
+#     course_id: uuidLib.UUID = Field(...)
+#     group_id: str = Field(...)
+#     deadline: datetime.date = Field(...)
 
 
-@router.post("/assign-course")
-def assign_course(request, body: AssignCourse):
-    """assigne a course to a group"""
-    course = get_object_or_404(models.Course, course_id=body.course_id)
-    group = get_object_or_404(models.Groupe, group_id=body.group_id)
-    course.group.add(group)
-    course.date_end = body.deadline
-    course.save()
-    return {'course_id': course.course_id, 'course name': course.name, 'group name': group.name,
-            'group_id': group.group_id, 'deadline': course.date_end}
+# @router.post("/assign-course")
+# def assign_course(request, body: AssignCourse):
+#     """assigne a course to a group"""
+#     course = get_object_or_404(models.Course, course_id=body.course_id)
+#     group = get_object_or_404(models.Groupe, group_id=body.group_id)
+#     course.group.add(group)
+#     course.date_end = body.deadline
+#     course.save()
+#     return {'course_id': course.course_id, 'course name': course.name, 'group name': group.name,
+#             'group_id': group.group_id, 'deadline': course.date_end}
 
 
 @router.get("/courses/{group_id}")
@@ -397,6 +410,7 @@ class UpdateCourse(Schema):
     subject: str = Field(...)
     # color: str = Field(...)
     description: str = Field(...)
+    deliveryDate: str = Field(...)
 
 
 @router.put("/put/{uuid}")
@@ -408,6 +422,10 @@ def update_meta_data_from_course(request, uuid, courseInfo: UpdateCourse):
     course.subject = courseInfo.subject
     course.name = courseInfo.name
     course.description = courseInfo.description
+    if courseInfo.deliveryDate != "":
+        if is_valid_future_date(courseInfo.deliveryDate):
+            course.deliveryDate = courseInfo.deliveryDate
+
     # course.color = courseInfo.color
     course.save()
 

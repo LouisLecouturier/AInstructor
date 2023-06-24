@@ -206,6 +206,8 @@ const TeamStats: FC = () => {
   progress.datasets[0].label = "Progress";
   progress.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
 
+  console.log(team)
+
   return (
     <div className="flex flex-col gap-10">
       <Header title="Stats" breadcrumbsReplace={[{current : String(teamUUID), value : team.name},{current: String(courseUUID), value : course.name}]} />
