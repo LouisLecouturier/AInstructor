@@ -127,7 +127,7 @@ export default function TeamOverview({
   const handleDelete = async (uuid: string) => {
     if (token) {
       deleteCourse(uuid, token);
-      // location.reload();
+      location.reload();
     }
   };
 

@@ -88,22 +88,26 @@ def update(request, body: UpdateTeam, uuid: uuidLib.UUID):
 @router.get('/{uuid}')
 def overview(request, uuid: uuidLib.UUID):
     """Get the overview of a team"""
-    team = get_object_or_404(models.Team, uuid=uuid)
-    users = team.users.all()
-    users_data = [{
-        'uuid': user.id,
-        'last_name': user.last_name,
-        'first_name': user.first_name,
-        'isTeacher': user.isTeacher,
-        'email': user.email,
-    } for user in users]
+    try:
+        team = get_object_or_404(models.Team, uuid=uuid)
+        users = team.users.all()
+        users_data = [{
+            'uuid': user.id,
+            'last_name': user.last_name,
+            'first_name': user.first_name,
+            'isTeacher': user.isTeacher,
+            'email': user.email,
+        } for user in users]
 
-    return JsonResponse({
-        'name': team.name,
-        'color': team.color,
-        'description': team.description,
-        'users': users_data
-    })
+        return JsonResponse({
+            'error': False,
+            'name': team.name,
+            'color': team.color,
+            'description': team.description,
+            'users': users_data
+        })
+    except:
+        return JsonResponse({'error': True, 'message': 'Team not found'})
 
 
 class removeUser(Schema):
@@ -145,15 +149,19 @@ def addUser(request, body: addUser, uuid: uuidLib.UUID):
 @router.get("/{uuid}/courses/")
 def get_courses_by_team(request, uuid: uuidLib.UUID):
     """get all the courses of one team"""
-    team = get_object_or_404(models.Team, uuid=uuid)
-    courses = models.Course.objects.filter(team=team)
+    try:
+        team = get_object_or_404(models.Team, uuid=uuid)
+        courses = models.Course.objects.filter(team=team)
 
-    result = []
-    for course in courses:
-        course_info = {
-            'uuid': course.uuid,
-            'name': course.name,
-            'subject': course.subject,
-        }
-        result.append(course_info)
-    return result
+        result = []
+        for course in courses:
+            course_info = {
+                'error': False,
+                'uuid': course.uuid,
+                'name': course.name,
+                'subject': course.subject,
+            }
+            result.append(course_info)
+        return result
+    except:
+        return JsonResponse({'error': True, 'message': 'Team not found'})

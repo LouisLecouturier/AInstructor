@@ -76,11 +76,13 @@ def list_users(request):
 
 @router.get("/user")
 def get_user_by_username(request, username: str):
-    user = get_object_or_404(models.CustomUser, username=username)
-    return {'id': user.id, 'username': user.username, 'email': user.email, 'first_name': user.first_name,
-            'last_name': user.last_name, 'isTeacher': user.isTeacher, 'lastConnexion': user.lastConnexion,
-            'profilePicture': str(user.profilePicture.url) if user.profilePicture else None}
-
+    try:
+        user = get_object_or_404(models.CustomUser, username=username)
+        return {'error':False,'id': user.id, 'username': user.username, 'email': user.email, 'first_name': user.first_name,
+                'last_name': user.last_name, 'isTeacher': user.isTeacher, 'lastConnexion': user.lastConnexion,
+                'profilePicture': str(user.profilePicture.url) if user.profilePicture else None}
+    except:
+        return {'error':True,'message':'user not found'}
 
 class CustomUserEncoder(DjangoJSONEncoder):
     def default(self, o):
@@ -174,23 +176,26 @@ class UpdateUser(Schema):
 
 @router.put("/Update/{user_id}")
 def update_user(request, body: UpdateUser, user_id: int):
-    user = get_object_or_404(models.CustomUser, id=user_id)
+    try:
+        user = get_object_or_404(models.CustomUser, id=user_id)
 
-    if user_requirements.validate_username(body.username) == False:
-        return {'error': 'Username already exists'}
-    if user_requirements.validate_password_strength(body.password) == False:
-        return {'error': 'password is not strong enough'}
-    if user_requirements.validate_not_empty(body.username) == False:
-        return {'error': 'username is too short'}
-    if user_requirements.validate_mail(body.email) and user_requirements.validate_not_empty(body.username) == False:
-        return {'error': 'email is not a valid format or already used'}
-    user.username = body.username
-    user.email = body.email
-    user.password = body.password
-    user.first_name = body.first_name
-    user.last_name = body.last_name
-    user.save()
-    return {'message': user.username + " updated"}
+        if user_requirements.validate_username(body.username) == False:
+            return {'error': 'Username already exists'}
+        if user_requirements.validate_password_strength(body.password) == False:
+            return {'error': 'password is not strong enough'}
+        if user_requirements.validate_not_empty(body.username) == False:
+            return {'error': 'username is too short'}
+        if user_requirements.validate_mail(body.email) and user_requirements.validate_not_empty(body.username) == False:
+            return {'error': 'email is not a valid format or already used'}
+        user.username = body.username
+        user.email = body.email
+        user.password = body.password
+        user.first_name = body.first_name
+        user.last_name = body.last_name
+        user.save()
+        return {'error':False,'message': user.username + " updated"}
+    except:
+        return {'error':True,'message':'user not found'}
 
 
 @router.delete("/user/{user_id}")

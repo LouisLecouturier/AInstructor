@@ -14,7 +14,7 @@ from django.db import models
 from django.shortcuts import get_object_or_404
 from ninja import Router, Schema, File, UploadedFile
 from pydantic import Field
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseServerError
 from django.conf import settings
 from datetime import datetime
 
@@ -49,130 +49,142 @@ class UploadTheme(Schema):
 
 @router.post("/{user_id}")
 def create_course(request, user_id: int, file: UploadedFile = File(...)):
-    user = get_object_or_404(models.CustomUser, id=user_id)
+    try:
+        user = get_object_or_404(models.CustomUser, id=user_id)
 
-    # Vérifier l'extension du fichier
-    file_extension = os.path.splitext(file.name)[1].lower()
+        # Vérifier l'extension du fichier
+        file_extension = os.path.splitext(file.name)[1].lower()
 
-    # chemin du fichier
-    storage_path = Path(f"{user.id}/{file.name}")
-    absolute_file_path = Path(settings.MEDIA_ROOT).joinpath(storage_path)
-    # chemin avec l'extension changée en .md
-    absolute_file_path_md = absolute_file_path.with_suffix('.md')
-    absolute_file_path_txt = absolute_file_path.with_suffix('.txt')
+        # chemin du fichier
+        storage_path = Path(f"{user.id}/{file.name}")
+        absolute_file_path = Path(settings.MEDIA_ROOT).joinpath(storage_path)
+        # chemin avec l'extension changée en .md
+        absolute_file_path_md = absolute_file_path.with_suffix('.md')
+        absolute_file_path_txt = absolute_file_path.with_suffix('.txt')
 
-    if (".pdf", ".docx", ".doc").count(file_extension) == 0:
-        print('Unsupported file format.')
-        return HttpResponse("Invalid file format", status=400)
+        if (".pdf", ".docx", ".doc").count(file_extension) == 0:
+            print('Unsupported file format.')
+            return HttpResponse("Invalid file format", status=400)
 
-    if file_extension == ".pdf":
-        text_content = ""
-        # Open the pdf file in read binary mode.
-        with pdfplumber.open(file) as pdf:
-            for page in pdf.pages:
-                text_content += page.extract_text()
+        if file_extension == ".pdf":
+            text_content = ""
+            # Open the pdf file in read binary mode.
+            with pdfplumber.open(file) as pdf:
+                for page in pdf.pages:
+                    text_content += page.extract_text()
 
-        # Create a ContentFile object from the text
-        txt_file = ContentFile(text_content)
+            # Create a ContentFile object from the text
+            txt_file = ContentFile(text_content)
 
-        default_storage.save(storage_path.with_suffix('.txt'), txt_file)
-        #
-        # temp_file_path = tempfile.mktemp(suffix='.md')
-        # md_file = ContentFile(open(temp_file_path, 'rb').read())
-        default_storage.save(storage_path.with_suffix('.md'), txt_file)
+            default_storage.save(storage_path.with_suffix('.txt'), txt_file)
+            #
+            # temp_file_path = tempfile.mktemp(suffix='.md')
+            # md_file = ContentFile(open(temp_file_path, 'rb').read())
+            default_storage.save(storage_path.with_suffix('.md'), txt_file)
 
-    else:
-        default_storage.save(storage_path, file)
+        else:
+            default_storage.save(storage_path, file)
 
-        pypandoc.convert_file(absolute_file_path, 'md',
-                              outputfile=absolute_file_path_md, extra_args=['--preserve-tabs'])
-        pypandoc.convert_file(absolute_file_path, 'plain',
-                              outputfile=absolute_file_path_txt, extra_args=['--preserve-tabs'])
+            pypandoc.convert_file(absolute_file_path, 'md',
+                                outputfile=absolute_file_path_md, extra_args=['--preserve-tabs'])
+            pypandoc.convert_file(absolute_file_path, 'plain',
+                                outputfile=absolute_file_path_txt, extra_args=['--preserve-tabs'])
 
-    course = models.Course.objects.create(
-        name=file.name,
-        uploadedBy=user,
-        filePath=absolute_file_path_md,
-        textPath=absolute_file_path_txt,
-    )
+        course = models.Course.objects.create(
+            name=file.name,
+            uploadedBy=user,
+            filePath=absolute_file_path_md,
+            textPath=absolute_file_path_txt,
+        )
 
-    quizz = models.Quizz.objects.create(
-        owner=user
-    )
+        quizz = models.Quizz.objects.create(
+            owner=user
+        )
 
-    quizz.course.add(course)
-    quizz.save()
+        quizz.course.add(course)
+        quizz.save()
 
-    return {'uuid': course.uuid}
+        return {"error":False,'uuid': course.uuid}
+    
+    except Exception :
+        return {'error': True,'message': "Error while creating course"}
 
 
 @router.get("/teachers/{user_id}")
 def get_my_courses(request, user_id: int):
-    user = get_object_or_404(models.CustomUser, id=user_id)
+    try:
+        user = get_object_or_404(models.CustomUser, id=user_id)
 
-    # teams = user.team_set.all()
-    # courses = models.Course.objects.filter(team__in=teams)
+        # teams = user.team_set.all()
+        # courses = models.Course.objects.filter(team__in=teams)
 
-    courses = models.Course.objects.filter(uploadedBy=user)
+        courses = models.Course.objects.filter(uploadedBy=user)
 
-    Quizz = models.Quizz.objects.filter(course__in=courses)
+        Quizz = models.Quizz.objects.filter(course__in=courses)
 
-    result = []
-    for course in courses:
-        quizz = models.Quizz.objects.filter(course=course)
-        print(course.team.all().first())
-
-        if course.team.all().first() is not None:
-            teamName = course.team.all().first().name
-        else:
-            teamName = None
-
-        course_info = {
-            'uuid': course.uuid,
-            'name': course.name,
-            'team': teamName,
-            'description': course.description,
-            'subject': course.subject,
-            "status": "pending",
-            "deliveryDate": course.deliveryDate,
-            "creationDate": course.creationDate,
-        }
-        result.append(course_info)
-
-    return result
-
-
-@router.get("/students/{user_id}")
-def get_my_courses(request, user_id: int):
-    user = get_object_or_404(models.CustomUser, id=user_id)
-
-    teams = user.team_set.all()
-    courses = models.Course.objects.filter(team__in=teams)
-
-    # courses = models.Course.objects.filter(uploadedBy=user)
-
-    Quizz = models.Quizz.objects.filter(course__in=courses)
-
-    result = []
-    for team in teams:
-        for course in models.Course.objects.filter(team=team):
+        result = []
+        for course in courses:
             quizz = models.Quizz.objects.filter(course=course)
+            print(course.team.all().first())
 
-            if course.deliveryDate == None :
-                status = None
+            if course.team.all().first() is not None:
+                teamName = course.team.all().first().name
+            else:
+                teamName = None
+
             course_info = {
+                'error':False,
                 'uuid': course.uuid,
                 'name': course.name,
-                'team': team.name,
+                'team': teamName,
                 'description': course.description,
                 'subject': course.subject,
-                "status": status,
+                "status": "pending",
                 "deliveryDate": course.deliveryDate,
                 "creationDate": course.creationDate,
             }
             result.append(course_info)
-        
-    return result
+
+        return result
+    except Exception:
+        return {'error': True,'message': "Error while getting courses teachers"}
+
+
+@router.get("/students/{user_id}")
+def get_my_courses(request, user_id: int):
+    try:
+        user = get_object_or_404(models.CustomUser, id=user_id)
+
+        teams = user.team_set.all()
+        courses = models.Course.objects.filter(team__in=teams)
+
+        # courses = models.Course.objects.filter(uploadedBy=user)
+
+        Quizz = models.Quizz.objects.filter(course__in=courses)
+
+        result = []
+        for team in teams:
+            for course in models.Course.objects.filter(team=team):
+                quizz = models.Quizz.objects.filter(course=course)
+
+                if course.deliveryDate == None :
+                    status = None
+                course_info = {
+                    'error':False,
+                    'uuid': course.uuid,
+                    'name': course.name,
+                    'team': team.name,
+                    'description': course.description,
+                    'subject': course.subject,
+                    "status": status,
+                    "deliveryDate": course.deliveryDate,
+                    "creationDate": course.creationDate,
+                }
+                result.append(course_info)
+            
+        return result
+    except Exception:
+        return {'error': True,'message': "Error while getting courses srtudents"}
 
     # result = []
     # for course in courses:
@@ -227,81 +239,92 @@ def update_teams(request, uuid: str):
 
 @router.get("/{uuid}/teams")
 def get_teams(request, uuid:str):
-    course = get_object_or_404(models.Course, uuid=uuid)
-    teams = course.team.all()
+    try:
+        course = get_object_or_404(models.Course, uuid=uuid)
+        teams = course.team.all()
 
-    result = []
-    for team in teams:
-        team_info = {
-            'uuid': team.uuid,
-            'name': team.name,
-            'color' : team.color,
+        result = []
+        for team in teams:
+            team_info = {
+                'uuid': team.uuid,
+                'name': team.name,
+                'color' : team.color,
+            }
+            result.append(team_info)
+
+        reponse = {
+            "error": False,
+            "name" : course.name,
+            "subject" : course.subject,
+            "description" : course.description,
+            "uuid" : course.uuid,
+            "teams": result
         }
-        result.append(team_info)
 
-    reponse = {
-        "name" : course.name,
-        "subject" : course.subject,
-        "description" : course.description,
-        "uuid" : course.uuid,
-        "teams": result
-    }
-
-    return reponse
+        return reponse
+    except Exception:
+        return {'error': True,'message': "Error while getting teams"}
 
 
 @router.get("/{uuid}/text")
 def get_rawtext(request, uuid: uuidLib.UUID):
-    course = get_object_or_404(models.Course, uuid=uuid)
-    quizz = get_object_or_404(models.Quizz, course=course)
-    content = ""
+    try:
+        course = get_object_or_404(models.Course, uuid=uuid)
+        quizz = get_object_or_404(models.Quizz, course=course)
+        content = ""
 
-    if default_storage.exists(course.filePath):
-        with default_storage.open(course.filePath, 'rb') as file:
-            content = file.read().decode('utf-8')
-    else:
-        return HttpResponseNotFound("File not found")
+        if default_storage.exists(course.filePath):
+            with default_storage.open(course.filePath, 'rb') as file:
+                content = file.read().decode('utf-8')
+        else:
+            return HttpResponseNotFound("File not found")
 
-    return {
-        "course": content,
-        "quizz": quizz.uuid,
-        "name": course.name,
-        "subject": course.subject,
-        "teacher": course.uploadedBy.first_name + " " + course.uploadedBy.last_name,
-        "text": content
-    }
+        return {
+            "error": False,
+            "course": content,
+            "quizz": quizz.uuid,
+            "name": course.name,
+            "subject": course.subject,
+            "teacher": course.uploadedBy.first_name + " " + course.uploadedBy.last_name,
+            "text": content
+        }
+    except Exception:
+        return {'error': True,'message': "Error while getting raw text"}
 
 
 @router.get("/{uuid}/generate-questions", )
 def generate_questions(request, uuid: str):
-    """generate questions from the course"""
-    course = get_object_or_404(models.Course, uuid=uuid)
-    # Ouvrez le fichier en mode lecture
+    try:
+        """generate questions from the course"""
+        course = get_object_or_404(models.Course, uuid=uuid)
+        # Ouvrez le fichier en mode lecture
 
-    content = ""
-    if default_storage.exists(course.textPath):
-        with default_storage.open(course.textPath, 'rb') as file:
-            content = file.read().decode('utf-8')
-    else:
-        return HttpResponseNotFound("File not found")
+        content = ""
+        if default_storage.exists(course.textPath):
+            with default_storage.open(course.textPath, 'rb') as file:
+                content = file.read().decode('utf-8')
+        else:
+            return HttpResponseNotFound("File not found")
 
-    openai.api_key = "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"
+        openai.api_key = "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"
 
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful teacher."},
-            {"role": "assistant", "content": content},
-            {"role": "user",
-             "content": "Écris-moi 5 questions sur ce texte pour tester mes connaisances mais tu écris seulement les questions et pas les réponses"},
-        ]
-    )
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful teacher."},
+                {"role": "assistant", "content": content},
+                {"role": "user",
+                "content": "Écris-moi 5 questions sur ce texte pour tester mes connaisances mais tu écris seulement les questions et pas les réponses"},
+            ]
+        )
 
-    questions_with_numbers = response.choices[0].message.content.split('\n')
-    questions = [q.split('.', 1)[1].strip() for q in questions_with_numbers if q.strip()]
+        questions_with_numbers = response.choices[0].message.content.split('\n')
+        questions = [q.split('.', 1)[1].strip() for q in questions_with_numbers if q.strip()]
 
 
-    return {"questions": questions}
+        return {'error':False,"questions": questions}
+    except Exception:
+        return {'error': True, 'message': "Error while generating questions"}   
 
 
 @router.get("/byId/{uuid}", )
@@ -389,23 +412,27 @@ def get_courses_by_team(request, uuid: uuidLib.UUID):
 
 @router.get("/courses/{group_id}")
 def get_courses_by_group(request, group_id: uuidLib.UUID):
-    """get all the courses of the user"""
-    group = get_object_or_404(models.Groupe, group_id=group_id)
-    courses = models.Course.objects.filter(group=group)
+    try:
+        """get all the courses of the user"""
+        group = get_object_or_404(models.Groupe, group_id=group_id)
+        courses = models.Course.objects.filter(group=group)
 
-    result = []
-    for course in courses:
-        course_info = {
-            'course_id': course.course_id,
-            'name': course.name,
-            'theme': course.theme,
-            'uploaded_by': course.uploaded_by.username,
-            'color': course.color,
-            'file': os.path.basename(course.filePath),
-            # 'text': course.text,
-        }
-        result.append(course_info)
-    return result
+        result = []
+        for course in courses:
+            course_info = {
+                'error': False,
+                'course_id': course.course_id,
+                'name': course.name,
+                'theme': course.theme,
+                'uploaded_by': course.uploaded_by.username,
+                'color': course.color,
+                'file': os.path.basename(course.filePath),
+                # 'text': course.text,
+            }
+            result.append(course_info)
+        return result
+    except Exception:
+        return {'error': True, 'message': "Error while getting courses withby group_id"}
 
 
 class UpdateCourse(Schema):
@@ -418,28 +445,32 @@ class UpdateCourse(Schema):
 
 @router.put("/put/{uuid}")
 def update_meta_data_from_course(request, uuid, courseInfo: UpdateCourse):
-    """update the course metadata : name, theme, color"""
-    course = get_object_or_404(models.Course, uuid=uuid)
-    print(courseInfo)
+    try:
+        """update the course metadata : name, theme, color"""
+        course = get_object_or_404(models.Course, uuid=uuid)
+        print(courseInfo)
 
-    course.subject = courseInfo.subject
-    course.name = courseInfo.name
-    course.description = courseInfo.description
-    if courseInfo.deliveryDate != "":
-        if is_valid_future_date(courseInfo.deliveryDate):
-            print("date valide")
-            course.deliveryDate = courseInfo.deliveryDate
+        course.subject = courseInfo.subject
+        course.name = courseInfo.name
+        course.description = courseInfo.description
+        if courseInfo.deliveryDate != "":
+            if is_valid_future_date(courseInfo.deliveryDate):
+                print("date valide")
+                course.deliveryDate = courseInfo.deliveryDate
 
-    # course.color = courseInfo.color
-    course.save()
+        # course.color = courseInfo.color
+        course.save()
 
-    return {
-        'uuid': course.uuid,
-        'subject': course.subject,
-        'name': course.name,
-        'description': course.description,
-        # 'color': course.color
-    }
+        return {
+            'error': False,
+            'uuid': course.uuid,
+            'subject': course.subject,
+            'name': course.name,
+            'description': course.description,
+            # 'color': course.color
+        }
+    except Exception :
+        return {'error': True, 'uuid': uuid}
 
 
 class UpdateCourseFile(Schema):
@@ -449,22 +480,28 @@ class UpdateCourseFile(Schema):
 @router.put("/update-course-file")
 # TODO : modify the file
 def update_course_file(request, body: UpdateCourseFile, file: UploadedFile = File(...)):
-    """update the course file"""
-    course = get_object_or_404(models.Course, uuid=body.uuid)
-    if file.name.endswith(('.pdf', '.md')):
-        course.uploadedFile = file
-        course.save()
-        return {'uuid': str(course.uuid)}
-    else:
-        return {'error': 'File is not a PDF or MD.'}
+    try:
+        """update the course file"""
+        course = get_object_or_404(models.Course, uuid=body.uuid)
+        if file.name.endswith(('.pdf', '.md')):
+            course.uploadedFile = file
+            course.save()
+            return {'uuid': str(course.uuid),'error': False}
+        else:
+            return {'error': True,'message':'File is not a PDF or MD.'}
+    except Exception :
+        return {'error': True, 'message': 'Error while updating the course file'}
 
 
 @router.delete("/delete/{uuid}")
 def delete_data(request, uuid: str):
-    # TODO : delete the file
-    course = get_object_or_404(models.Course, uuid=uuid)
-    course.delete()
-    return {'uuid': uuid}
+    try:
+        """delete the course"""
+        course = get_object_or_404(models.Course, uuid=uuid)
+        course.delete()
+        return {'error': False,'uuid': uuid}
+    except Exception :
+        return {'error': True, 'message': 'Error while deleting the course'}
 
 
 class UpdateCourseText(Schema):
@@ -474,14 +511,19 @@ class UpdateCourseText(Schema):
 
 @router.put("/update-course-text")
 def update_course_text(request, body: UpdateCourseText):
-    """update the course text"""
-    course = get_object_or_404(models.Course, uuid=body.uuid)
-    course.text = body.text
-    course.save()
-    return {'uuid': course.uuid, 'text': course.text}
-
+    try:
+        """update the course text"""
+        course = get_object_or_404(models.Course, uuid=body.uuid)
+        course.text = body.text
+        course.save()
+        return {'uuid': course.uuid, 'text': course.text, 'error': False}
+    except Exception :
+        return {'error': True, 'message': 'Error while updating the course text'}
 
 @router.get("/course/{uuid}/rawtext")
 def get_rawtext(request, uuid: uuidLib.UUID):
-    course = get_object_or_404(models.Course, uuid=uuid)
-    return {'uuid': course.uuid, 'text': course.text}
+    try:
+        course = get_object_or_404(models.Course, uuid=uuid)
+        return {'uuid': course.uuid, 'text': course.text,'error': False}
+    except Exception :
+        return {'error': True, 'message': 'Error while getting the course text'}

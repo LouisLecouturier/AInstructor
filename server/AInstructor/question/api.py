@@ -62,27 +62,31 @@ def delete_question(request, question: DeleteQuestion):
 @router.get("/training/{uuid}", )
 def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
     """Get all questions belonging to a quizz"""
-    questions = models.Question.objects.filter(quizz=uuid)
-    question_list = []
+    try:
+        questions = models.Question.objects.filter(quizz=uuid)
+        question_list = []
 
-    indexes = []
+        indexes = []
 
-    for i in range(NUMBER_OF_QUESTIONS):
+        for i in range(NUMBER_OF_QUESTIONS):
 
-        index = random.randrange(0, len(questions), 1)
-        while index in indexes:
             index = random.randrange(0, len(questions), 1)
-        indexes.append(index)
-        question = questions[index]
-        question_info = {
-            "uuid": question.uuid,
-            "quizzUuid": question.quizz.uuid,
-            "questionType": question.questionType,
-            "statement": question.statement,
-        }
-        question_list.append(question_info)
+            while index in indexes:
+                index = random.randrange(0, len(questions), 1)
+            indexes.append(index)
+            question = questions[index]
+            question_info = {
+                'error': False,
+                "uuid": question.uuid,
+                "quizzUuid": question.quizz.uuid,
+                "questionType": question.questionType,
+                "statement": question.statement,
+            }
+            question_list.append(question_info)
 
-    return question_list
+        return question_list
+    except Exception :
+        return {'error': True, 'message': 'No questions found for this quizz'}
 
 
 @router.get("/questions/{uuid}", )
