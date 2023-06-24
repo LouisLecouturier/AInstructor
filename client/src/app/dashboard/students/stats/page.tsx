@@ -137,7 +137,7 @@ const MyCourses = () => {
                   return (
                     <ListItem
                       href={`/dashboard/students/courses/${course.uuid}`}
-                      key={course.name}
+                      key={nanoid()}
                       properties={properties}
                     >
                       {course.name}
