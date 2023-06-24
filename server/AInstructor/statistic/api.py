@@ -248,22 +248,67 @@ def get_user_stats_by_course(request, userID: int):
 
     stats = []
     for course in courses :
-        stat = get_object_or_404(models.UserStatistiques, user=user, course=course)
-        infoStats = {
-            'message': "successfully got the stats by course",
-            "course": {
-                "uuid": course.uuid,
-                "name": course.name,
-                "subject": course.subject,
-                "description": course.description,
-                "deliveryDate": course.deliveryDate,
-                "creationDate": course.creationDate,
-            },
-            "mean": stat.mean,
-            "min": stat.min,
-            "max": stat.max,
-            "progress": stat.progress
-        }
+        try : 
+            stat = get_object_or_404(models.UserStatistiques, user=user, course=course)
+
+            if course.deliveryDate != None:
+                if course.deliveryDate < datetime.datetime.now().date() and stat.progress > 100:
+                    status = "finished"
+                    print("finished")
+                elif course.deliveryDate < datetime.datetime.now().date():
+                    print(course.deliveryDate)
+                    print(datetime.datetime.now().date())
+                    status = "late"
+                else:
+                    print("pending")
+                    status = "pending"
+            else :
+                status = None
+            
+
+
+
+            infoStats = {
+                'message': "successfully got the stats by course",
+                "course": {
+                    "uuid": course.uuid,
+                    "name": course.name,
+                    "subject": course.subject,
+                    "description": course.description,
+                    "deliveryDate": course.deliveryDate,
+                    "creationDate": course.creationDate,
+                    "status": status
+                },
+                "mean": stat.mean,
+                "min": stat.min,
+                "max": stat.max,
+                "progress": stat.progress
+            }
+        except : 
+            if course.deliveryDate != None:
+                if course.deliveryDate > datetime.datetime.now().date():
+                    status = "pending"
+                else:
+                    status = "late"
+            else :
+                status = None
+
+            infoStats = {
+                'message': "user has no stats for this course",
+                "course": {
+                    "uuid": course.uuid,
+                    "name": course.name,
+                    "subject": course.subject,
+                    "description": course.description,
+                    "deliveryDate": course.deliveryDate,
+                    "creationDate": course.creationDate,
+                    "status": status
+                },
+                "mean": None,
+                "min": None,
+                "max": None,
+                "progress": 0
+            }
         stats.append(infoStats)
 
     return stats

@@ -108,6 +108,7 @@ const Dashboard = () => {
                         creationDate={course.course.creationDate}
                         progress={course.progress}
                         href= {`/dashboard/students/courses/${course.course.uuid}`}
+                        status={course.course.status}
                         // image={course.image}
                       />
                     </>
@@ -139,6 +140,7 @@ const Dashboard = () => {
                     href={"/dashboard/students/courses/1"}
                     key={nanoid()}
                     properties={properties}
+                    status={course.course.status}
                   >
                     {course.course.name}
                   </ListItem>

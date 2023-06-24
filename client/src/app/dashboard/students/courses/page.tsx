@@ -15,7 +15,8 @@ type Course = {
   creationDate: string;
   deliveryDate: string;
   team: string;
-  status: "pending" | "in-progress" | "done";
+  status: "pending" | "late" | "finished";
+  progress: number;
 };
 
 const MyCourses = () => {
@@ -59,7 +60,14 @@ const MyCourses = () => {
                   const properties = [
                     { label: "Creation date", value: course.creationDate },
                     { label: "Team", value: course.team },
+                    { label: "Progress", value: course.progress + "%"}
                   ];
+                  if (course.deliveryDate !== null) {
+                    properties.push({
+                      label: "Delivery date",
+                      value: course.deliveryDate,
+                    });
+                  }
 
                   return (
                     <ListItem

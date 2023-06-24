@@ -151,25 +151,62 @@ def get_my_courses(request, user_id: int):
 
     # courses = models.Course.objects.filter(uploadedBy=user)
 
-    Quizz = models.Quizz.objects.filter(course__in=courses)
 
     result = []
     for team in teams:
         for course in models.Course.objects.filter(team=team):
-            quizz = models.Quizz.objects.filter(course=course)
+            try : 
+                stat = get_object_or_404(models.UserStatistiques, user=user, course=course)
 
-            if course.deliveryDate == None :
-                status = None
-            course_info = {
-                'uuid': course.uuid,
-                'name': course.name,
-                'team': team.name,
-                'description': course.description,
-                'subject': course.subject,
-                "status": status,
-                "deliveryDate": course.deliveryDate,
-                "creationDate": course.creationDate,
-            }
+                if course.deliveryDate != None:
+                    if course.deliveryDate < datetime.now().date() and stat.progress > 100:
+                        status = "finished"
+                        print("finished")
+                    elif course.deliveryDate < datetime.now().date():
+                        print(course.deliveryDate)
+                        print(datetime.now().date())
+                        status = "late"
+                    else:
+                        print("pending")
+                        status = "pending"
+                else :
+                    status = None
+                
+
+                print(course.deliveryDate)
+                course_info = {
+                    'uuid': course.uuid,
+                    'name': course.name,
+                    'team': team.name,
+                    'description': course.description,
+                    'subject': course.subject,
+                    "status": status,
+                    "deliveryDate": course.deliveryDate,
+                    "creationDate": course.creationDate,
+                    "progress": stat.progress,
+                }
+            except : 
+                if course.deliveryDate != None:
+                    if course.deliveryDate > datetime.now().date():
+                        status = "pending"
+                    else:
+                        status = "late"
+                else :
+                    status = None
+
+                course_info = {
+                    'uuid': course.uuid,
+                    'name': course.name,
+                    'team': team.name,
+                    'description': course.description,
+                    'subject': course.subject,
+                    "status": status,
+                    "deliveryDate": course.deliveryDate,
+                    "creationDate": course.creationDate,
+                    "progress": 0,
+                }
+
+
             result.append(course_info)
         
     return result

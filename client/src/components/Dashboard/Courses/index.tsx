@@ -2,6 +2,10 @@ import React from "react";
 import ProgressBar from "@components/Dashboard/Common/Layout/ProgressBar";
 import Link from "next/link";
 
+import Check from "@icons/Checkmark.svg";
+import Pending from "@icons/Pending.svg";
+import Late from "@icons/Close.svg";
+
 type Course = {
   id?: number;
   index?: number;
@@ -11,6 +15,7 @@ type Course = {
   progress?: number;
   isSeeAll?: boolean;
   href?: string;
+  status?: "finished" | "pending" | "late";
   //   image: string;
 };
 
@@ -28,6 +33,17 @@ function progessBar(props: Course) {
     </div>
   );
 }
+
+const statusIcon = (status?: "finished" | "pending" | "late") => {
+  switch (status) {
+    case "finished":
+      return <Check className={"w-6 h-6 text-green-500"} />;
+    case "pending":
+      return <Pending className={"w-6 h-6 text-primary-500"} />;
+    case "late":
+      return <Late className={"w-6 h-6 text-secondary-500"} />;
+  }
+};
 
 export default function QuestionCube(props: Course) {
   if (props.isSeeAll || !props.href) {
@@ -51,10 +67,15 @@ export default function QuestionCube(props: Course) {
     >
      
       <div className="flex flex-1 flex-col justify-between">
-        <div className="flex-1 flex flex-col">
-          <h3 className="font-semibold text-md">{props.course}</h3>
-          <h3 className="font-semibold text-sm">Deadline : {props.deliveryDate}</h3>
-          <h3 className="font-semibold text-sm">Created : {props.creationDate}</h3>
+        <div className="flex-1 flex flex-col gap-2">
+          <div className="flex gap-2">
+            {props.status && statusIcon(props.status)}
+            <h3 className="font-semibold text-md">{props.course}</h3>
+          </div>
+          <div className="flex flex-col">
+            <h3 className="font-semibold text-sm">Deadline : {props.deliveryDate}</h3>
+            <h3 className="font-semibold text-sm">Creation date : {props.creationDate}</h3>
+          </div>
 
         </div>
         <div>

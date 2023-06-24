@@ -137,7 +137,6 @@ const MyCourses = () => {
                   return (
                     <ListItem
                       href={`/dashboard/students/courses/${course.uuid}`}
-                      status={course.status}
                       key={course.name}
                       properties={properties}
                     >
