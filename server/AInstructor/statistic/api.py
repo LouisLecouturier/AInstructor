@@ -198,7 +198,7 @@ def get_team_stats_by_course(request, teamUUID: uuidLib.UUID, courseUUID: uuidLi
             except:
                 data = {
                     "user": userInfos,
-                    "stats": null
+                    "stats": None
                 }
 
             usersStats.append(data)
@@ -247,7 +247,7 @@ def get_user_stats_by_course(request, userID: int):
 
 
     stats = []
-    for course in courses : 
+    for course in courses :
         stat = get_object_or_404(models.UserStatistiques, user=user, course=course)
         infoStats = {
             'message': "successfully got the stats by course",
@@ -258,13 +258,12 @@ def get_user_stats_by_course(request, userID: int):
                 "description": course.description,
                 "deliveryDate": course.deliveryDate,
                 "creationDate": course.creationDate,
-            }, 
+            },
             "mean": stat.mean,
-            "min": stat.min, 
-            "max": stat.max, 
+            "min": stat.min,
+            "max": stat.max,
             "progress": stat.progress
         }
         stats.append(infoStats)
-    
+
     return stats
-   

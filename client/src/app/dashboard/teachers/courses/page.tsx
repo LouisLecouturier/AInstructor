@@ -50,7 +50,6 @@ const Courses = () => {
           <div className={"flex flex-col gap-1"}>
             <Button
               rounded={"full"}
-              size={"sm"}
               onClick={() => goTo("/dashboard/teachers/courses/create")}
             >
               Create a new course

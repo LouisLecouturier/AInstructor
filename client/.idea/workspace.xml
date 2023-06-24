@@ -4,8 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Added Train again feature + feedback on frontend&#10;&#10;Fixed toast causing rerenders">
+    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Fixed merge issue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/courses/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/courses/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/courses/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Courses/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Courses/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Teams/MainInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Teams/MainInformation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Interactions/Button/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Interactions/Button/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/pandoc-3.1.3-windows-x86_64.msi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/AInstructor/statistic/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/statistic/api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +165,7 @@
       <workItem from="1687172921746" duration="2817000" />
       <workItem from="1687252882139" duration="920000" />
       <workItem from="1687346281948" duration="9986000" />
-      <workItem from="1687436201777" duration="34922000" />
+      <workItem from="1687436201777" duration="36649000" />
     </task>
     <task id="LOCAL-00001" summary="Config + landing&#10;&#10;Added Satoshi Font&#10;Added TS paths for icons and components&#10;Started header (not responsive)">
       <created>1685096667428</created>
@@ -313,7 +323,15 @@
       <option name="project" value="LOCAL" />
       <updated>1687543279245</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Fixed merge issue">
+      <option name="closed" value="true" />
+      <created>1687544561083</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1687544561083</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -344,7 +362,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Config + landing&#10;&#10;Added Satoshi Font&#10;Added TS paths for icons and components&#10;Started header (not responsive)" />
     <MESSAGE value="Fixed hero responsive" />
     <MESSAGE value="Fixed merge issues" />
     <MESSAGE value="Login Page Redesign" />
@@ -369,7 +386,8 @@
     <MESSAGE value="Added answer correction" />
     <MESSAGE value="Added answer correction&#10;&#10;fixed imports" />
     <MESSAGE value="Added Train again feature + feedback on frontend&#10;&#10;Fixed toast causing rerenders" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Train again feature + feedback on frontend&#10;&#10;Fixed toast causing rerenders" />
+    <MESSAGE value="Fixed merge issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed merge issue" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

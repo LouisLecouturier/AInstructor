@@ -19,9 +19,9 @@ type ButtonProps = {
 };
 
 const sizeClasses = {
-  sm: "px-4 py-2 text-sm h-10 min-w-[96px] gap-2",
-  md: "px-6 py-3 text-lg h-14 min-w-[96px] gap-4",
-  lg: "px-8 py-4 text-lg h-16 gap-4",
+  sm: "px-4 py-2 text-sm min-w-[96px] gap-2",
+  md: "px-6 py-3 text-md min-w-[96px] gap-4",
+  lg: "px-8 py-4 text-lg gap-4",
 };
 
 const roundedClasses = {
