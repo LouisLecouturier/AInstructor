@@ -495,13 +495,20 @@ def update_course_file(request, body: UpdateCourseFile, file: UploadedFile = Fil
     else:
         return {'error': 'File is not a PDF or MD.'}
 
-
 @router.delete("/delete/{uuid}")
 def delete_data(request, uuid: str):
-    # TODO : delete the file
     course = get_object_or_404(models.Course, uuid=uuid)
+    extension = ["txt", "pdf", "md", "docx"]
+    file = str(course.filePath)
+    pre, ext = os.path.splitext(file)
+    print(pre)
+    for e in extension:
+        if os.path.isfile(pre+"." + e):
+            print(pre+"." + e)
+            os.remove(pre +"."+ e)
     course.delete()
     return {'uuid': uuid}
+
 
 
 class UpdateCourseText(Schema):
