@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import QuestionEdit from "../../Questions/QuestionEditor";
+import QuestionEdit from "../../../Questions/QuestionEditor";
 import { Button } from "@components/Layout/Interactions/Button";
 import Container from "@components/Layout/Container";
 
@@ -11,9 +11,8 @@ import { useSession } from "next-auth/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import Check from "@icons/Checkmark.svg";
-import { useStore } from "zustand";
 import { toastStore } from "@components/Layout/Toast/toast.store";
-import { stat } from "fs";
+import ContainerMessage from "@components/Layout/Container/ContainerMessage";
 
 type QuestionsEditorProps = {
   courseUuid: string;
@@ -68,7 +67,7 @@ const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
 
   const [questions, setQuestions] = useState<Question[]>([]);
 
-  const { data: quizzData, isLoading: quizzLoading } = useQuery(
+  const { data: quizzData, isLoading: quizzLoading, isError : quizzError } = useQuery(
     ["courseQuestions"],
     {
       queryFn: async () => {
@@ -182,6 +181,17 @@ const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
         </div>
       </Container>
     );
+  if (quizzError)
+    return (
+      <Container
+        title={"Manage questions"}
+        description={"Manage training questions for your students"}
+      >
+        <ContainerMessage>
+          An error occurred while loading questions
+        </ContainerMessage>
+      </Container>
+    );
 
   return (
     <Container
@@ -189,7 +199,6 @@ const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
       description={"Manage training questions for your students"}
       action={
         <Button
-          size={"sm"}
           rounded={"full"}
           isMagic
           onClick={generateQuestions}

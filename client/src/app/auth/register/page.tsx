@@ -10,9 +10,7 @@ import { signIn, useSession } from "next-auth/react";
 import { toastStore } from "@components/Layout/Toast/toast.store";
 import { useRouter } from "next/navigation";
 
-
-
-function checkPassword(password : string) {
+function checkPassword(password: string) {
   // Vérifie la longueur du mot de passe
   if (password.length < 8) {
     return false;

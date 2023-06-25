@@ -102,7 +102,7 @@ export default function QuestionEdit(props: QuestionEditProps) {
         </div>
 
         <div className="flex gap-2 w-1/2">
-          <Button size="sm" rounded="sm" fluid onClick={handleEdit}>
+          <Button size="sm" rounded="sm" fluid onClick={handleEdit} className={"border-2 border-accent-500 hover:border-accent-600 active:border-accent-700"}>
             {isEditing && <Check className={"w-5 h-5"} />}
             <span>{isEditing ? "Save" : "Edit"}</span>
           </Button>

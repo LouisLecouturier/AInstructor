@@ -15,6 +15,7 @@ export const fetchCourses = async (token: string, user_id: string) => {
 
 export const updateCourse = async (token: string, course: Course) => {
   let { uuid, ...courseExceptUUID } = course;
+  console.log(courseExceptUUID); 
   const response = await fetch(
     `http://localhost:8000/api/course/put/${course.uuid}`,
     {

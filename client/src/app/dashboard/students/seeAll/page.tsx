@@ -61,7 +61,6 @@ export default function seeAll() {
               course={course.course}
               date={course.date}
               progress={progress[index].progress}
-              // image={course.image}
             />
           ))}
         </div>

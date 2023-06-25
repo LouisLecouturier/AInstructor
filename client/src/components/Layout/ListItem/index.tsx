@@ -103,9 +103,9 @@ const ListItem: FC<ListItemProps> = (props) => {
               styles["interactions"]
             )}
           >
-            <Show onClick={props.onSee} />
-            <Edit onClick={props.onEdit} />
-            <Delete onClick={props.onDelete} />
+            <Show onClick={props.onSee} className={"hover:scale-105 hover:text-primary-500 transition"} />
+            <Edit onClick={props.onEdit} className={"hover:scale-105 hover:text-accent-500 transition"} />
+            <Delete onClick={props.onDelete} className={"hover:scale-105 hover:text-secondary-500 transition"} />
           </div>
         )}
       </header>

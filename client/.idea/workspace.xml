@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Fixed auth message + quick fixes&#10;&#10;Fixed auth message color&#10;no pypandoc download if already installed&#10;commented kebab icon">
-      <change afterPath="$PROJECT_DIR$/../server/AInstructor/pandoc-3.1.3-x86_64-macOS.pkg" afterDir="false" />
+    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="quick trucs avant queje mette sur ma branche">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/auth/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/login/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/Table/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/AInstructor/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/AInstructor/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/course/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/course/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +16,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="SCSS File" />
+        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
       </list>
     </option>
@@ -89,11 +84,11 @@
       <recent name="$PROJECT_DIR$/src/app/auth/signup" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/Dashboard/Teachers/Course" />
       <recent name="$PROJECT_DIR$/src/app/dashboard/students/teams/overview/[uuid]" />
       <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/teams/overview/[uuid]" />
       <recent name="$PROJECT_DIR$/src/components/Dashboard/Common" />
       <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[id]" />
-      <recent name="$PROJECT_DIR$/src/app" />
     </key>
   </component>
   <component name="RunManager">
@@ -162,6 +157,7 @@
       <workItem from="1687252882139" duration="920000" />
       <workItem from="1687346281948" duration="9986000" />
       <workItem from="1687436201777" duration="36649000" />
+      <workItem from="1687641262787" duration="4983000" />
     </task>
     <task id="LOCAL-00001" summary="Config + landing&#10;&#10;Added Satoshi Font&#10;Added TS paths for icons and components&#10;Started header (not responsive)">
       <created>1685096667428</created>
@@ -335,7 +331,39 @@
       <option name="project" value="LOCAL" />
       <updated>1687599987809</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Fixed auth message + quick fixes&#10;&#10;Fixed auth message color&#10;no pypandoc download if already installed&#10;commented kebab icon">
+      <option name="closed" value="true" />
+      <created>1687602562319</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1687602562319</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Error handling teacher">
+      <option name="closed" value="true" />
+      <created>1687702796738</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1687702796738</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Error handling teacher">
+      <option name="closed" value="true" />
+      <created>1687703100589</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1687703100589</updated>
+    </task>
+    <task id="LOCAL-00028" summary="quick trucs avant queje mette sur ma branche">
+      <option name="closed" value="true" />
+      <created>1687704531957</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1687704531957</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -352,7 +380,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="FullStack" />
+                        <option value="origin/app" />
                       </list>
                     </value>
                   </entry>
@@ -366,8 +394,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Login Page Redesign" />
-    <MESSAGE value="Auth Page Redesign&#10;Modified Button component&#10;Created RadioGroup Component" />
     <MESSAGE value="Redesigned Dashboard" />
     <MESSAGE value="Refacto Dashboard Routing" />
     <MESSAGE value="Added Course Page&#10;Created Skeleton Component&#10;Created Question Component" />
@@ -391,7 +417,9 @@
     <MESSAGE value="Fixed merge issue" />
     <MESSAGE value="Fixed auth issue" />
     <MESSAGE value="Fixed auth message + quick fixes&#10;&#10;Fixed auth message color&#10;no pypandoc download if already installed&#10;commented kebab icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed auth message + quick fixes&#10;&#10;Fixed auth message color&#10;no pypandoc download if already installed&#10;commented kebab icon" />
+    <MESSAGE value="Error handling teacher" />
+    <MESSAGE value="quick trucs avant queje mette sur ma branche" />
+    <option name="LAST_COMMIT_MESSAGE" value="quick trucs avant queje mette sur ma branche" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

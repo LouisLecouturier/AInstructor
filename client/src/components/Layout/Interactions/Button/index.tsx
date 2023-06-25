@@ -19,7 +19,7 @@ type ButtonProps = {
 };
 
 const sizeClasses = {
-  sm: "px-4 py-2 text-sm min-w-[96px] gap-2",
+  sm: "px-4 py-2 text-sm min-h-[40px] min-w-[96px] gap-2",
   md: "px-6 py-3 text-md min-w-[96px] gap-4",
   lg: "px-8 py-4 text-lg gap-4",
 };
@@ -32,26 +32,26 @@ const roundedClasses = {
 };
 
 const variantClasses = {
-  accent: "bg-accent-500 hover:bg-accent-600 focus:bg-accent-700 text-white",
+  accent: "bg-accent-500 hover:bg-accent-600 active:bg-accent-700 text-white",
   primary:
-    "bg-primary-500 hover:bg-primary-600 focus:bg-primary-700 text-white",
+    "bg-primary-500 hover:bg-primary-600 active:bg-primary-700 text-white",
   secondary:
-    "bg-secondary-500 hover:bg-secondary-600 focus:bg-secondary-700 text-white",
+    "bg-secondary-500 hover:bg-secondary-600 active:bg-secondary-700 text-white",
   tertiary: "bg-transparent text-primary-500",
-  success: "bg-green-500 hover:bg-green-600 focus:bg-green-700 text-white",
+  success: "bg-green-500 hover:bg-green-600 active:bg-green-700 text-white",
 };
 
 const outlinedClasses = {
   accent:
-    "border-2 border-accent-500 text-accent-500 hover:bg-accent-500 hover:text-white focus:bg-accent-600 focus:border-accent-600 focus:text-white",
+    "border-2 border-accent-500 text-accent-500 hover:bg-accent-500 hover:text-white active:bg-accent-600 active:border-accent-600 active:text-white",
   primary:
-    "border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white focus:bg-primary-600 focus:border-primary-600 focus:text-white",
+    "border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white active:bg-primary-600 active:border-primary-600 active:text-white",
   secondary:
-    "border-2 border-secondary-500 text-secondary-500 hover:bg-secondary-500 hover:text-white focus:bg-secondary-600 focus:border-secondary-600 focus:text-white",
+    "border-2 border-secondary-500 text-secondary-500 hover:bg-secondary-500 hover:text-white active:bg-secondary-600 active:border-secondary-600 active:text-white",
   tertiary:
-    "border-2 border-tertiary-500 text-tertiary-500 hover:bg-tertiary-500 hover:text-white focus:bg-tertiary-600 focus:border-tertiary-600 focus:text-white",
+    "border-2 border-tertiary-500 text-tertiary-500 hover:bg-tertiary-500 hover:text-white active:bg-tertiary-600 active:border-tertiary-600 active:text-white",
   success:
-    "border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white focus:bg-green-600 focus:border-green-600 focus:text-white",
+    "border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white active:bg-green-600 active:border-green-600 active:text-white",
 };
 
 export const Button: FC<ButtonProps> = (props) => {
@@ -61,7 +61,7 @@ export const Button: FC<ButtonProps> = (props) => {
         onClick={props.onClick}
         className={clsx(
           "flex items-center justify-center",
-          "w-fit transition duration-200",
+          "w-fit h-fit transition duration-200",
           "font-bold cursor-pointer",
           roundedClasses[props.rounded || "md"],
           sizeClasses[props.size || "md"],
@@ -86,7 +86,7 @@ export const Button: FC<ButtonProps> = (props) => {
       onClick={props.onClick}
       className={clsx(
         "flex items-center justify-center",
-        "w-fit transition duration-200",
+        "w-fit h-fit transition duration-200",
         "font-bold cursor-pointer",
         roundedClasses[props.rounded || "md"],
         sizeClasses[props.size || "md"],

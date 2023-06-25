@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, Doughnut } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import { getCourseStats } from "@/requests/stats";
@@ -32,7 +32,6 @@ const mean = {
         "rgba(75, 192, 192, 0.7)",
         "rgba(54, 162, 235, 0.7)",
       ],
-      
     },
   ],
 };
@@ -159,7 +158,7 @@ const options = {
 
 ChartJS.register(CategoryScale);
 
-const teamStats = () => {
+const TeamStats = () => {
   const {data : session} = useSession();
   const token = session?.user?.accessToken;
 
@@ -250,4 +249,4 @@ const teamStats = () => {
   );
 };
 
-export default teamStats;
+export default TeamStats;

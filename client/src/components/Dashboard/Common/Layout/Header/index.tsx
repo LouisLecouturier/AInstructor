@@ -22,7 +22,7 @@ const Header: FC<HeaderProps> = (props) => {
   return (
     <header className={clsx("flex gap-2 mb-16", props.className)}>
       <div className={"flex flex-col gap-4"}>
-        <h1 className={"text-5xl font-black text-dark-500"}>{props.title}</h1>
+        <h1 className={"flex items-center text-5xl font-black text-dark-500 min-h-[64px]"}>{props.title}</h1>
         <BreadCrumbs replace={props.breadcrumbsReplace}/>
       </div>
       {props.children}

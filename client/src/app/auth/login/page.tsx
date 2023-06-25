@@ -38,10 +38,12 @@ function Login() {
       email,
       password,
       redirect: false,
-    })
+    });
     console.log(result);
-      result?.error ? openToast("error", "An error occurred during sign in.") : openToast("success", "Logged in");
-      result?.error == null || undefined ? setError("") : setError(result?.error);
+    result?.error
+      ? openToast("error", "An error occurred during sign in.")
+      : openToast("success", "Logged in");
+    result?.error == null || undefined ? setError("") : setError(result?.error);
   }
 
   return (
@@ -50,10 +52,7 @@ function Login() {
         <Input
           placeholder="Email"
           name="email"
-          className={clsx(
-            error != "" ? "border-secondary-500 border-2" : null
-             
-          )}
+          className={clsx(error != "" ? "border-secondary-500 border-2" : null)}
         />
       </div>
       <div className={"flex flex-col gap-2 items-end"}>
@@ -61,11 +60,7 @@ function Login() {
           placeholder="Password"
           type={"password"}
           name="password"
-          className={clsx(
-            error != "" ? "border-secondary-500 border-2" : null
-
-           
-          )}
+          className={clsx(error != "" ? "border-secondary-500 border-2" : null)}
         />
         <div className="flex flex-row justify-between w-full">
           {/* {session?.user.message == "User authenticated" ? (

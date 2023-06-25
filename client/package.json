@@ -17,6 +17,7 @@
     "autoprefixer": "10.4.14",
     "chart.js": "^4.3.0",
     "clsx": "^1.2.1",
+    "dayjs": "^1.11.8",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.5",
     "nanoid": "^4.0.2",
