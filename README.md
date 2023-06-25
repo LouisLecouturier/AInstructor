@@ -28,7 +28,7 @@ Welcome to AInstructor, the next generation learning platform. Powered by AI, AI
 
 #### (Without Docker) Frontend
 1. Clone the repository
-2. Go to the `frontend` folder
+2. Go to the `client` folder
 3. Run `npm install` or `yarn install` or `pnpm install`
 4. Run `npm run dev` or `yarn dev` or `pnpm dev`
 5. Go to `http://localhost:3000`
@@ -36,7 +36,7 @@ Welcome to AInstructor, the next generation learning platform. Powered by AI, AI
 
 #### (Without Docker) Backend
 1. Clone the repository
-2. Go to the `backend` folder
+2. Go to the `server` folder
 3. Run `pipenv install`
 4. Run `pipenv shell`
 5. Run `cd AInstructor`
