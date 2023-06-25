@@ -1,0 +1,21 @@
+
+
+.Background::-webkit-scrollbar {
+    width: 5px; /* Largeur de la barre de défilement */
+    display: none;
+    
+  }
+  
+  .Background::-webkit-scrollbar-track {
+    background: transparent; /* Couleur de l'arrière-plan de la piste de la barre de défilement */
+  }
+  
+  .Background::-webkit-scrollbar-thumb {
+    background: #1f2e47; /* Couleur de la poignée de la barre de défilement */
+    margin-left: -50px; /* Décalage de 10 pixels vers la gauche */
+
+  }
+  
+  .Background::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Couleur de la poignée de la barre de défilement au survol */
+  }
