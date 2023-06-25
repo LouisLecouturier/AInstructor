@@ -10,6 +10,8 @@ import { getCourses } from "@/requests/course";
 import { Button } from "@/components/Layout/Interactions/Button";
 import { nanoid } from "nanoid";
 import CubeTeams from "@/components/Dashboard/Teachers/Stats";
+import { use } from "react";
+import { useRouter } from "next/navigation";
 
 const columns = [
   { key: "id", label: "Id" },
@@ -41,6 +43,8 @@ export default function Dashboard() {
   const token = session?.user.accessToken;
   const id = session?.user.id;
 
+  const router = useRouter();
+
 
   const { data : courses, isLoading : isCoursesLoading, isError : isCoursesError } = useQuery<Course[]>(["courses"], {
     queryFn: () => getCourses(String(token), String(id)),
@@ -59,21 +63,26 @@ export default function Dashboard() {
           Welcome back to work {firstname} !
         </h1>
         {courses.map((course) => (
-          <Container title={course.name} description={course.subject}>
-            <Button rounded={"full"} size="sm">
+          <Container key={nanoid()} title={course.name} description={course.subject}>
+            <Button rounded={"full"} size="sm" onClick={() =>router.push(`/dashboard/teachers/courses/edit/${course.uuid}`)}>
               View course
             </Button>
-            {course.teams.map((team) => (
-              <CubeTeams
-                uuid={team.uuid}
-                key={nanoid()}
-                color={team.color}
-                name={team.name}
-                href={`/dashboard/teachers/stats/teams/${team.uuid}`}
-                message={"View team"}
-            />
-              
-              ))}
+            <Container title="Teams" className="border-2 border-solid border-accent-100" description="all the teams assigned to this course">
+              <div className="flex gap-4 flex-wrap w-full">
+              {course.teams.map((team) => (
+                <CubeTeams
+                  uuid={team.uuid}
+                  key={nanoid()}
+                  color={team.color}
+                  name={team.name}
+                  href={`/dashboard/teachers/teams/overview/${team.uuid}`}
+                  message={"View team"}
+              />
+
+                
+                ))}
+                </div>
+            </Container>
 
 
           </Container>
