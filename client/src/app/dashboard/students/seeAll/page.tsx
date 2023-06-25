@@ -1,3 +1,4 @@
+"use client"
 import Header from "@components/Dashboard/Common/Layout/Header";
 import React from "react";
 import QuestionCube from "@components/Dashboard/Courses";
@@ -59,7 +60,6 @@ export default function seeAll() {
               key={course.course}
               index={index}
               course={course.course}
-              date={course.date}
               progress={progress[index].progress}
             />
           ))}

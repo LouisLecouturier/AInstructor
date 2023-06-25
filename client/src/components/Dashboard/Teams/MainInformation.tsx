@@ -6,7 +6,7 @@ import { Team } from "@/types/team";
 import clsx from "clsx";
 
 type TeamMainInformationProps = {
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
   team?: Team;
   editable?: boolean;
 };

@@ -81,13 +81,16 @@ def get_quizz_by_course(request, uuid: uuidLib.UUID):
     """Get quizz by course"""
     course = get_object_or_404(models.Course, uuid=uuid)
 
-    try :
+    try:
         quizz = models.Quizz.objects.get(course=course)
     except:
-        return {"questions":[]}
+        return {"questions": []}
 
     try:
         questions = models.Question.objects.filter(quizz__in=[quizz.uuid])
+
+        if questions.count() == 0:
+            return {"questions": []}
     except models.Question.DoesNotExist:
         return
 
@@ -98,7 +101,7 @@ def get_quizz_by_course(request, uuid: uuidLib.UUID):
             "questionType": question.questionType,
             "statement": question.statement,
         })
-    return {"uuid" : quizz.uuid, "questions" : question_list}
+    return {"uuid": quizz.uuid, "questions": question_list}
 
 
 @router.get("/{uuid}/questions")

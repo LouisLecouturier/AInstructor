@@ -10,6 +10,7 @@ import { nanoid } from "nanoid";
 import { useQuery } from "@tanstack/react-query";
 import { getUserCoursesStats } from "@/requests/stats";
 import ContainerMessage from "@components/Layout/Container/ContainerMessage";
+import CoursePresentation from "@components/Dashboard/Students/Courses/CoursePresentation";
 
 const Dashboard = () => {
   const { data: session } = useSession();
@@ -27,14 +28,93 @@ const Dashboard = () => {
     enabled: (token || id) !== undefined,
   });
 
-  if (isLoading || isError) {
-    return <div>Loading...</div>;
+  if (isError) {
+    return (
+      <>
+        <Header title={"Dashboard"} />
+        <div className="flex-col flex gap-8">
+          <h1 className="text-3xl font-bold">
+            Welcome back to work {firstname} !
+          </h1>
+
+          <Container
+            title="Continue my courses"
+            description="Quickly access your current courses"
+          >
+            <ContainerMessage>
+              An error occurred while fetching your courses.
+            </ContainerMessage>
+          </Container>
+
+          <Container
+            title="Finished courses"
+            description={"Access to your old courses"}
+          >
+            <ContainerMessage>
+              An error occurred while fetching your courses.
+            </ContainerMessage>
+          </Container>
+        </div>
+      </>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <>
+        <Header title={"Dashboard"} />
+        <div className="flex-col flex gap-8">
+          <h1 className="text-3xl font-bold">
+            Welcome back to work {firstname} !
+          </h1>
+
+          <Container
+            title="Continue my courses"
+            description="Quickly access your current courses"
+          >
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-8 ">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <CoursePresentation
+                    key={nanoid()}
+                    name={""}
+                    deadline={""}
+                    isLoading
+                    creationDate={""}
+                    progress={0}
+                    href={""}
+                    // image={course.image}
+                  />
+                ))}
+              </div>
+            </div>
+          </Container>
+
+          <Container
+            title="Finished courses"
+            description={"Access to your old courses"}
+          >
+            <div className="flex flex-col gap-2 w-full">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <ListItem
+                  href={"/dashboard/students/courses/1"}
+                  key={nanoid()}
+                  properties={[]}
+                  isLoading
+                  status={"finished"}
+                />
+              ))}
+            </div>
+          </Container>
+        </div>
+      </>
+    );
   }
 
   const finishedCourses = coursesStats.filter((c) => c.progress === 100);
 
   return (
-    <div className="flex flex-1 w-full flex-col">
+    <>
       <Header title={"Dashboard"} />
       <div className="flex-col flex gap-8">
         <h1 className="text-3xl font-bold">
@@ -51,15 +131,13 @@ const Dashboard = () => {
                 .filter((c) => c.progress < 100)
                 .slice(0, 2)
                 .map((course, index) => (
-                  <QuestionCube
+                  <CoursePresentation
                     key={nanoid()}
-                    index={index}
-                    course={course.course.name}
-                    deliveryDate={course.course.deliveryDate}
+                    name={course.course.name}
+                    deadline={course.course.deliveryDate}
                     creationDate={course.course.creationDate}
                     progress={course.progress}
                     href={`/dashboard/students/courses/${course.course.uuid}`}
-                    status={course.course.status}
                     // image={course.image}
                   />
                 ))}
@@ -113,7 +191,7 @@ const Dashboard = () => {
           </div>
         </Container>
       </div>
-    </div>
+    </>
   );
 };
 

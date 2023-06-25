@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCourses } from "@requests/course";
 import Container from "@components/Layout/Container";
 import { nanoid } from "nanoid";
+import ContainerMessage from "@components/Layout/Container/ContainerMessage";
 
 type Course = {
   uuid: string;
@@ -30,8 +31,45 @@ const MyCourses = () => {
     enabled: (token || id) !== undefined,
   });
 
-  if (isLoading || isError) {
-    return <div>Loading...</div>;
+  if (isError) {
+    return (
+      <>
+        <Header title={"My courses"} />
+
+        <main className={"flex flex-col gap-6"}>
+          <Container title={"Ooops..."}>
+            <ContainerMessage>
+              An error occurred while fetching your courses.
+            </ContainerMessage>
+          </Container>
+        </main>
+      </>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <>
+        <Header title={"My courses"} />
+        <main className={"flex flex-col gap-6"}>
+          {Array.from({ length: 3 }).map(() => (
+            <Container title={"Loading teams..."} key={nanoid()}>
+              <div className={"flex flex-col gap-2"}>
+                {Array.from({ length: 2 }).map(() => (
+                  <ListItem
+                    href={""}
+                    status={"pending"}
+                    key={nanoid()}
+                    isLoading={true}
+                    properties={[]}
+                  />
+                ))}
+              </div>
+            </Container>
+          ))}
+        </main>
+      </>
+    );
   }
 
   // Group courses by team
@@ -48,44 +86,42 @@ const MyCourses = () => {
   }, new Map());
 
   return (
-    <div>
+    <>
       <Header title={"My courses"} />
 
-      <main>
-        <div className={"flex flex-col gap-6"}>
-          {Array.from(sections).map(([team, courses]) => {
-            return (
-              <Container title={team} key={nanoid()}>
-                {courses.map((course: any) => {
-                  const properties = [
-                    { label: "Creation date", value: course.creationDate },
-                    { label: "Team", value: course.team },
-                    { label: "Progress", value: course.progress + "%"}
-                  ];
-                  if (course.deliveryDate !== null) {
-                    properties.push({
-                      label: "Delivery date",
-                      value: course.deliveryDate,
-                    });
-                  }
+      <main className={"flex flex-col gap-6"}>
+        {Array.from(sections).map(([team, courses]) => {
+          return (
+            <Container title={team} key={nanoid()}>
+              {courses.map((course: any) => {
+                const properties = [
+                  { label: "Creation date", value: course.creationDate },
+                  { label: "Team", value: course.team },
+                  { label: "Progress", value: course.progress + "%" },
+                ];
+                if (course.deliveryDate !== null) {
+                  properties.push({
+                    label: "Delivery date",
+                    value: course.deliveryDate,
+                  });
+                }
 
-                  return (
-                    <ListItem
-                      href={`/dashboard/students/courses/${course.uuid}`}
-                      status={course.status}
-                      key={course.name}
-                      properties={properties}
-                    >
-                      {course.name}
-                    </ListItem>
-                  );
-                })}
-              </Container>
-            );
-          })}
-        </div>
+                return (
+                  <ListItem
+                    href={`/dashboard/students/courses/${course.uuid}`}
+                    status={course.status}
+                    key={course.name}
+                    properties={properties}
+                  >
+                    {course.name}
+                  </ListItem>
+                );
+              })}
+            </Container>
+          );
+        })}
       </main>
-    </div>
+    </>
   );
 };
 
