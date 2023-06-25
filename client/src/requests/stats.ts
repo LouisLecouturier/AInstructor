@@ -6,8 +6,7 @@ export const getCourseStats = async (teamUUID : string, courseUUID : string, tok
         authorization : `bearer ${token}`
       },
     });
-    const responseData = await response.json();
-    return responseData;
+  return await response.json();
   };
 
 export const getCourseStatsGlobal = async (courseUUID : string, token: string ) => {
@@ -18,8 +17,7 @@ export const getCourseStatsGlobal = async (courseUUID : string, token: string ) 
           authorization : `bearer ${token}`
         },
       });
-      const responseData = await response.json();
-      return responseData;
+  return await response.json();
 }
 
 export const getUserCoursesStats = async (userID : string, token: string ) => {
@@ -29,7 +27,6 @@ export const getUserCoursesStats = async (userID : string, token: string ) => {
             authorization : `bearer ${token}`
           },
         });
-        const responseData = await response.json();
-        return responseData;
+  return await response.json();
 
 }

@@ -30,14 +30,12 @@ const quizzQuery = (uuid: string, accessToken?: string) => {
     .then((res) => res.json())
     .then((res) => {
       console.log("res", res);
-      const data = {
+      return {
         uuid: res.uuid,
         questions: res.questions.map((question: any) => {
           return { statement: question.statement };
         }),
       };
-
-      return data;
     });
 };
 
@@ -83,13 +81,7 @@ const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
     async (questions: Question[]) => {
       if (quizzData) {
         openToast("info", "Updating questions...");
-        const data = await sendQuestions(
-          quizzData.uuid,
-          questions,
-          accessToken
-        );
-
-        return data;
+        return await sendQuestions(quizzData.uuid, questions, accessToken);
       }
 
       return Promise.resolve(questions);
@@ -134,7 +126,7 @@ const QuestionsManager: FC<QuestionsEditorProps> = (props) => {
         setQuestions(updatedQuestions);
         openToast("success", "Questions generated !");
       })
-      .catch((err) => {
+      .catch(() => {
         openToast("error", "An error occurred");
       });
   };

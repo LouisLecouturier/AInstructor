@@ -37,7 +37,7 @@ const Courses = () => {
 
   const handleDelete = async (uuid: string) => {
     if (token) {
-      deleteCourse(uuid, token);
+      await deleteCourse(uuid, token);
       location.reload();
     }
   };

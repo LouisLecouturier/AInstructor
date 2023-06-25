@@ -76,7 +76,7 @@ function Login() {
           <span className="text-secondary-500 font-semibold">{error}</span>
 
           <Link
-            href="/auth/forgot-password"
+            href="http://localhost:3000/auth/forgot-password"
             className="text-accent-500 text-sm font-bold"
           >
             Forgot your password?

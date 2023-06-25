@@ -178,7 +178,7 @@ const Create = () => {
                 options={options}
                 name={"type"}
                 label={"Deadline"}
-                onChange={(value) => setIsDeadline(value == "true" ? true : false)}
+                onChange={(value) => setIsDeadline(value == "true")}
               />
               {isDeadline && (
                 <div className="flex gap-2 max-w-[400px]">

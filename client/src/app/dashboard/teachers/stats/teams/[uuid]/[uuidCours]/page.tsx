@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, Doughnut } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import { getCourseStats } from "@/requests/stats";
@@ -33,7 +33,6 @@ const mean = {
         "rgba(75, 192, 192, 0.7)",
         "rgba(54, 162, 235, 0.7)",
       ],
-
     },
   ],
 };
@@ -111,46 +110,6 @@ const progress = {
     },
   ],
 };
-
-const data2 = {
-  labels: [
-    "Elève 1",
-    "Elève 2",
-    "Elève 3",
-    "Elève 4",
-    "Elève 5",
-    "Elève 6",
-    "Elève 7",
-    "Elève 8",
-    "Elève 9",
-    "Elève 10",
-    "Elève 11",
-    "Elève 12",
-  ],
-  datasets: [
-    {
-      label: "Score élèves",
-      /* IQ */
-      data: [12, 19, 3, 5, 2, 3, 15, 3, 5, 2, 3, 15],
-      backgroundColor: [
-        "rgb(255, 99, 132)",
-        "rgb(54, 162, 235)",
-        "rgb(255, 205, 86)",
-        "rgb(75, 192, 192)",
-        "rgb(153, 102, 255)",
-        "rgb(255, 159, 64)",
-        "rgb(201, 203, 207)",
-        "rgb(255, 99, 132)",
-        "rgb(54, 162, 235)",
-        "rgb(255, 205, 86)",
-        "rgb(75, 192, 192)",
-        "rgb(153, 102, 255)",
-      ],
-      hoverOffset: 4,
-    },
-  ],
-};
-
 const options = {
   maintainAspectRatio: false,
 };

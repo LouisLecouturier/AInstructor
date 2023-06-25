@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { signOut, useSession } from "next-auth/react";
-import { deleteUser, fetchUser, updateUser } from "@/requests/user";
+import { deleteUser, fetchUser } from "@/requests/user";
 import { User } from "@/types/user";
 import Header from "@/components/Dashboard/Common/Layout/Header";
 import { Button } from "@/components/Layout/Interactions/Button";

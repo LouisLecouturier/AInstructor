@@ -55,30 +55,24 @@ export default function TeamOverview({ params }: { params: { uuid: string } }) {
     mutationFn: () => deleteTeam(uuid, String(token)),
     onSuccess: () => {
       router.push("/dashboard/teachers/teams");
-      queryClient.invalidateQueries(["teams"]);
+      return queryClient.invalidateQueries(["teams"]);
     },
   });
 
   const mutationAddUsers = useMutation({
     mutationFn: (emails: string[]) => addUsers(uuid, emails, String(token)),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["team", uuid]);
-    },
+    onSuccess: () => queryClient.invalidateQueries(["team", uuid]),
   });
 
   const mutationRemoveUsers = useMutation({
     mutationFn: (emails: string[]) => removeUsers(uuid, emails, String(token)),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["team", uuid]);
-    },
+    onSuccess: () => queryClient.invalidateQueries(["team", uuid]),
   });
 
   const mutationUpdateTeam = useMutation({
     mutationFn: (team: Omit<Team, "users" | "uuid">) =>
       updateTeam(uuid, team, String(token)),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["team", uuid]);
-    },
+    onSuccess: () => queryClient.invalidateQueries(["team", uuid]),
   });
 
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -123,8 +117,8 @@ export default function TeamOverview({ params }: { params: { uuid: string } }) {
 
   const handleDelete = async (uuid: string) => {
     if (token) {
-      deleteCourse(uuid, token);
-      // location.reload();
+      await deleteCourse(uuid, token);
+      location.reload();
     }
   };
 

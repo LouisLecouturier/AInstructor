@@ -35,7 +35,7 @@ const Settings = () => {
     },
     onSuccess: () => {
       openToast("success", "User updated");
-      queryClient.invalidateQueries(["user", id]);
+      return queryClient.invalidateQueries(["user", id]);
     },
   });
 

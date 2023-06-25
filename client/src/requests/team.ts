@@ -51,8 +51,7 @@ export const createTeam = async (
     }),
   });
 
-  const responseData = await response.json();
-  return responseData;
+  return await response.json();
 };
 
 export const addUsers = async (
@@ -72,8 +71,7 @@ export const addUsers = async (
     }
   );
 
-  const responseData = await response.json();
-  return responseData;
+  return await response.json();
 };
 
 export const removeUsers = async (
@@ -92,8 +90,7 @@ export const removeUsers = async (
       body: JSON.stringify({ emails: emails }),
     }
   );
-  const responseData = await response.json();
-  return responseData;
+  return await response.json();
 };
 
 export const updateTeam = async (
@@ -114,8 +111,7 @@ export const updateTeam = async (
     }),
   });
 
-  const responseData = await response.json();
-  return responseData;
+  return await response.json();
 
 }
 
@@ -128,7 +124,6 @@ export const getCoursesTeam = async (uuid : string, token: string ) => {
     },
   });
 
-  const responseData = await response.json();
-  return responseData;
+  return await response.json();
 }
 

@@ -26,7 +26,7 @@ export default function AddTeam() {
     onSuccess: () => {
       openToast("success", "Team created successfully");
       router.push("/dashboard/teachers/teams");
-      queryClient.invalidateQueries(["teams"]);
+      return queryClient.invalidateQueries(["teams"]);
     },
   });
 

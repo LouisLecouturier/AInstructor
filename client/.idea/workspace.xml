@@ -4,27 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="quick trucs avant queje mette sur ma branche">
+    <list default="true" id="cb68a502-c10c-4ae1-b7b2-fc093e68187f" name="Changes" comment="Docker support + README.md">
+      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/courses/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/courses/[uuid]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/courses/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/seeAll/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/seeAll/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/register/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/settings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/settings/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/teams/overview/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/students/teams/overview/[uuid]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/students/upload/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/courses/[uuid]/[uuidTeam]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/courses/[uuid]/[uuidTeam]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/ProgressBar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Common/Layout/ProgressBar/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Courses/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Courses/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Students/Courses/CoursePresentation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Students/Courses/CoursePresentation/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Students/TrainingSection/QuestionForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Students/TrainingSection/QuestionForm/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Teams/MainInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Teams/MainInformation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/Toast/toast.store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Toast/toast.store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/courses/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/settings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/settings/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/[uuid]/[uuidCours]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/[uuid]/[uuidCours]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/myteams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/stats/teams/myteams/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/overview/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/teachers/teams/overview/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Teachers/Course/QuestionsManager/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Teachers/Course/QuestionsManager/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Teachers/Course/TeamsEditor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Teachers/Course/TeamsEditor/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/requests/course.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/requests/course.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/requests/question.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/requests/question.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/requests/stats.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/requests/stats.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/requests/team.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/requests/team.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/requests/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/requests/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/course/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/course/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/AInstructor/question/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/AInstructor/question/api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +45,7 @@
         <option value="SCSS File" />
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>
@@ -77,7 +86,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Front-End-Louis",
+    "git-widget-placeholder": "app",
     "js.linters.configure.manually.selectedeslint": "true",
     "last_opened_file_path": "/Users/louislecouturier/Documents/ISEN/3e année/Ainstructor/client/src/components/dashboard/Navigation/StudentNavigation",
     "list.type.of.created.stylesheet": "SCSS",
@@ -109,7 +118,29 @@
       <recent name="$PROJECT_DIR$/src/app/dashboard/teachers/courses/edit/[id]" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.dev">
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile" />
+      <method v="2" />
+    </configuration>
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -129,8 +160,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.dev" />
-        <item itemvalue="npm.dev" />
+        <item itemvalue="Docker.Dockerfile" />
+        <item itemvalue="npm.build" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
@@ -412,8 +443,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Redesigned Dashboard" />
-    <MESSAGE value="Refacto Dashboard Routing" />
     <MESSAGE value="Added Course Page&#10;Created Skeleton Component&#10;Created Question Component" />
     <MESSAGE value="Modified question edit component&#10;Added Question Edit functionnality&#10;Fixed Dashboard content Header &#10;Added OnChange prop Input" />
     <MESSAGE value="Fixed changes from pull requests" />
@@ -437,7 +466,9 @@
     <MESSAGE value="Fixed auth message + quick fixes&#10;&#10;Fixed auth message color&#10;no pypandoc download if already installed&#10;commented kebab icon" />
     <MESSAGE value="Error handling teacher" />
     <MESSAGE value="quick trucs avant queje mette sur ma branche" />
-    <option name="LAST_COMMIT_MESSAGE" value="quick trucs avant queje mette sur ma branche" />
+    <MESSAGE value="Docker support" />
+    <MESSAGE value="Docker support + README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Docker support + README.md" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

@@ -7,8 +7,7 @@ export const fetchUser = async (token: string, id: string) => {
       "Content-Type": "application/json",
     },
   });
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const updateUser = async (user :User, token : string) => {
@@ -20,8 +19,7 @@ export const updateUser = async (user :User, token : string) => {
     },
     body: JSON.stringify(user),
   });
-  const data = await response.json();
-  return data;
+  return await response.json();
 
 };
 
@@ -33,6 +31,5 @@ export const deleteUser = async (id: string, token: string) => {
       "Content-Type": "application/json",
     },
   });
-  const data = await response.json();
-  return data;
+  return await response.json();
 }

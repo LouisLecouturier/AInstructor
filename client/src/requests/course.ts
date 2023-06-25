@@ -38,8 +38,7 @@ export const deleteCourse = async (uuid: string, token: string) => {
     },
   });
 
-  const data = await res.json();
-  return data;
+  return await res.json();
 };
 
 export const newCourse = async (

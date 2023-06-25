@@ -1,10 +1,9 @@
-import {create} from "zustand";
-import {useState} from "react";
+import { create } from "zustand";
 
 interface SectionSelectStore {
-    sectionID: number;
-    sectionName: string;
-    setSection: (sectionID: number, sectionName:string) => void;
+  sectionID: number;
+  sectionName: string;
+  setSection: (sectionID: number, sectionName: string) => void;
 }
 
 interface UserStore {

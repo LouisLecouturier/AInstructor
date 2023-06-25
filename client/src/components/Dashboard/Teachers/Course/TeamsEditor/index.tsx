@@ -30,7 +30,7 @@ const TeamsEditor: FC<TeamsEditorProps> = (props) => {
       ),
     onSuccess: () => {
       openToast("success", "Teams updated");
-      queryClient.invalidateQueries(["course", props.uuid]);
+      return queryClient.invalidateQueries(["course", props.uuid]);
     },
   });
 

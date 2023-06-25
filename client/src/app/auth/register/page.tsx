@@ -72,7 +72,7 @@ function Register() {
       return;
     }
 
-    if (checkPassword(password) == false) {
+    if (!checkPassword(password)) {
       openToast(
         "error",
         "Password must be at least 8 characters long and contain at least one number, one uppercase letter, one lowercase letter and one special character"
