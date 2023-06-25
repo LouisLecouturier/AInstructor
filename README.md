@@ -40,7 +40,7 @@ Welcome to AInstructor, the next generation learning platform. Powered by AI, AI
 3. Run `pipenv install`
 4. Run `pipenv shell`
 5. Run `cd AInstructor`
-6. Run `python manage.py makemigrations`
+6. Run `python manage.py makemigrations app`
 7. Run `python manage.py migrate`
 8. Run `python manage.py runserver`
 
