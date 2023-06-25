@@ -26,7 +26,7 @@ Welcome to AInstructor, the next generation learning platform. Powered by AI, AI
 3. Go to `http://localhost:3000`
 
 
-#### Frontend
+#### (Without Docker) Frontend
 1. Clone the repository
 2. Go to the `frontend` folder
 3. Run `npm install` or `yarn install` or `pnpm install`
@@ -34,7 +34,7 @@ Welcome to AInstructor, the next generation learning platform. Powered by AI, AI
 5. Go to `http://localhost:3000`
 
 
-#### Backend
+#### (Without Docker) Backend
 1. Clone the repository
 2. Go to the `backend` folder
 3. Run `pipenv install`
@@ -66,4 +66,4 @@ Welcome to AInstructor, the next generation learning platform. Powered by AI, AI
 - Antoine Maes
 - Mael Monteil
 - Nicolas Broage
-- Jules Maisonnaves
+- Jules Maisonnave
