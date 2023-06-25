@@ -12,8 +12,9 @@ import { Course } from "@/types/course";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { deleteCourse, getCourses } from "@requests/course";
-import clsx from "clsx";
 import Link from "next/link";
+import ContainerMessage from "@components/Layout/Container/ContainerMessage";
+import dayjs from "dayjs";
 
 const Courses = () => {
   const router = useRouter();
@@ -62,54 +63,58 @@ const Courses = () => {
           description={"Preview, manage, delete your courses"}
         >
           <div className={"flex flex-col gap-2"}>
-            {isLoading || isError ? (
-              Array.from({ length: 2 }).map(() => (
-                <ListItem properties={[]} key={nanoid()} isLoading />
-              ))
-            ) : data.length > 0 ? (
-              data.map((course) => {
-                const properties = [
-                  { label: "Creation date", value: course.creationDate },
-                  { label: "Team", value: course.team },
-                ];
-
-                return (
-                  <ListItem
-                    key={nanoid()}
-                    properties={properties}
-                    withUserActions
-                    onSee={() =>
-                      goTo(`/dashboard/teachers/courses/preview/${course.uuid}`)
-                    }
-                    onEdit={() =>
-                      goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
-                    }
-                    onDelete={() => handleDelete(course.uuid)}
-                    onClick={() =>
-                      goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
-                    }
-                  >
-                    {course.name}
-                  </ListItem>
-                );
-              })
-            ) : (
-              <div
-                className={clsx(
-                  "flex flex-col gap-2",
-                  "py-8",
-                  "text-sm font-bold text-center text-dark-200 bg-dark-10 rounded-md"
-                )}
-              >
-                <span>You don&apos;t have any course</span>
-                <Link
-                  className={"text-accent-500 underline"}
-                  href={"/dashboard/teachers/courses/create"}
-                >
-                  Create one
-                </Link>
-              </div>
+            {isError && (
+              <ContainerMessage>
+                An error occurred while loading your courses
+              </ContainerMessage>
             )}
+            {isLoading
+              ? Array.from({ length: 2 }).map(() => (
+                  <ListItem properties={[]} key={nanoid()} isLoading />
+                ))
+              : data && data.length > 0
+              ? data.map((course) => {
+                  const properties = [
+                    {
+                      label: "Creation date",
+                      value: dayjs(course.creationDate).format("d MMMM YYYY"),
+                    },
+                    { label: "Team", value: course.team ?? "No team assigned" },
+                  ];
+
+                  return (
+                    <ListItem
+                      key={nanoid()}
+                      properties={properties}
+                      withUserActions
+                      onSee={() =>
+                        goTo(
+                          `/dashboard/teachers/courses/preview/${course.uuid}`
+                        )
+                      }
+                      onEdit={() =>
+                        goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
+                      }
+                      onDelete={() => handleDelete(course.uuid)}
+                      onClick={() =>
+                        goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
+                      }
+                    >
+                      {course.name}
+                    </ListItem>
+                  );
+                })
+              : !isError && (
+                  <ContainerMessage>
+                    <span>You don&apos;t have any course</span>
+                    <Link
+                      className={"text-accent-500 underline"}
+                      href={"/dashboard/teachers/courses/create"}
+                    >
+                      Create one
+                    </Link>
+                  </ContainerMessage>
+                )}
           </div>
         </Container>
       </main>

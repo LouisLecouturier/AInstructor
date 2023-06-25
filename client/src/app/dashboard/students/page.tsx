@@ -118,7 +118,7 @@ const Dashboard = () => {
               {coursesStats.length > 3 && (
                 <QuestionCube isSeeAll />
               )}
-              {(coursesStats.length === 0 || coursesStats.every(item => item.progress >= 100)) && (<span>Good news ! You don't have any work for the moment </span>)}
+              {(coursesStats.length === 0 || coursesStats.every(item => item.progress >= 100)) && (<span>Good news ! You don&apos;t have any work to do at the moment 😉</span>)}
 
             </div>
           </div>

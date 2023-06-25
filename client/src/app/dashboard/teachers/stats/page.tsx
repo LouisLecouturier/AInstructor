@@ -16,6 +16,7 @@ import ListItem from "@/components/Layout/ListItem";
 import clsx from "clsx";
 import { getCourses } from "@/requests/course";
 import { Course } from "@/types/course";
+import ContainerMessage from "@components/Layout/Container/ContainerMessage";
 
 export default function Teams() {
   const { data: session } = useSession();
@@ -32,8 +33,11 @@ export default function Teams() {
     enabled: !!token,
   });
 
-
-  const { data : courses, isLoading : isCoursesLoading, isError : isCoursesError } = useQuery<Course[]>(["courses"], {
+  const {
+    data: courses,
+    isLoading: isCoursesLoading,
+    isError: isCoursesError,
+  } = useQuery<Course[]>(["courses"], {
     queryFn: async () => {
       const yee = await getCourses(String(token), String(id));
       console.log(yee);
@@ -42,14 +46,61 @@ export default function Teams() {
     enabled: ![token, id].includes(undefined),
   });
 
-  if (isLoading || isError || isCoursesError || isCoursesLoading) return <div>Loading...</div>;
+  if (isLoading || isCoursesLoading) {
+    return (
+      <>
+        <Header title="Stats" />
+        <div className="flex flex-col gap-8">
+          <Container title="Your teams" className=" w-full">
+            <div className="flex gap-4 flex-wrap ">
+              <CubeTeams href={""} isLoading />
+              <CubeTeams href={""} isLoading />
+            </div>
+          </Container>
+          <Container
+            title={"Your courses"}
+            description={"Preview, manage, delete your courses"}
+          >
+            <div className={"flex flex-col gap-2"}>
+              {Array.from({ length: 2 }).map(() => (
+                <ListItem properties={[]} key={nanoid()} isLoading />
+              ))}
+            </div>
+          </Container>
+        </div>
+      </>
+    );
+  }
+
+  if (isError || isCoursesError) {
+    return (
+      <>
+        <Header title="Stats" />
+        <div className="flex flex-col gap-8">
+          <Container title="Your teams" className=" w-full">
+            <ContainerMessage>
+              An error occurred while loading your teams
+            </ContainerMessage>
+          </Container>
+          <Container
+            title={"Your courses"}
+            description={"Preview, manage, delete your courses"}
+          >
+            <ContainerMessage>
+              An error occurred while loading your courses
+            </ContainerMessage>
+          </Container>
+        </div>
+      </>
+    );
+  }
 
   return (
-    <div className="flex flex-col gap-5">
+    <>
       <Header title="Stats" />
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-8">
         <Container title="Your teams" className=" w-full">
-          <div className="flex gap-8 flex-wrap ">
+          <div className="flex gap-4 flex-wrap ">
             {teams.map((team) => (
               <CubeTeams
                 uuid={team.uuid}
@@ -60,15 +111,6 @@ export default function Teams() {
               />
             ))}
           </div>
-          <Link
-            className="rounded-xl w-fit h-15 "
-            href={`/dashboard/teachers/stats/teams/myteams`}
-          >
-            {/* <div className="px-4 py-3 rounded-xl font-bold text-accent-500 text-lg border-2 border-dark-50 hover:border-accent-300 transition">
-              View global statistics
-            </div> */}
-            
-          </Link>
         </Container>
         <Container
           title={"Your courses"}
@@ -117,6 +159,6 @@ export default function Teams() {
           </div>
         </Container>
       </div>
-    </div>
+    </>
   );
 }

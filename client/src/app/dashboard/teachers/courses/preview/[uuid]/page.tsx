@@ -10,6 +10,8 @@ import Container from "@components/Layout/Container";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { getCourse } from "@requests/course";
+import ContainerMessage from "@components/Layout/Container/ContainerMessage";
+import Skeleton from "@components/Layout/Skeleton";
 
 const config = {
   h1: ({ ...props }) => (
@@ -52,26 +54,74 @@ const Course = ({ params }: { params: { uuid: string } }) => {
     enabled: ![params.uuid, token].includes(undefined),
   });
 
-  if (isLoading || isError) return <div>loading...</div>;
+  if (isError)
+    return (
+      <Container title={"Oops..."} description={"Something went wrong"}>
+        <ContainerMessage>
+          An error occurred while loading this course
+        </ContainerMessage>
+      </Container>
+    );
 
+  if (isLoading) {
+    return (
+      <Container>
+        <header className={"flex flex-col gap-4"}>
+          <Skeleton className={"h-16 w-1/2"} />
+          <Skeleton className={"h-8 w-1/3"} />
+          <Skeleton className={"h-8 w-1/4"} />
+        </header>
+
+        <div className={"flex flex-col gap-8 max-w-2xl"}>
+          <div className={"flex flex-col gap-4"}>
+            <Skeleton className={"h-6 w-2/3"} />
+            <Skeleton className={"h-4 w-3/4"} />
+            <Skeleton className={"h-4 w-3/4"} />
+            <Skeleton className={"h-4 w-1/2"} />
+          </div>
+          <div className={"flex flex-col gap-4"}>
+            <Skeleton className={"h-6 w-full"} />
+            <Skeleton className={"h-4 w-3/4"} />
+            <Skeleton className={"h-4 w-3/4"} />
+            <Skeleton className={"h-4 w-1/2"} />
+          </div>
+          <div className={"flex flex-col gap-4"}>
+            <Skeleton className={"h-6 w-1/2"} />
+            <Skeleton className={"h-4 w-3/4"} />
+            <Skeleton className={"h-4 w-3/4"} />
+            <Skeleton className={"h-4 w-1/2"} />
+          </div>
+          <div className={"flex flex-col gap-4"}>
+            <Skeleton className={"h-6 w-2/3"} />
+            <Skeleton className={"h-4 w-3/4"} />
+            <Skeleton className={"h-4 w-3/4"} />
+            <Skeleton className={"h-4 w-1/2"} />
+          </div>
+        </div>
+      </Container>
+    );
+  }
 
   return (
-    <div>
-      <main className={"flex flex-col gap-8"}>
-        <Container>
-          <CourseHeader
-            title={course.name}
-            subject={course.subject}
-            teacher={course.teacher}
-          />
-          {course && (
-            <div className={"max-w-2xl text-justify"}>
-              <ReactMarkdown components={config}>{course.text}</ReactMarkdown>
-            </div>
-          )}
-        </Container>
-      </main>
-    </div>
+    <main className={"flex flex-col gap-8"}>
+      <Container>
+        <CourseHeader
+          title={course.name}
+          subject={course.subject}
+          teacher={course.teacher}
+        />
+        {course && (
+          <div className={"max-w-2xl text-justify"}>
+            <ReactMarkdown components={config}>{course.text}</ReactMarkdown>
+          </div>
+        )}
+      </Container>
+      <Container title={"Training"}>
+        <ContainerMessage>
+          Here your students will be able to train the course.
+        </ContainerMessage>
+      </Container>
+    </main>
   );
 };
 

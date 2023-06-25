@@ -25,12 +25,9 @@ import { Course } from "@/types/course";
 import ListItem from "@components/Layout/ListItem";
 import { nanoid } from "nanoid";
 import { deleteCourse } from "@requests/course";
+import ContainerMessage from "@components/Layout/Container/ContainerMessage";
 
-export default function TeamOverview({
-  params,
-}: {
-  params: { uuid: string };
-}) {
+export default function TeamOverview({ params }: { params: { uuid: string } }) {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -141,95 +138,92 @@ export default function TeamOverview({
 
   return (
     <div>
-      <Header breadcrumbsReplace={[{current : uuid, value : data.name }]} className={"justify-between"} title={data?.name}>
+      <Header
+        breadcrumbsReplace={[{ current: uuid, value: data.name }]}
+        className={"justify-between"}
+        title={data?.name}
+      >
         <Button onClick={() => mutation.mutate()} variant="secondary">
           Delete
         </Button>
       </Header>
 
-      <div className="flex flex-col gap-10">
-        <div className={"flex flex-col gap-4"}>
-          <h2 className="text-2xl font-bold">Courses</h2>
-          <Container
-            title={"Your courses"}
-            description={"Preview, manage, delete your courses"}
-          >
-            <div className={"flex flex-col gap-2"}>
-              {courses.length > 0 ? (
-                courses.map((course) => {
-                  const properties = [
-                    { label: "Creation date", value: course.creationDate },
-                    { label: "Delivery date", value: course.deliveryDate },
-                    { label: "Subject", value: course.subject },
-                  ];
+      <div className="flex flex-col gap-8">
+        <Container
+          title={"Your courses"}
+          description={"Preview, manage, delete your courses"}
+        >
+          <div className={"flex flex-col gap-2"}>
+            {courses.length > 0 ? (
+              courses.map((course) => {
+                const properties = [
+                  { label: "Creation date", value: course.creationDate },
+                  { label: "Delivery date", value: course.deliveryDate },
+                  { label: "Subject", value: course.subject },
+                ];
 
-                  return (
-                    <ListItem
-                      key={nanoid()}
-                      properties={properties}
-                      withUserActions
-                      onSee={() =>
-                        goTo(
-                          `/dashboard/teachers/courses/preview/${course.uuid}`
-                        )
-                      }
-                      onEdit={() =>
-                        goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
-                      }
-                      onDelete={() => handleDelete(course.uuid)}
-                    >
-                      {course.name}
-                    </ListItem>
-                  );
-                })
-              ) : (
-                <span>You don&apos;t have any course yet</span>
-              )}
-            </div>
-          </Container>
-        </div>
+                return (
+                  <ListItem
+                    key={nanoid()}
+                    properties={properties}
+                    withUserActions
+                    onSee={() =>
+                      goTo(`/dashboard/teachers/courses/preview/${course.uuid}`)
+                    }
+                    onEdit={() =>
+                      goTo(`/dashboard/teachers/courses/edit/${course.uuid}`)
+                    }
+                    onDelete={() => handleDelete(course.uuid)}
+                  >
+                    {course.name}
+                  </ListItem>
+                );
+              })
+            ) : (
+              <ContainerMessage>
+                You don&apos;t have any course yet
+              </ContainerMessage>
+            )}
+          </div>
+        </Container>
 
-        <div className={"flex flex-col gap-4"}>
-          <h2 className="text-2xl font-bold">Overview</h2>
+        <TeamMainInformation onSubmit={handleUpdate} team={data} />
 
-          <TeamMainInformation onSubmit={handleUpdate} team={data} />
+        <Container title={"Members"}>
+          <Table
+            columns={[
+              { key: "first_name", label: "Firstname" },
+              { key: "last_name", label: "Lastname" },
+              { key: "email", label: "Email" },
+              { key: "isTeacher", label: "Teacher" },
+            ]}
+            ordered
+            selectable
+            actions={["edit", "delete"]}
+            data={data.users || []}
+            delete={(filteredData: { email: string }[]) =>
+              getEmailList(filteredData)
+            }
+          />
 
-          <Container>
-            <Table
-              columns={[
-                { key: "first_name", label: "Firstname" },
-                { key: "last_name", label: "Lastname" },
-                { key: "email", label: "Email" },
-                { key: "isTeacher", label: "Teacher" },
-              ]}
-              ordered
-              selectable
-              actions={["edit", "delete"]}
-              data={data.users || []}
-              Delete={(filteredData: { email: string }[]) =>
-                getEmailList(filteredData)
-              }
-            />
+          <form onSubmit={handleSubmitAddUser}>
+            <footer className={"flex gap-4"}>
+              <Button size={"sm"} rounded={"full"} type="submit">
+                <AddIcon className="w-5 h-5" />
+                <span>Add user</span>
+              </Button>
 
-            <form onSubmit={handleSubmitAddUser}>
-              <footer className={"flex gap-4"}>
-                <Button size={"sm"} rounded={"full"} type="submit">
-                  <AddIcon className="w-5 h-5" />
-                  <span>Add user</span>
-                </Button>
-
-                <Input
-                  type="email"
-                  placeholder="Enter user's email"
-                  className={"flex-1 w-1/2"}
-                  size={"sm"}
-                  name="email"
-                  borders
-                />
-              </footer>
-            </form>
-          </Container>
-        </div>
+              <Input
+                type="email"
+                placeholder="Enter user's email"
+                className={"flex-1 w-1/2"}
+                size={"sm"}
+                name="email"
+                borders
+              />
+            </footer>
+          </form>
+        </Container>
       </div>
     </div>
   );
