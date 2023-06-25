@@ -27,6 +27,7 @@ class Answer(Schema):
 def iaquestion(quizz : models.Quizz, question : str, answer : str):
     key = getattr(settings, "OPEN_AI_KEY", None)
     openai.api_key = key
+    print('answer',answer)
        
     course = quizz.course.first()
     coursetxt = ""
@@ -39,25 +40,26 @@ def iaquestion(quizz : models.Quizz, question : str, answer : str):
     # print("J'ai ce texte pour trouver la réponse : '" + coursetxt + "'. La question posée est '" + question + "'. Ma réponse est : ' " + answer + " '. Commence par me répondre si oui ou non la réponse donné est bonne. Si la réponse est bonne, réponds moi 'Oui, Bonne réponse'. Sinon, réponds-moi en me tutoyant en commençant par 'Non,' et en mettant la correction de la question après la virgule.")
 
 
+        
 
     response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "Toi, tu es un professeur exigeant. Moi, je suis ton élève."},
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "Toi, tu es un professeur."},
+        {"role": "user",
+            "content": "L'élève a ce texte pour trouver la réponse" + coursetxt + ". La question posée à l'élève est : " + question + ". La réponse donnée par l'élève est : " + answer + ". Merci de me dire si la réponse donnée par l'élève est correcte ou non. Si la réponse est correcte, veuillez répondre avec 'La réponse est correcte.'. Si la réponse est incorrecte, veuillez répondre avec 'La réponse est incorrecte.' suivi de la correction appropriée."}
+    ]
+)
 
-                    {"role": "user",
-                        "content": "J'ai ce texte pour trouver la réponse : '" + coursetxt + "'. La question posée est : '" + question + "'. Ma réponse est : ' " + answer + " '. Commence par me répondre si oui ou non la réponse donné est bonne. Si la réponse est bonne, réponds moi 'Oui, Bonne réponse'. Sinon, réponds-moi en me tutoyant et en commençant ta réponse par : 'Non, '. Ensuite, met la correction de la question après la virgule."},
-                ]
-            )
+
     print("---------")
     print(response.choices[0].message.content)
-
     correction = [False, ""]
     reponse = response.choices[0].message.content
-    reponse_avant_virgule = reponse.split(',')[0]
-    reponse_apres_virgule = reponse.split(',')[1]
+    reponse_avant_virgule = reponse.split('.')[0]
+    reponse_apres_virgule = reponse.split('.')[1]
     print(reponse_avant_virgule)
-    if reponse_avant_virgule == "Oui" or reponse_avant_virgule == "oui" or reponse_avant_virgule == "Yes" or reponse_avant_virgule == "yes":
+    if reponse_avant_virgule == "La réponse donnée par l'élève est correcte" or reponse_avant_virgule == "La réponse est correcte":
         correction[0] = True  
     else : 
         correction[0] = False
@@ -114,6 +116,9 @@ def answer_all_questions(request, body: AnswerList):
                 if created:
                     answer.question = question
                 answer.givenAnswer = i.answer
+                if i.answer=="":
+                    i.answer = "Je ne sais pas"
+                print("i.answer : " + i.answer)
                 aiCorrection = iaquestion(quizz, question.statement, i.answer)
                 if aiCorrection is None:
                     return {'message': "file of the course does not exist or is corrupted"}
