@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dffe6933-eb4d-499b-858d-ff102e252a9b" name="Changes" comment="Fixed Auth (Mael version now)&#10;Fixed &quot;SearchParams&quot; for teams" />
+    <list default="true" id="dffe6933-eb4d-499b-858d-ff102e252a9b" name="Changes" comment="Fixed Auth (Mael version now)&#10;Fixed &quot;SearchParams&quot; for teams">
+      <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/page.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
