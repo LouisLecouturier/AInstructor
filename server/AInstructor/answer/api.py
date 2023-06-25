@@ -12,6 +12,7 @@ import openai
 from django.core.files.storage import default_storage
 from django.http import HttpResponseNotFound
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 
 router = Router(tags=["answer"])
 
@@ -23,67 +24,51 @@ class Answer(Schema):
     answer: str = Field(...)
     
     
-def iaquestion(quizz, user):
-    questions = quizz.question_set.all()
-    
-   
-    
-    if quizz:
-        response_list = []
-        for question in questions:
-            # Récupérer la réponse
-            print(question)
-            answer = models.Answer.objects.get(question=question, user=user)
-            
-            if question:
-                course = get_object_or_404(models.Course, uuid=quizz.course.first().uuid)
-                
-                content = ""
-                if default_storage.exists(course.textPath):
-                    with default_storage.open(course.textPath, 'rb') as file:
-                        content = file.read().decode('utf-8')
-                else:
-                    return HttpResponseNotFound("File not found")
-                
-                # Définir votre clé API OpenAI
-                openai.api_key = "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"
-                print(question.statement)
-                print(answer.givenAnswer)
-                if answer.givenAnswer == "":
-                    answer.givenAnswer = "Je ne sais pas"
+def iaquestion(quizz : models.Quizz, question : str, answer : str):
+    key = getattr(settings, "OPEN_AI_KEY", None)
+    openai.api_key = key
+       
+    course = quizz.course.first()
+    coursetxt = ""
+    if default_storage.exists(course.textPath):
+        with default_storage.open(course.textPath, 'rb') as file:
+            coursetxt = file.read().decode('utf-8')
+    else:
+        return None
 
-                # Utiliser OpenAI ChatCompletion pour obtenir une réponse corrigée pour chaque question-réponse
-                response = openai.ChatCompletion.create(
+    # print("J'ai ce texte pour trouver la réponse : '" + coursetxt + "'. La question posée est '" + question + "'. Ma réponse est : ' " + answer + " '. Commence par me répondre si oui ou non la réponse donné est bonne. Si la réponse est bonne, réponds moi 'Oui, Bonne réponse'. Sinon, réponds-moi en me tutoyant en commençant par 'Non,' et en mettant la correction de la question après la virgule.")
+
+
+
+    response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "Toi, tu es un professeur."},
+                    {"role": "system", "content": "Toi, tu es un professeur exigeant. Moi, je suis ton élève."},
 
-                {"role": "user", "content": "L'élève a ce texte pour trouver la réponse" + content+ "La question posé à l'élève est " +question.statement+ "La réponse donné par l'élève est " + answer.givenAnswer+". Commence par me répondre si oui ou non la réponse donnée est bonne. Si oui, réponds moi <Oui. Bonne réponse>. Si non, donne moi la correction en commencant par <Non. La réponse n'est pas la bonne,> et en mettant la correction après la virgule.>"},
+                    {"role": "user",
+                        "content": "J'ai ce texte pour trouver la réponse : '" + coursetxt + "'. La question posée est : '" + question + "'. Ma réponse est : ' " + answer + " '. Commence par me répondre si oui ou non la réponse donné est bonne. Si la réponse est bonne, réponds moi 'Oui, Bonne réponse'. Sinon, réponds-moi en me tutoyant et en commençant ta réponse par : 'Non, '. Ensuite, met la correction de la question après la virgule."},
                 ]
             )
-            answer_dict = {}
-            reponse = response.choices[0].message.content
-            print(reponse)
-            reponse_avant_virgule = reponse.split('.')[0]
-            print(reponse_avant_virgule)
-            reponse_apres_virgule = reponse.split('.')[1]
-            if reponse_avant_virgule == "Oui"or reponse_avant_virgule=="<Oui":
-                answer.isCorrect = True
-                answer_dict['isCorrect'] = True
-            else:
-                answer.isCorrect = False
-                answer_dict['isCorrect'] = False
-            answer.aiCorrection = reponse_apres_virgule
-            answer_dict['AICorrection'] = reponse_apres_virgule
-            answer_dict['question'] = question.uuid
-            answer_dict['answer'] = answer.uuid
-            answer_dict['givenAnswer'] = answer.givenAnswer
-            answer.save()
-            response_list.append(answer_dict)
-    return response_list
-                
-       
+    print("---------")
+    print(response.choices[0].message.content)
+
+    correction = [False, ""]
+    reponse = response.choices[0].message.content
+    reponse_avant_virgule = reponse.split(',')[0]
+    reponse_apres_virgule = reponse.split(',')[1]
+    print(reponse_avant_virgule)
+    if reponse_avant_virgule == "Oui" or reponse_avant_virgule == "oui" or reponse_avant_virgule == "Yes" or reponse_avant_virgule == "yes":
+        correction[0] = True  
+    else : 
+        correction[0] = False
         
+    correction[1] = reponse_apres_virgule
+
+    print(correction)
+    
+    return correction
+                
+    
         
     
     
@@ -121,6 +106,7 @@ def answer_all_questions(request, body: AnswerList):
         return {'message': "user is not in a team"}
     quizz = get_object_or_404(models.Quizz, uuid=body.quizz)
     if user and quizz:
+        response_list = []
         for i in body.answers:
             question = get_object_or_404(models.Question, uuid=i.question_uuid)
             if question:    
@@ -128,18 +114,31 @@ def answer_all_questions(request, body: AnswerList):
                 if created:
                     answer.question = question
                 answer.givenAnswer = i.answer
+                aiCorrection = iaquestion(quizz, question.statement, i.answer)
+                if aiCorrection is None:
+                    return {'message': "file of the course does not exist or is corrupted"}
+                answer.isCorrect = aiCorrection[0]
+                answer.aiCorrection = aiCorrection[1]
                 answer.save()
-                
+
+                answer_dict = {}
+                answer_dict['isCorrect'] = aiCorrection[0]
+                answer_dict['AICorrection'] = aiCorrection[1]
+                answer_dict['question'] = question.uuid
+                answer_dict['answer'] = answer.uuid
+                answer_dict['givenAnswer'] = i.answer
+                response_list.append(answer_dict)
+                    
             else:
                 return {'message': " one of the question does not exist"}
             
-        aiCorrection = iaquestion(quizz, user) 
+        
         user_quizz_result = models.UserQuizzResult.objects.create(user=user, quizz=quizz)
         score = models.Answer.objects.filter(user=user, question__quizz=quizz, isCorrect=True).count()
         user_quizz_result.score = models.Answer.objects.filter(user=user, question__quizz=quizz, isCorrect=True).count()
         user_quizz_result.save()
 
-        return {'message': "successfully answered the quizz","score" : user_quizz_result.score, "quizz": quizz.uuid, "user": user.id, "answers": aiCorrection}
+        return {'message': "successfully answered the quizz","score" : user_quizz_result.score, "quizz": quizz.uuid, "user": user.id, "answers": response_list}
     else:
         return {'message': "user or quizz does not exist"}
     

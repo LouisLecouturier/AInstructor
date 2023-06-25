@@ -120,17 +120,22 @@ def get_my_courses(request, user_id: int):
     result = []
     for course in courses:
         quizz = models.Quizz.objects.filter(course=course)
-        print(course.team.all().first())
 
-        if course.team.all().first() is not None:
-            teamName = course.team.all().first().name
-        else:
-            teamName = None
+        teams = []
+        for team in course.team.all():
+            teamInfo = {
+                'uuid': team.uuid,
+                'name': team.name,
+                'color': team.color,
+                'description': team.description,
+            }
+            teams.append(teamInfo)
+
 
         course_info = {
             'uuid': course.uuid,
             'name': course.name,
-            'team': teamName,
+            'teams': teams,
             'description': course.description,
             'subject': course.subject,
             "status": "pending",
@@ -495,13 +500,20 @@ def update_course_file(request, body: UpdateCourseFile, file: UploadedFile = Fil
     else:
         return {'error': 'File is not a PDF or MD.'}
 
-
 @router.delete("/delete/{uuid}")
 def delete_data(request, uuid: str):
-    # TODO : delete the file
     course = get_object_or_404(models.Course, uuid=uuid)
+    extension = ["txt", "pdf", "md", "docx"]
+    file = str(course.filePath)
+    pre, ext = os.path.splitext(file)
+    print(pre)
+    for e in extension:
+        if os.path.isfile(pre+"." + e):
+            print(pre+"." + e)
+            os.remove(pre +"."+ e)
     course.delete()
     return {'uuid': uuid}
+
 
 
 class UpdateCourseText(Schema):

@@ -4,7 +4,6 @@ import NavigationElement from "@components/Dashboard/Common/Layout/Navigation/Na
 import Home from "@icons/Home.svg";
 import Courses from "@icons/Cards.svg";
 import Teams from "@icons/Teams.svg";
-import Stats from "@icons/Stats.svg";
 import Settings from "@icons/Settings.svg";
 
 const StudentNavigation = () => {
@@ -25,11 +24,11 @@ const StudentNavigation = () => {
         label={"My teams"}
         link={"/dashboard/students/teams"}
       />
-      <NavigationElement
+      {/* <NavigationElement
         icon={<Stats />}
         label={"My stats"}
         link={"/dashboard/students/stats"}
-      />
+      /> */}
       <NavigationElement
         icon={<Settings />}
         label={"Settings"}

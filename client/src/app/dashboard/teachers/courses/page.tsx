@@ -14,7 +14,6 @@ import { useSession } from "next-auth/react";
 import { deleteCourse, getCourses } from "@requests/course";
 import Link from "next/link";
 import ContainerMessage from "@components/Layout/Container/ContainerMessage";
-import dayjs from "dayjs";
 
 const Courses = () => {
   const router = useRouter();
@@ -63,23 +62,23 @@ const Courses = () => {
           description={"Preview, manage, delete your courses"}
         >
           <div className={"flex flex-col gap-2"}>
-            {isError && (
-              <ContainerMessage>
-                An error occurred while loading your courses
-              </ContainerMessage>
-            )}
-            {isLoading
+            {isLoading || isError
               ? Array.from({ length: 2 }).map(() => (
                   <ListItem properties={[]} key={nanoid()} isLoading />
                 ))
-              : data && data.length > 0
+              : data.length > 0
               ? data.map((course) => {
+                  let teams = "";
+                  if (course.teams.length > 0) {
+                    //put all the names of the teams in an string
+                    course.teams.forEach((team) => {
+                      teams += team.name + " ";
+                    });
+                  }
+
                   const properties = [
-                    {
-                      label: "Creation date",
-                      value: dayjs(course.creationDate).format("d MMMM YYYY"),
-                    },
-                    { label: "Team", value: course.team ?? "No team assigned" },
+                    { label: "Creation date", value: course.creationDate },
+                    { label: "Teams", value: teams },
                   ];
 
                   return (

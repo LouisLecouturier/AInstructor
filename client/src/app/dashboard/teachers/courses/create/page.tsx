@@ -18,7 +18,6 @@ import clsx from "clsx";
 import { toastStore } from "@components/Layout/Toast/toast.store";
 import MyRadioGroup from "@/components/Layout/Interactions/Forms/RadioGroup";
 
-
 const options = [
   { value: "false", label: "No" },
   { value: "true", label: "Yes" },
@@ -88,7 +87,7 @@ const Create = () => {
       name: formData.get("name") as string,
       subject: formData.get("subject") as string,
       description: formData.get("description") as string,
-      deliveryDate: isDeadline ? formData.get("year") + "-" + formData.get("month") + "-" + formData.get("day") : null,
+      deliveryDate: isDeadline ? formData.get("year") + "-" + formData.get("month") + "-" + formData.get("day") : "",
     };
     mutationUpdateCourse.mutate(course as Course);
   };
