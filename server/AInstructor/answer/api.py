@@ -36,6 +36,8 @@ def iaquestion(quizz : models.Quizz, question : str, answer : str):
     else:
         return None
 
+    # print("J'ai ce texte pour trouver la réponse : '" + coursetxt + "'. La question posée est '" + question + "'. Ma réponse est : ' " + answer + " '. Commence par me répondre si oui ou non la réponse donné est bonne. Si la réponse est bonne, réponds moi 'Oui, Bonne réponse'. Sinon, réponds-moi en me tutoyant en commençant par 'Non,' et en mettant la correction de la question après la virgule.")
+
 
 
     response = openai.ChatCompletion.create(
@@ -44,16 +46,26 @@ def iaquestion(quizz : models.Quizz, question : str, answer : str):
                     {"role": "system", "content": "Toi, tu es un professeur exigeant. Moi, je suis ton élève."},
 
                     {"role": "user",
-                        "content": "J'ai ce texte pour trouver la réponse : '" + coursetxt + "'. La question posée est " + question + "Ma réponse est : ' " + answer + " '. Commence par me répondre si oui ou non la réponse donné est bonne. Si la réponse est bonne, réponds moi 'Oui, Bonne réponse'. Sinon, réponds-moi en me tutoyant en commençant par 'Non,' et en mettant la correction de la question après la virgule."},
+                        "content": "J'ai ce texte pour trouver la réponse : '" + coursetxt + "'. La question posée est : '" + question + "'. Ma réponse est : ' " + answer + " '. Commence par me répondre si oui ou non la réponse donné est bonne. Si la réponse est bonne, réponds moi 'Oui, Bonne réponse'. Sinon, réponds-moi en me tutoyant et en commençant ta réponse par : 'Non, '. Ensuite, met la correction de la question après la virgule."},
                 ]
             )
+    print("---------")
+    print(response.choices[0].message.content)
+
     correction = [False, ""]
     reponse = response.choices[0].message.content
     reponse_avant_virgule = reponse.split(',')[0]
     reponse_apres_virgule = reponse.split(',')[1]
-    if reponse_avant_virgule == "Oui" or "oui" or "Yes" or "yes":
-        correction[0] = True    
+    print(reponse_avant_virgule)
+    if reponse_avant_virgule == "Oui" or reponse_avant_virgule == "oui" or reponse_avant_virgule == "Yes" or reponse_avant_virgule == "yes":
+        correction[0] = True  
+    else : 
+        correction[0] = False
+        
     correction[1] = reponse_apres_virgule
+
+    print(correction)
+    
     return correction
                 
     

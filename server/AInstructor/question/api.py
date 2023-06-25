@@ -4,6 +4,7 @@ from ninja import Schema, Field, Router
 import uuid as uuidLib
 from django.shortcuts import get_object_or_404
 from app import models
+from django.db.models import Count 
 
 router = Router(tags=["Question"])
 
@@ -62,27 +63,96 @@ def delete_question(request, question: DeleteQuestion):
 @router.get("/training/{uuid}", )
 def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
     """Get all questions belonging to a quizz"""
+    
+    quizz = get_object_or_404(models.Quizz, uuid = uuid)
+
+
+
     questions = models.Question.objects.filter(quizz=uuid)
     question_list = []
 
     indexes = []
 
-    for i in range(NUMBER_OF_QUESTIONS):
+    falseResponses = models.Answer.objects.filter(question__in=questions, isCorrect=False).values('question')
+    
+    answeredQuestions = models.Answer.objects.all().values('question')
 
-        index = random.randrange(0, len(questions), 1)
-        while index in indexes:
-            index = random.randrange(0, len(questions), 1)
-        indexes.append(index)
-        question = questions[index]
+    answered_questions = [answer['question'] for answer in answeredQuestions]
+    unanswered_questions = questions.exclude(uuid__in=answered_questions)
+
+    unanswered_question_uuids = [question.uuid for question in unanswered_questions]
+    false_question_uuids = [response['question'] for response in falseResponses]
+
+    listeQuestion = unanswered_question_uuids + false_question_uuids
+    # print(listeQuestion)
+
+
+    question_objects = []
+    for question_uuid in listeQuestion:
+        try:
+            question_object = models.Question.objects.get(uuid=question_uuid)
+            question_objects.append(question_object)
+        except:
+            pass
+
+    
+
+    returnValues = []
+    for objet in question_objects:
         question_info = {
+            "uuid": objet.uuid,
+            "quizzUuid": objet.quizz.uuid,
+            "questionType": objet.questionType,
+            "statement": objet.statement,
+        }
+        returnValues.append(question_info)
+        
+
+
+
+
+    if len(returnValues) < NUMBER_OF_QUESTIONS:
+        nbMissingQuestions = NUMBER_OF_QUESTIONS - len(returnValues)
+        print(nbMissingQuestions)
+
+        for i in range(nbMissingQuestions):
+            index = random.randrange(0, len(questions), 1)
+
+            while index in indexes:
+                index = random.randrange(0, len(questions), 1)
+                
+            indexes.append(index)
+            question = questions[index]
+            question_info = {
             "uuid": question.uuid,
             "quizzUuid": question.quizz.uuid,
             "questionType": question.questionType,
             "statement": question.statement,
         }
-        question_list.append(question_info)
+            print(question.uuid)
+            returnValues.append(question_info)
 
-    return question_list
+    print(returnValues)
+
+    return returnValues
+        
+         
+
+    # for i in range(NUMBER_OF_QUESTIONS):
+
+    #     index = random.randrange(0, len(questions), 1)
+    #     while index in indexes:
+    #         index = random.randrange(0, len(questions), 1)
+    #     indexes.append(index)
+    #     question = questions[index]
+    #     question_info = {
+    #         "uuid": question.uuid,
+    #         "quizzUuid": question.quizz.uuid,
+    #         "questionType": question.questionType,
+    #         "statement": question.statement,
+    #     }
+    #     question_list.append(question_info)
+
 
 
 @router.get("/questions/{uuid}", )
