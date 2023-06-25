@@ -88,7 +88,7 @@ const Create = () => {
       name: formData.get("name") as string,
       subject: formData.get("subject") as string,
       description: formData.get("description") as string,
-      deliveryDate: isDeadline ? formData.get("year") + "-" + formData.get("month") + "-" + formData.get("day") : null,
+      deliveryDate: isDeadline ? formData.get("year") + "-" + formData.get("month") + "-" + formData.get("day") : "",
     };
     mutationUpdateCourse.mutate(course as Course);
   };

@@ -11,6 +11,7 @@ type Team = {
   effectif?: number;
   color?: string;
   href: string;
+  message: string;
 };
 
 export default function CubeTeams(props: Team) {
@@ -26,7 +27,7 @@ export default function CubeTeams(props: Team) {
         </div>
         <div className="flex-1 flex-col flex gap-1">
           <h3 className="font-semibold">Team : {props.name}</h3>
-          <h2 className="text-accent-500 text-md font-bold">View stats</h2>
+          <h2 className="text-accent-500 text-md font-bold">{props.message}</h2>
         </div>
       </div>
     </Link>

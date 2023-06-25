@@ -6,10 +6,19 @@ from django.shortcuts import get_object_or_404
 from app import models
 from django.db.models import Count 
 
+import random
+
 router = Router(tags=["Question"])
 
 """_______________________________________requests consergning the questions_________________________________________________________"""
 NUMBER_OF_QUESTIONS = 5
+
+
+def get_random_elements(lst):
+    if len(lst) <= 5:
+        return lst
+    else:
+        return random.sample(lst, 5)
 
 
 class CreateQuestion(Schema):
@@ -66,6 +75,10 @@ def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
     
     quizz = get_object_or_404(models.Quizz, uuid = uuid)
 
+    token = request.headers.get('Authorization')
+    accessToken = token.split(' ')[1]
+    user = get_object_or_404(models.CustomUser, accessToken=accessToken)
+
 
 
     questions = models.Question.objects.filter(quizz=uuid)
@@ -73,9 +86,9 @@ def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
 
     indexes = []
 
-    falseResponses = models.Answer.objects.filter(question__in=questions, isCorrect=False).values('question')
+    falseResponses = models.Answer.objects.filter(user=user, question__in=questions, isCorrect=False).values('question')
     
-    answeredQuestions = models.Answer.objects.all().values('question')
+    answeredQuestions = models.Answer.objects.filter(user=user, question__in=questions).values('question')
 
     answered_questions = [answer['question'] for answer in answeredQuestions]
     unanswered_questions = questions.exclude(uuid__in=answered_questions)
@@ -86,9 +99,12 @@ def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
     listeQuestion = unanswered_question_uuids + false_question_uuids
     # print(listeQuestion)
 
+    random_elements = get_random_elements(listeQuestion)
+
+
 
     question_objects = []
-    for question_uuid in listeQuestion:
+    for question_uuid in random_elements:
         try:
             question_object = models.Question.objects.get(uuid=question_uuid)
             question_objects.append(question_object)

@@ -68,9 +68,19 @@ const Courses = () => {
               ))
             ) : data.length > 0 ? (
               data.map((course) => {
+                let teams = "";
+                if (course.teams.length > 0) {
+                  //put all the names of the teams in an string
+                  course.teams.forEach((team) => {
+                    teams += team.name + " ";
+                  });
+                  
+                   
+                }
+
                 const properties = [
                   { label: "Creation date", value: course.creationDate },
-                  { label: "Team", value: course.team },
+                  { label: "Teams", value: teams },
                 ];
 
                 return (

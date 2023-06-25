@@ -110,7 +110,7 @@ const ManageCourse = ({ params }: { params: { uuid: string } }) => {
       name: formData.get("name") as string,
       subject: formData.get("subject") as string,
       description: formData.get("description") as string,
-      deliveryDate: formData.get("deadline") as string,
+      deliveryDate: formData.get("deadline") == null ? "" : formData.get("deadline") as string,
     };
     mutationUpdateCourse.mutate(course as Course);
     setIsEditing(false);

@@ -57,6 +57,7 @@ export default function Teams() {
                 color={team.color}
                 name={team.name}
                 href={`/dashboard/teachers/stats/teams/${team.uuid}`}
+                message="View stats"
               />
             ))}
           </div>
