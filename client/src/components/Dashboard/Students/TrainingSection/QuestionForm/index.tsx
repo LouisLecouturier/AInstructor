@@ -11,6 +11,7 @@ import { toastStore } from "@components/Layout/Toast/toast.store";
 import Feedback from "@components/Dashboard/Students/TrainingSection/FeedBack";
 import Spinner from "@icons/Loading.svg";
 import Reload from "@icons/Reload.svg";
+import ContainerMessage from "@components/Layout/Container/ContainerMessage";
 
 type QuestionFormProps = {
   quizzUuid: string;
@@ -204,6 +205,37 @@ const QuestionForm: FC<QuestionFormProps> = (props) => {
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className={clsx("flex flex-col gap-8")}>
+        <div
+          className={
+            "grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid-flow-dense gap-4"
+          }
+        >
+          {Array.from({ length: 5 }, (_, i) => i + 1).map((_, i) => (
+            <QuestionElement
+              key={nanoid()}
+              uuid={""}
+              isLoading
+              questionNumber={i + 1}
+              statement={""}
+              type={"text"}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (data?.length === 0) {
+    return (
+      <ContainerMessage>
+        Your coach has no question for you yet. Please come back later.
+      </ContainerMessage>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit} className={clsx("flex flex-col gap-8")}>
       <div
@@ -211,27 +243,16 @@ const QuestionForm: FC<QuestionFormProps> = (props) => {
           "grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid-flow-dense gap-4"
         }
       >
-        {isLoading
-          ? Array.from({ length: 5 }, (_, i) => i + 1).map((_, i) => (
-              <QuestionElement
-                key={nanoid()}
-                uuid={""}
-                isLoading
-                questionNumber={i + 1}
-                statement={""}
-                type={"text"}
-              />
-            ))
-          : data?.map((question, i) => (
-              <QuestionElement
-                key={nanoid()}
-                style={{ animationDelay: `${i * 100}ms` } as any}
-                uuid={question.uuid}
-                questionNumber={i + 1}
-                statement={question.statement}
-                type={question.type}
-              />
-            ))}
+        {data?.map((question, i) => (
+          <QuestionElement
+            key={nanoid()}
+            style={{ animationDelay: `${i * 100}ms` } as any}
+            uuid={question.uuid}
+            questionNumber={i + 1}
+            statement={question.statement}
+            type={question.type}
+          />
+        ))}
       </div>
       <Button type={"submit"} rounded={"full"}>
         Valider mes réponses

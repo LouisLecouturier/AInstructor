@@ -1,10 +1,7 @@
-import random
-
 from ninja import Schema, Field, Router
 import uuid as uuidLib
 from django.shortcuts import get_object_or_404
 from app import models
-from django.db.models import Count 
 
 import random
 
@@ -72,22 +69,22 @@ def delete_question(request, question: DeleteQuestion):
 @router.get("/training/{uuid}", )
 def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
     """Get all questions belonging to a quizz"""
-    
-    quizz = get_object_or_404(models.Quizz, uuid = uuid)
+
+    quizz = get_object_or_404(models.Quizz, uuid=uuid)
 
     token = request.headers.get('Authorization')
     accessToken = token.split(' ')[1]
     user = get_object_or_404(models.CustomUser, accessToken=accessToken)
 
-
-
     questions = models.Question.objects.filter(quizz=uuid)
-    question_list = []
+
+    if questions.count() == 0:
+        return []
 
     indexes = []
 
     falseResponses = models.Answer.objects.filter(user=user, question__in=questions, isCorrect=False).values('question')
-    
+
     answeredQuestions = models.Answer.objects.filter(user=user, question__in=questions).values('question')
 
     answered_questions = [answer['question'] for answer in answeredQuestions]
@@ -101,8 +98,6 @@ def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
 
     random_elements = get_random_elements(listeQuestion)
 
-
-
     question_objects = []
     for question_uuid in random_elements:
         try:
@@ -110,8 +105,6 @@ def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
             question_objects.append(question_object)
         except:
             pass
-
-    
 
     returnValues = []
     for objet in question_objects:
@@ -122,10 +115,6 @@ def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
             "statement": objet.statement,
         }
         returnValues.append(question_info)
-        
-
-
-
 
     if len(returnValues) < NUMBER_OF_QUESTIONS:
         nbMissingQuestions = NUMBER_OF_QUESTIONS - len(returnValues)
@@ -136,23 +125,21 @@ def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
 
             while index in indexes:
                 index = random.randrange(0, len(questions), 1)
-                
+
             indexes.append(index)
             question = questions[index]
             question_info = {
-            "uuid": question.uuid,
-            "quizzUuid": question.quizz.uuid,
-            "questionType": question.questionType,
-            "statement": question.statement,
-        }
+                "uuid": question.uuid,
+                "quizzUuid": question.quizz.uuid,
+                "questionType": question.questionType,
+                "statement": question.statement,
+            }
             print(question.uuid)
             returnValues.append(question_info)
 
     print(returnValues)
 
     return returnValues
-        
-         
 
     # for i in range(NUMBER_OF_QUESTIONS):
 
@@ -168,7 +155,6 @@ def get_training_questions_batch_by_quizz(request, uuid: uuidLib.UUID):
     #         "statement": question.statement,
     #     }
     #     question_list.append(question_info)
-
 
 
 @router.get("/questions/{uuid}", )

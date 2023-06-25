@@ -19,21 +19,6 @@ type Course = {
   //   image: string;
 };
 
-function progessBar(props: Course) {
-  const progress = props.progress;
-  return (
-    <div className="relative pt-1">
-      <div className="flex mb-2 items-center justify-between gap-2">
-        <div className="text-right">
-          <span className="text-xl font-semibold inline-block text-green-600">
-            {progress}%
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const statusIcon = (status?: "finished" | "pending" | "late") => {
   switch (status) {
     case "finished":
@@ -65,7 +50,6 @@ export default function QuestionCube(props: Course) {
       href={props.href || "/dashboard/students"}
       className="flex flex-col p-4 h-40 max-w-[20%] w-full bg-white rounded-xl border-2 border-dark-50 hover:border-accent-200 transition"
     >
-     
       <div className="flex flex-1 flex-col justify-between">
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex gap-2">
@@ -73,15 +57,16 @@ export default function QuestionCube(props: Course) {
             <h3 className="font-semibold text-md">{props.course}</h3>
           </div>
           <div className="flex flex-col">
-            <h3 className="font-semibold text-sm">Deadline : {props.deliveryDate}</h3>
-            <h3 className="font-semibold text-sm">Creation date : {props.creationDate}</h3>
+            <h3 className="font-semibold text-sm">
+              Deadline : {props.deliveryDate}
+            </h3>
+            <h3 className="font-semibold text-sm">
+              Creation date : {props.creationDate}
+            </h3>
           </div>
+        </div>
 
-        </div>
-        <div>
-          <div className="flex gap-2 text-md">{progessBar(props)}</div>
-          <ProgressBar progress={props.progress || 0} />
-        </div>
+        <ProgressBar progress={props.progress || 0} />
       </div>
     </Link>
   );

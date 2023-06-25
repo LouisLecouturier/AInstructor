@@ -29,8 +29,6 @@ export const toastStore = create<ToastStore>((set, get) => ({
   },
 
   openToast: (type: ToastTypes, title: string) => {
-    let time = 0;
-
     if (get().show) {
       get().setShow(false);
     }

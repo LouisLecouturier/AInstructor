@@ -21,7 +21,6 @@ from datetime import datetime
 import json
 from app import models
 
-
 if not pypandoc.get_pandoc_version():
     pypandoc.download_pandoc()
 
@@ -40,6 +39,7 @@ def is_valid_future_date(date_str):
             return False
     except ValueError:
         return False
+
 
 class UploadTheme(Schema):
     theme: str = Field(...)
@@ -131,7 +131,6 @@ def get_my_courses(request, user_id: int):
             }
             teams.append(teamInfo)
 
-
         course_info = {
             'uuid': course.uuid,
             'name': course.name,
@@ -156,11 +155,10 @@ def get_my_courses(request, user_id: int):
 
     # courses = models.Course.objects.filter(uploadedBy=user)
 
-
     result = []
     for team in teams:
         for course in models.Course.objects.filter(team=team):
-            try : 
+            try:
                 stat = get_object_or_404(models.UserStatistiques, user=user, course=course)
 
                 if course.deliveryDate != None:
@@ -174,9 +172,8 @@ def get_my_courses(request, user_id: int):
                     else:
                         print("pending")
                         status = "pending"
-                else :
+                else:
                     status = None
-                
 
                 print(course.deliveryDate)
                 course_info = {
@@ -190,13 +187,13 @@ def get_my_courses(request, user_id: int):
                     "creationDate": course.creationDate,
                     "progress": stat.progress,
                 }
-            except : 
+            except:
                 if course.deliveryDate != None:
                     if course.deliveryDate > datetime.now().date():
                         status = "pending"
                     else:
                         status = "late"
-                else :
+                else:
                     status = None
 
                 course_info = {
@@ -211,9 +208,8 @@ def get_my_courses(request, user_id: int):
                     "progress": 0,
                 }
 
-
             result.append(course_info)
-        
+
     return result
 
     # result = []
@@ -267,8 +263,9 @@ def update_teams(request, uuid: str):
 
     return {"error": False}
 
+
 @router.get("/{uuid}/teams")
-def get_teams(request, uuid:str):
+def get_teams(request, uuid: str):
     course = get_object_or_404(models.Course, uuid=uuid)
     teams = course.team.all()
 
@@ -277,15 +274,15 @@ def get_teams(request, uuid:str):
         team_info = {
             'uuid': team.uuid,
             'name': team.name,
-            'color' : team.color,
+            'color': team.color,
         }
         result.append(team_info)
 
     reponse = {
-        "name" : course.name,
-        "subject" : course.subject,
-        "description" : course.description,
-        "uuid" : course.uuid,
+        "name": course.name,
+        "subject": course.subject,
+        "description": course.description,
+        "uuid": course.uuid,
         "teams": result
     }
 
@@ -341,7 +338,6 @@ def generate_questions(request, uuid: str):
 
     questions_with_numbers = response.choices[0].message.content.split('\n')
     questions = [q.split('.', 1)[1].strip() for q in questions_with_numbers if q.strip()]
-
 
     return {"questions": questions}
 
@@ -500,6 +496,7 @@ def update_course_file(request, body: UpdateCourseFile, file: UploadedFile = Fil
     else:
         return {'error': 'File is not a PDF or MD.'}
 
+
 @router.delete("/delete/{uuid}")
 def delete_data(request, uuid: str):
     course = get_object_or_404(models.Course, uuid=uuid)
@@ -508,12 +505,11 @@ def delete_data(request, uuid: str):
     pre, ext = os.path.splitext(file)
     print(pre)
     for e in extension:
-        if os.path.isfile(pre+"." + e):
-            print(pre+"." + e)
-            os.remove(pre +"."+ e)
+        if os.path.isfile(pre + "." + e):
+            print(pre + "." + e)
+            os.remove(pre + "." + e)
     course.delete()
     return {'uuid': uuid}
-
 
 
 class UpdateCourseText(Schema):

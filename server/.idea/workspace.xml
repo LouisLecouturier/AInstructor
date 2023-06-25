@@ -6,7 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="dffe6933-eb4d-499b-858d-ff102e252a9b" name="Changes" comment="Fixed Auth (Mael version now)&#10;Fixed &quot;SearchParams&quot; for teams">
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/courses/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/seeAll/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/seeAll/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/settings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/settings/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/teams/overview/[uuid]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/students/teams/overview/[uuid]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/students/upload/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/stats/courses/[uuid]/[uuidTeam]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/stats/courses/[uuid]/[uuidTeam]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/stats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/dashboard/teachers/stats/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Common/Layout/ProgressBar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Common/Layout/ProgressBar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Courses/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Courses/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/Courses/CoursePresentation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Students/Courses/CoursePresentation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Dashboard/Teams/MainInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Dashboard/Teams/MainInformation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Layout/Toast/toast.store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Layout/Toast/toast.store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AInstructor/course/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/course/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AInstructor/question/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/question/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AInstructor/quizz/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/AInstructor/quizz/api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
