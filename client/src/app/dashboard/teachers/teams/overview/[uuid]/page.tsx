@@ -181,7 +181,7 @@ export default function TeamOverview({ params }: { params: { uuid: string } }) {
           </div>
         </Container>
 
-        <TeamMainInformation onSubmit={handleUpdate} team={data} />
+        <TeamMainInformation editable onSubmit={handleUpdate} team={data} />
 
         <Container title={"Members"}>
           <Table
