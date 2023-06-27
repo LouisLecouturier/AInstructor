@@ -17,6 +17,9 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   return (
+    <form 
+    onSubmit={props.onSubmit}
+    >
     <Container
       title={"Team informations"}
       action={
@@ -28,9 +31,7 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
         )
       }
     >
-      <form
-        ref={formRef}
-        onSubmit={props.onSubmit}
+      <div
         className="flex flex-col gap-8 w-full max-w-[800px]"
       >
         <div className="flex flex-row w-full flex-1 flex-wrap gap-8">
@@ -84,8 +85,9 @@ export const TeamInformations: FC<TeamMainInformationProps> = (props) => {
             Create Team
           </Button>
         )}
-      </form>
+      </div>
     </Container>
+    </form>
   );
 };
 

@@ -45,6 +45,7 @@ const InformationEditor: FC<InformationEditorProps> = (props) => {
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("submited");
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const course = {
@@ -52,8 +53,10 @@ const InformationEditor: FC<InformationEditorProps> = (props) => {
       name: formData.get("name") as string,
       subject: formData.get("subject") as string,
       description: formData.get("description") as string,
-      deliveryDate: formData.get("deadline") as string,
+      deliveryDate: formData.get("deadline") == null ? "" : formData.get("deadline") as string,
     };
+    console.log(props.data.deliveryDate);
+    console.log(course);
     mutationUpdateCourse.mutate(course as Course);
     setIsEditing(false);
   };
@@ -72,6 +75,12 @@ const InformationEditor: FC<InformationEditorProps> = (props) => {
   }
 
   return (
+    <form 
+      onSubmit={handleSubmit}
+      ref={formRef}
+      >
+
+
     <Container
       title={"Course informations"}
       description={"Manage your course"}
@@ -80,8 +89,13 @@ const InformationEditor: FC<InformationEditorProps> = (props) => {
           size={"sm"}
           rounded={"full"}
           onClick={() => {
-            if (isEditing && formRef.current) {
-              formRef.current.submit();
+            
+            if (isEditing ) {
+              console.log("submit");
+              formRef.current?.dispatchEvent(
+                new Event("submit", { cancelable: true, bubbles: true })
+              );
+
               return;
             }
             setIsEditing(true);
@@ -101,9 +115,7 @@ const InformationEditor: FC<InformationEditorProps> = (props) => {
         </Button>
       }
     >
-      <form
-        ref={formRef}
-        onSubmit={handleSubmit}
+      <div
         className={"flex flex-col gap-4"}
       >
         <div className={"flex gap-4"}>
@@ -152,8 +164,9 @@ const InformationEditor: FC<InformationEditorProps> = (props) => {
             </div>
           )}
         </div>
-      </form>
+      </div>
     </Container>
+    </form>
   );
 };
 
