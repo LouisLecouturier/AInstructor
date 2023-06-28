@@ -149,19 +149,19 @@ const TeamStats: FC = () => {
   if (isLoading || isError || isCourseError || isCourseLoading || isTeamError || isTeamLoading) return <div>Loading...</div>;
 
 
-  mean.datasets[0].data = stats.usersStats.map((e : any) => e.stats.mean);
+  mean.datasets[0].data = stats.usersStats.map((e : any) => e.stats?.mean);
   mean.datasets[0].label = "Mean";
   mean.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
 
-  min.datasets[0].data = stats.usersStats.map((e : any) => e.stats.min);
+  min.datasets[0].data = stats.usersStats.map((e : any) => e.stats?.min);
   min.datasets[0].label = "Min";
   min.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
 
-  max.datasets[0].data = stats.usersStats.map((e : any) => e.stats.max);
+  max.datasets[0].data = stats.usersStats.map((e : any) => e.stats?.max);
   max.datasets[0].label = "Max";
   max.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
 
-  progress.datasets[0].data = stats.usersStats.map((e : any) => e.stats.progress);
+  progress.datasets[0].data = stats.usersStats.map((e : any) => e.stats?.progress);
   progress.datasets[0].label = "Progress";
   progress.labels = stats.usersStats.map((e : any) => e.user.firstName + " " + e.user.lastName);
 
