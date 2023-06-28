@@ -80,24 +80,20 @@ def get_questionary_info(request, uuid: uuidLib.UUID):
 def get_quizz_by_course(request, uuid: uuidLib.UUID):
     """Get quizz by course"""
     course = get_object_or_404(models.Course, uuid=uuid)
-
-    try:
-        quizz = models.Quizz.objects.get(course=course)
-    except:
-        return {"questions": []}
+    quizz = models.Quizz.objects.get(course=course)
 
     try:
         questions = models.Question.objects.filter(quizz__in=[quizz.uuid])
 
         if questions.count() == 0:
-            return {"questions": []}
+            return {"uuid": quizz.uuid, "questions": []}
     except models.Question.DoesNotExist:
         return
 
     question_list = []
     for question in questions:
         question_list.append({
-            "question uuid": question.uuid,
+            "question_uuid": question.uuid,
             "questionType": question.questionType,
             "statement": question.statement,
         })
